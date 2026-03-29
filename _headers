@@ -1,0 +1,22 @@
+# Cloudflare Pages — Cache Headers
+# Assets estáticos: cache de 1 ano no browser (immutable = não revalida)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fontes: mesmo tratamento
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# JS e CSS
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML: sempre revalida (nunca cacheia o index)
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate

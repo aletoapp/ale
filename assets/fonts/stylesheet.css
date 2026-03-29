@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'DM Mono';
+    src: url('subset-DMMono-Regular.woff2') format('woff2'),
+        url('subset-DMMono-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans 9pt';
+    src: url('subset-DMSans-9ptRegular.woff2') format('woff2'),
+        url('subset-DMSans-9ptRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM Sans 9pt';
+    src: url('DMSans-9ptItalic.woff2') format('woff2'),
+        url('DMSans-9ptItalic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('subset-PlayfairDisplay-Black.woff2') format('woff2'),
+        url('subset-PlayfairDisplay-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('subset-PlayfairDisplay-Bold.woff2') format('woff2'),
+        url('subset-PlayfairDisplay-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
