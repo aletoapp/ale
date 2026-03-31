@@ -1,1 +1,2228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iList — Você lista. O show é por nossa conta.</title>
+  <meta name="description" content="iList é um player de foco. Sem algoritmo. Sem distrações. Sem interferência. Só você e o que precisa ser feito.">
+  <meta property="og:title" content="iList — Você lista. O show é por nossa conta.">
+  <meta property="og:description" content="Um ambiente onde você escolhe o que entra. Nada compete pela sua atenção.">
+  <meta name="theme-color" content="#060B14">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #060B14;
+      --surface: #0B1623;
+      --s2:      #0d1b2a;
+      --s3:      #1e293b;
+      --border:  rgba(255,255,255,0.07);
+      --accent:  #FF9900;
+      --amber:   #f59e0b;
+      --cyan:    #06b6d4;
+      --green:   #10b981;
+      --red:     #ef4444;
+      --purple:  #8b5cf6;
+      --text:    #f1f5f9;
+      --muted:   #94a3b8;
+      --muted2:  #64748b;
+      --mono:    'JetBrains Mono', monospace;
+      --sans:    'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    /* Noise grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+
+    /* ─── NAV ─────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav.scrolled {
+      background: rgba(6,11,20,0.92);
+      backdrop-filter: blur(24px);
+      border-bottom-color: var(--border);
+    }
+
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: color 0.2s;
+      letter-spacing: 0.2px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #000 !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      transition: box-shadow 0.2s, transform 0.2s !important;
+      box-shadow: 0 0 20px rgba(255,153,0,0.25);
+    }
+
+    .nav-cta:hover {
+      box-shadow: 0 0 32px rgba(255,153,0,0.45) !important;
+      transform: translateY(-1px);
+    }
+
+    .nav-hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; display: block; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      .nav-links.mobile-open {
+        display: flex !important;
+        flex-direction: column;
+        position: fixed;
+        top: 61px; left: 0; right: 0;
+        background: rgba(6,11,20,0.97);
+        backdrop-filter: blur(24px);
+        border-bottom: 1px solid var(--border);
+        padding: 20px 24px 28px;
+        gap: 18px;
+        z-index: 199;
+        animation: fadeDown 0.22s ease both;
+      }
+      .nav-links.mobile-open li { list-style: none; }
+      .nav-links.mobile-open a { font-size: 15px !important; padding: 4px 0 !important; }
+      .nav-links.mobile-open .nav-cta { display: inline-flex; margin-top: 4px; }
+    }
+
+    /* ─── HERO ────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow-top {
+      position: absolute;
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(255,153,0,0.07) 0%, transparent 70%);
+      top: -300px; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+
+    .hero-glow-cyan {
+      position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%);
+      bottom: -100px; right: -100px;
+      pointer-events: none;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    }
+
+    /* Accent top bar */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #06b6d4, #FF9900, #ef4444);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,153,0,0.08);
+      border: 1px solid rgba(255,153,0,0.25);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 36px;
+      letter-spacing: 0.5px;
+      animation: fadeDown 0.7s ease both;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 7.5vw, 90px);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -3px;
+      margin-bottom: 8px;
+      animation: fadeDown 0.7s ease 0.1s both;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 .line2 {
+      display: block;
+      color: var(--accent);
+    }
+
+    .hero-sub-headline {
+      font-size: clamp(15px, 2vw, 19px);
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.72;
+      margin: 20px auto 0;
+      font-family: var(--mono);
+      font-weight: 400;
+      animation: fadeDown 0.7s ease 0.2s both;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 44px;
+      animation: fadeDown 0.7s ease 0.3s both;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--amber));
+      color: #000;
+      padding: 15px 28px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 36px rgba(255,153,0,0.28);
+      font-family: var(--sans);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 48px rgba(255,153,0,0.42);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      padding: 15px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      font-family: var(--sans);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--muted2);
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.2s, border-color 0.2s;
+      font-family: var(--sans);
+    }
+
+    .btn-ghost-sm:hover {
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .hero-microcopy {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted2);
+      font-family: var(--mono);
+      animation: fadeDown 0.7s ease 0.4s both;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── HERO MOCKUP ─────────────────────── */
+    .hero-mockup {
+      margin-top: 80px;
+      width: 100%;
+      max-width: 880px;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.9s ease 0.55s both;
+    }
+
+    .mockup-glow {
+      position: absolute;
+      inset: -60px;
+      background: radial-gradient(ellipse 70% 35% at 50% 100%, rgba(255,153,0,0.13) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .mockup-frame {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 48px 96px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04);
+      position: relative;
+    }
+
+    .mockup-topbar {
+      background: rgba(255,255,255,0.025);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mdots { display: flex; gap: 6px; }
+    .mdots span { width: 9px; height: 9px; border-radius: 50%; }
+    .mdots span:nth-child(1) { background: #ef4444; }
+    .mdots span:nth-child(2) { background: #eab308; }
+    .mdots span:nth-child(3) { background: #22c55e; }
+
+    .murl {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--muted2);
+    }
+
+    .mockup-body {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 0;
+      min-height: 320px;
+    }
+
+    .mockup-player-area {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mockup-screen {
+      background: linear-gradient(135deg, #050d1a, #0a1a32, #0d2244);
+      border-radius: 12px;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mockup-screen-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(255,153,0,0.06) 0%, transparent 70%);
+    }
+
+    .mockup-play {
+      width: 52px; height: 52px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 32px rgba(255,153,0,0.45);
+      position: relative;
+      z-index: 1;
+    }
+
+    .mockup-play svg { width: 18px; height: 18px; fill: #000; margin-left: 3px; }
+
+    .mockup-now-playing {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mockup-now-playing strong { display: block; font-size: 13px; color: #fff; margin-bottom: 3px; }
+    .mockup-now-playing span { font-size: 10px; color: var(--muted); font-family: var(--mono); }
+
+    .clean-badge {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: var(--green);
+      font-size: 9px;
+      font-family: var(--mono);
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      letter-spacing: 0.8px;
+      z-index: 2;
+    }
+
+    .mockup-prog {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .mockup-prog-bar {
+      height: 3px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .mockup-prog-fill {
+      height: 100%;
+      width: 38%;
+      background: linear-gradient(90deg, var(--accent), var(--amber));
+      border-radius: 2px;
+      animation: progressLoop 6s ease-in-out infinite;
+    }
+
+    @keyframes progressLoop {
+      0% { width: 12%; }
+      80% { width: 92%; }
+      100% { width: 12%; }
+    }
+
+    .mockup-prog-times {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      font-family: var(--mono);
+      color: var(--muted2);
+    }
+
+    .mockup-ctrl {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      font-size: 15px;
+    }
+
+    /* Sidebar playlist */
+    .mockup-sidebar {
+      border-left: 1px solid var(--border);
+      padding: 16px;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .mockup-sidebar-hdr {
+      font-size: 9px;
+      font-family: var(--mono);
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mockup-list { display: flex; flex-direction: column; gap: 3px; }
+
+    .m-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 9px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .m-item.active {
+      background: rgba(255,153,0,0.08);
+      border-left: 2px solid var(--accent);
+    }
+
+    .m-num { font-size: 9px; font-family: var(--mono); color: var(--muted2); width: 14px; }
+    .m-item.active .m-num { color: var(--accent); }
+    .m-thumb { width: 30px; height: 30px; border-radius: 5px; flex-shrink: 0; }
+    .m-info { flex: 1; min-width: 0; }
+    .m-title { font-size: 10px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .m-cat { font-size: 8px; font-family: var(--mono); color: var(--muted2); margin-top: 2px; }
+    .m-tag { font-size: 8px; padding: 1px 5px; border-radius: 3px; font-family: var(--mono); font-weight: 700; }
+
+    /* ─── STRIP ──────────────────────────── */
+    .strip {
+      padding: 28px 48px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .strip p {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 18px;
+    }
+
+    .strip-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .strip-item {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted2);
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+
+    .strip-item:hover { opacity: 0.9; }
+
+    /* ─── SECTION UTILITIES ──────────────── */
+    .section {
+      padding: 110px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4.5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.07;
+      margin-bottom: 18px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 520px;
+      font-family: var(--mono);
+      font-weight: 400;
+    }
+
+    /* ─── PROBLEM ────────────────────────── */
+    .problem-wrap {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .problem-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 90px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .problem-text .section-title { font-size: clamp(28px, 3.8vw, 46px); }
+
+    .problem-text p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.78;
+      margin-bottom: 24px;
+      font-family: var(--mono);
+      font-weight: 400;
+    }
+
+    .prob-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+
+    .prob-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .prob-x {
+      width: 20px; height: 20px;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.22);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: var(--red);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .prob-resolution {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      line-height: 1.65;
+    }
+
+    /* Chaos mockup */
+    .chaos-mockup {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chaos-top {
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chaos-search {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 5px 13px;
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--muted2);
+    }
+
+    .chaos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 7px;
+      padding: 14px;
+    }
+
+    .chaos-thumb {
+      aspect-ratio: 16/9;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chaos-label-over {
+      position: absolute;
+      bottom: 4px; left: 4px; right: 4px;
+      font-size: 7px;
+      font-family: var(--mono);
+      background: rgba(0,0,0,0.72);
+      color: rgba(255,255,255,0.65);
+      padding: 2px 5px;
+      border-radius: 3px;
+      line-height: 1.4;
+    }
+
+    .chaos-banner {
+      margin: 0 14px 14px;
+      background: rgba(255,153,0,0.07);
+      border: 1px solid rgba(255,153,0,0.18);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      font-family: var(--mono);
+      color: rgba(255,153,0,0.65);
+    }
+
+    .chaos-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(6,11,20,0.96) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 18px;
+    }
+
+    .chaos-badge {
+      background: rgba(239,68,68,0.09);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: var(--red);
+      font-size: 10px;
+      font-family: var(--mono);
+      padding: 5px 12px;
+      border-radius: 6px;
+      animation: warningPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes warningPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
+    }
+
+    /* ─── WHAT IS ────────────────────────── */
+    .what-wrap {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .what-wrap .section-sub {
+      max-width: 600px;
+      margin: 0 auto 60px;
+      font-size: 18px;
+    }
+
+    .what-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .pillar {
+      background: var(--surface);
+      padding: 36px 28px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s;
+    }
+
+    .pillar:last-child { border-right: none; }
+    .pillar.visible { opacity: 1; transform: translateY(0); }
+    .pillar:nth-child(2) { transition-delay: 0.12s; }
+    .pillar:nth-child(3) { transition-delay: 0.24s; }
+    .pillar:hover { background: var(--s2); }
+
+    .pillar-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+    .pillar-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .pillar-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-family: var(--mono); }
+
+    /* ─── FEATURES ───────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 60px;
+    }
+
+    .feat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.3s;
+    }
+
+    .feat-card.visible { opacity: 1; transform: translateY(0); }
+
+    .feat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feat-card:hover { border-color: rgba(255,153,0,0.25); }
+    .feat-card:hover::before { opacity: 1; }
+
+    .feat-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+    .feat-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .feat-desc { font-size: 13px; color: var(--muted); line-height: 1.65; font-family: var(--mono); }
+
+    /* ─── ANIM CARDS (INTERACTIVE) ───────── */
+    .anim-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .anim-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.3s;
+    }
+
+    .anim-card.visible { opacity: 1; transform: translateY(0); }
+    .anim-card:hover { border-color: rgba(255,153,0,0.22); }
+
+    .anim-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .anim-card:hover::before { opacity: 1; }
+
+    .acard-label {
+      font-size: 10px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .acard-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .acard-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; font-family: var(--mono); }
+
+    /* Demo: Categories */
+    .demo-cats { display: flex; flex-direction: column; gap: 6px; }
+
+    .dcat-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: background 0.2s;
+      animation: slideRow 0.4s ease both;
+    }
+
+    .dcat-row:nth-child(1) { animation-delay: 0.05s; }
+    .dcat-row:nth-child(2) { animation-delay: 0.18s; }
+    .dcat-row:nth-child(3) { animation-delay: 0.31s; }
+    .dcat-row:nth-child(4) { animation-delay: 0.44s; }
+    .dcat-row:hover { background: rgba(255,255,255,0.07); }
+
+    @keyframes slideRow {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .dcat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dcat-name { font-size: 12px; font-weight: 600; flex: 1; }
+    .dcat-count { font-size: 9px; font-family: var(--mono); color: var(--muted2); }
+
+    /* Demo: Focus */
+    .demo-focus {
+      background: #000;
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .demo-focus-player {
+      background: linear-gradient(135deg, #060e1c, #0d1f3d);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .dfo-title { font-size: 12px; font-weight: 700; }
+    .dfo-sub { font-size: 9px; color: var(--muted); font-family: var(--mono); }
+
+    .dfo-bar {
+      width: 100%; height: 3px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .dfo-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: progressLoop 5s ease-in-out infinite;
+    }
+
+    .dfo-ctrl { font-size: 14px; display: flex; gap: 14px; }
+
+    .dfo-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 8px;
+      font-size: 9px;
+      font-family: var(--mono);
+      color: var(--green);
+    }
+
+    .dfo-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .dfo-chip {
+      background: rgba(239,68,68,0.07);
+      border: 1px solid rgba(239,68,68,0.18);
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 8px;
+      font-family: var(--mono);
+      color: rgba(239,68,68,0.55);
+      text-decoration: line-through;
+    }
+
+    /* Demo: Input smart */
+    .demo-input-wrap {
+      background: var(--s3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .demo-input-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      gap: 10px;
+    }
+
+    .demo-input-icon { font-size: 14px; }
+
+    .demo-input-text {
+      flex: 1;
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--text);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .type-pills { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+
+    .type-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-family: var(--mono);
+      font-weight: 700;
+    }
+
+    .type-pill.video { background: rgba(16,185,129,0.07); color: var(--green); border: 1px solid rgba(16,185,129,0.18); }
+    .type-pill.canal { background: rgba(6,182,212,0.07); color: var(--cyan); border: 1px solid rgba(6,182,212,0.18); }
+    .type-pill.lista { background: rgba(139,92,246,0.07); color: var(--purple); border: 1px solid rgba(139,92,246,0.18); }
+    .type-pill.texto { background: rgba(255,153,0,0.07); color: var(--accent); border: 1px solid rgba(255,153,0,0.18); }
+
+    /* Demo: Player controls */
+    .demo-controls { display: flex; flex-direction: column; gap: 8px; }
+
+    .dc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dc-label { font-size: 10px; color: var(--muted2); font-family: var(--mono); }
+
+    .dc-btns { display: flex; gap: 4px; }
+
+    .dc-btn {
+      padding: 4px 9px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-family: var(--mono);
+      font-weight: 700;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .dc-btn.on {
+      background: rgba(255,153,0,0.14);
+      color: var(--accent);
+      border-color: rgba(255,153,0,0.28);
+    }
+
+    .dc-btn.cyan-on {
+      background: rgba(6,182,212,0.12);
+      color: var(--cyan);
+      border-color: rgba(6,182,212,0.25);
+    }
+
+    .dc-separator { height: 1px; background: var(--border); }
+
+    .dc-queue { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+
+    .dc-qi {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 7px;
+      border-radius: 5px;
+    }
+
+    .dc-qi.playing { background: rgba(255,153,0,0.07); }
+    .dc-qi-n { font-size: 8px; font-family: var(--mono); color: var(--muted2); width: 10px; }
+    .dc-qi.playing .dc-qi-n { color: var(--accent); }
+    .dc-qi-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+    .dc-qi-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+    /* ─── HOW IT WORKS ───────────────────── */
+    .how-wrap {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .how-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 28px; margin-top: 40px; }
+
+    .step {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      opacity: 0;
+      transform: translateX(-18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .step.visible { opacity: 1; transform: translateX(0); }
+    .step:nth-child(2) { transition-delay: 0.1s; }
+    .step:nth-child(3) { transition-delay: 0.2s; }
+
+    .step-num {
+      width: 38px; height: 38px;
+      background: rgba(255,153,0,0.08);
+      border: 1px solid rgba(255,153,0,0.25);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .step-content {}
+    .step-title { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+    .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-family: var(--mono); }
+
+    /* How visual */
+    .how-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .how-step-card {
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      transform: translateX(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .how-step-card.visible { opacity: 1; transform: translateX(0); }
+    .how-step-card:nth-child(2) { transition-delay: 0.1s; }
+    .how-step-card:nth-child(3) { transition-delay: 0.2s; }
+
+    .hsc-num {
+      width: 32px; height: 32px;
+      background: rgba(255,153,0,0.1);
+      border: 1px solid rgba(255,153,0,0.2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--mono);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hsc-text {}
+    .hsc-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .hsc-sub { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+
+    /* ─── PHILOSOPHY ─────────────────────── */
+    .phi-wrap {
+      text-align: center;
+      padding: 110px 48px;
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .phi-quote {
+      font-size: clamp(26px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.15;
+      margin: 32px 0 24px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .phi-quote .hl { color: var(--accent); }
+
+    .phi-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 500px;
+      margin: 0 auto;
+      font-family: var(--mono);
+    }
+
+    .phi-divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+      border-radius: 2px;
+      margin: 32px auto;
+    }
+
+    /* ─── OPEN PROJECT ───────────────────── */
+    .open-wrap {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .open-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 90px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .open-text p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.78;
+      margin-bottom: 20px;
+      font-family: var(--mono);
+    }
+
+    .open-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .open-pillar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .open-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Code block visual */
+    .code-visual {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .code-topbar {
+      background: rgba(255,255,255,0.025);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .code-dots { display: flex; gap: 5px; }
+    .code-dots span { width: 8px; height: 8px; border-radius: 50%; }
+    .code-dots span:nth-child(1) { background: #ef4444; }
+    .code-dots span:nth-child(2) { background: #eab308; }
+    .code-dots span:nth-child(3) { background: #22c55e; }
+
+    .code-fname { font-size: 10px; font-family: var(--mono); color: var(--muted2); }
+
+    .code-body {
+      padding: 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .c-cmt { color: var(--muted2); }
+    .c-kw  { color: var(--cyan); }
+    .c-fn  { color: #a78bfa; }
+    .c-str { color: var(--green); }
+    .c-num { color: var(--accent); }
+    .c-var { color: var(--text); }
+
+    .module-rows { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+
+    .mod-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: border-color 0.2s;
+    }
+
+    .mod-row:hover { border-color: rgba(255,255,255,0.12); }
+
+    .mod-file {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--cyan);
+      background: rgba(6,182,212,0.07);
+      border: 1px solid rgba(6,182,212,0.14);
+      border-radius: 5px;
+      padding: 2px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .mod-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .mod-desc strong { color: var(--text); }
+
+    /* Stack pills */
+    .stack-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+
+    .s-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--s3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 11px;
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--muted);
+    }
+
+    /* ─── CTA FINAL ──────────────────────── */
+    .cta-wrap {
+      text-align: center;
+      padding: 120px 48px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .cta-glow {
+      position: absolute;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(255,153,0,0.06) 0%, transparent 65%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .cta-label {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 24px;
+    }
+
+    .cta-headline {
+      font-size: clamp(36px, 5.5vw, 72px);
+      font-weight: 800;
+      letter-spacing: -2.5px;
+      line-height: 1.04;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-sub {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      font-family: var(--mono);
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-micro {
+      margin-top: 22px;
+      font-size: 12px;
+      color: var(--muted2);
+      font-family: var(--mono);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── FOOTER ─────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {}
+    .footer-logo { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+    .footer-logo span { color: var(--accent); }
+    .footer-tagline { font-size: 11px; color: var(--muted2); font-family: var(--mono); margin-top: 4px; }
+
+    .footer-right { font-size: 11px; color: var(--muted2); font-family: var(--mono); text-align: right; line-height: 1.8; }
+
+    .footer-right a { color: var(--muted2); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--accent); }
+
+    .footer-bar {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,153,0,0.2), transparent);
+      margin-bottom: 32px;
+    }
+
+    /* ─── SCROLL REVEAL ──────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── KEYFRAMES ──────────────────────── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────── */
+    @media (max-width: 960px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .anim-grid { grid-template-columns: 1fr; }
+      .problem-inner { grid-template-columns: 1fr; gap: 40px; }
+      .how-inner { grid-template-columns: 1fr; gap: 48px; }
+      .open-inner { grid-template-columns: 1fr; gap: 48px; }
+      .what-pillars { grid-template-columns: 1fr; border-radius: 12px; }
+      .pillar { border-right: none; border-bottom: 1px solid var(--border); }
+      .pillar:last-child { border-bottom: none; }
+      .mockup-body { grid-template-columns: 1fr; }
+      .mockup-sidebar { border-left: none; border-top: 1px solid var(--border); }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .section { padding: 72px 24px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .cta-wrap, .phi-wrap { padding: 80px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+      .footer-right { text-align: left; }
+      .strip { padding: 24px; }
+      .strip-row { gap: 24px; }
+      .hero-actions { gap: 10px; }
+      .btn-primary, .btn-ghost { padding: 13px 20px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="https://alexandretorres.com.br/ilist" class="nav-logo">i<span>List</span></a>
+  <ul class="nav-links">
+    <li><a href="#o-que-e">O que é</a></li>
+    <li><a href="#recursos">Recursos</a></li>
+    <li><a href="#como-funciona">Como funciona</a></li>
+    <li><a href="#github">GitHub</a></li>
+    <li><a https://aletoapp.github.io/ilist/" target="_blank" class="nav-cta">▶ Abrir App</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══ HERO ═══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-glow-top"></div>
+  <div class="hero-glow-cyan"></div>
+
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    open source · gratuito · sem algoritmo
+  </div>
+
+  <h1>
+    O problema nunca foi
+    <span class="line2">o conteúdo.</span>
+  </h1>
+
+  <p class="hero-sub-headline">
+    Foi o ambiente que te impede de terminar.<br>
+    iList remove isso — e só isso.
+  </p>
+
+  <div class="hero-actions">
+    <a href="https://alexandretorres.com.br" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background-color:#C7A96E;color:#000;padding:15px 28px;border-radius:10px;font-weight:600;font-size:13px;text-decoration:none;font-family:var(--sans);transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 0 28px rgba(199,169,110,0.32);letter-spacing:0.1px;">
+      Página do Desenvolvedor ➚
+    </a>
+    <a href="https://github.com/aletoapp/ilist" target="_blank" class="btn-ghost" style="font-weight:600;font-size:13px;">
+      Ver no GitHub →
+    </a>
+    <a href="https://aletoapp.github.io/ilist/" target="_blank" class="btn-primary" style="font-weight:600;font-size:13px;">
+      ▶ Abrir App
+    </a>
+  </div>
+
+  <p class="hero-microcopy">
+    Sem cadastro · Sem instalação obrigatória · Funciona agora
+  </p>
+
+  <!-- Mockup -->
+  <div class="hero-mockup">
+    <div class="mockup-glow"></div>
+    <div class="mockup-frame">
+      <div class="mockup-topbar">
+        <div class="mdots">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="murl">ilist.app — Ambiente de foco</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-player-area">
+          <div class="mockup-screen">
+            <div class="mockup-screen-glow"></div>
+            <div class="clean-badge">✓ AMBIENTE LIMPO</div>
+            <div class="mockup-play">
+              <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+            <div class="mockup-now-playing">
+              <strong>Aula 12 — Fundamentos de TypeScript</strong>
+              <span>Dev · Categoria ativa · 38 min</span>
+            </div>
+          </div>
+          <div class="mockup-prog">
+            <div class="mockup-prog-bar">
+              <div class="mockup-prog-fill"></div>
+            </div>
+            <div class="mockup-prog-times">
+              <span>14:22</span>
+              <span>38:07</span>
+            </div>
+          </div>
+          <div class="mockup-ctrl">⏮ &nbsp; ⏪ &nbsp; ⏸ &nbsp; ⏩ &nbsp; ⏭</div>
+        </div>
+        <div class="mockup-sidebar">
+          <div class="mockup-sidebar-hdr">
+            <span>Sua lista</span>
+            <span>4 vídeos</span>
+          </div>
+          <div class="mockup-list">
+            <div class="m-item active">
+              <div class="m-num">▶</div>
+              <div class="m-thumb" style="background:linear-gradient(135deg,#0a1f3d,#1e3a7a)"></div>
+              <div class="m-info">
+                <div class="m-title">Fundamentos de TypeScript</div>
+                <div class="m-cat"><span class="m-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4">Dev</span></div>
+              </div>
+            </div>
+            <div class="m-item">
+              <div class="m-num">2</div>
+              <div class="m-thumb" style="background:linear-gradient(135deg,#1a0a3d,#3d1a7a)"></div>
+              <div class="m-info">
+                <div class="m-title">Closures explicadas</div>
+                <div class="m-cat"><span class="m-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4">Dev</span></div>
+              </div>
+            </div>
+            <div class="m-item">
+              <div class="m-num">3</div>
+              <div class="m-thumb" style="background:linear-gradient(135deg,#0a3d1a,#1a7a3d)"></div>
+              <div class="m-info">
+                <div class="m-title">Shadowing — Listening 07</div>
+                <div class="m-cat"><span class="m-tag" style="background:rgba(255,153,0,0.12);color:#FF9900">Inglês</span></div>
+              </div>
+            </div>
+            <div class="m-item">
+              <div class="m-num">4</div>
+              <div class="m-thumb" style="background:linear-gradient(135deg,#3d0a0a,#7a1a1a)"></div>
+              <div class="m-info">
+                <div class="m-title">HIIT 30min — No music</div>
+                <div class="m-cat"><span class="m-tag" style="background:rgba(16,185,129,0.12);color:#10b981">Treino</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STRIP ═══════════════════════════════════════════════ -->
+<div class="strip">
+  <p>Para quem usa conteúdo com propósito</p>
+  <div class="strip-row">
+    <span class="strip-item">📚 Estudo</span>
+    <span class="strip-item">💻 Dev</span>
+    <span class="strip-item">🎵 Música</span>
+    <span class="strip-item">🏋️ Treino</span>
+    <span class="strip-item">🌐 Idiomas</span>
+    <span class="strip-item">💼 Trabalho</span>
+    <span class="strip-item">🎯 Foco</span>
+  </div>
+</div>
+
+<!-- ══ O QUE É ═════════════════════════════════════════════ -->
+<div id="o-que-e">
+  <div class="section what-wrap">
+    <div class="reveal">
+      <div class="section-label">O que é</div>
+      <h2 class="section-title">Um ambiente,<br>não um player.</h2>
+      <p class="section-sub">
+        iList não é mais um reprodutor de vídeos.<br>
+        É o espaço onde você decide o que entra — e nada mais.<br>
+        <span style="font-size:13px;">Uma decisão de <a href="https://alexandretorres.com.br" target="_blank" style="color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(255,153,0,0.3);">design intencional</a>, não acidental.</span>
+      </p>
+    </div>
+
+    <div class="what-pillars reveal" style="transition-delay:0.15s">
+      <div class="pillar">
+        <span class="pillar-icon">✦</span>
+        <div class="pillar-title">Você escolhe o que entra</div>
+        <p class="pillar-desc">Só aparece o que você colocou. Sem sugestões. Sem feed. Sem ruído externo.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">◎</span>
+        <div class="pillar-title">Nada compete pela atenção</div>
+        <p class="pillar-desc">A interface existe para executar, não para chamar atenção. Fluxo contínuo.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">→</span>
+        <div class="pillar-title">Execução até o fim</div>
+        <p class="pillar-desc">De um item para o próximo. Sem desvios. Você começa e termina o que planejou.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROBLEMA ═══════════════════════════════════════════ -->
+<div class="problem-wrap">
+  <div class="problem-inner">
+    <div class="problem-text reveal">
+      <div class="section-label">O problema</div>
+      <h2 class="section-title">Você não perde tempo<br>porque quer.</h2>
+      <p>Você perde porque tudo ao redor foi construído para isso. Cada sugestão, cada banner, cada autoplay — são decisões de arquitetura que trabalham contra o seu foco.</p>
+
+      <div class="prob-list">
+        <div class="prob-item">
+          <div class="prob-x">✕</div>
+          Você começa um vídeo e termina vendo outra coisa
+        </div>
+        <div class="prob-item">
+          <div class="prob-x">✕</div>
+          Sugestões aparecem onde deveria estar seu conteúdo
+        </div>
+        <div class="prob-item">
+          <div class="prob-x">✕</div>
+          Autoplay leva para onde o algoritmo quer, não você
+        </div>
+        <div class="prob-item">
+          <div class="prob-x">✕</div>
+          Cada clique é uma nova decisão não planejada
+        </div>
+        <div class="prob-item">
+          <div class="prob-x">✕</div>
+          A plataforma foi feita para te manter, não te servir
+        </div>
+      </div>
+
+      <div class="prob-resolution">
+        Isso não é falta de disciplina.<br>
+        É arquitetura de distração.<br>
+        iList remove a arquitetura.<br>
+        <span style="font-size:12px;color:var(--muted2);font-family:var(--mono);display:block;margin-top:10px;">Entenda melhor a filosofia por trás disso no <a href="https://instagram.com/alexandretorres.com.br" target="_blank" style="color:var(--accent);text-decoration:none;">perfil do desenvolvedor</a>.</span>
+      </div>
+    </div>
+
+    <!-- Chaos mockup -->
+    <div class="chaos-mockup reveal" style="transition-delay:0.2s">
+      <div class="chaos-top">
+        <div class="chaos-search">procurar algo rápido...</div>
+      </div>
+      <div class="chaos-grid">
+        <div class="chaos-thumb" style="background:linear-gradient(135deg,#1a0808,#3d1010)">
+          <div class="chaos-label-over">Você VAI SE ARREPENDER se não ver isso</div>
+        </div>
+        <div class="chaos-thumb" style="background:linear-gradient(135deg,#081a08,#103d10)">
+          <div class="chaos-label-over">10 HACKS que ninguém te contou</div>
+        </div>
+        <div class="chaos-thumb" style="background:linear-gradient(135deg,#1a1608,#3d3010)">
+          <div class="chaos-label-over">😱 Isso aconteceu comigo...</div>
+        </div>
+        <div class="chaos-thumb" style="background:linear-gradient(135deg,#130820,#2a1045)">
+          <div class="chaos-label-over">Reagindo a trends desta semana</div>
+        </div>
+        <div class="chaos-thumb" style="background:linear-gradient(135deg,#081a1a,#104040)">
+          <div class="chaos-label-over">O pior vídeo que já assisti</div>
+        </div>
+        <div class="chaos-thumb" style="background:linear-gradient(135deg,#0d0d14,#1a1a28)">
+          <div class="chaos-label-over">Você PRECISA assistir AGORA</div>
+        </div>
+      </div>
+      <div class="chaos-banner">
+        <span>📢 Anúncio — pular em 5s</span>
+        <span>✕</span>
+      </div>
+      <div class="chaos-overlay">
+        <span class="chaos-badge">⚠ Ambiente de distração ativo</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RECURSOS ════════════════════════════════════════════ -->
+<div id="recursos">
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">Recursos</div>
+      <h2 class="section-title">Menos estímulo.<br>Mais execução.</h2>
+      <p class="section-sub">Cada recurso foi desenhado para eliminar fricção. Nenhum foi adicionado por parecer interessante.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feat-card">
+        <span class="feat-icon">📂</span>
+        <div class="feat-title">Categorias com lógica sua</div>
+        <p class="feat-desc">Crie contextos reais: Estudo, Treino, Trabalho. Cada categoria tem cor e emoji. Drag & drop para reorganizar. Clique para filtrar.</p>
+      </div>
+      <div class="feat-card" style="transition-delay:0.08s">
+        <span class="feat-icon">🔍</span>
+        <div class="feat-title">Input que entende você</div>
+        <p class="feat-desc">Um campo. Cole um vídeo — adiciona direto. Cole um canal — lista tudo. Cole uma playlist — expande. Ou pesquise por texto. Detecta e age.</p>
+      </div>
+      <div class="feat-card" style="transition-delay:0.16s">
+        <span class="feat-icon">🔂</span>
+        <div class="feat-title">Controle de reprodução real</div>
+        <p class="feat-desc">Velocidade de 0.25x a 2x. Quatro modos de loop. Timer de desligamento automático. Atalhos de teclado. É o player que deveria existir.</p>
+      </div>
+      <div class="feat-card" style="transition-delay:0.24s">
+        <span class="feat-icon">🌙</span>
+        <div class="feat-title">Modo OLED</div>
+        <p class="feat-desc">Tela 100% preta com Wake Lock ativo. Celular carregando, tela acesa, bateria preservada em displays AMOLED. Para sessões longas de madrugada.</p>
+      </div>
+      <div class="feat-card" style="transition-delay:0.32s">
+        <span class="feat-icon">📲</span>
+        <div class="feat-title">Instala. Funciona. Fica.</div>
+        <p class="feat-desc">PWA com Service Worker. Ícone na tela inicial, tela cheia, carrega instantaneamente. Uma vez instalado, parece app nativo — porque funciona como um.</p>
+      </div>
+      <div class="feat-card" style="transition-delay:0.40s">
+        <span class="feat-icon">💾</span>
+        <div class="feat-title">Seus dados são seus</div>
+        <p class="feat-desc">Tudo no seu navegador. Exporte como JSON, importe em qualquer dispositivo. Backup automático a cada 30min e antes de fechar a aba. Sem conta, sem servidor.</p>
+      </div>
+    </div>
+
+    <!-- Animated interactive cards -->
+    <div class="anim-grid" style="margin-top:16px;">
+
+      <!-- Card 1: Categorias -->
+      <div class="anim-card">
+        <div class="acard-label">📂 Organização</div>
+        <div class="acard-title">Sua biblioteca. Sua lógica.</div>
+        <p class="acard-desc">Cada contexto da sua vida em um lugar. Cores, emojis, drag & drop para reordenar.</p>
+        <div class="demo-cats">
+          <div class="dcat-row">
+            <span class="dcat-dot" style="background:#06b6d4"></span>
+            <span class="dcat-name">Dev & Programação</span>
+            <span class="dcat-count">12 vídeos</span>
+          </div>
+          <div class="dcat-row">
+            <span class="dcat-dot" style="background:#FF9900"></span>
+            <span class="dcat-name">Inglês</span>
+            <span class="dcat-count">8 vídeos</span>
+          </div>
+          <div class="dcat-row">
+            <span class="dcat-dot" style="background:#10b981"></span>
+            <span class="dcat-name">Treino</span>
+            <span class="dcat-count">15 vídeos</span>
+          </div>
+          <div class="dcat-row">
+            <span class="dcat-dot" style="background:#8b5cf6"></span>
+            <span class="dcat-name">Finanças Pessoais</span>
+            <span class="dcat-count">6 vídeos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Focus mode -->
+      <div class="anim-card" style="transition-delay:0.1s">
+        <div class="acard-label">🚫 Ambiente limpo</div>
+        <div class="acard-title">Só o que você escolheu.</div>
+        <p class="acard-desc">Sem sugestões, sem banners, sem autoplay aleatório. O player executa — e fica quieto.</p>
+        <div class="demo-focus">
+          <div class="demo-focus-player">
+            <div class="dfo-title">Aula 07 — Async/Await em profundidade</div>
+            <div class="dfo-sub">Dev · 22 min</div>
+            <div class="dfo-bar"><div class="dfo-fill"></div></div>
+            <div class="dfo-ctrl">⏮ &nbsp; ⏸ &nbsp; ⏭</div>
+          </div>
+          <div class="dfo-status">
+            <span>●</span> Ambiente limpo ativo
+          </div>
+          <div class="dfo-chips">
+            <span class="dfo-chip">sugestões</span>
+            <span class="dfo-chip">anúncios</span>
+            <span class="dfo-chip">autoplay ext</span>
+            <span class="dfo-chip">feed lateral</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Input inteligente -->
+      <div class="anim-card" style="transition-delay:0.2s">
+        <div class="acard-label">🔍 Input unificado</div>
+        <div class="acard-title">Um campo. Zero configuração.</div>
+        <p class="acard-desc">Cole qualquer coisa. O iList identifica o tipo e age imediatamente.</p>
+        <div class="demo-input-wrap">
+          <div class="demo-input-row">
+            <span class="demo-input-icon">🔗</span>
+            <span class="demo-input-text">Cole um link ou pesquise por nome...</span>
+          </div>
+        </div>
+        <div class="type-pills">
+          <div class="type-pill video">🎬 &nbsp; Link de vídeo → adiciona direto</div>
+          <div class="type-pill canal">📺 &nbsp; Canal → lista todos os vídeos</div>
+          <div class="type-pill lista">📋 &nbsp; Playlist → expande tudo</div>
+          <div class="type-pill texto">🔍 &nbsp; Texto → busca na API</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Controles -->
+      <div class="anim-card" style="transition-delay:0.3s">
+        <div class="acard-label">🔂 Controle total</div>
+        <div class="acard-title">Você dita o ritmo.</div>
+        <p class="acard-desc">Velocidade, loop, atalhos de teclado. Consuma do jeito que funciona para você.</p>
+        <div class="demo-controls">
+          <div class="dc-row">
+            <span class="dc-label">velocidade</span>
+            <div class="dc-btns">
+              <span class="dc-btn">0.75x</span>
+              <span class="dc-btn">1x</span>
+              <span class="dc-btn on">1.5x</span>
+              <span class="dc-btn">2x</span>
+            </div>
+          </div>
+          <div class="dc-row">
+            <span class="dc-label">modo loop</span>
+            <div class="dc-btns">
+              <span class="dc-btn">Normal</span>
+              <span class="dc-btn cyan-on">🔁 Todos</span>
+              <span class="dc-btn">🔂 Um</span>
+              <span class="dc-btn">🔀</span>
+            </div>
+          </div>
+          <div class="dc-separator"></div>
+          <div class="dc-queue">
+            <div class="dc-qi playing">
+              <span class="dc-qi-n">▶</span>
+              <div class="dc-qi-bar"><div class="dc-qi-fill" style="width:42%"></div></div>
+            </div>
+            <div class="dc-qi">
+              <span class="dc-qi-n">2</span>
+              <div class="dc-qi-bar"><div class="dc-qi-fill" style="width:0%;background:rgba(255,255,255,0.1)"></div></div>
+            </div>
+            <div class="dc-qi">
+              <span class="dc-qi-n">3</span>
+              <div class="dc-qi-bar"><div class="dc-qi-fill" style="width:0%;background:rgba(255,255,255,0.1)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ COMO FUNCIONA ══════════════════════════════════════ -->
+<div id="como-funciona" class="how-wrap">
+  <div class="how-inner">
+    <div>
+      <div class="reveal">
+        <div class="section-label">Como funciona</div>
+        <h2 class="section-title">Simples o suficiente<br>para não atrapalhar.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <div class="step-title">Adicione vídeos</div>
+            <p class="step-desc">Cole um link, um canal ou pesquise por texto. Você decide o que entra. Nenhuma sugestão automática.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <div class="step-title">Organize em categorias</div>
+            <p class="step-desc">Por contexto, objetivo ou momento. Dev, Inglês, Treino, Trabalho — a estrutura é sua.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <div class="step-title">Dê play. E siga.</div>
+            <p class="step-desc">Sem interrupção. De um item para o próximo até o fim da lista. Você começa e termina o que planejou.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual steps -->
+    <div class="how-visual">
+      <div class="how-step-card">
+        <div class="hsc-num">01</div>
+        <div class="hsc-text">
+          <div class="hsc-title">Cole ou pesquise</div>
+          <p class="hsc-sub">Link de vídeo, canal, playlist ou texto livre. Um campo faz tudo.</p>
+        </div>
+      </div>
+      <div class="how-step-card">
+        <div class="hsc-num">02</div>
+        <div class="hsc-text">
+          <div class="hsc-title">Categorize do seu jeito</div>
+          <p class="hsc-sub">Crie a estrutura que faz sentido para você. Drag & drop, cores, emojis.</p>
+        </div>
+      </div>
+      <div class="how-step-card">
+        <div class="hsc-num">03</div>
+        <div class="hsc-text">
+          <div class="hsc-title">Execute sem desvio</div>
+          <p class="hsc-sub">Loop, velocidade, timer. O ambiente trabalha para você manter o foco — não contra.</p>
+        </div>
+      </div>
+
+      <!-- Demo box -->
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:4px;">
+        <div style="font-size:10px;font-family:var(--mono);color:var(--muted2);margin-bottom:12px;text-transform:uppercase;letter-spacing:1.5px;">Sessão ativa</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:44px;height:44px;background:linear-gradient(135deg,#0a1f3d,#1e3a7a);border-radius:8px;flex-shrink:0;"></div>
+          <div>
+            <div style="font-size:13px;font-weight:700;">Aula 12 — TypeScript Avançado</div>
+            <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:2px;">Dev · 38 min · 1.5x</div>
+          </div>
+        </div>
+        <div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:8px;">
+          <div style="height:100%;width:38%;background:linear-gradient(90deg,var(--accent),var(--amber));border-radius:2px;animation:progressLoop 6s ease-in-out infinite;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-family:var(--mono);color:var(--green);">
+          <span>●</span> Sessão em execução — sem interrupção
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FILOSOFIA ═══════════════════════════════════════════ -->
+<div>
+  <div class="phi-wrap">
+    <div class="reveal">
+      <div class="section-label">Filosofia</div>
+    </div>
+    <div class="phi-quote reveal">
+      Você não precisa de<br>
+      <span class="hl">mais força de vontade.</span><br>
+      Precisa de menos distração.
+    </div>
+    <div class="phi-divider"></div>
+    <p class="phi-sub reveal" style="transition-delay:0.1s">
+      Ambiente certo não te testa.<br>
+      Ele te permite.<br>
+      <a href="https://instagram.com/alexandretorres.com.br" target="_blank" style="font-size:12px;color:var(--muted2);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.1);font-family:var(--mono);margin-top:8px;display:inline-block;">sobre o desenvolvedor →</a>
+    </p>
+  </div>
+</div>
+
+<!-- ══ OPEN PROJECT ════════════════════════════════════════ -->
+<div id="github" class="open-wrap">
+  <div class="open-inner">
+    <div class="open-text reveal">
+      <div class="section-label">Projeto aberto</div>
+      <h2 class="section-title">iList não tenta<br>te prender.</h2>
+
+      <p>É um projeto aberto — para quem estuda, constrói ou precisa de foco real. Sem plano pago, sem anúncio, sem cadastro.</p>
+
+      <div class="open-pillars">
+        <div class="open-pillar">
+          <span class="open-dot"></span>
+          Para quem estuda com consistência
+        </div>
+        <div class="open-pillar">
+          <span class="open-dot"></span>
+          Para quem constrói e quer ver de perto
+        </div>
+        <div class="open-pillar">
+          <span class="open-dot"></span>
+          Para quem precisa de foco real
+        </div>
+      </div>
+
+      <p>Você pode usar, adaptar ou evoluir. O código está disponível, é legível, e roda direto no cliente sem dependência pesada. Se tiver dúvidas técnicas ou quiser acompanhar as atualizações, o <a href="https://alexandretorres.com.br" target="_blank" style="color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(255,153,0,0.3);">desenvolvedor mantém tudo documentado</a> — e você pode acompanhar cada decisão de perto.</p>
+
+      <a href="https://github.com/aletoapp/ilist" target="_blank" class="btn-primary" style="display:inline-flex;margin-top:8px;">
+        Ver código no GitHub →
+      </a>
+
+      <p style="margin-top:16px;font-size:13px;color:var(--muted);font-family:var(--mono);">Acompanhe o processo de construção e <a href="https://instagram.com/alexandretorres.com.br" target="_blank" style="color:var(--accent);text-decoration:none;">comente no post do Instagram</a> — tire dúvidas, sugira melhorias ou só diga o que achou.</p>
+
+      <div class="stack-pills" style="margin-top:24px;">
+        <span class="s-pill">⚡ JS Vanilla</span>
+        <span class="s-pill">🌐 HTML5</span>
+        <span class="s-pill">🎨 CSS</span>
+        <span class="s-pill">📱 PWA</span>
+        <span class="s-pill">🔊 Web Audio</span>
+        <span class="s-pill">💾 localStorage</span>
+      </div>
+
+      <p style="margin-top:16px;font-size:12px;color:var(--muted2);font-family:var(--mono);">Zero dependências de produção · Zero bundler · Zero framework</p>
+    </div>
+
+    <!-- Code visual -->
+    <div class="reveal" style="transition-delay:0.15s">
+      <div class="code-visual">
+        <div class="code-topbar">
+          <div class="code-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="code-fname">search-advanced.js</span>
+        </div>
+        <div class="code-body">
+          <span class="c-cmt">// Input unificado — detecta e age</span><br>
+          <span class="c-kw">async</span> <span class="c-fn">_handleInput</span>(<span class="c-var">value</span>) {<br>
+          &nbsp;&nbsp;<span class="c-kw">const</span> <span class="c-var">type</span> = <span class="c-kw">this</span>.<span class="c-fn">_detectType</span>(<span class="c-var">value</span>);<br>
+          <br>
+          &nbsp;&nbsp;<span class="c-kw">if</span> (<span class="c-var">type</span> === <span class="c-str">'video'</span>) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-kw">await</span> <span class="c-kw">this</span>.<span class="c-fn">_addSingleVideo</span>(<span class="c-var">value</span>);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-kw">return</span>;<br>
+          &nbsp;&nbsp;}<br>
+          <br>
+          &nbsp;&nbsp;<span class="c-kw">if</span> (<span class="c-var">type</span> === <span class="c-str">'canal'</span>)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-kw">await</span> <span class="c-kw">this</span>.<span class="c-fn">_loadCanal</span>(<span class="c-var">value</span>);<br>
+          <br>
+          &nbsp;&nbsp;<span class="c-kw">this</span>.<span class="c-fn">_renderResults</span>();<br>
+          }
+        </div>
+      </div>
+
+      <div class="module-rows" style="margin-top:12px;">
+        <div class="mod-row">
+          <span class="mod-file">app.js</span>
+          <p class="mod-desc"><strong>Núcleo.</strong> Estado global, renderização, drag & drop.</p>
+        </div>
+        <div class="mod-row">
+          <span class="mod-file">player.js</span>
+          <p class="mod-desc"><strong>Player.</strong> Controle total sobre play, loop, velocidade, seek.</p>
+        </div>
+        <div class="mod-row">
+          <span class="mod-file">search-advanced.js</span>
+          <p class="mod-desc"><strong>Input inteligente.</strong> Detecta e busca sem configuração.</p>
+        </div>
+        <div class="mod-row">
+          <span class="mod-file">equalizer.js</span>
+          <p class="mod-desc"><strong>EQ 8 bandas.</strong> Web Audio API + espectro animado em canvas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CTA FINAL ═══════════════════════════════════════════ -->
+<div class="cta-wrap">
+  <div class="cta-glow"></div>
+  <div class="cta-label reveal">pronto para usar agora mesmo</div>
+  <h2 class="cta-headline reveal" style="transition-delay:0.08s">
+    Se você quer terminar<br>
+    <span style="color:var(--accent)">o que começa:</span>
+  </h2>
+  <p class="cta-sub reveal" style="transition-delay:0.16s">
+    Sem cadastro. Sem instalação obrigatória.<br>
+    Nada entre você e o play.
+  </p>
+  <div class="cta-btns reveal" style="transition-delay:0.24s">
+    <a href="https://aletoapp.github.io/ilist/" target="_blank" class="btn-primary" style="font-size:16px;padding:17px 36px;">
+      ▶ Abrir iList agora
+    </a>
+    <a href="https://github.com/aletoapp/ilist" target="_blank" class="btn-ghost">
+      Ver código →
+    </a>
+  </div>
+  <p class="cta-micro reveal" style="transition-delay:0.32s">
+    gratuito · open source · sem algoritmo · sem servidor
+  </p>
+</div>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-bar" style="position:absolute;top:0;left:0;right:0;margin:0;"></div>
+  <div class="footer-brand">
+    <div class="footer-logo">i<span>list</span></div>
+    <p class="footer-tagline">iList não tenta te prender.<br>Só remove o que estava te prendendo.</p>
+  </div>
+  <div class="footer-right">
+    <div>© 2026 iList &nbsp;·&nbsp; <a href="https://alexandretorres.com.br" target="_blank">Alexandre Torres</a></div>
+    <div style="margin-top:4px;"><a href="https://instagram.com/aletor.app" target="_blank">@a</a> &nbsp;·&nbsp; iList v2.0 &nbsp;·&nbsp; <a href="https://github.com/aletoapp" target="_blank">GitHub →</a></div>
+  </div>
+</footer>
+
+<!-- ══ SCRIPTS ═════════════════════════════════════════════ -->
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Hamburger menu
+  const hamburger = document.querySelector('.nav-hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('mobile-open');
+  });
+  // Close menu when a nav link is clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('mobile-open');
+    });
+  });
+
+  // Scroll reveal — IntersectionObserver
+  const revealEls = document.querySelectorAll('.reveal, .feat-card, .anim-card, .pillar, .step, .how-step-card');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => io.observe(el));
+
+  // Demo speed buttons interactive
+  document.querySelectorAll('.dc-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const parent = this.closest('.dc-btns');
+      if (!parent) return;
+      parent.querySelectorAll('.dc-btn').forEach(b => {
+        b.classList.remove('on', 'cyan-on');
+      });
+      const isCyan = this.textContent.includes('🔁') || this.textContent.includes('🔂');
+      this.classList.add(isCyan ? 'cyan-on' : 'on');
+    });
+  });
+
+  // Demo category rows hover
+  document.querySelectorAll('.dcat-row').forEach(row => {
+    row.addEventListener('click', function() {
+      document.querySelectorAll('.dcat-row').forEach(r => {
+        r.style.background = 'rgba(255,255,255,0.04)';
+        r.style.borderColor = 'rgba(255,255,255,0.06)';
+      });
+      this.style.background = 'rgba(255,153,0,0.08)';
+      this.style.borderColor = 'rgba(255,153,0,0.2)';
+    });
+  });
+</script>
+
+</body>
+</html>
