@@ -1,0 +1,36 @@
+name: Generate Sitemap
+
+on:
+  push:
+    branches:
+      - main          # dispara ao fazer push na branch principal
+  workflow_dispatch:  # permite rodar manualmente pela aba Actions do GitHub
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # necessário para o bot fazer commit do sitemap.xml
+
+    steps:
+      - name: Checkout com histórico completo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # CRÍTICO: sem isso, git log não encontra datas reais de commit
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Gerar sitemap.xml
+        run: node generate-sitemap.js
+
+      - name: Commit e push do sitemap.xml
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git diff --cached --quiet || git commit -m "chore: atualiza sitemap.xml [skip ci]"
+          git push
