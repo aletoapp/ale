@@ -4,21 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ═══ PERFORMANCE — Critical resource hints ══════════════════════ -->
-<!-- Preload fontes críticas do Hero — elimina FOUT e melhora LCP -->
-<link rel="preload" href="assets/fonts/subset-PlayfairDisplay-Black.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/subset-PlayfairDisplay-Bold.woff2"  as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/subset-DMSans-9ptRegular.woff2"     as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/subset-DMMono-Regular.woff2"        as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/css/styles.css" as="style">
-
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo-limiar-512x512.png">
-
-<!-- PWA / theme color -->
-<meta name="theme-color" content="#080807" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
-
 <!-- ═══ SEO — Primary ══════════════════════════════════════════════ -->
 <title>Alexandre Torres — Aplicações, Sites e Landing Pages</title>
 <meta name="description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios. Transforme visitantes em clientes com design focado em conversão.">
@@ -26,19 +11,45 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://alexandretorres.com.br/">
 
+<!-- ═══ OPEN GRAPH (WHATSAPP/FACEBOOK) ═════════════════════════════ -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://alexandretorres.com.br/">
 <meta property="og:site_name" content="Alexandre Torres">
 <meta property="og:title" content="Alexandre Torres — Landing Pages e Aplicações Web">
 <meta property="og:description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios. Design de alta conversão para o seu negócio.">
+
 <meta property="og:image" content="https://alexandretorres.com.br/assets/img/og.jpg">
+<meta property="og:image:url" content="https://alexandretorres.com.br/assets/img/og.jpg">
+<meta property="og:image:secure_url" content="https://alexandretorres.com.br/assets/img/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Alexandre Torres — Especialista em Landing Pages de Alta Conversão">
+
 <meta property="og:locale" content="pt_BR">
 
+<!-- ═══ TWITTER ════════════════════════════════════════════════════ -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Alexandre Torres — Landing Pages e Aplicações Web">
 <meta name="twitter:description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios.">
 <meta name="twitter:image" content="https://alexandretorres.com.br/assets/img/og.jpg">
+<meta name="twitter:url" content="https://alexandretorres.com.br/">
+
+<!-- ═══ PERFORMANCE — depois do OG (evita crawler falhar) ═══════════ -->
+<link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Black.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2"  as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2"     as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2"        as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://alexandretorres.com.br/assets/css/styles.css" as="style">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="https://alexandretorres.com.br/assets/img/logo-limiar-512x512.png">
+
+<!-- PWA / theme color -->
+<meta name="theme-color" content="#080807" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+
+<!-- ═══ STRUCTURED DATA ════════════════════════════════════════════ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -56,67 +67,7 @@
         "addressRegion": "ES",
         "addressCountry": "BR"
       },
-      "areaServed": ["BR", "PT", "US", "Worldwide"],
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-        "opens": "09:00",
-        "closes": "18:00"
-      },
-      "sameAs": [
-        "https://wa.me/5527996252050",
-        "https://www.linkedin.com/in/alexandretorresaletor"
-      ]
-    },
-    {
-      "@type": "Person",
-      "@id": "https://alexandretorres.com.br/#person",
-      "name": "Alexandre Torres",
-      "jobTitle": "Elaborador de Landing Pages Estratégicas",
-      "description": "Estrategista de negócios focado em arquitetura de decisão e desenvolvimento web premium.",
-      "worksFor": { "@id": "https://alexandretorres.com.br/#business" }
-    },
-    {
-      "@type": "Service",
-      "@id": "https://alexandretorres.com.br/#service",
-      "name": "APPs e Landing Pages Para Captação de Clientes",
-      "provider": { "@id": "https://alexandretorres.com.br/#business" },
-      "description": "Desenvolvimento de páginas com arquitetura psicológica de decisão. Foco em aumento de ROAS e conversão imediata.",
-      "areaServed": "Global",
-      "offers": {
-        "@type": "Offer",
-        "description": "Consultoria e implementação de funis de alta conversão."
-      }
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://alexandretorres.com.br/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Qual o prazo de entrega de uma Landing Page?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A entrega padrão ocorre a partir do 15º dia, com uma revisão de performance incluída no 30º dia após a publicação."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "O que é arquitetura psicológica de decisão?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "É um método que mapeia o comportamento do usuário e utiliza gatilhos mentais e design estratégico para conduzir o visitante à conversão de forma natural."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Vocês atendem clientes fora do Brasil?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Sim, atendemos empresas e profissionais liberais no Brasil, Portugal, EUA e outros países, com foco em projetos de escala global."
-          }
-        }
-      ]
+      "areaServed": ["BR", "PT", "US", "Worldwide"]
     }
   ]
 }
