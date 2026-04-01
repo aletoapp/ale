@@ -1032,3 +1032,59 @@ footer {
   .gr-big-score { font-size: 40px; }
   .gr-avaliar-btn { margin-left: 0; }
 }
+
+
+/* ── Diagnóstico gratuito (bloco dentro de #dor .dor-left) ── */
+.dor-diagnostic-block {
+  margin-top: 2.4rem;
+  padding: 1.8rem 2rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  background: var(--gold-dim);
+  transition: border-color 0.55s ease, background 0.55s ease;
+}
+ 
+.dor-diag-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.85rem;
+  transition: color 0.55s ease;
+}
+ 
+.dor-diag-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  transition: color 0.55s ease;
+}
+ 
+.dor-diag-sub {
+  font-size: 0.92rem;
+  color: var(--ink-3);
+  line-height: 1.75;
+  margin-bottom: 1.4rem;
+  transition: color 0.55s ease;
+}
+ 
+.dor-diag-btn {
+  display: inline-block;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.14em !important;
+  padding: 0.85rem 2rem !important;
+}
+ 
+.dor-diag-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-4);
+  text-transform: uppercase;
+  margin-top: 0.75rem;
+  transition: color 0.55s ease;
+}
