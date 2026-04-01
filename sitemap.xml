@@ -7,6 +7,12 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://alexandretorres.com.br/at-lab/</loc>
+    <lastmod>2026-04-01T12:50:49.000+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://alexandretorres.com.br/ilist/</loc>
     <lastmod>2026-03-31T17:03:27.000+00:00</lastmod>
     <changefreq>weekly</changefreq>
