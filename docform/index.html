@@ -1,111 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0a0d12">
+  <link rel="manifest" href="manifest.json">
 
-<!-- ═══ SEO — PRIMARY ═══════════════════════════════════════════════ -->
-<title>DocForm — Formate Documentos Profissionais em Segundos</title>
-<meta name="description" content="Transforme textos gerados por IA em contratos, currículos e documentos jurídicos prontos para impressão ou assinatura digital. PWA gratuita, funciona offline, sem login.">
-<meta name="author" content="Alexandre Torres">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<link rel="canonical" href="https://alexandretorres.com.br/docform/">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DocForm">
+  
+  <link rel="apple-touch-icon" href="https://aletoapp.github.io/docform/assets/img/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="https://aletoapp.github.io/docform/assets/img/icon-512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://aletoapp.github.io/docform/assets/img/favicon.png">
 
-<!-- ═══ OPEN GRAPH ══════════════════════════════════════════════════ -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://alexandretorres.com.br/docform/">
-<meta property="og:site_name" content="DocForm">
-<meta property="og:title" content="DocForm — Cole o texto. O documento pronto vem por nossa conta.">
-<meta property="og:description" content="Transforme texto de IA em contratos, currículos e documentos jurídicos formatados. Gratuito, offline e instalável como app.">
-<meta property="og:image" content="https://alexandretorres.com.br/docform/assets/og.jpg">
-<meta property="og:image:url" content="https://alexandretorres.com.br/docform/assets/og.jpg">
-<meta property="og:image:secure_url" content="https://alexandretorres.com.br/docform/assets/og.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="DocForm — Transforme textos de IA em documentos profissionais e jurídicos prontos para impressão">
-<meta property="og:locale" content="pt_BR">
+  <title>DocForm — Formatação Profissional de Documentos</title>
+  <meta name="description" content="Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.">
+  <meta name="author" content="DocForm">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://docform.app/">
 
-<!-- ═══ TWITTER ══════════════════════════════════════════════════════ -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DocForm — Cole o texto. O documento pronto vem por nossa conta.">
-<meta name="twitter:description" content="Contratos, currículos e documentos jurídicos formatados a partir de texto de IA. Gratuito e offline.">
-<meta name="twitter:image" content="https://alexandretorres.com.br/docform/assets/og.jpg">
-<meta name="twitter:url" content="https://alexandretorres.com.br/docform/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://docform.app/">
+  <meta property="og:site_name" content="DocForm">
+  <meta property="og:title" content="DocForm — Documentos Profissionais a partir de IA">
+  <meta property="og:description" content="Cole textos do ChatGPT ou Gemini e gere documentos formatados em segundos.">
+  <meta property="og:image" content="https://aletoapp.github.io/docform/assets/img/og.jpg">
+  <meta property="og:image:alt" content="DocForm — Formatação profissional de documentos com IA">
+  <meta property="og:locale" content="pt_BR">
 
-<!-- ═══ PERFORMANCE ═══════════════════════════════════════════════════ -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DocForm — Formatação de Doc Profissional">
+  <meta name="twitter:image" content="https://aletoapp.github.io/docform/assets/img/og.jpg">
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="https://alexandretorres.com.br/assets/img/favicon.png">
-<link rel="apple-touch-icon" href="https://alexandretorres.com.br/assets/img/icon-192.png">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <script src="assets/js/script.js" defer></script>
 
-<!-- PWA -->
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#0a0d12">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="DocForm">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://docform.app/#app",
+        "name": "DocForm",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://docform.app/",
+        "description": "Aplicação web para formatação automática de documentos profissionais a partir de IA.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "BRL"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
 
-<!-- ═══ STRUCTURED DATA ══════════════════════════════════════════════ -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "DocForm",
-      "alternateName": "DocForm — Formatação Profissional",
-      "applicationCategory": "ProductivityApplication",
-      "applicationSubCategory": "Document Management",
-      "operatingSystem": "Web, Android, Windows, macOS, Linux",
-      "url": "https://alexandretorres.com.br/docform/",
-      "description": "Aplicação web progressiva (PWA) que transforma texto gerado por IA em documentos profissionais e jurídicos formatados, prontos para impressão ou assinatura digital via Gov.br e ICP-Brasil.",
-      "featureList": [
-        "12 presets jurídicos",
-        "Auto-detecção de tipo de documento",
-        "Exportação PDF e DOCX",
-        "Funciona offline",
-        "Instalável como app",
-        "Gerador de currículo 2026",
-        "E-mail formal corporativo"
-      ],
-      "author": {
-        "@type": "Person",
-        "name": "Alexandre Torres",
-        "url": "https://alexandretorres.com.br",
-        "sameAs": [
-          "https://www.instagram.com/aletordev",
-          "https://www.linkedin.com/in/alexandreatorres"
-        ]
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "BRL",
-        "availability": "https://schema.org/InStock"
-      },
-      "inLanguage": "pt-BR",
-      "isAccessibleForFree": true
-    },
-    {
-      "@type": "WebPage",
-      "name": "DocForm — Formate Documentos Profissionais em Segundos",
-      "url": "https://alexandretorres.com.br/docform/",
-      "description": "Transforme textos gerados por IA em contratos, currículos e documentos jurídicos prontos para impressão ou assinatura digital.",
-      "author": {
-        "@type": "Person",
-        "name": "Alexandre Torres"
-      },
-      "inLanguage": "pt-BR"
-    }
-  ]
-}
-</script>
 
 <style>
 /* ═══════════════════════════════════════════
