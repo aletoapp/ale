@@ -1043,6 +1043,16 @@ footer {
   background: var(--gold-dim);
   transition: border-color 0.55s ease, background 0.55s ease;
 }
+
+/* Light mode: remove o box — conteúdo flui naturalmente na seção */
+[data-theme="light"] .dor-diagnostic-block {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+[data-theme="light"] .dor-diag-label {
+  display: none;
+}
  
 .dor-diag-label {
   font-family: 'DM Mono', monospace;
