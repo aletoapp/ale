@@ -5,89 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <meta name="theme-color" content="#0a0d12">
   <link rel="manifest" href="manifest.json">
-
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="DocForm">
-  
   <link rel="apple-touch-icon" href="https://aletoapp.github.io/docform/assets/img/icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="https://aletoapp.github.io/docform/assets/img/icon-512.png">
   <link rel="icon" type="image/png" sizes="32x32" href="https://aletoapp.github.io/docform/assets/img/favicon.png">
-
   <title>DocForm — Formatação Profissional de Documentos</title>
-  <meta name="description" content="Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.">
-  <meta name="author" content="DocForm">
+  <meta name="description" content="Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso.">
+  <meta name="author" content="Alexandre Torres">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://docform.app/">
-
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://docform.app/">
   <meta property="og:site_name" content="DocForm">
   <meta property="og:title" content="DocForm — Documentos Profissionais a partir de IA">
   <meta property="og:description" content="Cole textos do ChatGPT ou Gemini e gere documentos formatados em segundos.">
   <meta property="og:image" content="https://aletoapp.github.io/docform/assets/img/og.jpg">
-  <meta property="og:image:alt" content="DocForm — Formatação profissional de documentos com IA">
   <meta property="og:locale" content="pt_BR">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="DocForm — Formatação de Doc Profissional">
   <meta name="twitter:image" content="https://aletoapp.github.io/docform/assets/img/og.jpg">
-
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <script src="assets/js/script.js" defer></script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://docform.app/#app",
-        "name": "DocForm",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web",
-        "url": "https://docform.app/",
-        "description": "Aplicação web para formatação automática de documentos profissionais a partir de IA.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "BRL"
-        }
-      }
-    ]
-  }
-  </script>
 </head>
 
-
 <style>
-/* ═══════════════════════════════════════════
-   DESIGN TOKENS — espelho fiel do DocForm
-═══════════════════════════════════════════ */
 :root {
-  --bg:          #0a0d12;
-  --bg2:         #0f1318;
-  --surface:     #141920;
-  --surface2:    #1a2028;
-  --surface3:    #1f2733;
-  --border:      #2a3340;
-  --border-hi:   #3a4755;
-  --ink:         #c9a84c;
-  --ink-hi:      #e8c97a;
-  --ink-dim:     rgba(201,168,76,0.10);
-  --ink-glow:    rgba(201,168,76,0.18);
-  --ink-border:  rgba(201,168,76,0.28);
-  --text:        #dde4ec;
-  --text-2:      #8b95a2;
-  --text-3:      #4d5663;
-  --ok:          #3fb950;
-  --blue:        #388bfd;
-  --r:           8px;
-  --r-lg:        14px;
-  --serif:       'EB Garamond', Georgia, serif;
-  --sans:        'DM Sans', system-ui, sans-serif;
-  --mono:        'DM Mono', monospace;
+  --bg:         #0a0d12;
+  --surface:    #141920;
+  --border:     #2a3340;
+  --border-hi:  #3a4755;
+  --ink:        #c9a84c;
+  --ink-hi:     #e8c97a;
+  --ink-dim:    rgba(201,168,76,0.10);
+  --ink-glow:   rgba(201,168,76,0.18);
+  --ink-border: rgba(201,168,76,0.28);
+  --text:       #dde4ec;
+  --text-2:     #8b95a2;
+  --text-3:     #4d5663;
+  --ok:         #3fb950;
+  --blue:       #388bfd;
+  --serif:      'EB Garamond', Georgia, serif;
+  --sans:       'DM Sans', system-ui, sans-serif;
+  --mono:       'DM Mono', monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -102,11 +64,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* grain */
 body::before {
   content: '';
-  position: fixed; inset: 0; z-index: 0;
-  pointer-events: none;
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   opacity: 0.028;
 }
@@ -115,9 +75,7 @@ body::before {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-/* ═══════════════════════════════════════════
-   HEADER
-═══════════════════════════════════════════ */
+/* ── HEADER ─────────────────────────────── */
 header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 500;
   height: 56px;
@@ -129,10 +87,7 @@ header {
   padding: 0 clamp(16px,5vw,48px);
 }
 
-.logo {
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none;
-}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo-mark {
   width: 34px; height: 34px;
   background: var(--ink-dim);
@@ -140,949 +95,307 @@ header {
   border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.95rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color .2s, box-shadow .2s;
   flex-shrink: 0;
 }
-.logo:hover .logo-mark {
-  border-color: var(--ink);
-  box-shadow: 0 0 12px var(--ink-glow);
-}
-.logo-text {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-  color: var(--ink);
-  line-height: 1;
-  letter-spacing: -0.01em;
-}
-.logo-sub {
-  font-family: var(--mono);
-  font-size: 0.5rem;
-  color: var(--text-3);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  display: block;
-  margin-top: 2px;
-}
+.logo:hover .logo-mark { border-color: var(--ink); box-shadow: 0 0 12px var(--ink-glow); }
+.logo-text { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); line-height: 1; letter-spacing: -0.01em; }
+.logo-sub  { font-family: var(--mono); font-size: 0.5rem; color: var(--text-3); letter-spacing: .18em; text-transform: uppercase; display: block; margin-top: 2px; }
 
-.hdr-right {
-  display: flex; align-items: center; gap: 12px;
-}
+.hdr-right { display: flex; align-items: center; gap: 14px; }
 
-.hdr-links {
-  display: flex; align-items: center; gap: 4px;
-}
-.hdr-link {
-  display: flex; align-items: center; justify-content: center;
-  width: 34px; height: 34px;
+/* ── LANG SWITCHER ───────────────────────── */
+.lang-switcher {
+  display: flex; align-items: center; gap: 1px;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: var(--text-2);
-  text-decoration: none;
-  transition: color 0.15s, background 0.15s;
-  font-size: 0.95rem;
+  padding: 3px 5px;
 }
-.hdr-link:hover { color: var(--ink); background: var(--ink-dim); }
-.hdr-link svg { width: 17px; height: 17px; fill: currentColor; }
+.lang-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-3);
+  padding: 4px 9px; border-radius: 5px;
+  transition: color .15s, background .15s;
+  line-height: 1;
+}
+.lang-btn:hover  { color: var(--text-2); }
+.lang-btn.active { color: var(--ink); background: var(--ink-dim); }
+.lang-sep { color: var(--border-hi); font-size: 0.55rem; padding: 0 1px; pointer-events: none; user-select: none; }
 
 .btn-app {
   display: flex; align-items: center; gap: 7px;
-  background: var(--ink);
-  color: #0a0d12;
-  text-decoration: none;
-  padding: 7px 16px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  background: var(--ink); color: #0a0d12;
+  text-decoration: none; padding: 7px 16px;
+  border-radius: 8px; font-size: 0.8rem; font-weight: 600;
   letter-spacing: 0.01em;
-  transition: background 0.2s, transform 0.15s;
+  transition: background .2s, transform .15s;
   white-space: nowrap;
 }
 .btn-app:hover { background: var(--ink-hi); transform: translateY(-1px); }
 
-/* ═══════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════ */
+/* ── HERO ────────────────────────────────── */
 .hero {
   min-height: 100dvh;
   display: flex; align-items: center; justify-content: center;
   padding: 56px clamp(16px,5vw,48px) 80px;
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
-
-/* radial glow */
 .hero::after {
-  content: '';
-  position: absolute;
-  width: 700px; height: 700px;
-  border-radius: 50%;
+  content: ''; position: absolute;
+  width: 700px; height: 700px; border-radius: 50%;
   background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  pointer-events: none;
+  top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none;
 }
-
-.hero-inner {
-  max-width: 820px;
-  text-align: center;
-  position: relative; z-index: 1;
-}
+.hero-inner { max-width: 820px; text-align: center; position: relative; z-index: 1; }
 
 .hero-badge {
   display: inline-flex; align-items: center; gap: 7px;
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--ink-dim);
-  border: 1px solid var(--ink-border);
-  padding: 5px 13px;
-  border-radius: 20px;
-  margin-bottom: 28px;
-  animation: fadeDown 0.6s ease both;
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink); background: var(--ink-dim); border: 1px solid var(--ink-border);
+  padding: 5px 13px; border-radius: 20px; margin-bottom: 28px;
+  animation: fadeDown .6s ease both;
 }
-.hero-badge-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--ok);
-  box-shadow: 0 0 8px var(--ok);
-  flex-shrink: 0;
-}
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); flex-shrink: 0; }
 
 .hero-h1 {
   font-family: var(--serif);
-  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 20px;
-  animation: fadeDown 0.6s 0.1s ease both;
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem); font-weight: 500;
+  line-height: 1.1; letter-spacing: -0.02em; color: var(--text);
+  margin-bottom: 20px; animation: fadeDown .6s .1s ease both;
 }
-.hero-h1 em {
-  font-style: italic;
-  color: var(--ink);
-}
+.hero-h1 em { font-style: italic; color: var(--ink); }
 
 .hero-sub {
-  font-size: clamp(0.95rem, 2.2vw, 1.12rem);
-  color: var(--text-2);
-  max-width: 560px;
-  margin: 0 auto 40px;
-  line-height: 1.65;
-  animation: fadeDown 0.6s 0.18s ease both;
+  font-size: clamp(.95rem, 2.2vw, 1.12rem); color: var(--text-2);
+  max-width: 560px; margin: 0 auto 40px; line-height: 1.65;
+  animation: fadeDown .6s .18s ease both;
 }
 
 .hero-ctas {
   display: flex; align-items: center; justify-content: center;
-  gap: 12px; flex-wrap: wrap;
-  margin-bottom: 56px;
-  animation: fadeDown 0.6s 0.26s ease both;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 56px;
+  animation: fadeDown .6s .26s ease both;
 }
 
 .cta-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--ink);
-  color: #0a0d12;
-  text-decoration: none;
-  padding: 13px 26px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  background: var(--ink); color: #0a0d12; text-decoration: none;
+  padding: 13px 26px; border-radius: 10px;
+  font-size: .9rem; font-weight: 700; letter-spacing: .01em;
+  transition: background .2s, transform .15s, box-shadow .2s;
 }
-.cta-primary:hover {
-  background: var(--ink-hi);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(201,168,76,0.25);
+.cta-primary:hover { background: var(--ink-hi); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,.25); }
+
+.cta-dev {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--ink); text-decoration: none;
+  padding: 13px 22px; border-radius: 10px;
+  font-size: .9rem; font-weight: 600; border: 1px solid var(--ink-border);
+  transition: color .2s, border-color .2s, background .2s, transform .15s;
+  letter-spacing: .01em;
 }
+.cta-dev:hover { color: var(--ink-hi); border-color: var(--ink); background: var(--ink-dim); transform: translateY(-1px); }
+.cta-dev-arrow { font-size: .75rem; opacity: .7; }
 
 .cta-secondary {
   display: inline-flex; align-items: center; gap: 8px;
-  background: transparent;
-  color: var(--text-2);
-  text-decoration: none;
-  padding: 13px 22px;
-  border-radius: 10px;
-  font-size: 0.9rem;
+  background: transparent; color: var(--text-2); text-decoration: none;
+  padding: 13px 22px; border-radius: 10px; font-size: .9rem;
   border: 1px solid var(--border-hi);
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition: color .2s, border-color .2s, background .2s;
 }
-.cta-secondary:hover {
-  color: var(--text);
-  border-color: var(--border-hi);
-  background: var(--surface);
-}
+.cta-secondary:hover { color: var(--text); background: var(--surface); }
 
-/* ─── botão dev — outlined com cor ink ─── */
-.cta-dev {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent;
-  color: var(--ink);
-  text-decoration: none;
-  padding: 13px 22px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: 1px solid var(--ink-border);
-  transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
-  letter-spacing: 0.01em;
-}
-.cta-dev:hover {
-  color: var(--ink-hi);
-  border-color: var(--ink);
-  background: var(--ink-dim);
-  transform: translateY(-1px);
-}
-.cta-dev-arrow {
-  font-size: 0.75rem;
-  opacity: 0.7;
-}
-
-/* ─── hero pipeline ─── */
 .hero-pipeline {
-  display: inline-flex; align-items: center; gap: 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  animation: fadeDown 0.6s 0.34s ease both;
-  max-width: 100%;
-  flex-wrap: wrap;
+  display: inline-flex; align-items: center;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  animation: fadeDown .6s .34s ease both; max-width: 100%; flex-wrap: wrap;
 }
 .pipeline-step {
   display: flex; align-items: center; gap: 8px;
-  padding: 12px 18px;
-  font-size: 0.8rem;
-  color: var(--text-2);
-  position: relative;
-  flex-shrink: 0;
+  padding: 12px 18px; font-size: .8rem; color: var(--text-2);
 }
-.pipeline-step + .pipeline-step {
-  border-left: 1px solid var(--border);
-}
-.pipeline-step .p-icon {
-  font-size: 1rem;
-}
-.pipeline-step .p-label {
-  white-space: nowrap;
-}
-.pipeline-step .p-arrow {
-  position: absolute; right: -10px; top: 50%;
-  transform: translateY(-50%);
-  color: var(--ink);
-  font-size: 0.7rem;
-  z-index: 1;
-  display: none;
-}
+.pipeline-step + .pipeline-step { border-left: 1px solid var(--border); }
+.pipeline-step .p-label { white-space: nowrap; }
 
-/* ═══════════════════════════════════════════
-   SECTION HEADER
-═══════════════════════════════════════════ */
+/* ── SECTIONS ────────────────────────────── */
 section { position: relative; z-index: 1; }
+.section-wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(16px,5vw,48px); }
 
-.section-wrap {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 clamp(16px,5vw,48px);
-}
+.section-label { font-family: var(--mono); font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 10px; }
+.section-h2 { font-family: var(--serif); font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px; }
+.section-h2 em { font-style: italic; color: var(--ink); }
+.section-desc { font-size: .95rem; color: var(--text-2); max-width: 480px; line-height: 1.65; }
 
-.section-label {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink);
-  display: block;
-  margin-bottom: 10px;
-}
-
-.section-h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-.section-h2 em {
-  font-style: italic;
-  color: var(--ink);
-}
-
-.section-desc {
-  font-size: 0.95rem;
-  color: var(--text-2);
-  max-width: 480px;
-  line-height: 1.65;
-}
-
-/* ═══════════════════════════════════════════
-   COMO FUNCIONA
-═══════════════════════════════════════════ */
-.como-funciona {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
-}
-
-.cf-header {
-  margin-bottom: 56px;
-}
-
+/* ── COMO FUNCIONA ───────────────────────── */
+.como-funciona { padding: 100px 0; border-top: 1px solid var(--border); }
+.cf-header { margin-bottom: 56px; }
 .cf-steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
 }
+.cf-step { background: var(--bg); padding: 32px 28px; position: relative; }
+.cf-step-num { font-family: var(--serif); font-size: 3rem; font-weight: 400; color: var(--border-hi); line-height: 1; margin-bottom: 16px; display: block; }
+.cf-step-title { font-size: .95rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.cf-step-desc { font-size: .83rem; color: var(--text-2); line-height: 1.6; }
+.cf-step-icon { position: absolute; top: 28px; right: 28px; font-size: 1.4rem; opacity: .5; }
 
-.cf-step {
-  background: var(--bg);
-  padding: 32px 28px;
-  position: relative;
-}
-
-.cf-step-num {
-  font-family: var(--serif);
-  font-size: 3rem;
-  font-weight: 400;
-  color: var(--border-hi);
-  line-height: 1;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.cf-step-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-
-.cf-step-desc {
-  font-size: 0.83rem;
-  color: var(--text-2);
-  line-height: 1.6;
-}
-
-.cf-step-icon {
-  position: absolute;
-  top: 28px; right: 28px;
-  font-size: 1.4rem;
-  opacity: 0.5;
-}
-
-/* ═══════════════════════════════════════════
-   FEATURES
-═══════════════════════════════════════════ */
-.features {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
-}
-
-.feat-header {
-  margin-bottom: 56px;
-}
-
+/* ── FEATURES ────────────────────────────── */
+.features { padding: 100px 0; border-top: 1px solid var(--border); }
+.feat-header { margin-bottom: 56px; }
 .feat-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+  gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
 }
-
-.feat-card {
-  background: var(--bg);
-  padding: 28px 26px;
-  transition: background 0.2s;
-}
+.feat-card { background: var(--bg); padding: 28px 26px; transition: background .2s; }
 .feat-card:hover { background: var(--surface); }
+.feat-icon { font-size: 1.6rem; margin-bottom: 14px; display: block; }
+.feat-title { font-size: .92rem; font-weight: 600; color: var(--text); margin-bottom: 7px; }
+.feat-desc { font-size: .82rem; color: var(--text-2); line-height: 1.6; }
 
-.feat-icon {
-  font-size: 1.6rem;
-  margin-bottom: 14px;
-  display: block;
-}
-
-.feat-title {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 7px;
-}
-
-.feat-desc {
-  font-size: 0.82rem;
-  color: var(--text-2);
-  line-height: 1.6;
-}
-
-/* ═══════════════════════════════════════════
-   PRESETS
-═══════════════════════════════════════════ */
-.presets {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
-}
-
-.presets-header {
-  margin-bottom: 48px;
-}
-
-.presets-grid {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 40px;
-}
-
+/* ── PRESETS ─────────────────────────────── */
+.presets { padding: 100px 0; border-top: 1px solid var(--border); }
+.presets-header { margin-bottom: 48px; }
+.presets-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
 .preset-chip {
   display: inline-flex; align-items: center; gap: 7px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 0.8rem;
-  color: var(--text-2);
-  transition: all 0.15s;
-  cursor: default;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px; font-size: .8rem; color: var(--text-2);
+  transition: all .15s; cursor: default;
 }
-.preset-chip:hover {
-  border-color: var(--ink-border);
-  color: var(--ink-hi);
-  background: var(--ink-dim);
-}
-.preset-chip .pc-icon { font-size: 0.9rem; }
+.preset-chip:hover { border-color: var(--ink-border); color: var(--ink-hi); background: var(--ink-dim); }
+.pc-icon { font-size: .9rem; }
 
-/* ═══════════════════════════════════════════
-   AUTO-FILL
-═══════════════════════════════════════════ */
-.autofill {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
-}
-
-.af-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
-}
-
-.af-fields {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.af-field-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 13px 18px;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.82rem;
-}
+/* ── AUTOFILL ────────────────────────────── */
+.autofill { padding: 100px 0; border-top: 1px solid var(--border); }
+.af-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.af-fields { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.af-field-row { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--border); font-size: .82rem; }
 .af-field-row:last-child { border-bottom: none; }
+.af-field-label { color: var(--text-3); font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; min-width: 80px; }
+.af-field-value { color: var(--text); flex: 1; }
+.af-confidence { font-family: var(--mono); font-size: .62rem; padding: 2px 7px; border-radius: 20px; background: rgba(63,185,80,.1); color: var(--ok); border: 1px solid rgba(63,185,80,.2); flex-shrink: 0; }
+.af-field-row.af-glow .af-field-value { color: var(--ink-hi); }
+.af-text { margin-bottom: 24px; }
+.af-highlights { display: flex; flex-direction: column; gap: 12px; }
+.af-hi-item { display: flex; align-items: flex-start; gap: 12px; font-size: .85rem; color: var(--text-2); line-height: 1.5; }
+.af-hi-icon { color: var(--ink); flex-shrink: 0; margin-top: 1px; }
 
-.af-field-label {
-  color: var(--text-3);
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  min-width: 80px;
-}
-
-.af-field-value {
-  color: var(--text);
-  flex: 1;
-}
-
-.af-confidence {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  padding: 2px 7px;
-  border-radius: 20px;
-  background: rgba(63,185,80,0.1);
-  color: var(--ok);
-  border: 1px solid rgba(63,185,80,0.2);
-  flex-shrink: 0;
-}
-
-.af-field-row.af-glow .af-field-value {
-  color: var(--ink-hi);
-}
-
-.af-text {
-  margin-bottom: 24px;
-}
-
-.af-highlights {
-  display: flex; flex-direction: column; gap: 12px;
-}
-
-.af-hi-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  font-size: 0.85rem;
-  color: var(--text-2);
-  line-height: 1.5;
-}
-
-.af-hi-icon {
-  color: var(--ink);
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-/* ═══════════════════════════════════════════
-   EXPORT
-═══════════════════════════════════════════ */
-.export {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
-}
-
-.export-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.export-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 32px;
-  transition: border-color 0.2s;
-}
+/* ── EXPORT ──────────────────────────────── */
+.export { padding: 100px 0; border-top: 1px solid var(--border); }
+.export-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.export-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 32px; transition: border-color .2s; }
 .export-card:hover { border-color: var(--border-hi); }
-
-.export-ext {
-  font-family: var(--mono);
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 14px;
-  display: block;
-}
-
+.export-ext { font-family: var(--mono); font-size: 2rem; font-weight: 700; margin-bottom: 14px; display: block; }
 .export-ext.pdf { color: #f85149; }
 .export-ext.docx { color: var(--blue); }
+.export-title { font-size: .95rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.export-desc { font-size: .83rem; color: var(--text-2); line-height: 1.6; margin-bottom: 18px; }
+.export-feats { display: flex; flex-direction: column; gap: 6px; }
+.export-feat { display: flex; align-items: center; gap: 8px; font-size: .79rem; color: var(--text-2); }
+.export-feat::before { content: '✓'; color: var(--ok); font-size: .72rem; flex-shrink: 0; }
 
-.export-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-
-.export-desc {
-  font-size: 0.83rem;
-  color: var(--text-2);
-  line-height: 1.6;
-  margin-bottom: 18px;
-}
-
-.export-feats {
-  display: flex; flex-direction: column; gap: 6px;
-}
-
-.export-feat {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 0.79rem;
-  color: var(--text-2);
-}
-
-.export-feat::before {
-  content: '✓';
-  color: var(--ok);
-  font-size: 0.72rem;
-  flex-shrink: 0;
-}
-
-/* ═══════════════════════════════════════════
-   PWA
-═══════════════════════════════════════════ */
-.pwa {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
-}
-
-.pwa-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
-}
-
-.pwa-visual {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 32px;
-  text-align: center;
-}
-
-.pwa-icon-wrap {
-  width: 80px; height: 80px;
-  background: var(--ink-dim);
-  border: 2px solid var(--ink-border);
-  border-radius: 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2rem;
-  margin: 0 auto 20px;
-}
-
-.pwa-visual-title {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
-
-.pwa-visual-sub {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 20px;
-}
-
-.pwa-visual-stats {
-  display: flex;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.pwa-stat {
-  flex: 1;
-  padding: 12px 8px;
-  text-align: center;
-  border-right: 1px solid var(--border);
-}
+/* ── PWA ─────────────────────────────────── */
+.pwa { padding: 100px 0; border-top: 1px solid var(--border); }
+.pwa-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.pwa-visual { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 32px; text-align: center; }
+.pwa-icon-wrap { width: 80px; height: 80px; background: var(--ink-dim); border: 2px solid var(--ink-border); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 20px; }
+.pwa-visual-title { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); margin-bottom: 4px; }
+.pwa-visual-sub { font-family: var(--mono); font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.pwa-visual-stats { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.pwa-stat { flex: 1; padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
 .pwa-stat:last-child { border-right: none; }
+.pwa-stat-val { font-family: var(--mono); font-size: .9rem; color: var(--ink); font-weight: 700; display: block; }
+.pwa-stat-label { font-size: .67rem; color: var(--text-3); display: block; margin-top: 2px; }
+.pwa-points { display: flex; flex-direction: column; gap: 16px; }
+.pwa-point { display: flex; align-items: flex-start; gap: 14px; }
+.pwa-point-icon { width: 36px; height: 36px; background: var(--ink-dim); border: 1px solid var(--ink-border); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.pwa-point-title { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.pwa-point-desc { font-size: .8rem; color: var(--text-2); line-height: 1.5; }
 
-.pwa-stat-val {
-  font-family: var(--mono);
-  font-size: 0.9rem;
-  color: var(--ink);
-  font-weight: 700;
-  display: block;
-}
-
-.pwa-stat-label {
-  font-size: 0.67rem;
-  color: var(--text-3);
-  display: block;
-  margin-top: 2px;
-}
-
-.pwa-points {
-  display: flex; flex-direction: column; gap: 16px;
-}
-
-.pwa-point {
-  display: flex; align-items: flex-start; gap: 14px;
-}
-
-.pwa-point-icon {
-  width: 36px; height: 36px;
-  background: var(--ink-dim);
-  border: 1px solid var(--ink-border);
-  border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.pwa-point-title {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 3px;
-}
-
-.pwa-point-desc {
-  font-size: 0.8rem;
-  color: var(--text-2);
-  line-height: 1.5;
-}
-
-/* ═══════════════════════════════════════════
-   SOBRE O CRIADOR — bloco sutil
-═══════════════════════════════════════════ */
-.creator {
-  padding: 80px 0;
-  border-top: 1px solid var(--border);
-}
-
+/* ── CREATOR ─────────────────────────────── */
+.creator { padding: 80px 0; border-top: 1px solid var(--border); }
 .creator-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 36px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px 40px;
 }
-
-.creator-bio {
-  flex: 1;
-  min-width: 240px;
-}
-
-.creator-name {
-  font-family: var(--serif);
-  font-size: 1.35rem;
-  color: var(--text);
-  margin-bottom: 6px;
-  letter-spacing: -0.01em;
-}
-.creator-name a {
-  color: var(--ink);
-  text-decoration: none;
-  transition: color 0.15s;
-}
+.creator-bio { flex: 1; min-width: 240px; }
+.creator-name { font-family: var(--serif); font-size: 1.35rem; color: var(--text); margin-bottom: 6px; letter-spacing: -.01em; }
+.creator-name a { color: var(--ink); text-decoration: none; transition: color .15s; }
 .creator-name a:hover { color: var(--ink-hi); }
-
-.creator-role {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 14px;
-}
-
-.creator-desc {
-  font-size: 0.85rem;
-  color: var(--text-2);
-  line-height: 1.65;
-  max-width: 400px;
-}
-
-.creator-socials {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
+.creator-role { font-family: var(--mono); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+.creator-desc { font-size: .85rem; color: var(--text-2); line-height: 1.65; max-width: 400px; }
+.creator-socials { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
 .creator-social-link {
   display: flex; align-items: center; gap: 7px;
-  padding: 8px 14px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text-2);
-  text-decoration: none;
-  font-size: 0.78rem;
-  transition: all 0.15s;
-  white-space: nowrap;
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text-2); text-decoration: none; font-size: .78rem;
+  transition: all .15s; white-space: nowrap;
 }
-.creator-social-link svg {
-  width: 14px; height: 14px;
-  fill: currentColor;
-  flex-shrink: 0;
-}
-.creator-social-link:hover {
-  color: var(--ink-hi);
-  border-color: var(--ink-border);
-  background: var(--ink-dim);
-}
+.creator-social-link svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+.creator-social-link:hover { color: var(--ink-hi); border-color: var(--ink-border); background: var(--ink-dim); }
 
-/* ═══════════════════════════════════════════
-   CTA FINAL
-═══════════════════════════════════════════ */
-.cta-final {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
-  text-align: center;
-}
-
+/* ── CTA FINAL ───────────────────────────── */
+.cta-final { padding: 100px 0; border-top: 1px solid var(--border); text-align: center; }
 .cta-final-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: clamp(40px, 7vw, 80px) clamp(24px, 6vw, 80px);
-  max-width: 680px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  padding: clamp(40px,7vw,80px) clamp(24px,6vw,80px);
+  max-width: 680px; margin: 0 auto; position: relative; overflow: hidden;
 }
-
 .cta-final-box::before {
-  content: '';
-  position: absolute;
-  top: -100px; left: 50%;
-  transform: translateX(-50%);
+  content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
   width: 400px; height: 300px;
-  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
-  pointer-events: none;
+  background: radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 70%); pointer-events: none;
 }
-
-.cta-final-icon {
-  font-size: 2.8rem;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.cta-final-h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 500;
-  line-height: 1.15;
-  color: var(--text);
-  margin-bottom: 12px;
-  letter-spacing: -0.02em;
-}
-
-.cta-final-h2 em {
-  font-style: italic;
-  color: var(--ink);
-}
-
-.cta-final-desc {
-  font-size: 0.92rem;
-  color: var(--text-2);
-  margin-bottom: 36px;
-  line-height: 1.65;
-}
-
-.cta-final-btns {
-  display: flex; align-items: center; justify-content: center;
-  gap: 12px; flex-wrap: wrap;
-  margin-bottom: 28px;
-}
-
-.cta-note {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  color: var(--text-3);
-}
-.cta-note a {
-  color: var(--ink);
-  text-decoration: none;
-  transition: color 0.15s;
-}
+.cta-final-icon { font-size: 2.8rem; margin-bottom: 20px; display: block; }
+.cta-final-h2 { font-family: var(--serif); font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 500; line-height: 1.15; color: var(--text); margin-bottom: 12px; letter-spacing: -.02em; }
+.cta-final-h2 em { font-style: italic; color: var(--ink); }
+.cta-final-desc { font-size: .92rem; color: var(--text-2); margin-bottom: 36px; line-height: 1.65; }
+.cta-final-btns { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+.cta-note { font-family: var(--mono); font-size: .62rem; letter-spacing: .08em; color: var(--text-3); }
+.cta-note a { color: var(--ink); text-decoration: none; transition: color .15s; }
 .cta-note a:hover { color: var(--ink-hi); }
 
-/* ═══════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════ */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 40px clamp(16px,5vw,48px);
-}
-
-.footer-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer-logo {
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none;
-}
-
-.footer-logo-text {
-  font-family: var(--serif);
-  font-size: 1.1rem;
-  color: var(--ink);
-}
-
-.footer-copy {
-  font-size: 0.75rem;
-  color: var(--text-3);
-  line-height: 1.5;
-}
-
-.footer-links {
-  display: flex; align-items: center; gap: 16px;
-}
-
-.footer-link {
-  display: flex; align-items: center; gap: 6px;
-  color: var(--text-2);
-  text-decoration: none;
-  font-size: 0.8rem;
-  transition: color 0.15s;
-}
+/* ── FOOTER ──────────────────────────────── */
+footer { border-top: 1px solid var(--border); padding: 40px clamp(16px,5vw,48px); }
+.footer-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.footer-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.footer-logo-text { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); }
+.footer-copy { font-size: .75rem; color: var(--text-3); line-height: 1.5; }
+.footer-links { display: flex; align-items: center; gap: 16px; }
+.footer-link { display: flex; align-items: center; gap: 6px; color: var(--text-2); text-decoration: none; font-size: .8rem; transition: color .15s; }
 .footer-link:hover { color: var(--ink); }
 .footer-link svg { width: 15px; height: 15px; fill: currentColor; }
+.footer-sep { color: var(--border-hi); }
 
-.footer-sep {
-  color: var(--border-hi);
-}
+/* ── ANIMATIONS ──────────────────────────── */
+@keyframes fadeDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-/* ═══════════════════════════════════════════
-   ANIMATIONS
-═══════════════════════════════════════════ */
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ═══════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════ */
+/* ── RESPONSIVE ──────────────────────────── */
 @media (max-width: 780px) {
-  .af-inner,
-  .pwa-inner,
-  .export-inner {
-    grid-template-columns: 1fr;
-  }
-  .pipeline-step .p-label {
-    display: none;
-  }
-  .creator-inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  .af-inner, .pwa-inner, .export-inner { grid-template-columns: 1fr; }
+  .pipeline-step .p-label { display: none; }
+  .creator-inner { flex-direction: column; align-items: flex-start; }
 }
-
 @media (max-width: 640px) {
-  .hdr-links { display: none; }
   .hero-pipeline { display: none; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .creator-socials { flex-wrap: wrap; }
 }
-
 @media (max-width: 400px) {
   .feat-grid { grid-template-columns: 1fr; }
 }
-
-@media print {
-  header, footer, .cta-final { display: none; }
-}
+@media print { header, footer, .cta-final { display: none; } }
 </style>
 </head>
 <body>
@@ -1098,31 +411,18 @@ footer {
   </a>
 
   <div class="hdr-right">
-    <div class="hdr-links" aria-label="Redes sociais do criador">
-      <!-- Instagram -->
-      <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer"
-         class="hdr-link" aria-label="Instagram @aletordev" title="Instagram @aletordev">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </a>
-      <!-- YouTube -->
-      <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer"
-         class="hdr-link" aria-label="YouTube @aletordev" title="YouTube @aletordev">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      </a>
-      <!-- LinkedIn -->
-      <a href="https://linkedin.com/in/alexandreatorres" target="_blank" rel="noopener noreferrer"
-         class="hdr-link" aria-label="LinkedIn de Alexandre Torres" title="LinkedIn">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <!-- WhatsApp -->
-      <a href="https://wa.me/5527996252050" target="_blank" rel="noopener noreferrer"
-         class="hdr-link" aria-label="WhatsApp de Alexandre Torres" title="WhatsApp">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
+    <!-- Language Switcher -->
+    <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
+      <button class="lang-btn" data-lang="pt" aria-label="Português">PT</button>
+      <span class="lang-sep" aria-hidden="true">·</span>
+      <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+      <span class="lang-sep" aria-hidden="true">·</span>
+      <button class="lang-btn" data-lang="es" aria-label="Español">ES</button>
     </div>
 
     <a href="https://aletoapp.github.io/docform/" class="btn-app" aria-label="Abrir o DocForm">
-      <span aria-hidden="true">⚖</span> Abrir App
+      <span aria-hidden="true">⚖</span>
+      <span data-i18n="nav.cta">Abrir App</span>
     </a>
   </div>
 </header>
@@ -1131,54 +431,41 @@ footer {
 <main>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-inner">
-      <span class="hero-badge" role="status" aria-live="polite">
+      <span class="hero-badge" role="status">
         <span class="hero-badge-dot" aria-hidden="true"></span>
-        PWA gratuita · funciona offline · sem login
+        <span data-i18n="hero.badge">PWA gratuita · funciona offline · sem login</span>
       </span>
 
-      <h1 class="hero-h1" id="hero-title">
+      <h1 class="hero-h1" id="hero-title" data-i18n-html="hero.h1">
         Cole o texto.<br>
         O documento <em>pronto</em><br>
         vem por nossa conta.
       </h1>
 
-      <p class="hero-sub">
-        Transforme qualquer texto gerado por IA em contratos, currículos e documentos jurídicos
-        formatados — prontos para impressão ou assinatura digital via Gov.br.
+      <p class="hero-sub" data-i18n="hero.sub">
+        Transforme qualquer texto gerado por IA em contratos, currículos e documentos jurídicos formatados — prontos para impressão ou assinatura digital via Gov.br.
       </p>
 
       <div class="hero-ctas">
-        <a href="https://aletoapp.github.io/docform/" class="cta-primary" aria-label="Formatar documento agora">
-          <span aria-hidden="true">⚖</span> Formatar Documento
+        <a href="https://aletoapp.github.io/docform/" class="cta-primary">
+          <span aria-hidden="true">⚖</span>
+          <span data-i18n="hero.cta1">Formatar Documento</span>
         </a>
-        <!-- ── NOVO: botão Página do Desenvolvedor ── -->
-        <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer"
-           class="cta-dev" aria-label="Visitar página do desenvolvedor Alexandre Torres">
-          Página do Desenvolvedor
+        <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" class="cta-dev">
+          <span data-i18n="hero.cta2">Página do Desenvolvedor</span>
           <span class="cta-dev-arrow" aria-hidden="true">↗</span>
         </a>
-        <a href="#como-funciona" class="cta-secondary" aria-label="Ver como o DocForm funciona">
-          <span aria-hidden="true">▾</span> Como funciona
+        <a href="#como-funciona" class="cta-secondary">
+          <span aria-hidden="true">▾</span>
+          <span data-i18n="hero.cta3">Como funciona</span>
         </a>
       </div>
 
-      <div class="hero-pipeline" role="presentation" aria-label="Fluxo de uso do DocForm">
-        <div class="pipeline-step">
-          <span class="p-icon" aria-hidden="true">📋</span>
-          <span class="p-label">Cole o texto</span>
-        </div>
-        <div class="pipeline-step">
-          <span class="p-icon" aria-hidden="true">🧠</span>
-          <span class="p-label">Auto-detecta o tipo</span>
-        </div>
-        <div class="pipeline-step">
-          <span class="p-icon" aria-hidden="true">✍️</span>
-          <span class="p-label">Preenche o cabeçalho</span>
-        </div>
-        <div class="pipeline-step">
-          <span class="p-icon" aria-hidden="true">📄</span>
-          <span class="p-label">Gera o PDF</span>
-        </div>
+      <div class="hero-pipeline" role="presentation">
+        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">📋</span><span class="p-label" data-i18n="pipe.1">Cole o texto</span></div>
+        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">🧠</span><span class="p-label" data-i18n="pipe.2">Auto-detecta o tipo</span></div>
+        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">✍️</span><span class="p-label" data-i18n="pipe.3">Preenche o cabeçalho</span></div>
+        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">📄</span><span class="p-label" data-i18n="pipe.4">Gera o PDF</span></div>
       </div>
     </div>
   </section>
@@ -1187,48 +474,34 @@ footer {
   <section class="como-funciona" id="como-funciona" aria-labelledby="cf-title">
     <div class="section-wrap">
       <div class="cf-header reveal">
-        <span class="section-label" aria-hidden="true">// processo</span>
-        <h2 class="section-h2" id="cf-title">
-          Quatro passos.<br>
-          Um documento <em>impecável.</em>
-        </h2>
-        <p class="section-desc">
-          Sem templates vagos, sem formatação manual, sem horas perdidas com espaçamentos. O DocForm entende o que você colou e faz o resto.
-        </p>
+        <span class="section-label" data-i18n="cf.label">// processo</span>
+        <h2 class="section-h2" id="cf-title" data-i18n-html="cf.h2">Quatro passos.<br>Um documento <em>impecável.</em></h2>
+        <p class="section-desc" data-i18n="cf.desc">Sem templates vagos, sem formatação manual, sem horas perdidas com espaçamentos. O DocForm entende o que você colou e faz o resto.</p>
       </div>
-
       <div class="cf-steps reveal">
         <div class="cf-step">
           <span class="cf-step-num" aria-hidden="true">01</span>
           <span class="cf-step-icon" aria-hidden="true">📋</span>
-          <div class="cf-step-title">Cole o texto</div>
-          <p class="cf-step-desc">
-            Cole o contrato, e-mail ou currículo gerado por qualquer IA diretamente na área de texto do DocForm.
-          </p>
+          <div class="cf-step-title" data-i18n="cf.s1.title">Cole o texto</div>
+          <p class="cf-step-desc" data-i18n="cf.s1.desc">Cole o contrato, e-mail ou currículo gerado por qualquer IA diretamente na área de texto do DocForm.</p>
         </div>
         <div class="cf-step">
           <span class="cf-step-num" aria-hidden="true">02</span>
           <span class="cf-step-icon" aria-hidden="true">🧠</span>
-          <div class="cf-step-title">Auto-detecção</div>
-          <p class="cf-step-desc">
-            O motor inteligente identifica o tipo de documento por fingerprint de palavras-chave com score de confiança.
-          </p>
+          <div class="cf-step-title" data-i18n="cf.s2.title">Auto-detecção</div>
+          <p class="cf-step-desc" data-i18n="cf.s2.desc">O motor inteligente identifica o tipo de documento por fingerprint de palavras-chave com score de confiança.</p>
         </div>
         <div class="cf-step">
           <span class="cf-step-num" aria-hidden="true">03</span>
           <span class="cf-step-icon" aria-hidden="true">✍️</span>
-          <div class="cf-step-title">Auto-fill do cabeçalho</div>
-          <p class="cf-step-desc">
-            Título, cidade, data, partes e número de contrato são extraídos e preenchidos automaticamente, sem sobrescrever o que você já digitou.
-          </p>
+          <div class="cf-step-title" data-i18n="cf.s3.title">Auto-fill do cabeçalho</div>
+          <p class="cf-step-desc" data-i18n="cf.s3.desc">Título, cidade, data, partes e número de contrato são extraídos e preenchidos automaticamente, sem sobrescrever o que você já digitou.</p>
         </div>
         <div class="cf-step">
           <span class="cf-step-num" aria-hidden="true">04</span>
           <span class="cf-step-icon" aria-hidden="true">📄</span>
-          <div class="cf-step-title">Exporte PDF ou DOCX</div>
-          <p class="cf-step-desc">
-            Gere o documento com margens jurídicas padrão OAB/Tribunais, paginação e logotipo — direto no browser, sem servidor.
-          </p>
+          <div class="cf-step-title" data-i18n="cf.s4.title">Exporte PDF ou DOCX</div>
+          <p class="cf-step-desc" data-i18n="cf.s4.desc">Gere o documento com margens jurídicas padrão OAB/Tribunais, paginação e logotipo — direto no browser, sem servidor.</p>
         </div>
       </div>
     </div>
@@ -1238,44 +511,16 @@ footer {
   <section class="features" id="funcionalidades" aria-labelledby="feat-title">
     <div class="section-wrap">
       <div class="feat-header reveal">
-        <span class="section-label" aria-hidden="true">// funcionalidades</span>
-        <h2 class="section-h2" id="feat-title">
-          Tudo que um documento<br>
-          profissional <em>precisa.</em>
-        </h2>
+        <span class="section-label" data-i18n="feat.label">// funcionalidades</span>
+        <h2 class="section-h2" id="feat-title" data-i18n-html="feat.h2">Tudo que um documento<br>profissional <em>precisa.</em></h2>
       </div>
-
       <div class="feat-grid reveal">
-        <div class="feat-card">
-          <span class="feat-icon" aria-hidden="true">📝</span>
-          <div class="feat-title">Formatador de Contratos</div>
-          <p class="feat-desc">12 presets jurídicos prontos: aluguel, prestação de serviços, NDA, compra e venda, CLT, freelance, empréstimo e mais.</p>
-        </div>
-        <div class="feat-card">
-          <span class="feat-icon" aria-hidden="true">👤</span>
-          <div class="feat-title">Gerador de Currículo 2026</div>
-          <p class="feat-desc">Formulário completo com foto, experiências, formação, idiomas e habilidades. Campos vazios não aparecem no PDF.</p>
-        </div>
-        <div class="feat-card">
-          <span class="feat-icon" aria-hidden="true">📧</span>
-          <div class="feat-title">E-mail Formal</div>
-          <p class="feat-desc">Formatação corporativa com cabeçalho, corpo e assinatura estruturados. Exportação PDF e DOCX em segundos.</p>
-        </div>
-        <div class="feat-card">
-          <span class="feat-icon" aria-hidden="true">🖋️</span>
-          <div class="feat-title">Assinatura Digital</div>
-          <p class="feat-desc">Opções de assinatura via Gov.br e ICP-Brasil com campo de testemunhas configurável.</p>
-        </div>
-        <div class="feat-card">
-          <span class="feat-icon" aria-hidden="true">🔒</span>
-          <div class="feat-title">100% Privado</div>
-          <p class="feat-desc">Nenhum texto sai do seu dispositivo. Sem backend, sem banco de dados, sem login. Processamento inteiramente no browser.</p>
-        </div>
-        <div class="feat-card">
-          <span class="feat-icon" aria-hidden="true">🏷️</span>
-          <div class="feat-title">Marca d'água e Logotipo</div>
-          <p class="feat-desc">Insira seu logotipo no cabeçalho e configure marca d'água personalizada (PNG, JPG ou SVG) no documento.</p>
-        </div>
+        <div class="feat-card"><span class="feat-icon" aria-hidden="true">📝</span><div class="feat-title" data-i18n="feat.1.title">Formatador de Contratos</div><p class="feat-desc" data-i18n="feat.1.desc">12 presets jurídicos prontos: aluguel, prestação de serviços, NDA, compra e venda, CLT, freelance, empréstimo e mais.</p></div>
+        <div class="feat-card"><span class="feat-icon" aria-hidden="true">👤</span><div class="feat-title" data-i18n="feat.2.title">Gerador de Currículo 2026</div><p class="feat-desc" data-i18n="feat.2.desc">Formulário completo com foto, experiências, formação, idiomas e habilidades. Campos vazios não aparecem no PDF.</p></div>
+        <div class="feat-card"><span class="feat-icon" aria-hidden="true">📧</span><div class="feat-title" data-i18n="feat.3.title">E-mail Formal</div><p class="feat-desc" data-i18n="feat.3.desc">Formatação corporativa com cabeçalho, corpo e assinatura estruturados. Exportação PDF e DOCX em segundos.</p></div>
+        <div class="feat-card"><span class="feat-icon" aria-hidden="true">🖋️</span><div class="feat-title" data-i18n="feat.4.title">Assinatura Digital</div><p class="feat-desc" data-i18n="feat.4.desc">Opções de assinatura via Gov.br e ICP-Brasil com campo de testemunhas configurável.</p></div>
+        <div class="feat-card"><span class="feat-icon" aria-hidden="true">🔒</span><div class="feat-title" data-i18n="feat.5.title">100% Privado</div><p class="feat-desc" data-i18n="feat.5.desc">Nenhum texto sai do seu dispositivo. Sem backend, sem banco de dados, sem login. Processamento inteiramente no browser.</p></div>
+        <div class="feat-card"><span class="feat-icon" aria-hidden="true">🏷️</span><div class="feat-title" data-i18n="feat.6.title">Marca d'água e Logotipo</div><p class="feat-desc" data-i18n="feat.6.desc">Insira seu logotipo no cabeçalho e configure marca d'água personalizada (PNG, JPG ou SVG) no documento.</p></div>
       </div>
     </div>
   </section>
@@ -1284,104 +529,52 @@ footer {
   <section class="presets" id="presets" aria-labelledby="presets-title">
     <div class="section-wrap">
       <div class="presets-header reveal">
-        <span class="section-label" aria-hidden="true">// presets jurídicos</span>
-        <h2 class="section-h2" id="presets-title">
-          12 modelos prontos.<br>
-          <em>Zero</em> formatação manual.
-        </h2>
-        <p class="section-desc" style="margin-bottom:32px;">
-          Cada preset segue as normas da OAB e dos Tribunais brasileiros — margens, espaçamentos, numeração de cláusulas e paginação configurados por padrão.
-        </p>
+        <span class="section-label" data-i18n="presets.label">// presets jurídicos</span>
+        <h2 class="section-h2" id="presets-title" data-i18n-html="presets.h2">12 modelos prontos.<br><em>Zero</em> formatação manual.</h2>
+        <p class="section-desc" style="margin-bottom:32px;" data-i18n="presets.desc">Cada preset segue as normas da OAB e dos Tribunais brasileiros — margens, espaçamentos, numeração de cláusulas e paginação configurados por padrão.</p>
       </div>
-
-      <div class="presets-grid reveal" role="list" aria-label="Presets de documentos disponíveis">
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🏠</span> Aluguel Residencial</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🏢</span> Aluguel Comercial</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💼</span> Prestação de Serviços</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🔒</span> NDA / Confidencialidade</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🤝</span> Compra e Venda</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">👷</span> Contrato CLT</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💻</span> Contrato Freelance</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💰</span> Contrato de Empréstimo</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🤲</span> Parceria Comercial</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📜</span> Procuração</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📋</span> Declaração</div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📝</span> Ata de Reunião</div>
+      <div class="presets-grid reveal" role="list">
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🏠</span><span data-i18n="preset.1">Aluguel Residencial</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🏢</span><span data-i18n="preset.2">Aluguel Comercial</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💼</span><span data-i18n="preset.3">Prestação de Serviços</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🔒</span><span data-i18n="preset.4">NDA / Confidencialidade</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🤝</span><span data-i18n="preset.5">Compra e Venda</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">👷</span><span data-i18n="preset.6">Contrato CLT</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💻</span><span data-i18n="preset.7">Contrato Freelance</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💰</span><span data-i18n="preset.8">Contrato de Empréstimo</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🤲</span><span data-i18n="preset.9">Parceria Comercial</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📜</span><span data-i18n="preset.10">Procuração</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📋</span><span data-i18n="preset.11">Declaração</span></div>
+        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📝</span><span data-i18n="preset.12">Ata de Reunião</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ AUTO-FILL ENGINE ══════════════════════════════════════════ -->
+  <!-- ═══ AUTO-FILL ══════════════════════════════════════════════════ -->
   <section class="autofill" id="auto-fill" aria-labelledby="af-title">
     <div class="section-wrap">
       <div class="af-inner">
         <div class="reveal">
-          <span class="section-label" aria-hidden="true">// auto-fill engine</span>
-          <h2 class="section-h2" id="af-title">
-            O sistema entende<br>
-            o texto. <em>Você revisa.</em>
-          </h2>
+          <span class="section-label" data-i18n="af.label">// auto-fill engine</span>
+          <h2 class="section-h2" id="af-title" data-i18n-html="af.h2">O sistema entende<br>o texto. <em>Você revisa.</em></h2>
           <div class="af-text">
-            <p class="section-desc" style="margin-bottom:20px;">
-              Ao colar o texto, o motor analisa e extrai automaticamente os campos essenciais do documento — com indicação de confiança para cada campo.
-            </p>
+            <p class="section-desc" style="margin-bottom:20px;" data-i18n="af.desc">Ao colar o texto, o motor analisa e extrai automaticamente os campos essenciais do documento — com indicação de confiança para cada campo.</p>
           </div>
           <div class="af-highlights">
-            <div class="af-hi-item">
-              <span class="af-hi-icon" aria-hidden="true">⚡</span>
-              <span>Extração em tempo real enquanto você digita ou cola o texto.</span>
-            </div>
-            <div class="af-hi-item">
-              <span class="af-hi-icon" aria-hidden="true">🛡️</span>
-              <span>Nunca sobrescreve dados já digitados pelo usuário.</span>
-            </div>
-            <div class="af-hi-item">
-              <span class="af-hi-icon" aria-hidden="true">✨</span>
-              <span>Flash visual nos campos preenchidos com percentual de confiança.</span>
-            </div>
-            <div class="af-hi-item">
-              <span class="af-hi-icon" aria-hidden="true">🎯</span>
-              <span>Thresholds configuráveis: sugestão a 35%, aplicação automática a 60%.</span>
-            </div>
+            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">⚡</span><span data-i18n="af.hi1">Extração em tempo real enquanto você digita ou cola o texto.</span></div>
+            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">🛡️</span><span data-i18n="af.hi2">Nunca sobrescreve dados já digitados pelo usuário.</span></div>
+            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">✨</span><span data-i18n="af.hi3">Flash visual nos campos preenchidos com percentual de confiança.</span></div>
+            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">🎯</span><span data-i18n="af.hi4">Thresholds configuráveis: sugestão a 35%, aplicação automática a 60%.</span></div>
           </div>
         </div>
-
-        <div class="af-fields reveal" role="table" aria-label="Exemplo de campos auto-preenchidos pelo DocForm">
-          <div class="af-field-row af-glow" role="row">
-            <span class="af-field-label" role="cell">Título</span>
-            <span class="af-field-value" role="cell">CONTRATO DE PRESTAÇÃO DE SERVIÇOS</span>
-            <span class="af-confidence" role="cell" aria-label="90% de confiança">90%</span>
-          </div>
-          <div class="af-field-row af-glow" role="row">
-            <span class="af-field-label" role="cell">Cidade</span>
-            <span class="af-field-value" role="cell">Vila Velha – ES</span>
-            <span class="af-confidence" role="cell" aria-label="88% de confiança">88%</span>
-          </div>
-          <div class="af-field-row af-glow" role="row">
-            <span class="af-field-label" role="cell">Data</span>
-            <span class="af-field-value" role="cell">03 de abril de 2026</span>
-            <span class="af-confidence" role="cell" aria-label="85% de confiança">85%</span>
-          </div>
-          <div class="af-field-row af-glow" role="row">
-            <span class="af-field-label" role="cell">Nº / Ref.</span>
-            <span class="af-field-value" role="cell">Nº 012/2026</span>
-            <span class="af-confidence" role="cell" aria-label="80% de confiança">80%</span>
-          </div>
-          <div class="af-field-row af-glow" role="row">
-            <span class="af-field-label" role="cell">Contratante</span>
-            <span class="af-field-value" role="cell">João da Silva Santos</span>
-            <span class="af-confidence" role="cell" aria-label="82% de confiança">82%</span>
-          </div>
-          <div class="af-field-row af-glow" role="row">
-            <span class="af-field-label" role="cell">Contratado</span>
-            <span class="af-field-value" role="cell">Alexandre Torres</span>
-            <span class="af-confidence" role="cell" aria-label="82% de confiança">82%</span>
-          </div>
-          <div class="af-field-row" role="row" style="justify-content:center;">
-            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--ok);letter-spacing:0.08em;">
-              ✓ 6 campos preenchidos automaticamente
-            </span>
-          </div>
+        <div class="af-fields reveal" role="table">
+          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.title">Título</span><span class="af-field-value" role="cell">CONTRATO DE PRESTAÇÃO DE SERVIÇOS</span><span class="af-confidence" role="cell">90%</span></div>
+          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.city">Cidade</span><span class="af-field-value" role="cell">Vila Velha – ES</span><span class="af-confidence" role="cell">88%</span></div>
+          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.date">Data</span><span class="af-field-value" role="cell">03 de abril de 2026</span><span class="af-confidence" role="cell">85%</span></div>
+          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.ref">Nº / Ref.</span><span class="af-field-value" role="cell">Nº 012/2026</span><span class="af-confidence" role="cell">80%</span></div>
+          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.client">Contratante</span><span class="af-field-value" role="cell">João da Silva Santos</span><span class="af-confidence" role="cell">82%</span></div>
+          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.provider">Contratado</span><span class="af-field-value" role="cell">Alexandre Torres</span><span class="af-confidence" role="cell">82%</span></div>
+          <div class="af-field-row" role="row" style="justify-content:center;"><span style="font-family:var(--mono);font-size:.65rem;color:var(--ok);letter-spacing:.08em;" data-i18n="af.done">✓ 6 campos preenchidos automaticamente</span></div>
         </div>
       </div>
     </div>
@@ -1391,46 +584,35 @@ footer {
   <section class="export" id="exportacao" aria-labelledby="export-title">
     <div class="section-wrap">
       <div class="reveal" style="margin-bottom:48px;">
-        <span class="section-label" aria-hidden="true">// exportação</span>
-        <h2 class="section-h2" id="export-title">
-          PDF vetorial.<br>
-          DOCX <em>real.</em>
-        </h2>
-        <p class="section-desc">
-          Dois formatos profissionais gerados diretamente no seu browser — sem servidor, sem upload, sem espera.
-        </p>
+        <span class="section-label" data-i18n="export.label">// exportação</span>
+        <h2 class="section-h2" id="export-title" data-i18n-html="export.h2">PDF vetorial.<br>DOCX <em>real.</em></h2>
+        <p class="section-desc" data-i18n="export.desc">Dois formatos profissionais gerados diretamente no seu browser — sem servidor, sem upload, sem espera.</p>
       </div>
-
       <div class="export-inner reveal">
-        <div class="export-card" role="article" aria-labelledby="pdf-title">
-          <span class="export-ext pdf" aria-label="Formato PDF">.PDF</span>
-          <div class="export-title" id="pdf-title">Documento vetorial para impressão</div>
-          <p class="export-desc">
-            Gerado com jsPDF, multi-página automático com fontes embutidas — sem granulação, sem distorção.
-          </p>
-          <ul class="export-feats" aria-label="Recursos do PDF">
-            <li class="export-feat">Margens jurídicas padrão OAB/Tribunais (30×20×20×20 mm)</li>
-            <li class="export-feat">Multi-página com paginação automática</li>
-            <li class="export-feat">Marca d'água posicionável (centro, cantos)</li>
-            <li class="export-feat">Logotipo no cabeçalho</li>
-            <li class="export-feat">Pronto para assinatura digital Gov.br / ICP-Brasil</li>
-            <li class="export-feat">Funciona 100% offline após a primeira visita</li>
+        <div class="export-card">
+          <span class="export-ext pdf">.PDF</span>
+          <div class="export-title" data-i18n="export.pdf.title">Documento vetorial para impressão</div>
+          <p class="export-desc" data-i18n="export.pdf.desc">Gerado com jsPDF, multi-página automático com fontes embutidas — sem granulação, sem distorção.</p>
+          <ul class="export-feats">
+            <li class="export-feat" data-i18n="export.pdf.f1">Margens jurídicas padrão OAB/Tribunais (30×20×20×20 mm)</li>
+            <li class="export-feat" data-i18n="export.pdf.f2">Multi-página com paginação automática</li>
+            <li class="export-feat" data-i18n="export.pdf.f3">Marca d'água posicionável (centro, cantos)</li>
+            <li class="export-feat" data-i18n="export.pdf.f4">Logotipo no cabeçalho</li>
+            <li class="export-feat" data-i18n="export.pdf.f5">Pronto para assinatura digital Gov.br / ICP-Brasil</li>
+            <li class="export-feat" data-i18n="export.pdf.f6">Funciona 100% offline após a primeira visita</li>
           </ul>
         </div>
-
-        <div class="export-card" role="article" aria-labelledby="docx-title">
-          <span class="export-ext docx" aria-label="Formato DOCX">.DOCX</span>
-          <div class="export-title" id="docx-title">Word real, editável em qualquer lugar</div>
-          <p class="export-desc">
-            Gerado com docx.js — compatível com Microsoft Word, LibreOffice e Google Docs.
-          </p>
-          <ul class="export-feats" aria-label="Recursos do DOCX">
-            <li class="export-feat">Estilos de parágrafo e tab stops preservados</li>
-            <li class="export-feat">Hierarquia de títulos estruturada</li>
-            <li class="export-feat">Compatível com Word, LibreOffice e Google Docs</li>
-            <li class="export-feat">Disponível para contratos, currículo e e-mail formal</li>
-            <li class="export-feat">Download instantâneo via FileSaver.js</li>
-            <li class="export-feat">Editável após exportação</li>
+        <div class="export-card">
+          <span class="export-ext docx">.DOCX</span>
+          <div class="export-title" data-i18n="export.docx.title">Word real, editável em qualquer lugar</div>
+          <p class="export-desc" data-i18n="export.docx.desc">Gerado com docx.js — compatível com Microsoft Word, LibreOffice e Google Docs.</p>
+          <ul class="export-feats">
+            <li class="export-feat" data-i18n="export.docx.f1">Estilos de parágrafo e tab stops preservados</li>
+            <li class="export-feat" data-i18n="export.docx.f2">Hierarquia de títulos estruturada</li>
+            <li class="export-feat" data-i18n="export.docx.f3">Compatível com Word, LibreOffice e Google Docs</li>
+            <li class="export-feat" data-i18n="export.docx.f4">Disponível para contratos, currículo e e-mail formal</li>
+            <li class="export-feat" data-i18n="export.docx.f5">Download instantâneo via FileSaver.js</li>
+            <li class="export-feat" data-i18n="export.docx.f6">Editável após exportação</li>
           </ul>
         </div>
       </div>
@@ -1441,96 +623,56 @@ footer {
   <section class="pwa" id="app" aria-labelledby="pwa-title">
     <div class="section-wrap">
       <div class="pwa-inner">
-        <div class="pwa-visual reveal" role="presentation" aria-label="Informações do DocForm como app">
+        <div class="pwa-visual reveal">
           <div class="pwa-icon-wrap" aria-hidden="true">⚖</div>
           <div class="pwa-visual-title">DocForm</div>
           <div class="pwa-visual-sub">Progressive Web App</div>
-          <div class="pwa-visual-stats" role="list" aria-label="Métricas do DocForm">
-            <div class="pwa-stat" role="listitem">
-              <span class="pwa-stat-val">≥ 90</span>
-              <span class="pwa-stat-label">Lighthouse PWA</span>
-            </div>
-            <div class="pwa-stat" role="listitem">
-              <span class="pwa-stat-val">offline</span>
-              <span class="pwa-stat-label">Funciona sem rede</span>
-            </div>
-            <div class="pwa-stat" role="listitem">
-              <span class="pwa-stat-val">0 KB</span>
-              <span class="pwa-stat-label">Dados enviados</span>
-            </div>
+          <div class="pwa-visual-stats">
+            <div class="pwa-stat"><span class="pwa-stat-val">≥ 90</span><span class="pwa-stat-label">Lighthouse</span></div>
+            <div class="pwa-stat"><span class="pwa-stat-val">offline</span><span class="pwa-stat-label" data-i18n="pwa.stat.offline">Sem rede</span></div>
+            <div class="pwa-stat"><span class="pwa-stat-val">0 KB</span><span class="pwa-stat-label" data-i18n="pwa.stat.data">Dados enviados</span></div>
           </div>
         </div>
-
         <div class="reveal">
-          <span class="section-label" aria-hidden="true">// pwa instalável</span>
-          <h2 class="section-h2" id="pwa-title">
-            Instale como app.<br>
-            Use <em>offline.</em>
-          </h2>
+          <span class="section-label" data-i18n="pwa.label">// pwa instalável</span>
+          <h2 class="section-h2" id="pwa-title" data-i18n-html="pwa.h2">Instale como app.<br>Use <em>offline.</em></h2>
           <div class="pwa-points">
-            <div class="pwa-point">
-              <div class="pwa-point-icon" aria-hidden="true">📲</div>
-              <div>
-                <div class="pwa-point-title">Android e desktop</div>
-                <p class="pwa-point-desc">Instalável no Android via Chrome e no desktop via Chrome ou Edge. Ícone na tela inicial, abre sem barra do browser.</p>
-              </div>
-            </div>
-            <div class="pwa-point">
-              <div class="pwa-point-icon" aria-hidden="true">📶</div>
-              <div>
-                <div class="pwa-point-title">Offline completo</div>
-                <p class="pwa-point-desc">Service Worker com estratégia híbrida: HTML via Network First, CSS/JS via Stale While Revalidate, assets via Cache First.</p>
-              </div>
-            </div>
-            <div class="pwa-point">
-              <div class="pwa-point-icon" aria-hidden="true">⚡</div>
-              <div>
-                <div class="pwa-point-title">Atalhos nativos</div>
-                <p class="pwa-point-desc">Segure o ícone no Android e acesse direto o Formatador de Documentos ou o Gerador de Currículo.</p>
-              </div>
-            </div>
-            <div class="pwa-point">
-              <div class="pwa-point-icon" aria-hidden="true">🔄</div>
-              <div>
-                <div class="pwa-point-title">Atualização automática</div>
-                <p class="pwa-point-desc">Nova versão disponível? Um toast avisa discretamente e você decide quando recarregar.</p>
-              </div>
-            </div>
+            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">📲</div><div><div class="pwa-point-title" data-i18n="pwa.p1.title">Android e desktop</div><p class="pwa-point-desc" data-i18n="pwa.p1.desc">Instalável no Android via Chrome e no desktop via Chrome ou Edge. Ícone na tela inicial, abre sem barra do browser.</p></div></div>
+            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">📶</div><div><div class="pwa-point-title" data-i18n="pwa.p2.title">Offline completo</div><p class="pwa-point-desc" data-i18n="pwa.p2.desc">Service Worker com estratégia híbrida: HTML via Network First, CSS/JS via Stale While Revalidate, assets via Cache First.</p></div></div>
+            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">⚡</div><div><div class="pwa-point-title" data-i18n="pwa.p3.title">Atalhos nativos</div><p class="pwa-point-desc" data-i18n="pwa.p3.desc">Segure o ícone no Android e acesse direto o Formatador de Documentos ou o Gerador de Currículo.</p></div></div>
+            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">🔄</div><div><div class="pwa-point-title" data-i18n="pwa.p4.title">Atualização automática</div><p class="pwa-point-desc" data-i18n="pwa.p4.desc">Nova versão disponível? Um toast avisa discretamente e você decide quando recarregar.</p></div></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ SOBRE O CRIADOR ════════════════════════════════════════════ -->
+  <!-- ═══ CRIADOR ════════════════════════════════════════════════════ -->
   <section class="creator" id="criador" aria-labelledby="creator-title">
     <div class="section-wrap">
       <div class="creator-inner reveal">
         <div class="creator-bio">
-          <div class="creator-role">// criador</div>
+          <div class="creator-role" data-i18n="creator.label">// criador</div>
           <h2 class="creator-name" id="creator-title">
-            <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">
-              Alexandre Torres
-            </a>
+            <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a>
           </h2>
-          <p class="creator-desc">
-            Desenvolvedor e empreendedor de Serra, ES. O DocForm nasceu da necessidade real de formatar documentos jurídicos sem complicação. Acompanhe os bastidores do projeto nas redes.
-          </p>
+          <p class="creator-desc" data-i18n="creator.desc">Desenvolvedor e empreendedor de Serra, ES. O DocForm nasceu da necessidade real de formatar documentos jurídicos sem complicação. Acompanhe os bastidores do projeto nas redes.</p>
         </div>
-        <div class="creator-socials" aria-label="Redes sociais do criador">
-          <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer"
-             class="creator-social-link" aria-label="Instagram @aletordev">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <div class="creator-socials">
+          <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer" class="creator-social-link">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             @aletordev
           </a>
-          <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer"
-             class="creator-social-link" aria-label="YouTube @aletordev">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer" class="creator-social-link">
+            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             YouTube
           </a>
-          <a href="https://wa.me/5527996252050" target="_blank" rel="noopener noreferrer"
-             class="creator-social-link" aria-label="WhatsApp Alexandre Torres">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <a href="https://linkedin.com/in/alexandreatorres" target="_blank" rel="noopener noreferrer" class="creator-social-link">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://wa.me/5527996252050" target="_blank" rel="noopener noreferrer" class="creator-social-link">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             WhatsApp
           </a>
         </div>
@@ -1543,29 +685,19 @@ footer {
     <div class="section-wrap">
       <div class="cta-final-box reveal">
         <span class="cta-final-icon" aria-hidden="true">⚖</span>
-        <h2 class="cta-final-h2" id="cta-title">
-          Seu documento<br>
-          em <em>segundos.</em>
-        </h2>
-        <p class="cta-final-desc">
-          Sem cadastro. Sem mensalidade. Sem dados enviados ao servidor.<br>
-          Cole o texto — o DocForm faz o resto.
-        </p>
+        <h2 class="cta-final-h2" id="cta-title" data-i18n-html="cta.h2">Seu documento<br>em <em>segundos.</em></h2>
+        <p class="cta-final-desc" data-i18n-html="cta.desc">Sem cadastro. Sem mensalidade. Sem dados enviados ao servidor.<br>Cole o texto — o DocForm faz o resto.</p>
         <div class="cta-final-btns">
-          <a href="https://aletoapp.github.io/docform/" class="cta-primary" aria-label="Formatar meu documento agora">
-            <span aria-hidden="true">⚖</span> Formatar meu documento
+          <a href="https://aletoapp.github.io/docform/" class="cta-primary">
+            <span aria-hidden="true">⚖</span>
+            <span data-i18n="cta.btn1">Formatar meu documento</span>
           </a>
-          <a href="https://wa.me/5527996252050" target="_blank" rel="noopener noreferrer"
-             class="cta-secondary" aria-label="Falar com o criador do DocForm pelo WhatsApp">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Falar pelo WhatsApp
+          <a href="https://wa.me/5527996252050" target="_blank" rel="noopener noreferrer" class="cta-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span data-i18n="cta.btn2">Falar pelo WhatsApp</span>
           </a>
         </div>
-        <p class="cta-note">
-          Criado por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a>
-          · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a>
-          · Serra, Espírito Santo · CNPJ 54.806.916/0001-62
-        </p>
+        <p class="cta-note" data-i18n-html="cta.note">Criado por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, ES · CNPJ 54.806.916/0001-62</p>
       </div>
     </div>
   </section>
@@ -1574,33 +706,24 @@ footer {
 <!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
 <footer role="contentinfo">
   <div class="footer-inner">
-    <a href="./index.html" class="footer-logo" aria-label="DocForm — Página inicial">
+    <a href="./index.html" class="footer-logo">
       <div class="logo-mark" aria-hidden="true">⚖</div>
       <span class="footer-logo-text">DocForm</span>
     </a>
-
-    <p class="footer-copy">
-      © 2026 DocForm · Feito por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer"
-        style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>
-      Distribuído sob licença MIT
-    </p>
-
-    <nav class="footer-links" aria-label="Links de Alexandre Torres">
-      <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer"
-         class="footer-link" aria-label="Instagram @aletordev">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        @aletordev
+    <p class="footer-copy" data-i18n-html="footer.copy">© 2026 DocForm · Feito por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Distribuído sob licença MIT</p>
+    <nav class="footer-links">
+      <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer" class="footer-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
       </a>
       <span class="footer-sep" aria-hidden="true">·</span>
-      <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer"
-         class="footer-link" aria-label="YouTube @aletordev">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer" class="footer-link">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         YouTube
       </a>
       <span class="footer-sep" aria-hidden="true">·</span>
-      <a href="https://linkedin.com/in/alexandreatorres" target="_blank" rel="noopener noreferrer"
-         class="footer-link" aria-label="LinkedIn de Alexandre Torres">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      <a href="https://linkedin.com/in/alexandreatorres" target="_blank" rel="noopener noreferrer" class="footer-link">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         LinkedIn
       </a>
     </nav>
@@ -1608,19 +731,263 @@ footer {
 </footer>
 
 <script>
-/* ─── Reveal on scroll ─── */
+/* ════════════════════════════════════════════════════════
+   i18n ENGINE — DocForm
+   Ordem de prioridade: localStorage → navigator.language → pt
+════════════════════════════════════════════════════════ */
+const LOCALES = {
+  pt: {
+    'nav.cta': 'Abrir App',
+    'hero.badge': 'PWA gratuita · funciona offline · sem login',
+    'hero.h1': 'Cole o texto.<br>O documento <em>pronto</em><br>vem por nossa conta.',
+    'hero.sub': 'Transforme qualquer texto gerado por IA em contratos, currículos e documentos jurídicos formatados — prontos para impressão ou assinatura digital via Gov.br.',
+    'hero.cta1': 'Formatar Documento', 'hero.cta2': 'Página do Desenvolvedor', 'hero.cta3': 'Como funciona',
+    'pipe.1': 'Cole o texto', 'pipe.2': 'Auto-detecta o tipo', 'pipe.3': 'Preenche o cabeçalho', 'pipe.4': 'Gera o PDF',
+    'cf.label': '// processo',
+    'cf.h2': 'Quatro passos.<br>Um documento <em>impecável.</em>',
+    'cf.desc': 'Sem templates vagos, sem formatação manual, sem horas perdidas com espaçamentos. O DocForm entende o que você colou e faz o resto.',
+    'cf.s1.title': 'Cole o texto', 'cf.s1.desc': 'Cole o contrato, e-mail ou currículo gerado por qualquer IA diretamente na área de texto do DocForm.',
+    'cf.s2.title': 'Auto-detecção', 'cf.s2.desc': 'O motor inteligente identifica o tipo de documento por fingerprint de palavras-chave com score de confiança.',
+    'cf.s3.title': 'Auto-fill do cabeçalho', 'cf.s3.desc': 'Título, cidade, data, partes e número de contrato são extraídos e preenchidos automaticamente, sem sobrescrever o que você já digitou.',
+    'cf.s4.title': 'Exporte PDF ou DOCX', 'cf.s4.desc': 'Gere o documento com margens jurídicas padrão OAB/Tribunais, paginação e logotipo — direto no browser, sem servidor.',
+    'feat.label': '// funcionalidades',
+    'feat.h2': 'Tudo que um documento<br>profissional <em>precisa.</em>',
+    'feat.1.title': 'Formatador de Contratos', 'feat.1.desc': '12 presets jurídicos prontos: aluguel, prestação de serviços, NDA, compra e venda, CLT, freelance, empréstimo e mais.',
+    'feat.2.title': 'Gerador de Currículo 2026', 'feat.2.desc': 'Formulário completo com foto, experiências, formação, idiomas e habilidades. Campos vazios não aparecem no PDF.',
+    'feat.3.title': 'E-mail Formal', 'feat.3.desc': 'Formatação corporativa com cabeçalho, corpo e assinatura estruturados. Exportação PDF e DOCX em segundos.',
+    'feat.4.title': 'Assinatura Digital', 'feat.4.desc': 'Opções de assinatura via Gov.br e ICP-Brasil com campo de testemunhas configurável.',
+    'feat.5.title': '100% Privado', 'feat.5.desc': 'Nenhum texto sai do seu dispositivo. Sem backend, sem banco de dados, sem login. Processamento inteiramente no browser.',
+    'feat.6.title': "Marca d'água e Logotipo", 'feat.6.desc': "Insira seu logotipo no cabeçalho e configure marca d'água personalizada (PNG, JPG ou SVG) no documento.",
+    'presets.label': '// presets jurídicos',
+    'presets.h2': '12 modelos prontos.<br><em>Zero</em> formatação manual.',
+    'presets.desc': 'Cada preset segue as normas da OAB e dos Tribunais brasileiros — margens, espaçamentos, numeração de cláusulas e paginação configurados por padrão.',
+    'preset.1': 'Aluguel Residencial', 'preset.2': 'Aluguel Comercial', 'preset.3': 'Prestação de Serviços',
+    'preset.4': 'NDA / Confidencialidade', 'preset.5': 'Compra e Venda', 'preset.6': 'Contrato CLT',
+    'preset.7': 'Contrato Freelance', 'preset.8': 'Contrato de Empréstimo', 'preset.9': 'Parceria Comercial',
+    'preset.10': 'Procuração', 'preset.11': 'Declaração', 'preset.12': 'Ata de Reunião',
+    'af.label': '// auto-fill engine',
+    'af.h2': 'O sistema entende<br>o texto. <em>Você revisa.</em>',
+    'af.desc': 'Ao colar o texto, o motor analisa e extrai automaticamente os campos essenciais do documento — com indicação de confiança para cada campo.',
+    'af.hi1': 'Extração em tempo real enquanto você digita ou cola o texto.',
+    'af.hi2': 'Nunca sobrescreve dados já digitados pelo usuário.',
+    'af.hi3': 'Flash visual nos campos preenchidos com percentual de confiança.',
+    'af.hi4': 'Thresholds configuráveis: sugestão a 35%, aplicação automática a 60%.',
+    'af.done': '✓ 6 campos preenchidos automaticamente',
+    'af.field.title': 'Título', 'af.field.city': 'Cidade', 'af.field.date': 'Data',
+    'af.field.ref': 'Nº / Ref.', 'af.field.client': 'Contratante', 'af.field.provider': 'Contratado',
+    'export.label': '// exportação',
+    'export.h2': 'PDF vetorial.<br>DOCX <em>real.</em>',
+    'export.desc': 'Dois formatos profissionais gerados diretamente no seu browser — sem servidor, sem upload, sem espera.',
+    'export.pdf.title': 'Documento vetorial para impressão', 'export.pdf.desc': 'Gerado com jsPDF, multi-página automático com fontes embutidas — sem granulação, sem distorção.',
+    'export.pdf.f1': 'Margens jurídicas padrão OAB/Tribunais (30×20×20×20 mm)', 'export.pdf.f2': 'Multi-página com paginação automática',
+    'export.pdf.f3': "Marca d'água posicionável (centro, cantos)", 'export.pdf.f4': 'Logotipo no cabeçalho',
+    'export.pdf.f5': 'Pronto para assinatura digital Gov.br / ICP-Brasil', 'export.pdf.f6': 'Funciona 100% offline após a primeira visita',
+    'export.docx.title': 'Word real, editável em qualquer lugar', 'export.docx.desc': 'Gerado com docx.js — compatível com Microsoft Word, LibreOffice e Google Docs.',
+    'export.docx.f1': 'Estilos de parágrafo e tab stops preservados', 'export.docx.f2': 'Hierarquia de títulos estruturada',
+    'export.docx.f3': 'Compatível com Word, LibreOffice e Google Docs', 'export.docx.f4': 'Disponível para contratos, currículo e e-mail formal',
+    'export.docx.f5': 'Download instantâneo via FileSaver.js', 'export.docx.f6': 'Editável após exportação',
+    'pwa.label': '// pwa instalável',
+    'pwa.h2': 'Instale como app.<br>Use <em>offline.</em>',
+    'pwa.stat.offline': 'Sem rede', 'pwa.stat.data': 'Dados enviados',
+    'pwa.p1.title': 'Android e desktop', 'pwa.p1.desc': 'Instalável no Android via Chrome e no desktop via Chrome ou Edge. Ícone na tela inicial, abre sem barra do browser.',
+    'pwa.p2.title': 'Offline completo', 'pwa.p2.desc': 'Service Worker com estratégia híbrida: HTML via Network First, CSS/JS via Stale While Revalidate, assets via Cache First.',
+    'pwa.p3.title': 'Atalhos nativos', 'pwa.p3.desc': 'Segure o ícone no Android e acesse direto o Formatador de Documentos ou o Gerador de Currículo.',
+    'pwa.p4.title': 'Atualização automática', 'pwa.p4.desc': 'Nova versão disponível? Um toast avisa discretamente e você decide quando recarregar.',
+    'creator.label': '// criador',
+    'creator.desc': 'Desenvolvedor e empreendedor de Serra, ES. O DocForm nasceu da necessidade real de formatar documentos jurídicos sem complicação. Acompanhe os bastidores do projeto nas redes.',
+    'cta.h2': 'Seu documento<br>em <em>segundos.</em>',
+    'cta.desc': 'Sem cadastro. Sem mensalidade. Sem dados enviados ao servidor.<br>Cole o texto — o DocForm faz o resto.',
+    'cta.btn1': 'Formatar meu documento', 'cta.btn2': 'Falar pelo WhatsApp',
+    'cta.note': 'Criado por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, ES · CNPJ 54.806.916/0001-62',
+    'footer.copy': '© 2026 DocForm · Feito por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Distribuído sob licença MIT',
+  },
+
+  en: {
+    'nav.cta': 'Open App',
+    'hero.badge': 'Free PWA · works offline · no login',
+    'hero.h1': 'Paste your text.<br>A professional document<br>comes back <em>ready.</em>',
+    'hero.sub': 'Turn any AI-generated text into formatted contracts, résumés, and legal documents — ready to print or sign digitally.',
+    'hero.cta1': 'Format Document', 'hero.cta2': "Developer's Page", 'hero.cta3': 'How it works',
+    'pipe.1': 'Paste the text', 'pipe.2': 'Auto-detects type', 'pipe.3': 'Fills the header', 'pipe.4': 'Generates PDF',
+    'cf.label': '// process',
+    'cf.h2': 'Four steps.<br>One <em>flawless</em> document.',
+    'cf.desc': 'No vague templates, no manual formatting, no hours lost on spacing. DocForm understands what you pasted and does the rest.',
+    'cf.s1.title': 'Paste the text', 'cf.s1.desc': "Paste the contract, email, or résumé generated by any AI directly into DocForm's text area.",
+    'cf.s2.title': 'Auto-detection', 'cf.s2.desc': 'The smart engine identifies the document type using keyword fingerprinting with a confidence score.',
+    'cf.s3.title': 'Header auto-fill', 'cf.s3.desc': "Title, city, date, parties, and contract number are extracted and filled in automatically — without overwriting what you've already typed.",
+    'cf.s4.title': 'Export PDF or DOCX', 'cf.s4.desc': 'Generate the document with standard legal margins, pagination and logo — right in the browser, no server needed.',
+    'feat.label': '// features',
+    'feat.h2': 'Everything a professional<br>document <em>needs.</em>',
+    'feat.1.title': 'Contract Formatter', 'feat.1.desc': '12 ready-made legal presets: rental, service agreement, NDA, purchase, employment, freelance, loan, and more.',
+    'feat.2.title': 'Résumé Generator 2026', 'feat.2.desc': "Complete form with photo, experience, education, languages and skills. Empty fields don't appear in the PDF.",
+    'feat.3.title': 'Formal Email', 'feat.3.desc': 'Corporate formatting with structured header, body and signature. PDF and DOCX export in seconds.',
+    'feat.4.title': 'Digital Signature', 'feat.4.desc': 'Digital signature options with configurable witness fields.',
+    'feat.5.title': '100% Private', 'feat.5.desc': 'No text ever leaves your device. No backend, no database, no login. Processing entirely in the browser.',
+    'feat.6.title': 'Watermark & Logo', 'feat.6.desc': 'Add your logo to the header and set a custom watermark (PNG, JPG or SVG) on the document.',
+    'presets.label': '// legal presets',
+    'presets.h2': '12 ready templates.<br><em>Zero</em> manual formatting.',
+    'presets.desc': 'Each preset follows professional document standards — margins, spacing, clause numbering and pagination set by default.',
+    'preset.1': 'Residential Lease', 'preset.2': 'Commercial Lease', 'preset.3': 'Service Agreement',
+    'preset.4': 'NDA / Confidentiality', 'preset.5': 'Purchase Agreement', 'preset.6': 'Employment Contract',
+    'preset.7': 'Freelance Contract', 'preset.8': 'Loan Agreement', 'preset.9': 'Business Partnership',
+    'preset.10': 'Power of Attorney', 'preset.11': 'Declaration', 'preset.12': 'Meeting Minutes',
+    'af.label': '// auto-fill engine',
+    'af.h2': 'The system reads<br>the text. <em>You review.</em>',
+    'af.desc': "When you paste the text, the engine automatically analyzes and extracts the document's key fields — with a confidence indicator for each.",
+    'af.hi1': 'Real-time extraction as you type or paste.',
+    'af.hi2': 'Never overwrites data already typed by the user.',
+    'af.hi3': 'Visual flash on filled fields with confidence percentage.',
+    'af.hi4': 'Configurable thresholds: suggestion at 35%, auto-apply at 60%.',
+    'af.done': '✓ 6 fields filled automatically',
+    'af.field.title': 'Title', 'af.field.city': 'City', 'af.field.date': 'Date',
+    'af.field.ref': 'No. / Ref.', 'af.field.client': 'Client', 'af.field.provider': 'Provider',
+    'export.label': '// export',
+    'export.h2': 'Vector PDF.<br><em>Real</em> DOCX.',
+    'export.desc': 'Two professional formats generated directly in your browser — no server, no upload, no waiting.',
+    'export.pdf.title': 'Vector document for printing', 'export.pdf.desc': 'Generated with jsPDF, automatic multi-page with embedded fonts — no pixelation, no distortion.',
+    'export.pdf.f1': 'Standard legal margins (30×20×20×20 mm)', 'export.pdf.f2': 'Multi-page with automatic pagination',
+    'export.pdf.f3': 'Positionable watermark (center, corners)', 'export.pdf.f4': 'Logo in the header',
+    'export.pdf.f5': 'Ready for digital signature', 'export.pdf.f6': 'Works 100% offline after first visit',
+    'export.docx.title': 'Real Word, editable anywhere', 'export.docx.desc': 'Generated with docx.js — compatible with Microsoft Word, LibreOffice and Google Docs.',
+    'export.docx.f1': 'Paragraph styles and tab stops preserved', 'export.docx.f2': 'Structured heading hierarchy',
+    'export.docx.f3': 'Compatible with Word, LibreOffice and Google Docs', 'export.docx.f4': 'Available for contracts, résumés and formal email',
+    'export.docx.f5': 'Instant download via FileSaver.js', 'export.docx.f6': 'Editable after export',
+    'pwa.label': '// installable pwa',
+    'pwa.h2': 'Install as an app.<br>Use <em>offline.</em>',
+    'pwa.stat.offline': 'No network', 'pwa.stat.data': 'Data sent',
+    'pwa.p1.title': 'Android & desktop', 'pwa.p1.desc': 'Installable on Android via Chrome and on desktop via Chrome or Edge. Home screen icon, opens without a browser bar.',
+    'pwa.p2.title': 'Full offline', 'pwa.p2.desc': 'Service Worker with hybrid strategy: HTML via Network First, CSS/JS via Stale While Revalidate, assets via Cache First.',
+    'pwa.p3.title': 'Native shortcuts', 'pwa.p3.desc': 'Long-press the icon on Android to jump straight to the Document Formatter or the Résumé Generator.',
+    'pwa.p4.title': 'Auto-update', 'pwa.p4.desc': 'New version available? A discreet toast notifies you and you decide when to reload.',
+    'creator.label': '// creator',
+    'creator.desc': "Developer and entrepreneur from Serra, Brazil. DocForm was born from the real need to format legal documents without the hassle. Follow the project's behind-the-scenes on social media.",
+    'cta.h2': 'Your document<br>in <em>seconds.</em>',
+    'cta.desc': 'No sign-up. No subscription. No data sent to any server.<br>Paste the text — DocForm does the rest.',
+    'cta.btn1': 'Format my document', 'cta.btn2': 'Chat on WhatsApp',
+    'cta.note': 'Created by <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, Brazil',
+    'footer.copy': '© 2026 DocForm · Made by <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Released under the MIT License',
+  },
+
+  es: {
+    'nav.cta': 'Abrir App',
+    'hero.badge': 'PWA gratuita · funciona sin conexión · sin registro',
+    'hero.h1': 'Pega el texto.<br>El documento <em>listo</em><br>corre por nuestra cuenta.',
+    'hero.sub': 'Transforma cualquier texto generado por IA en contratos, currículums y documentos legales formateados — listos para imprimir o firmar digitalmente.',
+    'hero.cta1': 'Formatear Documento', 'hero.cta2': 'Página del Desarrollador', 'hero.cta3': 'Cómo funciona',
+    'pipe.1': 'Pega el texto', 'pipe.2': 'Auto-detecta el tipo', 'pipe.3': 'Rellena el encabezado', 'pipe.4': 'Genera el PDF',
+    'cf.label': '// proceso',
+    'cf.h2': 'Cuatro pasos.<br>Un documento <em>impecable.</em>',
+    'cf.desc': 'Sin plantillas vagas, sin formateo manual, sin horas perdidas en espaciados. DocForm entiende lo que pegaste y hace el resto.',
+    'cf.s1.title': 'Pega el texto', 'cf.s1.desc': 'Pega el contrato, correo o currículum generado por cualquier IA directamente en el área de texto de DocForm.',
+    'cf.s2.title': 'Auto-detección', 'cf.s2.desc': 'El motor inteligente identifica el tipo de documento mediante fingerprint de palabras clave con puntuación de confianza.',
+    'cf.s3.title': 'Autorelleno del encabezado', 'cf.s3.desc': 'Título, ciudad, fecha, partes y número de contrato se extraen y rellenan automáticamente, sin sobrescribir lo que ya escribiste.',
+    'cf.s4.title': 'Exporta PDF o DOCX', 'cf.s4.desc': 'Genera el documento con márgenes legales estándar, paginación y logotipo — directo en el navegador, sin servidor.',
+    'feat.label': '// funcionalidades',
+    'feat.h2': 'Todo lo que un documento<br>profesional <em>necesita.</em>',
+    'feat.1.title': 'Formateador de Contratos', 'feat.1.desc': '12 plantillas legales listas: alquiler, servicios, NDA, compraventa, empleo, freelance, préstamo y más.',
+    'feat.2.title': 'Generador de Currículum 2026', 'feat.2.desc': 'Formulario completo con foto, experiencias, formación, idiomas y habilidades. Los campos vacíos no aparecen en el PDF.',
+    'feat.3.title': 'Correo Formal', 'feat.3.desc': 'Formato corporativo con encabezado, cuerpo y firma estructurados. Exportación PDF y DOCX en segundos.',
+    'feat.4.title': 'Firma Digital', 'feat.4.desc': 'Opciones de firma digital con campo de testigos configurable.',
+    'feat.5.title': '100% Privado', 'feat.5.desc': 'Ningún texto sale de tu dispositivo. Sin backend, sin base de datos, sin registro. Procesamiento íntegramente en el navegador.',
+    'feat.6.title': 'Marca de Agua y Logotipo', 'feat.6.desc': 'Añade tu logotipo al encabezado y configura una marca de agua personalizada (PNG, JPG o SVG) en el documento.',
+    'presets.label': '// plantillas legales',
+    'presets.h2': '12 plantillas listas.<br><em>Cero</em> formateo manual.',
+    'presets.desc': 'Cada plantilla sigue los estándares de documentos profesionales — márgenes, espaciados, numeración de cláusulas y paginación configurados por defecto.',
+    'preset.1': 'Arrendamiento Residencial', 'preset.2': 'Arrendamiento Comercial', 'preset.3': 'Contrato de Servicios',
+    'preset.4': 'NDA / Confidencialidad', 'preset.5': 'Contrato de Compraventa', 'preset.6': 'Contrato Laboral',
+    'preset.7': 'Contrato Freelance', 'preset.8': 'Contrato de Préstamo', 'preset.9': 'Asociación Comercial',
+    'preset.10': 'Poder Notarial', 'preset.11': 'Declaración', 'preset.12': 'Acta de Reunión',
+    'af.label': '// motor de autorelleno',
+    'af.h2': 'El sistema lee<br>el texto. <em>Tú revisas.</em>',
+    'af.desc': 'Al pegar el texto, el motor analiza y extrae automáticamente los campos esenciales del documento — con indicador de confianza para cada campo.',
+    'af.hi1': 'Extracción en tiempo real mientras escribes o pegas.',
+    'af.hi2': 'Nunca sobrescribe datos ya escritos por el usuario.',
+    'af.hi3': 'Flash visual en los campos rellenados con porcentaje de confianza.',
+    'af.hi4': 'Umbrales configurables: sugerencia al 35%, aplicación automática al 60%.',
+    'af.done': '✓ 6 campos rellenados automáticamente',
+    'af.field.title': 'Título', 'af.field.city': 'Ciudad', 'af.field.date': 'Fecha',
+    'af.field.ref': 'Nº / Ref.', 'af.field.client': 'Contratante', 'af.field.provider': 'Contratado',
+    'export.label': '// exportación',
+    'export.h2': 'PDF vectorial.<br>DOCX <em>real.</em>',
+    'export.desc': 'Dos formatos profesionales generados directamente en tu navegador — sin servidor, sin subida, sin espera.',
+    'export.pdf.title': 'Documento vectorial para impresión', 'export.pdf.desc': 'Generado con jsPDF, multipágina automático con fuentes integradas — sin pixelación, sin distorsión.',
+    'export.pdf.f1': 'Márgenes legales estándar (30×20×20×20 mm)', 'export.pdf.f2': 'Multipágina con paginación automática',
+    'export.pdf.f3': 'Marca de agua posicionable (centro, esquinas)', 'export.pdf.f4': 'Logotipo en el encabezado',
+    'export.pdf.f5': 'Listo para firma digital', 'export.pdf.f6': 'Funciona 100% sin conexión tras la primera visita',
+    'export.docx.title': 'Word real, editable en cualquier lugar', 'export.docx.desc': 'Generado con docx.js — compatible con Microsoft Word, LibreOffice y Google Docs.',
+    'export.docx.f1': 'Estilos de párrafo y tabulaciones preservados', 'export.docx.f2': 'Jerarquía de títulos estructurada',
+    'export.docx.f3': 'Compatible con Word, LibreOffice y Google Docs', 'export.docx.f4': 'Disponible para contratos, currículum y correo formal',
+    'export.docx.f5': 'Descarga instantánea via FileSaver.js', 'export.docx.f6': 'Editable tras la exportación',
+    'pwa.label': '// pwa instalable',
+    'pwa.h2': 'Instala como app.<br>Usa <em>sin conexión.</em>',
+    'pwa.stat.offline': 'Sin red', 'pwa.stat.data': 'Datos enviados',
+    'pwa.p1.title': 'Android y escritorio', 'pwa.p1.desc': 'Instalable en Android vía Chrome y en escritorio vía Chrome o Edge. Icono en pantalla de inicio, abre sin barra del navegador.',
+    'pwa.p2.title': 'Offline completo', 'pwa.p2.desc': 'Service Worker con estrategia híbrida: HTML vía Network First, CSS/JS vía Stale While Revalidate, assets vía Cache First.',
+    'pwa.p3.title': 'Accesos directos nativos', 'pwa.p3.desc': 'Mantén pulsado el icono en Android para acceder directamente al Formateador o al Generador de Currículum.',
+    'pwa.p4.title': 'Actualización automática', 'pwa.p4.desc': '¿Nueva versión disponible? Un toast discreto te avisa y decides cuándo recargar.',
+    'creator.label': '// creador',
+    'creator.desc': 'Desarrollador y emprendedor de Serra, Brasil. DocForm nació de la necesidad real de formatear documentos legales sin complicaciones. Sigue los bastidores del proyecto en redes.',
+    'cta.h2': 'Tu documento<br>en <em>segundos.</em>',
+    'cta.desc': 'Sin registro. Sin suscripción. Sin datos enviados al servidor.<br>Pega el texto — DocForm hace el resto.',
+    'cta.btn1': 'Formatear mi documento', 'cta.btn2': 'Hablar por WhatsApp',
+    'cta.note': 'Creado por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, Brasil',
+    'footer.copy': '© 2026 DocForm · Hecho por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Distribuido bajo licencia MIT',
+  }
+};
+
+const HTML_LANG = { pt: 'pt-BR', en: 'en', es: 'es' };
+
+function detectLocale() {
+  const saved = localStorage.getItem('df-locale');
+  if (saved && LOCALES[saved]) return saved;
+  const lang = (navigator.language || 'pt').slice(0, 2).toLowerCase();
+  return LOCALES[lang] ? lang : 'pt';
+}
+
+function applyLocale(locale) {
+  const t = LOCALES[locale];
+  if (!t) return;
+
+  document.documentElement.lang = HTML_LANG[locale] || locale;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    const isActive = btn.dataset.lang === locale;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive);
+  });
+
+  localStorage.setItem('df-locale', locale);
+}
+
+// Boot
+const currentLocale = detectLocale();
+applyLocale(currentLocale);
+
+// Switcher clicks
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyLocale(btn.dataset.lang));
+});
+
+/* ── Reveal on scroll ── */
 const revealEls = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, i * 60);
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
       observer.unobserve(entry.target);
     }
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
 revealEls.forEach(el => observer.observe(el));
 </script>
 </body>
