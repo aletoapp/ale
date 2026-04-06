@@ -1,1 +1,2505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoiceLab — Processador de Locução Gratuito</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ────────────────────────────────────────────────── */
+:root {
+  --cream:   #f5f0e8;
+  --paper:   #faf7f2;
+  --ink:     #1a1714;
+  --ink2:    #3d3830;
+  --muted:   #8a8070;
+  --rule:    #d8cfc0;
+  --teal:    #1a7a6e;
+  --teal2:   #12574e;
+  --amber:   #c8821a;
+  --amber2:  #a06510;
+  --red:     #b03030;
+  --shadow:  rgba(26,23,20,0.08);
+}
 
+/* ── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN TEXTURE ─────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 9999;
+}
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────── */
+h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, serif; line-height: 1.15; }
+code, .mono     { font-family: 'DM Mono', monospace; }
+
+/* ── SCROLL REVEAL ─────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+.preset-showcase-card[data-color="pink"] {
+  border-color: rgba(255,121,198,0.2);
+}
+.preset-showcase-card[data-color="pink"] .preset-sc-name { color: #ff79c6; }
+.preset-showcase-card[data-color="pink"] .preset-sc-tag {
+  background: rgba(255,121,198,0.08);
+  border-color: rgba(255,121,198,0.2);
+  color: #ff79c6;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HEADER / MASTHEAD
+══════════════════════════════════════════════════════════════ */
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: sticky; top: 0;
+  background: rgba(250,247,242,0.92);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+
+.masthead-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.masthead-icon {
+  width: 34px; height: 34px;
+  background: var(--ink);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+
+.masthead-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.masthead-tag {
+  font-size: 0.7rem;
+  font-weight: 300;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.masthead-cta {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.3px;
+}
+.masthead-cta:hover { background: var(--teal); transform: translateY(-1px); }
+
+.masthead-dev-btn {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink2);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.masthead-dev-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+  transform: translateY(-1px);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════════════════════ */
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px 80px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 80px;
+  align-items: center;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 24px;
+}
+
+.hero-kicker::before {
+  content: '';
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: var(--teal);
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--teal);
+}
+
+.hero-tagline {
+  font-size: 1.2rem;
+  color: var(--ink2);
+  font-weight: 300;
+  margin: 20px 0 36px;
+  line-height: 1.6;
+  max-width: 440px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 16px 36px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 20px rgba(26,122,110,0.25);
+}
+.btn-primary:hover { background: var(--teal2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(26,122,110,0.3); }
+
+.btn-ghost {
+  color: var(--ink2);
+  font-size: 0.88rem;
+  font-weight: 400;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.btn-ghost:hover { color: var(--teal); border-bottom-color: var(--teal); }
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.hero-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.hero-meta-item strong {
+  color: var(--ink2);
+  font-weight: 500;
+}
+
+/* HERO VISUAL — App mockup */
+.hero-visual {
+  position: relative;
+}
+
+.app-mockup {
+  background: #0e0e15;
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.06),
+    0 8px 24px rgba(0,0,0,0.1),
+    0 24px 64px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-mockup::before {
+  content: '';
+  position: absolute;
+  top: -60%; left: -20%;
+  width: 100%; height: 100%;
+  background: radial-gradient(ellipse, rgba(124,106,255,0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.mockup-topbar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.mockup-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+
+.mockup-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: #555566;
+  margin-left: auto;
+  letter-spacing: 1px;
+}
+
+/* Fake waveform */
+.mockup-wave {
+  height: 52px;
+  background: #111118;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 2px;
+}
+
+.wave-bar {
+  flex: 1;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #7c6aff, #00e5ff);
+  opacity: 0.7;
+  animation: waveAnim 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes waveAnim {
+  from { transform: scaleY(var(--s1, 0.3)); }
+  to   { transform: scaleY(var(--s2, 1.0)); }
+}
+
+/* Preset chips */
+.mockup-chips {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #252535;
+  color: #6b6b88;
+  background: #16161f;
+  letter-spacing: 0.5px;
+  cursor: default;
+  transition: all 0.2s;
+}
+
+.chip.on {
+  border-color: #00e5ff;
+  color: #00e5ff;
+  background: rgba(0,229,255,0.07);
+  box-shadow: 0 0 12px rgba(0,229,255,0.15);
+}
+
+/* Fake EQ sliders */
+.mockup-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.fake-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fake-slider-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  color: #555566;
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.fake-slider-track {
+  flex: 1;
+  height: 3px;
+  background: #252535;
+  border-radius: 2px;
+  position: relative;
+}
+
+.fake-slider-fill {
+  height: 100%;
+  border-radius: 2px;
+  position: absolute;
+  left: 0; top: 0;
+}
+
+.fake-slider-thumb {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  box-shadow: 0 0 6px rgba(124,106,255,0.5);
+}
+
+.fake-slider-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  color: #00e5ff;
+  width: 38px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* VU */
+.mockup-vu {
+  display: flex;
+  gap: 3px;
+  height: 6px;
+  margin-top: 14px;
+}
+
+.vu-seg {
+  flex: 1;
+  border-radius: 1px;
+  background: #252535;
+  animation: vuAnim 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes vuAnim {
+  from { opacity: 0.2; }
+  to   { opacity: var(--op, 0.8); }
+}
+
+/* Play button */
+.mockup-playrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.mockup-playbtn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c6aff, #00e5ff);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(124,106,255,0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(124,106,255,0.3); }
+  50%       { box-shadow: 0 0 30px rgba(124,106,255,0.5); }
+}
+
+.mockup-progress {
+  flex: 1;
+  height: 3px;
+  background: #252535;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mockup-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c6aff, #00e5ff);
+  border-radius: 2px;
+  width: 37%;
+  animation: progressAnim 8s linear infinite;
+}
+
+@keyframes progressAnim {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Floating badge */
+.mockup-badge {
+  position: absolute;
+  top: -14px; right: -14px;
+  background: var(--amber);
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transform: rotate(6deg);
+  box-shadow: 0 4px 16px rgba(200,130,26,0.35);
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DIVIDER / SECTION SEPARATOR
+══════════════════════════════════════════════════════════════ */
+.section-rule {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  border: none;
+  border-top: 1px solid var(--rule);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRESS STRIP (stats bar)
+══════════════════════════════════════════════════════════════ */
+.stats-strip {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 28px 40px;
+  overflow: hidden;
+}
+
+.stats-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.stat-item {
+  padding: 0 40px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+.stat-item:first-child { padding-left: 0; }
+.stat-item:last-child  { border-right: none; padding-right: 0; }
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--paper);
+  display: block;
+}
+
+.stat-number span { color: var(--amber); }
+
+.stat-label {
+  font-size: 0.72rem;
+  color: rgba(245,240,232,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION WRAPPER
+══════════════════════════════════════════════════════════════ */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px;
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.section-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 1px;
+  background: var(--rule);
+}
+
+.section h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.section h2 em {
+  font-style: italic;
+  color: var(--teal);
+}
+
+.section-lead {
+  font-size: 1.1rem;
+  color: var(--ink2);
+  font-weight: 300;
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FEATURES — EDITORIAL GRID
+══════════════════════════════════════════════════════════════ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 60px;
+}
+
+.feature-card {
+  background: var(--paper);
+  padding: 40px 36px;
+  transition: background 0.2s;
+}
+
+.feature-card:hover { background: var(--cream); }
+
+.feature-icon {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  display: block;
+  filter: saturate(0.8);
+}
+
+.feature-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.feature-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.feature-desc {
+  font-size: 0.88rem;
+  color: var(--ink2);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.feature-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--teal);
+  background: rgba(26,122,110,0.08);
+  border: 1px solid rgba(26,122,110,0.2);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-top: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   VIDEO CARD — "Na Prática"
+══════════════════════════════════════════════════════════════ */
+.feature-card-video {
+  background: var(--ink);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 260px;
+}
+
+.feature-card-video:hover { background: #22201c; }
+.feature-card-video:hover .vp-play-btn { transform: scale(1.1); box-shadow: 0 0 0 16px rgba(200,130,26,0.15); }
+.feature-card-video:hover .vp-thumbnail { opacity: 0.55; }
+
+/* Thumbnail background */
+.vp-thumbnail {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0e0e15 0%, #1c1a14 60%, #0e1510 100%);
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+/* Animated scan lines texture */
+.vp-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 3px,
+    rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px
+  );
+}
+
+/* Pulsing glow ring */
+.vp-ring {
+  position: absolute;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(200,130,26,0.25);
+  animation: ringPulse 2.4s ease-in-out infinite;
+}
+.vp-ring-2 {
+  position: absolute;
+  width: 115px; height: 115px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,130,26,0.12);
+  animation: ringPulse 2.4s ease-in-out 0.6s infinite;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.06); opacity: 0.5; }
+}
+
+/* Play button */
+.vp-play-btn {
+  position: relative;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--amber);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 0 0 0 rgba(200,130,26,0.3);
+  z-index: 2;
+  animation: playPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes playPulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(200,130,26,0.4); }
+  50%       { box-shadow: 0 0 0 10px rgba(200,130,26,0);  }
+}
+
+/* Card text below play */
+.vp-label {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-top: 20px;
+  color: var(--paper);
+}
+
+.vp-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.vp-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: block;
+  color: var(--paper);
+  margin-bottom: 6px;
+}
+
+.vp-sub {
+  font-size: 0.75rem;
+  color: rgba(245,240,232,0.45);
+  font-weight: 300;
+  display: block;
+}
+
+/* Corner tag */
+.vp-corner-tag {
+  position: absolute;
+  top: 18px; right: 18px;
+  background: rgba(200,130,26,0.15);
+  border: 1px solid rgba(200,130,26,0.3);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--amber);
+  letter-spacing: 1px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.vp-dot-live {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: liveBlink 1.5s ease-in-out infinite;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   VIDEO MODAL
+══════════════════════════════════════════════════════════════ */
+.video-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,9,8,0.88);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.video-modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.video-modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: var(--ink);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  transform: scale(0.94) translateY(16px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.video-modal-overlay.open .video-modal-box {
+  transform: scale(1) translateY(0);
+}
+
+.video-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.video-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.video-modal-title span {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--amber);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: rgba(200,130,26,0.12);
+  border: 1px solid rgba(200,130,26,0.25);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.video-modal-close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: none;
+  cursor: pointer;
+  color: rgba(245,240,232,0.6);
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.video-modal-close:hover { background: rgba(255,255,255,0.14); color: var(--paper); }
+
+/* 16:9 ratio iframe wrapper */
+.video-modal-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: #000;
+}
+
+.video-modal-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+
+/* Placeholder shown when no URL configured */
+.video-modal-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #0a0a0f;
+  color: rgba(245,240,232,0.35);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  text-align: center;
+  padding: 32px;
+  line-height: 1.6;
+}
+
+.video-modal-placeholder code {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.7rem;
+  color: var(--amber);
+  background: rgba(200,130,26,0.1);
+  border: 1px solid rgba(200,130,26,0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DEEP DIVE — SPLIT SECTIONS
+══════════════════════════════════════════════════════════════ */
+.split-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.split-section.flip { direction: rtl; }
+.split-section.flip > * { direction: ltr; }
+
+.split-visual {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.split-visual::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 120px; height: 120px;
+  background: radial-gradient(ellipse at bottom right, rgba(26,122,110,0.08), transparent);
+}
+
+.split-content .section-eyebrow { margin-bottom: 12px; }
+
+.split-content h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 18px;
+  line-height: 1.15;
+}
+
+.split-content h3 em { font-style: italic; color: var(--teal); }
+
+.split-content p {
+  font-size: 0.95rem;
+  color: var(--ink2);
+  line-height: 1.75;
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+
+.detail-list {
+  list-style: none;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: var(--ink2);
+  line-height: 1.55;
+}
+
+.detail-list li::before {
+  content: '→';
+  color: var(--teal);
+  font-size: 0.8rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* EQ Diagram */
+.eq-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.eq-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eq-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.eq-track {
+  flex: 1;
+  height: 6px;
+  background: var(--rule);
+  border-radius: 3px;
+  position: relative;
+}
+
+.eq-fill {
+  height: 100%;
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+}
+
+.fill-teal  { background: linear-gradient(90deg, var(--teal), rgba(26,122,110,0.3)); }
+.fill-amber { background: linear-gradient(90deg, var(--amber), rgba(200,130,26,0.3)); }
+.fill-ink   { background: linear-gradient(90deg, var(--ink2), rgba(61,56,48,0.3)); }
+
+.eq-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--teal);
+  width: 40px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Signal Chain */
+.signal-chain {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.chain-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--rule);
+  border-bottom: none;
+  background: var(--paper);
+  transition: background 0.2s;
+}
+
+.chain-step:first-child { border-radius: 10px 10px 0 0; }
+.chain-step:last-child  { border-bottom: 1px solid var(--rule); border-radius: 0 0 10px 10px; }
+.chain-step:hover       { background: var(--cream); }
+
+.chain-icon {
+  width: 32px; height: 32px;
+  background: var(--cream);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  border: 1px solid var(--rule);
+}
+
+.chain-info { flex: 1; }
+
+.chain-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.chain-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.chain-arrow {
+  color: var(--rule);
+  font-size: 0.8rem;
+}
+
+/* Noise controls diagram */
+.noise-diagram {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.noise-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 18px 16px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.noise-card:hover { border-color: var(--teal); background: var(--cream); }
+
+.noise-card-icon { font-size: 1.3rem; margin-bottom: 8px; display: block; }
+
+.noise-card-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.noise-card-desc {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRESETS SHOWCASE
+══════════════════════════════════════════════════════════════ */
+.presets-bg {
+  background: var(--cream);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.presets-showcase {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+}
+
+.preset-showcase-card {
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 28px 20px;
+  background: var(--paper);
+  text-align: center;
+  transition: all 0.25s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.preset-showcase-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--preset-color, var(--teal));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.preset-showcase-card:hover {
+  border-color: var(--preset-color, var(--teal));
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+.preset-showcase-card:hover::before { transform: scaleX(1); }
+
+.preset-showcase-card[data-color="teal"]   { --preset-color: var(--teal); }
+.preset-showcase-card[data-color="amber"]  { --preset-color: var(--amber); }
+.preset-showcase-card[data-color="blue"]   { --preset-color: #3a7bd5; }
+.preset-showcase-card[data-color="green"]  { --preset-color: #2a8c5a; }
+.preset-showcase-card[data-color="purple"] { --preset-color: #7c4dcc; }
+
+.preset-sc-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+
+.preset-sc-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.preset-sc-desc {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.preset-sc-tags {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.preset-sc-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--preset-color, var(--teal));
+  letter-spacing: 0.5px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HOW IT WORKS — NUMBERED STEPS
+══════════════════════════════════════════════════════════════ */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  margin-top: 60px;
+  position: relative;
+}
+
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: calc(12.5% + 24px);
+  right: calc(12.5% + 24px);
+  height: 1px;
+  background: var(--rule);
+  z-index: 0;
+}
+
+.step-item { text-align: center; position: relative; z-index: 1; }
+
+.step-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--teal);
+  transition: all 0.2s;
+}
+
+.step-item:hover .step-num {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+  transform: scale(1.1);
+}
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.step-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TECHNICAL SPEC TABLE
+══════════════════════════════════════════════════════════════ */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 40px;
+  font-size: 0.88rem;
+}
+
+.spec-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 12px 20px;
+  border-bottom: 2px solid var(--rule);
+}
+
+.spec-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink2);
+  line-height: 1.55;
+}
+
+.spec-table tr:last-child td { border-bottom: none; }
+.spec-table tr:hover td { background: var(--cream); }
+
+.spec-table td:first-child {
+  font-weight: 500;
+  color: var(--ink);
+  width: 220px;
+}
+
+.spec-table td:last-child {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--teal);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   QUOTE PULLOUT
+══════════════════════════════════════════════════════════════ */
+.pullquote-bg {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.pullquote {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 100px 40px;
+  text-align: center;
+  position: relative;
+}
+
+.pullquote::before {
+  content: '\201C';
+  font-family: 'Playfair Display', serif;
+  font-size: 12rem;
+  color: rgba(245,240,232,0.06);
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.pullquote blockquote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--cream);
+  margin-bottom: 32px;
+}
+
+.pullquote blockquote em { color: var(--amber); font-style: normal; }
+
+.pullquote-source {
+  font-size: 0.78rem;
+  font-family: 'DM Mono', monospace;
+  color: rgba(245,240,232,0.4);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FAQ
+══════════════════════════════════════════════════════════════ */
+.faq-list {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.faq-item:last-child { border-bottom: none; }
+
+.faq-q {
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--ink);
+  transition: background 0.2s;
+  gap: 16px;
+  user-select: none;
+}
+
+.faq-q:hover { background: var(--cream); }
+
+.faq-q-icon {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  color: var(--teal);
+  flex-shrink: 0;
+  transition: transform 0.3s, background 0.2s;
+  font-style: normal;
+}
+
+.faq-item.open .faq-q-icon {
+  transform: rotate(45deg);
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+}
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+  padding: 0 28px;
+  font-size: 0.88rem;
+  color: var(--ink2);
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.faq-item.open .faq-a {
+  max-height: 400px;
+  padding: 0 28px 22px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CTA FINAL
+══════════════════════════════════════════════════════════════ */
+.cta-section {
+  background: var(--teal);
+  padding: 100px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.08), transparent 70%);
+}
+
+.cta-section::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(ellipse, rgba(200,130,26,0.2), transparent 70%);
+}
+
+.cta-inner {
+  position: relative; z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.cta-section h2 {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1.5px;
+  margin-bottom: 20px;
+  line-height: 1.05;
+}
+
+.cta-section h2 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.cta-section p {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.75);
+  font-weight: 300;
+  margin-bottom: 44px;
+  line-height: 1.65;
+}
+
+.btn-cta-big {
+  background: var(--paper);
+  color: var(--teal2);
+  border: none;
+  border-radius: 12px;
+  padding: 20px 48px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
+.btn-cta-big:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,0.25); }
+
+.cta-note {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 18px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════════ */
+footer {
+  background: var(--ink);
+  color: rgba(245,240,232,0.5);
+  padding: 48px 40px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-family: 'DM Mono', monospace;
+  line-height: 1.8;
+}
+
+footer a { color: rgba(245,240,232,0.4); text-decoration: none; }
+footer a:hover { color: var(--amber); }
+
+footer strong { color: rgba(245,240,232,0.7); font-weight: 400; }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; gap: 40px; }
+  .hero-visual { order: -1; }
+  .split-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+  .split-section.flip { direction: ltr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .presets-showcase { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid::before { display: none; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 0; }
+  .masthead { padding: 16px 24px; }
+  .section { padding: 60px 24px; }
+}
+
+@media (max-width: 600px) {
+  .presets-showcase { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .noise-diagram { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.6rem; }
+  .masthead-cta { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ MASTHEAD ══ -->
+<header class="masthead">
+  <a class="masthead-brand" href="#hero">
+    <div class="masthead-icon">🎙️</div>
+    <div>
+      <div class="masthead-name">VoiceLab</div>
+      <div class="masthead-tag">Processador de Locução</div>
+    </div>
+  </a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a class="masthead-dev-btn" href="https://alexandretorres.com.br" target="_blank" rel="noopener">Página do Desenvolvedor ↗</a>
+    <a class="masthead-cta" href="#download">↓ Download Gratuito</a>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-kicker reveal">Ferramenta Gratuita para Criadores</div>
+    <h1 class="reveal reveal-delay-1">Sua voz,<br><em>refinada.</em></h1>
+    <p class="hero-tagline reveal reveal-delay-2">
+      VoiceLab processa áudio diretamente no navegador — sem instalar nada, sem servidores, sem custo. EQ profissional, 6 presets, compressor, de-esser, limiter, controle de velocidade com pitch correction e efeitos de estúdio em um único arquivo HTML.
+    </p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a class="btn-primary" href="#download">
+        ⬇ &nbsp;Baixar Gratuitamente
+      </a>
+      <a class="btn-ghost" href="#como-funciona">
+        Ver como funciona →
+      </a>
+    </div>
+    <div class="hero-meta reveal reveal-delay-4">
+      <div class="hero-meta-item">🌐 <strong>100% no Navegador</strong></div>
+      <div class="hero-meta-item">🔒 <strong>Sem Upload</strong></div>
+      <div class="hero-meta-item">✦ <strong>Gratuito para sempre</strong></div>
+    </div>
+  </div>
+
+  <div class="hero-visual reveal reveal-delay-2">
+    <div class="mockup-badge">100% Grátis ✦</div>
+    <div class="app-mockup">
+      <div class="mockup-topbar">
+        <div class="mockup-dot dot-r"></div>
+        <div class="mockup-dot dot-y"></div>
+        <div class="mockup-dot dot-g"></div>
+        <div class="mockup-title">VoiceLab · v3.0</div>
+      </div>
+
+      <div class="mockup-wave">
+        <!-- generated bars -->
+        <script>
+          const heights = [.2,.4,.7,.5,.9,.6,.3,.8,.5,.7,.4,.6,.9,.3,.5,.8,.6,.4,.7,.5,.3,.9,.6,.4,.8,.5,.7,.3,.6,.9,.4,.5,.8,.6,.3,.7,.5,.4,.9,.6,.5,.3,.8,.7,.4,.6,.9,.5,.3,.8];
+          document.write(heights.map((h,i)=>`<div class="wave-bar" style="--s1:${(h*0.3).toFixed(2)};--s2:${h.toFixed(2)};animation-delay:${(i*0.038).toFixed(2)}s"></div>`).join(''));
+        </script>
+      </div>
+
+      <div class="mockup-chips">
+        <div class="chip on">💎 Clareza</div>
+        <div class="chip">🎙️ Locução Pro</div>
+        <div class="chip">🌐 Surround</div>
+        <div class="chip on">⚡ 1.5×</div>
+        <div class="chip">🔊 Bass</div>
+      </div>
+
+      <div class="mockup-sliders">
+        <div class="fake-slider-row">
+          <div class="fake-slider-label">Graves</div>
+          <div class="fake-slider-track">
+            <div class="fake-slider-fill fill-teal" style="width:30%"></div>
+            <div class="fake-slider-thumb" style="left:calc(30% - 5px)"></div>
+          </div>
+          <div class="fake-slider-val">−3.2dB</div>
+        </div>
+        <div class="fake-slider-row">
+          <div class="fake-slider-label">Médios</div>
+          <div class="fake-slider-track">
+            <div class="fake-slider-fill fill-amber" style="width:72%"></div>
+            <div class="fake-slider-thumb" style="left:calc(72% - 5px)"></div>
+          </div>
+          <div class="fake-slider-val">+9.8dB</div>
+        </div>
+        <div class="fake-slider-row">
+          <div class="fake-slider-label">Agudos</div>
+          <div class="fake-slider-track">
+            <div class="fake-slider-fill fill-teal" style="width:68%"></div>
+            <div class="fake-slider-thumb" style="left:calc(68% - 5px)"></div>
+          </div>
+          <div class="fake-slider-val">+8.4dB</div>
+        </div>
+        <div class="fake-slider-row">
+          <div class="fake-slider-label">Reverb</div>
+          <div class="fake-slider-track">
+            <div class="fake-slider-fill fill-ink" style="width:15%"></div>
+            <div class="fake-slider-thumb" style="left:calc(15% - 5px)"></div>
+          </div>
+          <div class="fake-slider-val">15%</div>
+        </div>
+      </div>
+
+      <div class="mockup-vu">
+        <script>
+          const ops = [.9,.85,.7,.65,.5,.45,.4,.35,.3,.25,.2,.15,.12,.1,.08,.06,.05,.04];
+          document.write(ops.map((o,i)=>{
+            const c = o > 0.6 ? '#ff4d6d' : o > 0.4 ? '#ffb347' : '#00e676';
+            return `<div class="vu-seg" style="background:${c};--op:${o};animation-delay:${(i*0.04).toFixed(2)}s"></div>`;
+          }).join(''));
+        </script>
+      </div>
+
+      <div class="mockup-playrow">
+        <div class="mockup-playbtn">▶</div>
+        <div class="mockup-progress">
+          <div class="mockup-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS STRIP ══ -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <span class="stat-number">6<span>+</span></span>
+      <span class="stat-label">Presets de Locução</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <span class="stat-number">0<span>kb</span></span>
+      <span class="stat-label">Upload necessário</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <span class="stat-number">8<span>+</span></span>
+      <span class="stat-label">Processadores de áudio</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <span class="stat-number">1<span>arq</span></span>
+      <span class="stat-label">HTML. Zero dependências</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section class="section" id="recursos">
+  <div class="section-eyebrow reveal">Recursos</div>
+  <h2 class="reveal reveal-delay-1">Tudo que sua <em>voz precisa.</em></h2>
+  <p class="section-lead reveal reveal-delay-2">Construído com a Web Audio API nativa do navegador. Nenhuma biblioteca externa, nenhum servidor, nenhuma coleta de dados.</p>
+
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <span class="feature-icon">🎚️</span>
+      <span class="feature-number">01</span>
+      <div class="feature-title">EQ de 3 Bandas Logarítmico</div>
+      <div class="feature-desc">Graves (80Hz), Médios (1kHz) e Agudos (8kHz) com curva de resposta logarítmica. Os primeiros 50% do slider já entregam ganho expressivo e audível, enquanto a segunda metade permite ajuste fino sem distorção.</div>
+      <span class="feature-tag">±18 dB · curva log</span>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <span class="feature-icon">🔇</span>
+      <span class="feature-number">02</span>
+      <div class="feature-title">HPF + Compressor + De-esser</div>
+      <div class="feature-desc">High Pass Filter em 80Hz elimina ruído de baixa frequência. Compressor com threshold −18dB doma picos dinâmicos. De-esser em 6,5kHz remove sibilâncias sem comprometer a nitidez da voz. Todos ativáveis independentemente.</div>
+      <span class="feature-tag">HPF · Comp · De-esser · toggles</span>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <span class="feature-icon">⚡</span>
+      <span class="feature-number">03</span>
+      <div class="feature-title">Velocidade com Pitch Correction</div>
+      <div class="feature-desc">Algoritmo WSOLA (Waveform Similarity Overlap-Add) altera a duração da locução de 0,25× a 3× sem alterar o pitch. O mesmo método usado por ferramentas profissionais como Camtasia e CapCut, rodando 100% no navegador.</div>
+      <span class="feature-tag">WSOLA · 0.25× → 3.0× · pitch preserve</span>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">🌐</span>
+      <span class="feature-number">04</span>
+      <div class="feature-title">Reverb + Stereo Widening + Limiter</div>
+      <div class="feature-desc">Convolução com impulso sintético para reverb natural. Stereo widener independente que amplia o campo sonoro sem artefatos de fase. Limiter a −3dBFS garante que o arquivo exportado nunca ultrapasse o teto digital.</div>
+      <span class="feature-tag">Convolver · Wet/Dry · Widener · Limiter</span>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <span class="feature-icon">✨</span>
+      <span class="feature-number">05</span>
+      <div class="feature-title">6 Presets de Locução Profissional</div>
+      <div class="feature-desc">Bass Boost, Boost Geral, Clareza, Ambiente, Surround e o novo <strong>Locução Pro</strong> — HPF + EQ broadcast + compressor sutil, calibrado para voz de narração profissional. Ativar e desativar com um clique, sem perder configurações manuais.</div>
+      <span class="feature-tag">calibrado para voz · 6 presets</span>
+    </div>
+
+    <!-- CARD 06 — Na Prática (abre modal com YouTube) -->
+    <div class="feature-card feature-card-video reveal reveal-delay-2" onclick="openVideoModal()">
+      <div class="vp-thumbnail"></div>
+      <div class="vp-scanlines"></div>
+      <div class="vp-corner-tag"><span class="vp-dot-live"></span> Na Prática</div>
+      <div class="vp-ring"></div>
+      <div class="vp-ring-2"></div>
+      <div class="vp-play-btn">▶</div>
+      <div class="vp-label">
+        <span class="vp-eyebrow">Demonstração</span>
+        <span class="vp-title">Veja funcionando</span>
+        <span class="vp-sub">antes → depois em tempo real</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MODAL DE VÍDEO ══ -->
+<div class="video-modal-overlay" id="video-modal" onclick="handleModalClick(event)">
+  <div class="video-modal-box">
+    <div class="video-modal-header">
+      <div class="video-modal-title">
+        VoiceLab — Na Prática
+        <span>Demonstração</span>
+      </div>
+      <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
+    </div>
+    <div class="video-modal-embed" id="video-embed-wrap">
+      <!-- Quando tiver o link, substituir pelo iframe abaixo:         -->
+      <!-- <iframe src="https://www.youtube.com/embed/SEU_ID_AQUI?autoplay=1&rel=0" allowfullscreen allow="autoplay"></iframe> -->
+      <div class="video-modal-placeholder">
+        <div style="font-size:2rem;margin-bottom:4px">🎬</div>
+        <div>Cole o link do YouTube no código</div>
+        <code><!-- substitua este bloco pelo iframe do YouTube --></code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SPLIT: EQ ══ -->
+<div class="split-section" id="como-funciona">
+  <div class="split-visual reveal">
+    <div style="margin-bottom:16px">
+      <div class="section-eyebrow" style="font-size:.62rem;margin-bottom:8px">Equalização</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin-bottom:20px;color:var(--ink)">Curva de Resposta · Preset Clareza</div>
+    </div>
+    <div class="eq-diagram">
+      <div class="eq-row">
+        <div class="eq-name">Graves 80Hz</div>
+        <div class="eq-track">
+          <div class="eq-fill fill-ink" style="width:25%;left:25%;transform:scaleX(-1);transform-origin:right"></div>
+        </div>
+        <div class="eq-val" style="color:var(--red)">−3.2dB</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Médios 1kHz</div>
+        <div class="eq-track">
+          <div class="eq-fill fill-amber" style="width:75%"></div>
+        </div>
+        <div class="eq-val" style="color:var(--amber)">+9.8dB</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Agudos 8kHz</div>
+        <div class="eq-track">
+          <div class="eq-fill fill-teal" style="width:70%"></div>
+        </div>
+        <div class="eq-val">+8.4dB</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Reverb</div>
+        <div class="eq-track">
+          <div class="eq-fill" style="width:12%;background:var(--rule)"></div>
+        </div>
+        <div class="eq-val" style="color:var(--muted)">12%</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Stereo</div>
+        <div class="eq-track">
+          <div class="eq-fill" style="width:8%;background:var(--rule)"></div>
+        </div>
+        <div class="eq-val" style="color:var(--muted)">8%</div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--rule)">
+        <div style="font-size:.72rem;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:6px">MAPEAMENTO DE CURVA</div>
+        <div style="font-size:.8rem;color:var(--ink2);line-height:1.6">Slider raw <code>0→100</code> mapeado para dB via <code>dB = sign × (|raw|/100)^0.65 × 18</code>. Centro expressivo, extremos precisos.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="split-content reveal reveal-delay-1">
+    <div class="section-eyebrow">Equalização</div>
+    <h3>EQ que se comporta como <em>você espera</em></h3>
+    <p>A maioria dos equalizadores de software usa uma escala linear: você arrasta o slider até a metade e obtém metade do ganho. O problema é que o ouvido humano não percebe volume de forma linear.</p>
+    <p>O VoiceLab usa uma <strong>curva logarítmica de potência (0.65)</strong> nos três controles de EQ. Na prática, os primeiros 50% do slider entregam cerca de 65% do ganho total — onde está a "zona de expressividade" da voz — e a segunda metade resolve ajustes mais cirúrgicos.</p>
+    <ul class="detail-list">
+      <li>Graves em 80Hz com filtro lowshelf — adiciona corpo sem embaçar a voz</li>
+      <li>Médios em 1kHz com filtro peaking (Q=1.2) — o núcleo da inteligibilidade vocal</li>
+      <li>Agudos em 8kHz com filtro highshelf — ar e brilho sem chiado</li>
+      <li>Range de ±18dB por banda, seguro contra clipagem na cadeia</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SPLIT: REVERB + STEREO ══ -->
+<div class="split-section flip">
+  <div class="split-content reveal">
+    <div class="section-eyebrow">Reverb &amp; Espacialização</div>
+    <h3>Do microfone de celular<br>ao <em>som de estúdio.</em></h3>
+    <p>Dois controles independentes transformam uma gravação seca e plana em algo com profundidade e presença: o reverb adiciona ambiente acústico, e o stereo widener amplia o campo sonoro sem perder foco na voz.</p>
+    <p>O reverb usa <strong>convolução real</strong> com um impulso de ruído sintético gerado em runtime — não é um filtro simples. O resultado é uma resposta acústica natural, com decaimento suave e calda controlável.</p>
+    <ul class="detail-list">
+      <li>Reverb por convolução com impulso sintético de 2 segundos</li>
+      <li>Mix Wet/Dry independente — reverb não reduz o sinal seco</li>
+      <li>Stereo widening via ChannelSplitter com ganhos L/R independentes</li>
+      <li>Ambos os efeitos incluídos na exportação WAV offline</li>
+    </ul>
+  </div>
+
+  <div class="split-visual reveal reveal-delay-1">
+    <div style="margin-bottom:20px">
+      <div class="section-eyebrow" style="font-size:.62rem;margin-bottom:6px">Espacialização</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--ink)">Reverb · Stereo · Volume</div>
+    </div>
+    <div class="eq-diagram">
+      <div class="eq-row">
+        <div class="eq-name">Reverb</div>
+        <div class="eq-track"><div class="eq-fill" style="width:55%;background:linear-gradient(90deg,#3a7bd5,rgba(58,123,213,0.3))"></div></div>
+        <div class="eq-val" style="color:#3a7bd5">55%</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Dry signal</div>
+        <div class="eq-track"><div class="eq-fill" style="width:83%;background:linear-gradient(90deg,var(--teal),rgba(26,122,110,0.3))"></div></div>
+        <div class="eq-val">83%</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Stereo W.</div>
+        <div class="eq-track"><div class="eq-fill fill-amber" style="width:25%"></div></div>
+        <div class="eq-val" style="color:var(--amber)">25%</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Volume</div>
+        <div class="eq-track"><div class="eq-fill fill-teal" style="width:100%"></div></div>
+        <div class="eq-val">100%</div>
+      </div>
+    </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--rule)">
+      <div style="font-size:.72rem;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:6px">PRESET AMBIENTE ATIVO</div>
+      <div style="font-size:.8rem;color:var(--ink2);line-height:1.6">Reverb 55% · Stereo 25% · Volume 100% · EQ neutro. Sensação de gravação em sala tratada.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SPLIT: WSOLA SPEED ══ -->
+<div class="split-section">
+  <div class="split-visual reveal">
+    <div style="margin-bottom:16px">
+      <div class="section-eyebrow" style="font-size:.62rem;margin-bottom:8px">Velocidade de Fala</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin-bottom:20px;color:var(--ink)">Pitch Correction · WSOLA</div>
+    </div>
+    <div class="eq-diagram">
+      <div class="eq-row">
+        <div class="eq-name">0.5×</div>
+        <div class="eq-track"><div class="eq-fill" style="width:15%;background:linear-gradient(90deg,#3a7bd5,rgba(58,123,213,0.3))"></div></div>
+        <div class="eq-val" style="color:#3a7bd5">Lento</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">0.75×</div>
+        <div class="eq-track"><div class="eq-fill" style="width:35%;background:linear-gradient(90deg,#3a7bd5,rgba(58,123,213,0.3))"></div></div>
+        <div class="eq-val" style="color:#3a7bd5">Devagar</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name" style="color:var(--teal);font-weight:600">1.0×</div>
+        <div class="eq-track"><div class="eq-fill fill-teal" style="width:50%"></div></div>
+        <div class="eq-val">Normal</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">1.5×</div>
+        <div class="eq-track"><div class="eq-fill fill-amber" style="width:72%"></div></div>
+        <div class="eq-val" style="color:var(--amber)">Rápido</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">2.0×</div>
+        <div class="eq-track"><div class="eq-fill" style="width:88%;background:linear-gradient(90deg,#b03030,rgba(176,48,48,0.3))"></div></div>
+        <div class="eq-val" style="color:var(--red)">2× pitch ok</div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--rule)">
+        <div style="font-size:.72rem;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:6px">ALGORITMO</div>
+        <div style="font-size:.8rem;color:var(--ink2);line-height:1.6">WSOLA: janelas de análise de 25ms, hop de síntese de 10ms. Correlação cruzada busca o segmento mais similar para sobreposição — resultado: velocidade sem chiado.</div>
+      </div>
+    </div>
+  </div>
+  <div class="split-content reveal reveal-delay-1">
+    <div class="section-eyebrow">Velocidade de Fala</div>
+    <h3>Mais rápido ou mais devagar,<br><em>mesmo pitch.</em></h3>
+    <p>Controle de velocidade simples acelera o áudio e também o pitch — transformando a voz em algo artificial. O VoiceLab usa o algoritmo <strong>WSOLA</strong> (Waveform Similarity Overlap-Add), que separa as duas dimensões: tempo e frequência.</p>
+    <p>Na prática: você pode enviar uma locução gravada a 1× e exportar a 1.5× — o arquivo final soará como se você tivesse falado naturalmente nessa velocidade. Nenhum "efeito de esquilo", nenhum pitch errado.</p>
+    <ul class="detail-list">
+      <li>Range de 0.25× a 3.0×, com atalhos em 0.5, 0.75, 1, 1.25, 1.5, 1.75 e 2×</li>
+      <li>Janela de análise de 25ms, otimizada para frequência de voz humana</li>
+      <li>Busca por correlação cruzada evita transições abruptas e artefatos</li>
+      <li>Velocidade aplicada também na exportação WAV final</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ══ SPLIT: SIGNAL CHAIN ══ -->
+<div class="split-section">
+  <div class="split-visual reveal">
+    <div style="margin-bottom:16px">
+      <div class="section-eyebrow" style="font-size:.62rem;margin-bottom:6px">Arquitetura</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:20px">Cadeia de Sinal · Web Audio API</div>
+    </div>
+    <div class="signal-chain">
+      <div class="chain-step">
+        <div class="chain-icon">📁</div>
+        <div class="chain-info">
+          <div class="chain-name">AudioBufferSource</div>
+          <div class="chain-sub">MP3 · WAV · OGG · M4A · WEBM</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🔇</div>
+        <div class="chain-info">
+          <div class="chain-name">BiquadFilter HPF</div>
+          <div class="chain-sub">High Pass Filter · 80Hz · ativável</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🎚️</div>
+        <div class="chain-info">
+          <div class="chain-name">BiquadFilter × 3</div>
+          <div class="chain-sub">Lowshelf · Peaking · Highshelf</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🔊</div>
+        <div class="chain-info">
+          <div class="chain-name">GainNode + DynamicsCompressor</div>
+          <div class="chain-sub">Volume · Compressor −18dB · ativável</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🔉</div>
+        <div class="chain-info">
+          <div class="chain-name">De-esser · BiquadFilter Peaking</div>
+          <div class="chain-sub">6,5kHz · −4dB · Q=3 · ativável</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🌊</div>
+        <div class="chain-info">
+          <div class="chain-name">Convolver · Dry/Wet</div>
+          <div class="chain-sub">Reverb com impulso sintético</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🌐</div>
+        <div class="chain-info">
+          <div class="chain-name">Splitter · Merger · Gains</div>
+          <div class="chain-sub">Stereo widening L/R independente</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🛑</div>
+        <div class="chain-info">
+          <div class="chain-name">Limiter · DynamicsCompressor</div>
+          <div class="chain-sub">−3dBFS · ratio 20:1 · ativável</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">📊</div>
+        <div class="chain-info">
+          <div class="chain-name">AnalyserNode × 2 + FrequencyData</div>
+          <div class="chain-sub">VU meter L/R + espectro em tempo real</div>
+        </div>
+        <div class="chain-arrow">↓</div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-icon">🔈</div>
+        <div class="chain-info">
+          <div class="chain-name">AudioDestination</div>
+          <div class="chain-sub">Saída · Preview ou Export WAV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="split-content reveal reveal-delay-1">
+    <div class="section-eyebrow">Arquitetura Técnica</div>
+    <h3>Processamento <em>real.</em> Não emulação.</h3>
+    <p>VoiceLab usa a <strong>Web Audio API</strong>, a mesma tecnologia de processamento de sinal digital usada por aplicativos profissionais de áudio no navegador. Cada controle manipula um nó real na cadeia de processamento.</p>
+    <p>A exportação usa o <strong>OfflineAudioContext</strong>, que reconstrói toda a cadeia de processamento em modo headless e renderiza o áudio processado antes de codificá-lo como WAV PCM 16-bit. O arquivo exportado é bit-a-bit idêntico ao que você ouviu no preview.</p>
+    <ul class="detail-list">
+      <li>HPF → EQ → Compressor → De-esser → Reverb → Limiter: ordem broadcast padrão</li>
+      <li>Nenhum áudio sai do dispositivo — processamento 100% local</li>
+      <li>Compatível com Chrome, Firefox, Safari, Edge e navegadores modernos</li>
+      <li>Um único arquivo .html — copie, compartilhe, hospede onde quiser</li>
+      <li>Sem localStorage, sem cookies, sem rastreamento de qualquer tipo</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ PRESETS ══ -->
+<div class="presets-bg">
+  <section class="section" id="presets">
+    <div class="section-eyebrow reveal">6 Presets</div>
+    <h2 class="reveal reveal-delay-1">Sons de estúdio,<br><em>em um clique.</em></h2>
+    <p class="section-lead reveal reveal-delay-2">Cada preset foi calibrado especificamente para locução — não para música. Eles podem ser ativados e desativados com um clique, e servem como ponto de partida para ajuste manual.</p>
+
+    <div class="presets-showcase">
+      <div class="preset-showcase-card reveal" data-color="teal">
+        <span class="preset-sc-icon">🔊</span>
+        <div class="preset-sc-name">Bass Boost</div>
+        <div class="preset-sc-desc">Reforço de graves profundo. Para vozes que precisam de mais corpo e peso.</div>
+        <div class="preset-sc-tags">
+          <span class="preset-sc-tag">Graves: +8.0dB</span>
+          <span class="preset-sc-tag">Médios: −2.2dB</span>
+          <span class="preset-sc-tag">Stereo: 10%</span>
+        </div>
+      </div>
+      <div class="preset-showcase-card reveal reveal-delay-1" data-color="amber">
+        <span class="preset-sc-icon">📣</span>
+        <div class="preset-sc-name">Boost Geral</div>
+        <div class="preset-sc-desc">Volume e brilho aumentados. Ideal para vídeo-aulas e conteúdo educacional.</div>
+        <div class="preset-sc-tags">
+          <span class="preset-sc-tag">Volume: +50%</span>
+          <span class="preset-sc-tag">Todas bandas: +</span>
+          <span class="preset-sc-tag">Stereo: 20%</span>
+        </div>
+      </div>
+      <div class="preset-showcase-card reveal reveal-delay-2" data-color="blue">
+        <span class="preset-sc-icon">💎</span>
+        <div class="preset-sc-name">Clareza</div>
+        <div class="preset-sc-desc">Reduz lama de graves, destaca médios e agudos. Máxima inteligibilidade.</div>
+        <div class="preset-sc-tags">
+          <span class="preset-sc-tag">Médios: +9.8dB</span>
+          <span class="preset-sc-tag">Agudos: +8.4dB</span>
+          <span class="preset-sc-tag">Graves: −3.2dB</span>
+        </div>
+      </div>
+      <div class="preset-showcase-card reveal reveal-delay-3" data-color="green">
+        <span class="preset-sc-icon">🎚️</span>
+        <div class="preset-sc-name">Ambiente</div>
+        <div class="preset-sc-desc">Reverb sutil com conforto acústico. Sensação de estúdio sem exagero.</div>
+        <div class="preset-sc-tags">
+          <span class="preset-sc-tag">Reverb: 55%</span>
+          <span class="preset-sc-tag">Stereo: 25%</span>
+          <span class="preset-sc-tag">EQ neutro</span>
+        </div>
+      </div>
+      <div class="preset-showcase-card reveal reveal-delay-4" data-color="purple">
+        <span class="preset-sc-icon">🌐</span>
+        <div class="preset-sc-name">Surround</div>
+        <div class="preset-sc-desc">Stereo widening intenso. Voz ampla e envolvente para podcasts e narrações.</div>
+        <div class="preset-sc-tags">
+          <span class="preset-sc-tag">Stereo: 85%</span>
+          <span class="preset-sc-tag">Reverb: 20%</span>
+          <span class="preset-sc-tag">Agudos: +3.8dB</span>
+        </div>
+      </div>
+      <div class="preset-showcase-card reveal reveal-delay-5" data-color="pink">
+        <span class="preset-sc-icon">🎙️</span>
+        <div class="preset-sc-name">Locução Pro</div>
+        <div class="preset-sc-desc">HPF + EQ broadcast + compressor sutil. O preset de narração profissional completo.</div>
+        <div class="preset-sc-tags">
+          <span class="preset-sc-tag">HPF: on</span>
+          <span class="preset-sc-tag">Comp: on</span>
+          <span class="preset-sc-tag">De-esser: on</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ COMO USAR ══ -->
+<section class="section">
+  <div class="section-eyebrow reveal">Como Usar</div>
+  <h2 class="reveal reveal-delay-1">De zero ao áudio<br><em>processado</em> em 4 passos.</h2>
+
+  <div class="steps-grid">
+    <div class="step-item reveal">
+      <div class="step-num">1</div>
+      <div class="step-title">Baixe o arquivo</div>
+      <div class="step-desc">Um único arquivo <code>.html</code>. Salve em qualquer pasta. Não precisa de instalação, servidor ou conexão com a internet.</div>
+    </div>
+    <div class="step-item reveal reveal-delay-1">
+      <div class="step-num">2</div>
+      <div class="step-title">Arraste seu áudio</div>
+      <div class="step-desc">Suporta MP3, WAV, OGG, M4A e WEBM. Arraste para a zona de upload ou clique para selecionar.</div>
+    </div>
+    <div class="step-item reveal reveal-delay-2">
+      <div class="step-num">3</div>
+      <div class="step-title">Escolha um preset ou ajuste</div>
+      <div class="step-desc">Selecione um dos 6 presets, ative HPF/Compressor/De-esser/Limiter individualmente, ajuste velocidade com pitch correction e refine EQ, reverb e stereo.</div>
+    </div>
+    <div class="step-item reveal reveal-delay-3">
+      <div class="step-num">4</div>
+      <div class="step-title">Exporte o WAV</div>
+      <div class="step-desc">Clique em exportar. O arquivo WAV processado é gerado localmente e baixado automaticamente no seu dispositivo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SPEC TABLE ══ -->
+<div style="background:var(--cream);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)">
+  <section class="section">
+    <div class="section-eyebrow reveal">Especificações</div>
+    <h2 class="reveal reveal-delay-1"><em>Debaixo</em> do capô.</h2>
+    <table class="spec-table reveal reveal-delay-2">
+      <thead>
+        <tr>
+          <th>Especificação</th>
+          <th>Descrição</th>
+          <th>Valor / Tecnologia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Motor de Áudio</td>
+          <td>API nativa do navegador para processamento de sinal digital em tempo real</td>
+          <td>Web Audio API</td>
+        </tr>
+        <tr>
+          <td>Exportação</td>
+          <td>Renderização offline da cadeia completa de processamento antes de codificar</td>
+          <td>OfflineAudioContext · WAV PCM 16-bit</td>
+        </tr>
+        <tr>
+          <td>Equalização</td>
+          <td>Três filtros biquad em série com mapeamento logarítmico de curva</td>
+          <td>Lowshelf · Peaking · Highshelf · ±18dB</td>
+        </tr>
+        <tr>
+          <td>High Pass Filter</td>
+          <td>Filtro passa-alta para eliminar ruído de baixa frequência e rumble de microfone</td>
+          <td>BiquadFilter HPF · 80Hz · ativável</td>
+        </tr>
+        <tr>
+          <td>Compressor</td>
+          <td>Compressão dinâmica para dominar picos e uniformizar o volume da voz</td>
+          <td>DynamicsCompressor · −18dB threshold · ratio 3:1</td>
+        </tr>
+        <tr>
+          <td>De-esser</td>
+          <td>Filtro peaking negativo para reduzir sibilâncias excessivas sem perder nitidez</td>
+          <td>BiquadFilter Peaking · 6,5kHz · −4dB · Q=3</td>
+        </tr>
+        <tr>
+          <td>Velocidade de Fala</td>
+          <td>Alteração de duração sem alterar o pitch via correlação cruzada por janelas de Hann</td>
+          <td>WSOLA · 0.25× → 3.0× · pitch preserve</td>
+        </tr>
+        <tr>
+          <td>Reverb</td>
+          <td>Convolução com impulso de ruído sintético gerado em runtime</td>
+          <td>ConvolverNode · Wet/Dry independente</td>
+        </tr>
+        <tr>
+          <td>Stereo Widening</td>
+          <td>Separação de canais L/R com ganhos independentes por ChannelSplitter</td>
+          <td>ChannelSplitter + ChannelMerger</td>
+        </tr>
+        <tr>
+          <td>Limiter</td>
+          <td>Compressor de alta razão no final da cadeia para evitar clipping digital na exportação</td>
+          <td>DynamicsCompressor · −3dBFS · ratio 20:1</td>
+        </tr>
+        <tr>
+          <td>Visualização</td>
+          <td>Forma de onda estática + VU meter estéreo + espectro de frequência em tempo real</td>
+          <td>Canvas 2D · AnalyserNode × 2 · FrequencyData</td>
+        </tr>
+        <tr>
+          <td>Formatos Suportados</td>
+          <td>Qualquer formato decodificável pelo codec do navegador host</td>
+          <td>MP3 · WAV · OGG · M4A · WEBM</td>
+        </tr>
+        <tr>
+          <td>Privacidade</td>
+          <td>Zero dados trafegam pela rede. Nenhum servidor envolvido no processamento</td>
+          <td>100% local · offline-capable</td>
+        </tr>
+        <tr>
+          <td>Distribuição</td>
+          <td>Arquivo HTML único sem dependências externas de runtime</td>
+          <td>1 arquivo · ~80KB · zero npm</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<!-- ══ PULLQUOTE ══ -->
+<div class="pullquote-bg">
+  <div class="pullquote">
+    <blockquote class="reveal">
+      "Microfone de celular não precisa soar como microfone de celular. Com os filtros certos, <em>qualquer voz pode soar como estúdio.</em>"
+    </blockquote>
+    <div class="pullquote-source reveal reveal-delay-1">VoiceLab · Processador de Locução Gratuito</div>
+  </div>
+</div>
+
+<!-- ══ FAQ ══ -->
+<section class="section">
+  <div class="section-eyebrow reveal">Dúvidas Frequentes</div>
+  <h2 class="reveal reveal-delay-1">Perguntas <em>respondidas.</em></h2>
+
+  <div class="faq-list reveal reveal-delay-2">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        O controle de velocidade altera o pitch da voz?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">Não. O VoiceLab usa o algoritmo WSOLA (Waveform Similarity Overlap-Add), que altera a duração do áudio sem modificar o pitch. Você pode acelerar a 1.5× ou 2× e a voz continua com o mesmo tom — sem "efeito de esquilo". É o mesmo método utilizado por ferramentas como Camtasia e CapCut, implementado 100% no navegador.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Para que servem o Compressor, De-esser e Limiter?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">São processadores de dinâmica que tornam a voz mais consistente e profissional. O Compressor reduz a diferença entre os momentos mais altos e mais baixos da fala. O De-esser remove sibilâncias excessivas (sons de "s" e "ch" que ficam metálicos). O Limiter garante que o arquivo exportado nunca ultrapasse o teto digital, evitando distorção. Todos podem ser ativados/desativados individualmente via toggle.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Preciso de conexão com a internet para usar o VoiceLab?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">Não. Após baixar o arquivo HTML, o VoiceLab funciona completamente offline. O único momento em que a internet é necessária é ao abrir o arquivo pela primeira vez, para carregar as fontes do Google Fonts. Todo o processamento de áudio é feito localmente no seu dispositivo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Meu áudio é enviado para algum servidor?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">Nunca. O VoiceLab usa exclusivamente a Web Audio API nativa do seu navegador. Seu arquivo de áudio é carregado diretamente na memória do navegador, processado localmente e exportado para o seu dispositivo. Nenhum dado trafega pela rede durante o processamento ou exportação.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Quais navegadores são suportados?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">Todos os navegadores modernos com suporte à Web Audio API: Google Chrome (v66+), Mozilla Firefox (v76+), Safari (v14+) e Microsoft Edge (v79+). Não funciona no Internet Explorer. Para a melhor experiência, recomendamos Chrome ou Edge.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Posso usar o áudio exportado em qualquer editor de vídeo?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">Sim. O VoiceLab exporta em WAV PCM 16-bit, o formato mais universalmente compatível para edição de áudio e vídeo. Funciona sem nenhuma configuração extra no Camtasia, DaVinci Resolve, Adobe Premiere, Final Cut Pro, CapCut e qualquer outro editor. Por ser sem perda (lossless), o arquivo exportado mantém toda a qualidade do processamento aplicado.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Posso usar em produções comerciais?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">Sim. O VoiceLab é completamente gratuito e livre para uso pessoal, educacional e comercial. Não há restrições de licença sobre o áudio processado pela ferramenta. Você é livre para usar o áudio exportado em vídeos, podcasts, cursos e qualquer outra produção.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Qual é o limite de tamanho de arquivo?
+        <span class="faq-q-icon">+</span>
+      </div>
+      <div class="faq-a">Não existe um limite imposto pelo VoiceLab. O limite prático é a memória disponível no seu dispositivo e as restrições do seu navegador. Em geral, arquivos de até 500MB funcionam sem problemas. Para arquivos muito grandes, o processamento e a exportação podem levar alguns segundos a mais.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA FINAL ══ -->
+<section class="cta-section" id="download">
+  <div class="cta-inner">
+    <h2 class="reveal">Pronto para usar.<br><em>Gratuitamente.</em></h2>
+    <p class="reveal reveal-delay-1">Um arquivo HTML. Sem instalação, sem conta, sem assinatura. Abra no navegador e comece a processar seu áudio agora.</p>
+    <a class="btn-cta-big reveal reveal-delay-2" href="voice-enhancer.html" download="VoiceLab.html">
+      ⬇&nbsp; Baixar VoiceLab.html
+    </a>
+    <p class="cta-note reveal reveal-delay-3">arquivo único · ~80KB · funciona offline · zero dependências</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div style="margin-bottom:8px">
+    <strong>VoiceLab</strong> · Processador de Locução Gratuito
+  </div>
+  <div>
+    Construído com Web Audio API · 100% local · Sem coleta de dados<br>
+    Distribuído gratuitamente para criadores de conteúdo
+  </div>
+  <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 20px;">
+    <span style="color:rgba(245,240,232,0.55);font-size:0.82rem">Criado por <strong style="color:rgba(245,240,232,0.85)">Alexandre Torres</strong></span>
+    <span style="color:rgba(255,255,255,0.12)">·</span>
+    <a href="https://instagram.com/aletordev" target="_blank" rel="noopener" style="color:var(--amber);text-decoration:none;font-size:0.8rem;font-weight:500">@aletordev</a>
+    <span style="color:rgba(255,255,255,0.12)">·</span>
+    <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener" style="color:var(--amber);text-decoration:none;font-size:0.8rem;font-weight:500">YouTube</a>
+    <span style="color:rgba(255,255,255,0.12)">·</span>
+    <a href="https://linkedin.com/" target="_blank" rel="noopener" style="color:var(--amber);text-decoration:none;font-size:0.8rem;font-weight:500">LinkedIn</a>
+    <span style="color:rgba(255,255,255,0.12)">·</span>
+    <a href="https://alexandretorres.com.br" target="_blank" rel="noopener" style="color:var(--amber);text-decoration:none;font-size:0.8rem;font-weight:500">alexandretorres.com.br ↗</a>
+  </div>
+  <div style="margin-top:12px;font-size:0.72rem;color:rgba(245,240,232,0.25)">
+    CNPJ 54.806.916/0001-62 &nbsp;·&nbsp; © <span id="footer-year"></span> Alexandre Torres &nbsp;·&nbsp; Todos os direitos reservados
+  </div>
+</footer>
+<script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+/* ── SCROLL REVEAL ── */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => observer.observe(el));
+
+/* ── FAQ ACCORDION ── */
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ── VIDEO MODAL ── */
+// ▶ Para adicionar seu vídeo do YouTube:
+//   1. Pegue o ID do vídeo (ex: "dQw4w9WgXcQ" de youtube.com/watch?v=dQw4w9WgXcQ)
+//   2. Cole no campo YOUTUBE_VIDEO_ID abaixo
+const YOUTUBE_VIDEO_ID = ''; // ← cole o ID do YouTube aqui
+
+function openVideoModal() {
+  const modal = document.getElementById('video-modal');
+  const wrap  = document.getElementById('video-embed-wrap');
+
+  if (YOUTUBE_VIDEO_ID) {
+    wrap.innerHTML = `<iframe
+      src="https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1"
+      allow="autoplay; fullscreen"
+      allowfullscreen>
+    </iframe>`;
+  }
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('video-modal');
+  const wrap  = document.getElementById('video-embed-wrap');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+
+  // Para o vídeo ao fechar (remove o iframe)
+  setTimeout(() => {
+    if (YOUTUBE_VIDEO_ID) {
+      wrap.innerHTML = `<iframe
+        src="https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>`;
+    }
+  }, 300);
+}
+
+function handleModalClick(e) {
+  // Fecha ao clicar no overlay (fora da caixa)
+  if (e.target === document.getElementById('video-modal')) closeVideoModal();
+}
+
+// Fecha com ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeVideoModal();
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
