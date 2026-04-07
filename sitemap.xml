@@ -7,12 +7,6 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://alexandretorres.com.br/at-lab/img/</loc>
-    <lastmod>2026-04-06T17:43:13.000+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://alexandretorres.com.br/at-lab/</loc>
     <lastmod>2026-04-07T11:36:22.000+00:00</lastmod>
     <changefreq>daily</changefreq>
@@ -25,12 +19,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alexandretorres.com.br/ilist/img/</loc>
-    <lastmod>2026-04-07T10:28:13.000+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://alexandretorres.com.br/ilist/</loc>
     <lastmod>2026-04-07T11:39:13.000+00:00</lastmod>
     <changefreq>daily</changefreq>
@@ -39,12 +27,6 @@
   <url>
     <loc>https://alexandretorres.com.br/privacidade/</loc>
     <lastmod>2026-04-07T11:34:55.000+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://alexandretorres.com.br/voicelab/img/</loc>
-    <lastmod>2026-04-07T10:13:48.000+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
