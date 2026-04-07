@@ -1,5 +1,5 @@
 /**
- * generate-sitemap.js
+ * generate-sitemap.js (VERSÃO APRIMORADA)
  *
  * Gera o sitemap.xml automaticamente com:
  *  - URLs de todos os index.html encontrados no repositório
@@ -7,6 +7,7 @@
  *  - Formato ISO 8601 com timezone: 2026-03-31T19:31:56+00:00
  *  - <priority> automático (1.0 para raiz, 0.8 para subpáginas)
  *  - <changefreq> automático baseado na frequência de commits
+ *  - APRIMORADO: Exclui pastas de assets (/img, /images, /assets, etc)
  *
  * Como usar localmente:
  *   node generate-sitemap.js
@@ -29,9 +30,37 @@ const IGNORE = [
   '.github',
   'vendor',
   'dist',
+  'build',
+  'coverage',
+];
+
+// Pastas de assets que NÃO devem ter suas URLs no sitemap
+// Mesmo que tenham index.html, elas serão ignoradas
+const ASSET_FOLDERS = [
+  'img',
+  'images',
+  'assets',
+  'media',
+  'css',
+  'js',
+  'fonts',
+  'icons',
+  'videos',
+  'downloads',
+  'uploads',
+  'static',
 ];
 
 // ============================================================
+
+/**
+ * Verifica se um caminho contém uma pasta de assets
+ * Exemplo: '/projeto/img/index.html' → true
+ */
+function containsAssetFolder(filePath) {
+  const parts = filePath.toLowerCase().split(path.sep);
+  return ASSET_FOLDERS.some((folder) => parts.includes(folder));
+}
 
 /**
  * Retorna a data do último commit Git de um arquivo
@@ -70,9 +99,9 @@ function getChangeFreq(filePath) {
     ).trim();
 
     const n = parseInt(count, 10);
-    if (n >= 8)  return 'daily';
-    if (n >= 4)  return 'weekly';
-    if (n >= 1)  return 'monthly';
+    if (n >= 8) return 'daily';
+    if (n >= 4) return 'weekly';
+    if (n >= 1) return 'monthly';
     return 'yearly';
   } catch {
     return 'monthly';
@@ -89,6 +118,7 @@ function toIsoWithOffset(date) {
 
 /**
  * Varre recursivamente o diretório em busca de arquivos index.html
+ * Pula pastas de assets automaticamente
  */
 function findIndexFiles(dir, found = []) {
   let entries;
@@ -105,7 +135,10 @@ function findIndexFiles(dir, found = []) {
     const fullPath = path.join(dir, entry.name);
 
     if (entry.isDirectory()) {
-      findIndexFiles(fullPath, found);
+      // Pula pastas de assets
+      if (!ASSET_FOLDERS.includes(entry.name.toLowerCase())) {
+        findIndexFiles(fullPath, found);
+      }
     } else if (entry.name === 'index.html') {
       found.push(fullPath);
     }
@@ -138,7 +171,7 @@ function getPriority(url) {
 // EXECUÇÃO
 // ============================================================
 
-console.log('🗺️  Gerando sitemap.xml...\n');
+console.log('🗺️  Gerando sitemap.xml (versão aprimorada)...\n');
 
 const root = process.cwd();
 const indexFiles = findIndexFiles(root);
@@ -190,3 +223,4 @@ const sitemap = [
 fs.writeFileSync(path.join(root, 'sitemap.xml'), sitemap, 'utf8');
 
 console.log(`✅ sitemap.xml gerado com ${indexFiles.length} URL(s).`);
+console.log(`   (${ASSET_FOLDERS.length} pastas de assets foram excluídas)\n`);
