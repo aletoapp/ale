@@ -108,6 +108,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
+  font-size: 17px; /* ← ALTERADO: era 16px implícito — escala todo o sistema rem */
   scroll-behavior: smooth;
 }
 
@@ -172,7 +173,6 @@ section { position: relative; overflow: hidden; }
 .theme-toggle {
   display: flex; align-items: center; gap: 0.7rem;
   cursor: pointer;
-  /* FIX 1: padding reduzido — sem label, o botão fica compacto */
   padding: 0.4rem 0.6rem;
   border-radius: 30px;
   border: 1px solid var(--border);
@@ -202,21 +202,17 @@ section { position: relative; overflow: hidden; }
 }
 [data-theme="light"] .tt-dot { transform: translateX(15px); }
 
-/* FIX 1: Label do tema — oculto em mobile, visível apenas em telas maiores */
 .tt-label {
   font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em;
   color: var(--ink-3); text-transform: uppercase; white-space: nowrap;
   transition: color 0.55s ease;
-  /* Oculto por padrão no mobile */
   display: none;
 }
-/* Aparece a partir de 900px — espaço garantido na nav */
 @media (min-width: 900px) {
   .tt-label { display: inline; }
   .theme-toggle { padding: 0.4rem 0.8rem 0.4rem 0.5rem; }
 }
 
-/* FIX 1: Lang switcher — touch targets maiores em mobile */
 .nav-right { display: flex; align-items: center; gap: 1.25rem; }
 .lang-switcher {
   display: flex; align-items: center;
@@ -233,7 +229,6 @@ section { position: relative; overflow: hidden; }
   font-weight: 400;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  /* Touch target generoso */
   padding: 0.5rem 0.8rem;
   min-width: 42px;
   min-height: 42px;
@@ -332,7 +327,6 @@ section { position: relative; overflow: hidden; }
 }
 .hero-sub.visible { animation: lineIn 0.7s ease forwards; }
 
-/* FIX 2: CTA row — z-index acima das stats */
 .hero-cta-row {
   display: flex; align-items: center; justify-content: center;
   gap: 2rem; flex-wrap: wrap; margin-top: 2.8rem; opacity: 0;
@@ -341,14 +335,13 @@ section { position: relative; overflow: hidden; }
 }
 .hero-cta-row.visible { animation: lineIn 0.7s ease forwards; }
 
-/* Stats strip */
 .hero-stats {
   position: absolute; bottom: 0; left: 0; right: 0;
   display: grid; grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid var(--border); opacity: 0;
   background: var(--bg);
   transition: border-color 0.55s ease, background 0.55s ease;
-  z-index: 3; /* FIX 2: abaixo do CTA row */
+  z-index: 3;
 }
 .hero-stats.visible { animation: lineIn 0.7s ease forwards; }
 .hs-item {
@@ -406,10 +399,9 @@ section { position: relative; overflow: hidden; }
 .dor-quote { margin-top: 5rem; border-left: 3px solid var(--gold); padding: 2rem 2.5rem; background: var(--surface); border-radius: 0 4px 4px 0; transition: border-color 0.55s ease, background 0.55s ease; }
 .dor-quote p { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; line-height: 1.6; color: var(--ink-2); transition: color 0.55s ease; }
 
-/* FIX 3: Botão inline após os dor-items */
 .dor-cta-wrap {
   margin-top: 2rem;
-  padding-left: 1.6rem; /* alinha com o border-left dos .dor-item */
+  padding-left: 1.6rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -537,7 +529,6 @@ section { position: relative; overflow: hidden; }
   .pj-item:hover .pj-desc { color: var(--ink-2); }
 }
 
-/* reward code block */
 .reward-code-block { margin-top: 1rem; border-top: 1px solid var(--border-soft); padding-top: 0.9rem; }
 .reward-code-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.55rem; }
 .reward-code-row { display: flex; width: 100%; border: 1px solid var(--border); background: var(--bg-2); overflow: hidden; transition: border-color 0.25s; }
@@ -783,7 +774,7 @@ section { position: relative; overflow: hidden; }
 @keyframes dotPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0.5); } 50% { box-shadow: 0 0 0 5px rgba(200,169,110,0); } }
 
 /* ══════════════════════════════════════════════════════
-   CTA (comentado no original — mantido para eventual uso)
+   CTA
 ══════════════════════════════════════════════════════ */
 #cta { background: var(--bg); padding: 11rem 2.5rem; text-align: center; position: relative; overflow: hidden; border-top: 1px solid var(--border-soft); transition: background 0.55s ease, border-color 0.55s ease; }
 .cta-inner { position: relative; z-index: 1; }
@@ -847,7 +838,7 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
 .sr.in { opacity: 1; transform: translateY(0); }
 
 /* ══════════════════════════════════════════════════════
-   DIAGNÓSTICO GRATUITO (bloco dentro de #dor .dor-left)
+   DIAGNÓSTICO GRATUITO
 ══════════════════════════════════════════════════════ */
 .dor-diagnostic-block { margin-top: 2.4rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-left: 3px solid var(--gold); background: var(--gold-dim); transition: border-color 0.55s ease, background 0.55s ease; }
 [data-theme="light"] .dor-diagnostic-block { padding: 0; border: none; background: transparent; }
@@ -934,7 +925,6 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
   .cfl-line2 { font-size: clamp(1rem, 4.5vw, 1.35rem); }
   .cfl-br { display: none; }
   .cfl-btn { width: 100%; text-align: center; padding: 1.1rem 1.5rem !important; }
-  /* FIX 3: mobile — alinhar com padding da seção */
   .dor-cta-wrap { padding-left: 0; }
 }
 
