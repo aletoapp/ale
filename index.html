@@ -10,7 +10,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Suprime tradução automática do Chrome/Safari -->
 <meta name="google" content="notranslate">
 <title>Alexandre Torres — Aplicações, Sites e Landing Pages</title>
 <meta name="description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios.">
@@ -64,7 +63,8 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
 /* LANG SWITCHER */
 .nav-right{display:flex;align-items:center;gap:1.25rem}
 .lang-switcher{display:flex;align-items:center;background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.15);border-radius:6px;overflow:hidden;font-family:'DM Mono',monospace}
-.lang-btn{background:none;border:none;color:rgba(200,169,110,0.45);font-family:'DM Mono',monospace;font-size:0.62rem;font-weight:400;letter-spacing:0.10em;text-transform:uppercase;padding:0.3rem 0.55rem;cursor:pointer;transition:color 0.2s,background 0.2s;line-height:1;position:relative}
+/* FIX 1: lang-btn com touch target maior */
+.lang-btn{background:none;border:none;color:rgba(200,169,110,0.45);font-family:'DM Mono',monospace;font-size:0.65rem;font-weight:400;letter-spacing:0.10em;text-transform:uppercase;padding:0.5rem 0.8rem;min-width:42px;min-height:42px;cursor:pointer;transition:color 0.2s,background 0.2s;line-height:1;position:relative;display:flex;align-items:center;justify-content:center}
 .lang-btn:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(200,169,110,0.18)}
 .lang-btn:hover{color:rgba(200,169,110,0.75)}
 .lang-btn.active{color:#c8a96e;font-weight:500}
@@ -73,8 +73,13 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
 [data-theme="light"] .lang-btn:hover{color:rgba(156,124,62,0.75)}
 [data-theme="light"] .lang-btn.active{color:#9c7c3e}
 [data-theme="light"] .lang-btn:not(:last-child)::after{background:rgba(156,124,62,0.2)}
-@media(max-width:480px){.lang-btn{padding:0.28rem 0.45rem;font-size:0.58rem}}
+/* FIX 1: tt-label oculto no mobile */
+.tt-label{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;color:rgba(200,169,110,0.6);text-transform:uppercase;white-space:nowrap;transition:color 0.55s ease;display:none}
+@media(min-width:900px){.tt-label{display:inline}}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* FIX 2: hero-cta-row acima das stats */
+.hero-cta-row{position:relative;z-index:10}
+.hero-stats{z-index:3}
 </style>
   <script type="application/ld+json">
 {
@@ -137,6 +142,7 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
       <button class="lang-btn" id="langEN" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
       <button class="lang-btn" id="langES" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
     </div>
+    <!-- FIX 1: .tt-label permanece no DOM (JS usa #ttLabel), mas CSS o esconde em mobile -->
     <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema" title="Alternar modo claro/escuro">
       <div class="tt-track" aria-hidden="true"><div class="tt-dot" id="ttDot">🌙</div></div>
       <span class="tt-label" id="ttLabel" data-i18n="themeLabel">Versão clara</span>
@@ -155,6 +161,7 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
   </h1>
   <p class="hero-sub" id="heroSub" data-i18n="heroSub">Landing pages construídas com base em arquitetura psicológica de compra — não opinião de designer.</p>
   <div class="hero-micro-proof" id="heroMicroProof" role="status" data-i18n="heroMicro">Não adie a engenharia que valida o seu lucro.</div>
+  <!-- FIX 2: .hero-cta-row com z-index:10 via CSS — fica acima de .hero-stats -->
   <div class="hero-cta-row" id="heroCtaRow">
     <a href="https://wa.me/5527996252050?text=Ol%C3%A1%20Alexandre%2C%20quero%20saber%20mais%20sobre%20landing%20pages%20de%20alta%20convers%C3%A3o." class="btn-primary" target="_blank" rel="noopener noreferrer">
       <span data-i18n="heroCTA">Quero parar de perder vendas</span>
@@ -191,6 +198,14 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
         <div class="dor-item sr"><strong data-i18n="dor2title">Visita sem comprar.</strong><p data-i18n="dor2p">As pessoas chegam, rolam por segundos e saem.</p></div>
         <div class="dor-item sr"><strong data-i18n="dor3title">Design bonito que não converte.</strong><p data-i18n="dor3p">Visual sem estratégia é decoração.</p></div>
         <div class="dor-item sr"><strong data-i18n="dor4title">Copy que descreve, não conecta.</strong><p data-i18n="dor4p">Sem conexão emocional, não há decisão de compra.</p></div>
+        <!-- FIX 3: botão inserido após dor4 -->
+        <div class="dor-cta-wrap sr">
+          <a href="https://alexandretorres.com.br/at-lab/" class="dor-inline-cta" target="_blank" rel="noopener noreferrer">
+            <span data-i18n="dorCtaBtn">Ver como resolvemos isso</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <p class="dor-inline-sub" data-i18n="dorCtaSub">Estratégia, estrutura e execução real — sem achismo.</p>
+        </div>
       </div>
     </div>
     <blockquote class="dor-quote sr"><p data-i18n="dorQuote">"Uma página de alta conversão não é custo — é o ativo mais rentável do seu negócio."</p></blockquote>
@@ -431,15 +446,6 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
 
 <script src="assets/js/script.js" defer></script>
 
-<!-- ═══════════════════════════════════════════════════════════
-     I18N ENGINE
-     - translate="no" + <meta name="google" content="notranslate">
-       suprime o balão do Chrome/Safari/Edge
-     - Detecção: localStorage → navigator.language → fallback en
-     - es-419, es-MX, en-US, en-GB etc. todos mapeados corretamente
-     - data-i18n       → textContent
-     - data-i18n-html  → innerHTML  (para tags <br><em> etc.)
-═══════════════════════════════════════════════════════════ -->
 <script>
 (function(){
 'use strict';
@@ -462,6 +468,8 @@ pt:{
   dor2title:'Visita sem comprar.',dor2p:'As pessoas chegam, rolam por segundos e saem.',
   dor3title:'Design bonito que não converte.',dor3p:'Visual sem estratégia é decoração.',
   dor4title:'Copy que descreve, não conecta.',dor4p:'Sem conexão emocional, não há decisão de compra.',
+  dorCtaBtn:'Ver como resolvemos isso',
+  dorCtaSub:'Estratégia, estrutura e execução real — sem achismo.',
   dorQuote:'"Uma página de alta conversão não é custo — é o ativo mais rentável do seu negócio."',
   portEyebrow:'Provas vivas de pensamento aplicado',
   portH2:'Projetos que validam<br><em>o meu método.</em>',
@@ -524,6 +532,8 @@ en:{
   dor2title:"Visitors who don't buy.",dor2p:'People arrive, scroll for a few seconds, and leave.',
   dor3title:"Pretty design that doesn't convert.",dor3p:'Visuals without strategy are just decoration.',
   dor4title:"Copy that describes, not connects.",dor4p:"Without emotional connection, there's no purchase decision.",
+  dorCtaBtn:'See how we solve this',
+  dorCtaSub:'Strategy, structure and real execution — no guesswork.',
   dorQuote:"\"A high-converting page isn't a cost — it's the most profitable asset of your business.\"",
   portEyebrow:'Live proof of applied thinking',
   portH2:'Projects that validate<br><em>my method.</em>',
@@ -586,6 +596,8 @@ es:{
   dor2title:'Visitas sin comprar.',dor2p:'Las personas llegan, hacen scroll por segundos y se van.',
   dor3title:'Diseño bonito que no convierte.',dor3p:'Visual sin estrategia es decoración.',
   dor4title:'Copy que describe, no conecta.',dor4p:'Sin conexión emocional, no hay decisión de compra.',
+  dorCtaBtn:'Ver cómo lo resolvemos',
+  dorCtaSub:'Estrategia, estructura y ejecución real — sin suposiciones.',
   dorQuote:'"Una página de alta conversión no es un gasto — es el activo más rentable de tu negocio."',
   portEyebrow:'Pruebas vivas de pensamiento aplicado',
   portH2:'Proyectos que validan<br><em>mi método.</em>',
@@ -639,7 +651,7 @@ function detectLang(){
   if(n.startsWith('pt'))return 'pt';
   if(n.startsWith('es'))return 'es';
   if(n.startsWith('en'))return 'en';
-  return 'en'; // qualquer outro idioma → inglês
+  return 'en';
 }
 
 function applyLang(lang){
