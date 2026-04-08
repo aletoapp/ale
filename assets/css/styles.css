@@ -840,7 +840,7 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
 /* ══════════════════════════════════════════════════════
    DIAGNÓSTICO GRATUITO
 ══════════════════════════════════════════════════════ */
-.dor-diagnostic-block { margin-top: 2.4rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-left: 3px solid var(--gold); background: var(--gold-dim); transition: border-color 0.55s ease, background 0.55s ease; }
+
 [data-theme="light"] .dor-diagnostic-block { padding: 0; border: none; background: transparent; }
 [data-theme="light"] .dor-diag-label { display: none; }
 .dor-diag-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.85rem; transition: color 0.55s ease; }
