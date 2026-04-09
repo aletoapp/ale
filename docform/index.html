@@ -184,9 +184,25 @@ header {
 
 .hero-ctas {
   display: flex; align-items: center; justify-content: center;
-  gap: 12px; flex-wrap: wrap; margin-bottom: 56px;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 12px;
   animation: fadeDown .6s .26s ease both;
 }
+
+/* Segunda linha de CTAs — espaçamento menor */
+.hero-ctas-secondary {
+  margin-bottom: 44px;
+  animation: fadeDown .6s .32s ease both;
+}
+
+/* Botões da linha secundária — ligeiramente menores */
+.hero-ctas-secondary .cta-dev,
+.hero-ctas-secondary .cta-secondary {
+  padding: 9px 18px;
+  font-size: .82rem;
+  opacity: 0.78;
+}
+.hero-ctas-secondary .cta-dev:hover,
+.hero-ctas-secondary .cta-secondary:hover { opacity: 1; }
 
 .cta-primary {
   display: inline-flex; align-items: center; gap: 8px;
@@ -217,11 +233,16 @@ header {
 }
 .cta-secondary:hover { color: var(--text); background: var(--surface); }
 
+/* GitHub button — ícone SVG inline */
+.cta-github { gap: 8px; }
+.cta-github svg { flex-shrink: 0; opacity: .85; }
+.cta-github:hover svg { opacity: 1; }
+
 .hero-pipeline {
   display: inline-flex; align-items: center;
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 12px; overflow: hidden;
-  animation: fadeDown .6s .34s ease both; max-width: 100%; flex-wrap: wrap;
+  animation: fadeDown .6s .38s ease both; max-width: 100%; flex-wrap: wrap;
 }
 .pipeline-step {
   display: flex; align-items: center; gap: 8px;
@@ -453,11 +474,25 @@ footer { border-top: 1px solid var(--border); padding: 40px clamp(16px,5vw,48px)
         Transforme qualquer texto gerado por IA em contratos, currículos e documentos jurídicos formatados — prontos para impressão ou assinatura digital via Gov.br.
       </p>
 
+      <!-- Linha principal: 3 botões de ação -->
       <div class="hero-ctas">
         <a href="https://aletoapp.github.io/docform/" class="cta-primary">
           <span aria-hidden="true">⚖</span>
           <span data-i18n="hero.cta1">Formatar Documento</span>
         </a>
+        <a href="https://aletoapp.github.io/docform/" target="_blank" rel="noopener noreferrer" class="cta-dev">
+          <span aria-hidden="true">📲</span>
+          <span data-i18n="hero.cta.app">Usar o App</span>
+          <span class="cta-dev-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a href="https://github.com/aletoapp/docform" target="_blank" rel="noopener noreferrer" class="cta-secondary cta-github">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          <span data-i18n="hero.cta.github">Projeto no GitHub</span>
+        </a>
+      </div>
+
+      <!-- Linha secundária: 2 botões de navegação -->
+      <div class="hero-ctas hero-ctas-secondary">
         <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" class="cta-dev">
           <span data-i18n="hero.cta2">Página do Desenvolvedor</span>
           <span class="cta-dev-arrow" aria-hidden="true">↗</span>
@@ -749,6 +784,7 @@ const LOCALES = {
     'hero.h1': 'Cole o texto.<br>O documento <em>pronto</em><br>vem por nossa conta.',
     'hero.sub': 'Transforme qualquer texto gerado por IA em contratos, currículos e documentos jurídicos formatados — prontos para impressão ou assinatura digital via Gov.br.',
     'hero.cta1': 'Formatar Documento', 'hero.cta2': 'Página do Desenvolvedor', 'hero.cta3': 'Como funciona',
+    'hero.cta.app': 'Usar o App', 'hero.cta.github': 'Projeto no GitHub',
     'pipe.1': 'Cole o texto', 'pipe.2': 'Auto-detecta o tipo', 'pipe.3': 'Preenche o cabeçalho', 'pipe.4': 'Gera o PDF',
     'cf.label': '// processo',
     'cf.h2': 'Quatro passos.<br>Um documento <em>impecável.</em>',
@@ -815,6 +851,7 @@ const LOCALES = {
     'hero.h1': 'Paste your text.<br>A professional document<br>comes back <em>ready.</em>',
     'hero.sub': 'Turn any AI-generated text into formatted contracts, résumés, and legal documents — ready to print or sign digitally.',
     'hero.cta1': 'Format Document', 'hero.cta2': "Developer's Page", 'hero.cta3': 'How it works',
+    'hero.cta.app': 'Use the App', 'hero.cta.github': 'Project on GitHub',
     'pipe.1': 'Paste the text', 'pipe.2': 'Auto-detects type', 'pipe.3': 'Fills the header', 'pipe.4': 'Generates PDF',
     'cf.label': '// process',
     'cf.h2': 'Four steps.<br>One <em>flawless</em> document.',
@@ -881,6 +918,7 @@ const LOCALES = {
     'hero.h1': 'Pega el texto.<br>El documento <em>listo</em><br>corre por nuestra cuenta.',
     'hero.sub': 'Transforma cualquier texto generado por IA en contratos, currículums y documentos legales formateados — listos para imprimir o firmar digitalmente.',
     'hero.cta1': 'Formatear Documento', 'hero.cta2': 'Página del Desarrollador', 'hero.cta3': 'Cómo funciona',
+    'hero.cta.app': 'Usar la App', 'hero.cta.github': 'Proyecto en GitHub',
     'pipe.1': 'Pega el texto', 'pipe.2': 'Auto-detecta el tipo', 'pipe.3': 'Rellena el encabezado', 'pipe.4': 'Genera el PDF',
     'cf.label': '// proceso',
     'cf.h2': 'Cuatro pasos.<br>Un documento <em>impecable.</em>',
