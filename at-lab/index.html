@@ -658,213 +658,240 @@
 
   <script src="proposta.js" defer></script>
 
+/**
+ * AT·LAB BTN v5
+ *
+ * USO:
+ *   1. Cole este <script> antes de </body> em cada sub-página.
+ *   2. Adicione <span id="_atlab"></span> onde quiser o botão.
+ *
+ * NÃO exibe na raiz "/".
+ */
+(function () {
+  'use strict';
 
-<!-- AT·LAB BTN v4
-     1. Cola este bloco antes de </body> em cada sub-página.
-     2. Adiciona <span id="_atlab"></span> onde quiser o botão
-        (ex: junto dos outros botões da página).
--->
-<script>
-(function(){
-'use strict';
+  /* ─── CONFIGURAÇÃO ─────────────────────────────────────── */
+  var TOOLS = [
+    { label: 'DocForm',   href: '/docform/',   tag: 'Automação de documentos' },
+    { label: 'iList',     href: '/ilist/',     tag: 'Listas inteligentes'     },
+    { label: 'VoiceLab',  href: '/voicelab/',  tag: 'Processador de áudio'    },
+  ];
+  /* ─────────────────────────────────────────────────────── */
 
-var TOOLS=[
-  {label:'DocForm',  href:'/docform/',  tag:'Automação de documentos'},
-  {label:'iList',    href:'/ilist/',    tag:'Listas inteligentes'    },
-  {label:'VoiceLab', href:'/voicelab/', tag:'Processador de áudio'   },
-];
+  /* Não renderiza na raiz */
+  var cur = location.pathname.replace(/\/{2,}/g, '/');
+  if (cur === '/') return;
 
-var cur=location.pathname.replace(/\/+$/,'/')||'/';
-if(cur==='/')return;
-
-function active(href){
-  return cur===href||(cur.startsWith(href)&&href!=='/');
-}
-
-var anchor=document.getElementById('_atlab');
-if(!anchor)return; /* sem placeholder, não faz nada */
-
-/* ── CSS — usa as variáveis do tema já existente na página ── */
-var s=document.createElement('style');
-s.textContent=[
-'._atw{position:relative;display:inline-block}',
-
-/* botão — mesma aparência dos outros botões ghost do site */
-'#_atbtn{',
-'  display:inline-flex;align-items:center;gap:.55rem;',
-'  border:1px solid var(--border,rgba(200,169,110,.12));',
-'  background:var(--surface,rgba(255,255,255,.03));',
-'  color:var(--ink-3,#9a9080);',
-'  font-family:"DM Mono",monospace;',
-'  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;',
-'  padding:.75rem 1.4rem;',
-'  cursor:pointer;',
-'  transition:border-color .22s,color .22s,background .22s;',
-'  white-space:nowrap;',
-'}',
-'#_atbtn:hover,#_atbtn[aria-expanded=true]{',
-'  border-color:var(--gold,#c8a96e);',
-'  color:var(--gold,#c8a96e);',
-'  background:var(--gold-dim,rgba(200,169,110,.08));',
-'}',
-'#_atbtn svg{width:11px;height:11px;flex-shrink:0;transition:transform .28s cubic-bezier(.34,1.4,.64,1)}',
-'#_atbtn[aria-expanded=true] svg{transform:rotate(180deg)}',
-
-/* dropdown — abre para cima */
-'#_atdrop{',
-'  position:absolute;',
-'  bottom:calc(100% + 8px);',
-'  left:0;',
-'  min-width:260px;',
-'  background:var(--bg,#080807);',
-'  border:1px solid var(--border,rgba(200,169,110,.12));',
-'  border-top:2px solid var(--gold,#c8a96e);',
-'  font-family:"DM Mono",monospace;',
-'  z-index:400;',
-'  transform-origin:bottom left;',
-'  transform:translateY(6px) scaleY(.96);',
-'  opacity:0;pointer-events:none;',
-'  transition:transform .25s cubic-bezier(.34,1.4,.64,1),opacity .2s ease;',
-'}',
-'#_atdrop.open{transform:translateY(0) scaleY(1);opacity:1;pointer-events:all}',
-
-/* header */
-'._dh{',
-'  padding:.7rem 1rem .5rem;',
-'  border-bottom:1px solid var(--border-soft,rgba(200,169,110,.07));',
-'  display:flex;align-items:center;gap:.45rem;',
-'}',
-'._dh-dot{width:4px;height:4px;border-radius:50%;background:var(--gold,#c8a96e);animation:_snp 2.2s ease-in-out infinite}',
-'@keyframes _snp{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.5)}50%{box-shadow:0 0 0 4px rgba(200,169,110,0)}}',
-'._dh-label{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4,#6e6860)}',
-
-/* itens */
-'._di{',
-'  display:flex;align-items:center;justify-content:space-between;',
-'  padding:.7rem 1rem;',
-'  border-bottom:1px solid var(--border-soft,rgba(200,169,110,.07));',
-'  text-decoration:none;',
-'  transition:background .16s;',
-'}',
-'._di:last-of-type{border-bottom:none}',
-'._di:hover{background:var(--gold-dim,rgba(200,169,110,.07))}',
-'._di._on{pointer-events:none}',
-'._di-left{display:flex;flex-direction:column;gap:.18rem}',
-'._di-name{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3,#9a9080);transition:color .18s}',
-'._di:hover ._di-name{color:var(--gold,#c8a96e)}',
-'._di._on ._di-name{color:var(--gold,#c8a96e)}',
-'._di-tag{font-size:.5rem;letter-spacing:.06em;text-transform:none;color:var(--ink-4,#6e6860);font-family:"DM Sans",sans-serif}',
-'._di-ico{font-size:.6rem;color:var(--ink-4,#6e6860);transition:color .18s}',
-'._di:hover ._di-ico,._di._on ._di-ico{color:var(--gold,#c8a96e)}',
-
-/* footer → AT·Lab */
-'._df{',
-'  display:flex;align-items:center;justify-content:space-between;',
-'  padding:.65rem 1rem;',
-'  border-top:1px solid var(--border,rgba(200,169,110,.12));',
-'  text-decoration:none;',
-'  transition:background .16s;',
-'}',
-'._df:hover{background:var(--gold-dim,rgba(200,169,110,.07))}',
-'._df-label{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4,#6e6860);transition:color .18s}',
-'._df:hover ._df-label{color:var(--gold,#c8a96e)}',
-'._df-ico{font-size:.58rem;color:var(--ink-4,#6e6860);transition:color .18s}',
-'._df:hover ._df-ico{color:var(--gold,#c8a96e)}',
-
-/* mobile — dropdown abre à direita se não couber à esquerda */
-'@media(max-width:480px){#_atdrop{left:auto;right:0;min-width:220px}}',
-].join('');
-document.head.appendChild(s);
-
-/* ── WRAPPER ── */
-var wrap=document.createElement('div');
-wrap.className='_atw';
-
-/* ── BOTÃO ── */
-var btn=document.createElement('button');
-btn.id='_atbtn';
-btn.setAttribute('aria-haspopup','true');
-btn.setAttribute('aria-expanded','false');
-btn.setAttribute('aria-controls','_atdrop');
-btn.setAttribute('type','button');
-btn.innerHTML='Meu Laboratório'
-  +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>';
-
-/* ── DROPDOWN ── */
-var drop=document.createElement('div');
-drop.id='_atdrop';
-drop.setAttribute('role','menu');
-drop.setAttribute('aria-label','Ferramentas do laboratório');
-
-/* header */
-var dh=document.createElement('div');
-dh.className='_dh';
-dh.setAttribute('aria-hidden','true');
-dh.innerHTML='<span class="_dh-dot"></span><span class="_dh-label">Laboratório de ferramentas · alexandretorres.com.br</span>';
-drop.appendChild(dh);
-
-/* itens */
-TOOLS.forEach(function(t){
-  var a=document.createElement('a');
-  a.href=active(t.href)?'#':t.href;
-  a.className='_di'+(active(t.href)?' _on':'');
-  a.setAttribute('role','menuitem');
-  if(active(t.href)){
-    a.setAttribute('aria-current','page');
-    a.setAttribute('tabindex','-1');
+  /* Aguarda o DOM estar pronto */
+  function ready(fn) {
+    if (document.readyState !== 'loading') { fn(); }
+    else { document.addEventListener('DOMContentLoaded', fn); }
   }
-  a.innerHTML=
-    '<div class="_di-left">'
-    +'<span class="_di-name">'+t.label+'</span>'
-    +'<span class="_di-tag">'+t.tag+'</span>'
-    +'</div>'
-    +'<span class="_di-ico" aria-hidden="true">'+(active(t.href)?'◆':'↗')+'</span>';
-  drop.appendChild(a);
-});
 
-/* link AT·Lab */
-var df=document.createElement('a');
-df.href='/at-lab/';
-df.className='_df';
-df.setAttribute('role','menuitem');
-df.innerHTML='<span class="_df-label">Ver o laboratório completo</span><span class="_df-ico" aria-hidden="true">↗</span>';
-drop.appendChild(df);
+  function isActive(href) {
+    return cur === href || (href !== '/' && cur.startsWith(href));
+  }
 
-wrap.appendChild(btn);
-wrap.appendChild(drop);
-anchor.replaceWith(wrap);
+  ready(function () {
+    var anchor = document.getElementById('_atlab');
+    if (!anchor) {
+      console.warn('[AT·LAB] Placeholder #_atlab não encontrado.');
+      return;
+    }
 
-/* ── LÓGICA ── */
-var isOpen=false;
+    /* ── ESTILOS ─────────────────────────────────────────── */
+    var style = document.createElement('style');
+    style.textContent = [
+      /* Wrapper */
+      '._atw{position:relative;display:inline-block;font-family:"DM Mono",monospace}',
 
-function setOpen(v){
-  isOpen=v;
-  drop.classList.toggle('open',v);
-  btn.setAttribute('aria-expanded',String(v));
-}
+      /* Botão */
+      '#_atbtn{',
+        'display:inline-flex;align-items:center;gap:.55rem;',
+        'border:1px solid var(--border,rgba(200,169,110,.18));',
+        'background:var(--surface,rgba(255,255,255,.04));',
+        'color:var(--ink-3,#9a9080);',
+        'font-family:inherit;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;',
+        'padding:.72rem 1.4rem;cursor:pointer;',
+        'transition:border-color .22s,color .22s,background .22s;',
+        'white-space:nowrap;',
+      '}',
+      '#_atbtn:hover,#_atbtn[aria-expanded=true]{',
+        'border-color:var(--gold,#c8a96e);',
+        'color:var(--gold,#c8a96e);',
+        'background:var(--gold-dim,rgba(200,169,110,.08));',
+      '}',
+      '#_atbtn svg{width:11px;height:11px;flex-shrink:0;transition:transform .28s cubic-bezier(.34,1.4,.64,1)}',
+      '#_atbtn[aria-expanded=true] svg{transform:rotate(180deg)}',
 
-btn.addEventListener('click',function(e){
-  e.stopPropagation();
-  setOpen(!isOpen);
-});
+      /* Dropdown — abre para cima */
+      '#_atdrop{',
+        'position:absolute;bottom:calc(100% + 8px);left:0;',
+        'min-width:264px;',
+        'background:var(--bg,#080807);',
+        'border:1px solid var(--border,rgba(200,169,110,.14));',
+        'border-top:2px solid var(--gold,#c8a96e);',
+        'font-family:inherit;z-index:9999;',
+        'transform-origin:bottom left;',
+        'transform:translateY(8px) scaleY(.95);',
+        'opacity:0;pointer-events:none;',
+        'transition:transform .24s cubic-bezier(.34,1.4,.64,1),opacity .18s ease;',
+      '}',
+      '#_atdrop.open{transform:translateY(0) scaleY(1);opacity:1;pointer-events:auto}',
 
-document.addEventListener('click',function(e){
-  if(isOpen&&!wrap.contains(e.target))setOpen(false);
-});
+      /* Cabeçalho */
+      '._dh{',
+        'padding:.7rem 1rem .5rem;',
+        'border-bottom:1px solid var(--border-soft,rgba(200,169,110,.08));',
+        'display:flex;align-items:center;gap:.45rem;',
+      '}',
+      '._dh-dot{',
+        'flex-shrink:0;width:5px;height:5px;border-radius:50%;',
+        'background:var(--gold,#c8a96e);',
+        'animation:_atsnap 2.2s ease-in-out infinite;',
+      '}',
+      '@keyframes _atsnap{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.55)}50%{box-shadow:0 0 0 4px rgba(200,169,110,0)}}',
+      '._dh-label{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4,#6e6860)}',
 
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'&&isOpen){setOpen(false);btn.focus();}
-});
+      /* Itens de ferramenta */
+      '._di{',
+        'display:flex;align-items:center;justify-content:space-between;',
+        'padding:.7rem 1rem;',
+        'border-bottom:1px solid var(--border-soft,rgba(200,169,110,.06));',
+        'text-decoration:none;',
+        'transition:background .15s;',
+      '}',
+      '._di:last-of-type{border-bottom:none}',
+      '._di:hover{background:var(--gold-dim,rgba(200,169,110,.07))}',
+      '._di._on{pointer-events:none}',
+      '._di-left{display:flex;flex-direction:column;gap:.2rem}',
+      '._di-name{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3,#9a9080);transition:color .16s}',
+      '._di:hover ._di-name,._di._on ._di-name{color:var(--gold,#c8a96e)}',
+      '._di-tag{font-size:.5rem;letter-spacing:.04em;text-transform:none;color:var(--ink-4,#6e6860);font-family:"DM Sans",sans-serif}',
+      '._di-ico{font-size:.58rem;color:var(--ink-4,#6e6860);transition:color .16s}',
+      '._di:hover ._di-ico,._di._on ._di-ico{color:var(--gold,#c8a96e)}',
 
-/* fecha se scroll muda muito (mobile) */
-var scrollY=window.scrollY;
-window.addEventListener('scroll',function(){
-  if(isOpen&&Math.abs(window.scrollY-scrollY)>40)setOpen(false);
-  scrollY=window.scrollY;
-},{passive:true});
+      /* Rodapé — link para o lab completo */
+      '._df{',
+        'display:flex;align-items:center;justify-content:space-between;',
+        'padding:.62rem 1rem;',
+        'border-top:1px solid var(--border,rgba(200,169,110,.12));',
+        'text-decoration:none;',
+        'transition:background .15s;',
+      '}',
+      '._df:hover{background:var(--gold-dim,rgba(200,169,110,.07))}',
+      '._df-label{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4,#6e6860);transition:color .16s}',
+      '._df:hover ._df-label{color:var(--gold,#c8a96e)}',
+      '._df-ico{font-size:.56rem;color:var(--ink-4,#6e6860);transition:color .16s}',
+      '._df:hover ._df-ico{color:var(--gold,#c8a96e)}',
 
+      /* Mobile: dropdown abre para a direita se não couber */
+      '@media(max-width:480px){#_atdrop{left:auto;right:0;min-width:220px}}',
+    ].join('');
+    document.head.appendChild(style);
+
+    /* ── ESTRUTURA ───────────────────────────────────────── */
+    var wrap = document.createElement('div');
+    wrap.className = '_atw';
+
+    /* Botão principal */
+    var btn = document.createElement('button');
+    btn.id = '_atbtn';
+    btn.type = 'button';
+    btn.setAttribute('aria-haspopup', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', '_atdrop');
+    btn.innerHTML =
+      'Meu Laboratório' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">' +
+        '<polyline points="18 15 12 9 6 15"/>' +
+      '</svg>';
+
+    /* Dropdown */
+    var drop = document.createElement('div');
+    drop.id = '_atdrop';
+    drop.setAttribute('role', 'menu');
+    drop.setAttribute('aria-label', 'Ferramentas do laboratório');
+
+    /* Cabeçalho do dropdown */
+    var header = document.createElement('div');
+    header.className = '_dh';
+    header.setAttribute('aria-hidden', 'true');
+    header.innerHTML =
+      '<span class="_dh-dot"></span>' +
+      '<span class="_dh-label">Laboratório · alexandretorres.com.br</span>';
+    drop.appendChild(header);
+
+    /* Itens de ferramentas */
+    TOOLS.forEach(function (tool) {
+      var a = document.createElement('a');
+      var active = isActive(tool.href);
+      a.href = active ? '#' : tool.href;
+      a.className = '_di' + (active ? ' _on' : '');
+      a.setAttribute('role', 'menuitem');
+      if (active) {
+        a.setAttribute('aria-current', 'page');
+        a.setAttribute('tabindex', '-1');
+      }
+      a.innerHTML =
+        '<div class="_di-left">' +
+          '<span class="_di-name">' + tool.label + '</span>' +
+          '<span class="_di-tag">'  + tool.tag   + '</span>' +
+        '</div>' +
+        '<span class="_di-ico" aria-hidden="true">' + (active ? '◆' : '↗') + '</span>';
+      drop.appendChild(a);
+    });
+
+    /* Link para o lab completo */
+    var footer = document.createElement('a');
+    footer.href = '/at-lab/';
+    footer.className = '_df';
+    footer.setAttribute('role', 'menuitem');
+    footer.innerHTML =
+      '<span class="_df-label">Ver o laboratório completo</span>' +
+      '<span class="_df-ico" aria-hidden="true">↗</span>';
+    drop.appendChild(footer);
+
+    /* Monta a árvore e substitui o placeholder */
+    wrap.appendChild(btn);
+    wrap.appendChild(drop);
+    anchor.replaceWith(wrap);
+
+    /* ── COMPORTAMENTO ───────────────────────────────────── */
+    var isOpen = false;
+
+    function setOpen(v) {
+      isOpen = v;
+      drop.classList.toggle('open', v);
+      btn.setAttribute('aria-expanded', String(v));
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setOpen(!isOpen);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (isOpen && !wrap.contains(e.target)) setOpen(false);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isOpen) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+
+    /* Fecha ao rolar muito (mobile) */
+    var baseScrollY = window.scrollY;
+    window.addEventListener('scroll', function () {
+      if (isOpen && Math.abs(window.scrollY - baseScrollY) > 40) {
+        setOpen(false);
+      }
+      baseScrollY = window.scrollY;
+    }, { passive: true });
+  });
 })();
-</script>
   
 </body>
 </html>
