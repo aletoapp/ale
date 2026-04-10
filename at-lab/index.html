@@ -657,5 +657,99 @@
   </footer>
 
   <script src="proposta.js" defer></script>
+
+  <script>
+(function(){
+'use strict';
+ 
+var TOOLS=[
+  {label:'AT·Lab',   href:'/at-lab/',   hub:true},
+  {label:'DocForm',  href:'/docform/' },
+  {label:'iList',    href:'/ilist/'   },
+  {label:'VoiceLab', href:'/voicelab/'},
+  {label:'Receitas', href:'/receitas/'},
+];
+ 
+var cur=location.pathname.replace(/\/+$/,'/')||'/';
+if(cur==='/')return; /* não roda na home */
+ 
+function active(href){
+  return cur===href||(cur.startsWith(href)&&href!=='/');
+}
+ 
+/* ── CSS ── */
+var s=document.createElement('style');
+s.textContent=[
+':root{--sn-gold:#c8a96e;--sn-dim:rgba(200,169,110,.38);--sn-bdr:rgba(200,169,110,.12);--sn-bg:rgba(8,8,7,.92);--sn-ink:#f0ece2;--sn-h:48px}',
+'[data-theme=light]{--sn-gold:#9c7c3e;--sn-dim:rgba(156,124,62,.4);--sn-bdr:rgba(0,0,0,.09);--sn-bg:rgba(245,240,232,.94);--sn-ink:#0a0907}',
+'body{padding-top:var(--sn-h)!important}',
+'#_atnav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--sn-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.8rem;background:var(--sn-bg);border-bottom:1px solid var(--sn-bdr);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.13em;text-transform:uppercase}',
+'#_atnav a{color:var(--sn-dim);text-decoration:none;transition:color .2s}',
+'#_atnav a:hover{color:var(--sn-gold)}',
+'#_atnav a._on{color:var(--sn-gold)}',
+'._snl{display:flex;align-items:center;gap:.7rem}',
+'._sndot{width:5px;height:5px;border-radius:50%;background:var(--sn-gold);animation:_snp 2.2s ease-in-out infinite}',
+'@keyframes _snp{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.5)}50%{box-shadow:0 0 0 4px rgba(200,169,110,0)}}',
+'._snvsep{width:1px;height:14px;background:var(--sn-bdr);flex-shrink:0}',
+'._sntools{display:flex;overflow-x:auto;scrollbar-width:none}',
+'._sntools::-webkit-scrollbar{display:none}',
+'._sntool{padding:.3rem .8rem;border-right:1px solid var(--sn-bdr)}',
+'._sntool:first-child{border-left:1px solid var(--sn-bdr)}',
+'._sntool._hub a{color:var(--sn-gold)}',
+'#_atfoot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.7rem;padding:1.4rem 1.8rem;border-top:1px solid var(--sn-bdr);font-family:"DM Mono",monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sn-dim);margin-top:3rem}',
+'#_atfoot a{color:var(--sn-dim);text-decoration:none;transition:color .2s}',
+'#_atfoot a:hover{color:var(--sn-gold)}',
+'._snft{display:flex;gap:1.2rem;flex-wrap:wrap}',
+'@media(max-width:600px){#_atnav{padding:0 1rem}._sntool{padding:.3rem .55rem}}',
+].join('');
+document.head.appendChild(s);
+ 
+/* ── NAV ── */
+var nav=document.createElement('nav');
+nav.id='_atnav';
+nav.setAttribute('aria-label','Navegação global');
+ 
+var home=document.createElement('div');
+home.className='_snl';
+home.innerHTML='<span class="_sndot" aria-hidden="true"></span><a href="/">alexandretorres.com.br</a>';
+ 
+var vsep=document.createElement('span');
+vsep.className='_snvsep';
+vsep.setAttribute('aria-hidden','true');
+ 
+var tools=document.createElement('div');
+tools.className='_sntools';
+tools.setAttribute('role','list');
+TOOLS.forEach(function(t){
+  var d=document.createElement('div');
+  d.className='_sntool'+(t.hub?' _hub':'');
+  d.setAttribute('role','listitem');
+  var a=document.createElement('a');
+  a.href=t.href;
+  a.textContent=t.label;
+  if(active(t.href)){a.className='_on';a.setAttribute('aria-current','page')}
+  d.appendChild(a);
+  tools.appendChild(d);
+});
+ 
+nav.appendChild(home);
+nav.appendChild(vsep);
+nav.appendChild(tools);
+document.body.insertAdjacentElement('afterbegin',nav);
+ 
+/* ── FOOTER ── */
+var ft=document.createElement('footer');
+ft.id='_atfoot';
+var others=TOOLS.filter(function(t){return !active(t.href)});
+ft.innerHTML='<span>© 2026 <a href="/">Alexandre Torres</a></span>'
+  +'<div class="_snft">'
+  +others.map(function(t){return '<a href="'+t.href+'">'+t.label+'</a>'}).join('')
+  +'<a href="/privacidade/">Privacidade</a>'
+  +'</div>';
+document.body.appendChild(ft);
+ 
+})();
+</script>
+ 
 </body>
 </html>
