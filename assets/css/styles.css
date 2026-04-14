@@ -853,16 +853,16 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
    RESPONSIVO — MOBILE
 ══════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .container { padding: 0 1.25rem; }
-  #dor        { padding: 6rem 1.25rem; }
-  #portfolio  { padding: 6rem 1.25rem; }
-  #balloon-section { padding: 4rem 1.25rem 0; }
-  #metodo     { padding: 6rem 1.25rem; }
-  #prova      { padding: 6rem 1.25rem; }
-  #objecao    { padding: 6rem 1.25rem; }
-  #garantia   { padding: 5rem 1.25rem; }
-  #cta        { padding: 7rem 1.25rem; }
-  footer { padding: 2.5rem 1.25rem 2rem; }
+  .container { padding: 0 0.3125rem; } /* 5px = 0.3125rem @ 16px */
+  #dor        { padding: 6rem 0.3125rem; }
+  #portfolio  { padding: 6rem 0.3125rem; }
+  #balloon-section { padding: 4rem 0.3125rem 0; }
+  #metodo     { padding: 6rem 0.3125rem; }
+  #prova      { padding: 6rem 0.3125rem; }
+  #objecao    { padding: 6rem 0.3125rem; }
+  #garantia   { padding: 5rem 0.3125rem; }
+  #cta        { padding: 7rem 0.3125rem; }
+  footer { padding: 2.5rem 0.3125rem 2rem; }
   .footer-inner { grid-template-columns: 1fr; gap: 0; }
   .footer-col-brand { text-align: center; margin-bottom: 1.8rem; }
   .footer-col-contacts { align-items: center; }
@@ -888,60 +888,64 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
   .t-card.featured { grid-column: span 1; }
   .hero-diagnostic { max-width: 100%; }
   .garantia-box { padding: 1.5rem; }
-  .hero-diag-input { font-size: 0.78rem; }
-  .hero-diag-input::placeholder { font-size: 0.7rem; letter-spacing: 0; }
-  .dor-left p, .dor-item p, .portfolio-header p, .pj-desc, .metodo-header p, .step p, .t-text, .t-quote-text, .prova-header p, .objecao-answer p, .garantia-inner p, .cta-sub, .cta-relief, .hero-mechanism, .balloon-intro p, .obj-item p, .reward-item { font-size: 1rem; line-height: 1.75; }
-  .dor-left h2 { font-size: clamp(1.7rem, 7vw, 2.4rem); }
-  .dor-item strong { font-size: 1.05rem; }
-  .step h3 { font-size: 1.1rem; }
-  .step-num { font-size: 2.8rem; }
-  .obj-item h3 { font-size: 1.1rem; }
-  .t-pill, .t-bar-label { font-size: 0.68rem; } /* piso: evita sub-10px em 768 */
-  .t-result-line { font-size: 1.25rem; }
-  .t-card.featured .t-result-line { font-size: 1.4rem; }
-  .result-num { font-size: 2rem; }
-  .result-label { font-size: 0.72rem; }
-  .garantia-inner h2 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
-  .garantia-box p { font-size: 1.1rem; }
-  .objecao-answer p { font-size: 1.1rem; }
-  .dor-quote p { font-size: 1.05rem; }
-  .objecao-header h2 { font-size: clamp(1.7rem, 7vw, 2.6rem); }
-  #hero { padding: 7rem 1.6rem 8rem; justify-content: flex-start; padding-top: max(7rem, calc(50vh - 22rem)); }
-  .hero-eyebrow { font-size: 0.7rem; margin-bottom: 2.2rem; letter-spacing: 0.18em; }
-  .hl-1 { font-size: clamp(2.2rem, 10.5vw, 3.6rem); margin-bottom: 0.02em; }
-  .hl-2 { font-size: clamp(3rem, 14vw, 5.5rem); margin-bottom: 0.06em; }
-  .hl-3 { font-size: clamp(2.2rem, 10.5vw, 3.6rem); }
+  .hero-diag-input { font-size: 1rem; } /* aumentado: 0.78rem → 1rem */
+  .hero-diag-input::placeholder { font-size: 0.95rem; letter-spacing: 0; } /* aumentado: 0.7rem → 0.95rem */
+  /* Seção de corpos texto — aumentar legibilidade */
+  .dor-left p, .dor-item p, .portfolio-header p, .pj-desc, .metodo-header p, .step p, .t-text, .t-quote-text, .prova-header p, .objecao-answer p, .garantia-inner p, .cta-sub, .cta-relief, .hero-mechanism, .balloon-intro p, .obj-item p, .reward-item { font-size: 1.05rem; line-height: 1.8; }
+  /* Títulos — aumentar visibilidade */
+  .dor-left h2 { font-size: clamp(1.8rem, 8vw, 2.6rem); } /* aumentado */
+  .dor-item strong { font-size: 1.15rem; } /* aumentado: 1.05rem → 1.15rem */
+  .step h3 { font-size: 1.2rem; } /* aumentado: 1.1rem → 1.2rem */
+  .step-num { font-size: 3rem; } /* aumentado: 2.8rem → 3rem */
+  .obj-item h3 { font-size: 1.2rem; } /* aumentado: 1.1rem → 1.2rem */
+  /* Elementos pequenos — piso de 0.8rem para legibilidade */
+  .t-pill, .t-bar-label { font-size: 0.8rem; } /* aumentado: 0.68rem → 0.8rem */
+  .t-result-line { font-size: 1.35rem; } /* aumentado: 1.25rem → 1.35rem */
+  .t-card.featured .t-result-line { font-size: 1.5rem; } /* aumentado: 1.4rem → 1.5rem */
+  .result-num { font-size: 2.2rem; } /* aumentado: 2rem → 2.2rem */
+  .result-label { font-size: 0.8rem; } /* aumentado: 0.72rem → 0.8rem */
+  .garantia-inner h2 { font-size: clamp(1.7rem, 7vw, 2.4rem); } /* ajustado */
+  .garantia-box p { font-size: 1.15rem; } /* aumentado: 1.1rem → 1.15rem */
+  .objecao-answer p { font-size: 1.15rem; } /* aumentado: 1.1rem → 1.15rem */
+  .dor-quote p { font-size: 1.15rem; } /* aumentado: 1.05rem → 1.15rem */
+  .objecao-header h2 { font-size: clamp(1.8rem, 8vw, 2.8rem); } /* aumentado */
+  /* HERO section — tipografia crítica */
+  #hero { padding: 7rem 0.3125rem 8rem; justify-content: flex-start; padding-top: max(7rem, calc(50vh - 22rem)); margin: 0; } /* margem lateral 5px */
+  .hero-eyebrow { font-size: 0.8rem; margin-bottom: 2.2rem; letter-spacing: 0.18em; } /* aumentado: 0.7rem → 0.8rem */
+  .hl-1 { font-size: clamp(2.4rem, 11vw, 3.8rem); margin-bottom: 0.02em; } /* aumentado vmin */
+  .hl-2 { font-size: clamp(3.2rem, 15vw, 5.8rem); margin-bottom: 0.06em; } /* aumentado vmin */
+  .hl-3 { font-size: clamp(2.4rem, 11vw, 3.8rem); } /* aumentado vmin */
   .hl-divider { margin: 0.8rem auto; }
-  .hero-sub { font-size: 1.1rem; margin-top: 1.8rem; line-height: 1.75; max-width: 100%; }
+  .hero-sub { font-size: 1.15rem; margin-top: 1.8rem; line-height: 1.8; max-width: 100%; } /* aumentado: 1.1rem → 1.15rem */
   .hero-cta-row { margin-top: 2rem; gap: 1.2rem; flex-direction: column; align-items: center; }
-  .btn-primary { width: 100%; text-align: center; padding: 1rem 1.5rem; }
+  .btn-primary { width: 100%; text-align: center; padding: 1rem 1.5rem; font-size: 0.8rem; } /* +font-size para botões */
   .portfolio-header { grid-template-columns: 1fr; gap: 1.5rem; }
   .pj-item { grid-template-columns: 52px 1fr 28px; gap: 1.2rem; padding: 1.8rem 0; border-bottom: 1px solid var(--border-soft); }
-  .pj-num { font-size: 1.4rem; margin-top: 0.2rem; }
-  .pj-name { font-size: clamp(1.3rem, 6vw, 1.9rem); }
+  .pj-num { font-size: 1.5rem; margin-top: 0.2rem; } /* aumentado: 1.4rem → 1.5rem */
+  .pj-name { font-size: clamp(1.4rem, 7vw, 2rem); } /* aumentado vmin */
   #portfolio::before { display: none; }
   .pj-ctas { opacity: 1; transform: translateY(0); pointer-events: auto; }
-  #cta-final { padding: 6rem 1.6rem 5rem; }
-  .cfl-line1 { font-size: clamp(2.4rem, 11vw, 3.8rem); gap: 0 0.22em; }
-  .cfl-line2 { font-size: clamp(1rem, 4.5vw, 1.35rem); }
+  #cta-final { padding: 6rem 0.3125rem 5rem; margin: 0; } /* margem 5px */
+  .cfl-line1 { font-size: clamp(2.6rem, 12vw, 4rem); gap: 0 0.22em; } /* aumentado */
+  .cfl-line2 { font-size: clamp(1.1rem, 5vw, 1.45rem); } /* aumentado */
   .cfl-br { display: none; }
-  .cfl-btn { width: 100%; text-align: center; padding: 1.1rem 1.5rem !important; }
+  .cfl-btn { width: 100%; text-align: center; padding: 1.1rem 1.5rem !important; font-size: 0.8rem; } /* +font-size */
   .dor-cta-wrap { padding-left: 0; }
 }
 
 @media (max-width: 480px) {
-  html { font-size: 16px; } /* era 15px — causava texto abaixo de 10px em elementos 0.58rem */
+  html { font-size: 16px; } /* mantém 16px para melhor base */
 
-  /* floors explícitos para elementos mono/micro que ficam < 10px em 0.55–0.58rem */
+  /* Elementos pequenos — piso explícito 0.85rem mínimo para legibilidade */
   .t-pill,
-  .t-bar-label          { font-size: 0.72rem; }
+  .t-bar-label          { font-size: 0.85rem; } /* aumentado: 0.72rem → 0.85rem */
   .t-role,
   .t-ig-link,
-  .t-result-line        { font-size: 0.78rem; }
-  .t-quote-text         { font-size: 0.95rem; line-height: 1.7; }
-  .t-name               { font-size: 1rem; }
-  .t-result-line        { font-size: 1.2rem; }
-  .t-card.featured .t-result-line { font-size: 1.35rem; }
+  .t-result-line        { font-size: 0.85rem; } /* aumentado: 0.78rem → 0.85rem */
+  .t-quote-text         { font-size: 1rem; line-height: 1.75; } /* aumentado: 0.95rem → 1rem */
+  .t-name               { font-size: 1.05rem; } /* aumentado: 1rem → 1.05rem */
+  .t-result-line        { font-size: 1.3rem; } /* aumentado: 1.2rem → 1.3rem */
+  .t-card.featured .t-result-line { font-size: 1.4rem; } /* aumentado: 1.35rem → 1.4rem */
 
   .gr-modal { max-height: 92vh; border-radius: 3px 3px 0 0; }
   .gr-overlay { align-items: flex-end; padding: 0; }
