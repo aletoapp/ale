@@ -896,6 +896,7 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
   .step h3 { font-size: 1.1rem; }
   .step-num { font-size: 2.8rem; }
   .obj-item h3 { font-size: 1.1rem; }
+  .t-pill, .t-bar-label { font-size: 0.68rem; } /* piso: evita sub-10px em 768 */
   .t-result-line { font-size: 1.25rem; }
   .t-card.featured .t-result-line { font-size: 1.4rem; }
   .result-num { font-size: 2rem; }
@@ -929,6 +930,19 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
 }
 
 @media (max-width: 480px) {
+  html { font-size: 15px; } /* escala todo o sistema rem — sobe todos os sub-elementos proporcionalmente */
+
+  /* floors explícitos para elementos mono/micro que ficam < 10px em 0.55–0.58rem */
+  .t-pill,
+  .t-bar-label          { font-size: 0.72rem; }
+  .t-role,
+  .t-ig-link,
+  .t-result-line        { font-size: 0.78rem; }
+  .t-quote-text         { font-size: 0.95rem; line-height: 1.7; }
+  .t-name               { font-size: 1rem; }
+  .t-result-line        { font-size: 1.2rem; }
+  .t-card.featured .t-result-line { font-size: 1.35rem; }
+
   .gr-modal { max-height: 92vh; border-radius: 3px 3px 0 0; }
   .gr-overlay { align-items: flex-end; padding: 0; }
   .gr-big-score { font-size: 40px; }
