@@ -1,13 +1,7 @@
-# ==========================================
-# ROBOTS.TXT - Alexandre Torres
-# ==========================================
-
 User-agent: *
 Allow: /
 
-# Bloquear pastas de sistema ou automação (opcional)
 Disallow: /.github/
 Disallow: /node_modules/
 
-# O mapa do tesouro para os robôs
 Sitemap: https://alexandretorres.com.br/sitemap.xml
