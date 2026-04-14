@@ -108,7 +108,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-  font-size: 17px; /* ← ALTERADO: era 16px implícito — escala todo o sistema rem */
+  font-size: clamp(16px, 1.1vw + 13px, 19px); /* responsive: ~16px mobile → ~19px desktop xl */
   scroll-behavior: smooth;
 }
 
@@ -120,8 +120,8 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  line-height: 1.7;
+  font-weight: 400; /* era 300 — fino demais em telas pequenas e OLED */
+  line-height: 1.78;
   overflow-x: hidden;
   transition: var(--theme-transition);
 }
@@ -321,8 +321,8 @@ section { position: relative; overflow: hidden; }
 }
 
 .hero-sub {
-  max-width: 420px; margin: 3rem auto 0;
-  font-size: 1.1rem; color: var(--ink-3); line-height: 1.9;
+  max-width: 580px; margin: 3rem auto 0;
+  font-size: clamp(1.05rem, 1.3vw + 0.7rem, 1.25rem); color: var(--ink-2); line-height: 1.85;
   opacity: 0; transition: color 0.55s ease;
 }
 .hero-sub.visible { animation: lineIn 0.7s ease forwards; }
@@ -853,16 +853,16 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
    RESPONSIVO — MOBILE
 ══════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .container { padding: 0 10px; }
-  #dor        { padding: 6rem 10px; }
-  #portfolio  { padding: 6rem 10px; }
-  #balloon-section { padding: 4rem 10px 0; }
-  #metodo     { padding: 6rem 10px; }
-  #prova      { padding: 6rem 10px; }
-  #objecao    { padding: 6rem 10px; }
-  #garantia   { padding: 5rem 10px; }
-  #cta        { padding: 7rem 10px; }
-  footer { padding: 2.5rem 10px 2rem; }
+  .container { padding: 0 1.25rem; }
+  #dor        { padding: 6rem 1.25rem; }
+  #portfolio  { padding: 6rem 1.25rem; }
+  #balloon-section { padding: 4rem 1.25rem 0; }
+  #metodo     { padding: 6rem 1.25rem; }
+  #prova      { padding: 6rem 1.25rem; }
+  #objecao    { padding: 6rem 1.25rem; }
+  #garantia   { padding: 5rem 1.25rem; }
+  #cta        { padding: 7rem 1.25rem; }
+  footer { padding: 2.5rem 1.25rem 2rem; }
   .footer-inner { grid-template-columns: 1fr; gap: 0; }
   .footer-col-brand { text-align: center; margin-bottom: 1.8rem; }
   .footer-col-contacts { align-items: center; }
@@ -930,7 +930,7 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
 }
 
 @media (max-width: 480px) {
-  html { font-size: 15px; } /* escala todo o sistema rem — sobe todos os sub-elementos proporcionalmente */
+  html { font-size: 16px; } /* era 15px — causava texto abaixo de 10px em elementos 0.58rem */
 
   /* floors explícitos para elementos mono/micro que ficam < 10px em 0.55–0.58rem */
   .t-pill,
