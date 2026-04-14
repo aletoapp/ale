@@ -853,7 +853,7 @@ footer { background: var(--bg-3); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px
    RESPONSIVO — MOBILE
 ══════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .container { padding: 0 0px; }
+  .container { padding: 0 10px; }
   #dor        { padding: 6rem 10px; }
   #portfolio  { padding: 6rem 10px; }
   #balloon-section { padding: 4rem 10px 0; }
