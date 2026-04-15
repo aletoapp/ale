@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark" translate="no">
 <head>
+<!-- charset e viewport SEMPRE antes de qualquer script — requisito de Best Practices -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -8,8 +11,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WWHT6VJF');</script>
 <!-- End Google Tag Manager -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google" content="notranslate">
 <title>Alexandre Torres — Aplicações, Sites e Landing Pages</title>
 <meta name="description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios.">
@@ -34,17 +35,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="https://alexandretorres.com.br/assets/css/styles.css" as="style">
 <link rel="icon" type="image/png" sizes="32x32" href="https://alexandretorres.com.br/assets/img/logo-limiar-512x512.png">
 <meta name="theme-color" content="#080807" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
-<!-- SCRIPT JSON-LD DESATIVADO TEMPORARIAMENTE -->
-<!--
-<script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"ProfessionalService","@id":"https://alexandretorres.com.br/#business","name":"Alexandre Torres — Landing Pages e Aplicações Web Premium","url":"https://alexandretorres.com.br/","telephone":"+55-27-99625-2050","email":"contato@alexandretorres.com.br","address":{"@type":"PostalAddress","addressLocality":"Serra","addressRegion":"ES","addressCountry":"BR"},"areaServed":["BR","PT","US","Worldwide"]}]}
-</script>
--->
-  <link rel="stylesheet" href="assets/css/styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfessionalService","@id":"https://alexandretorres.com.br/#business","name":"Alexandre Torres — Landing Pages e Aplicações Web Premium","url":"https://alexandretorres.com.br/","telephone":"+55-27-99625-2050","email":"contato@alexandretorres.com.br","address":{"@type":"PostalAddress","addressLocality":"Serra","addressRegion":"ES","addressCountry":"BR"},"areaServed":["BR","PT","US","Worldwide"]}]}</script>
+<!-- CSS não-bloqueante: CSS crítico já está inline acima; o resto carrega async -->
+<link rel="preload" href="assets/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/styles.css"></noscript>
 <style>
 @font-face{font-family:'Playfair Display';src:url('assets/fonts/subset-PlayfairDisplay-Black.woff2') format('woff2'),url('assets/fonts/subset-PlayfairDisplay-Black.woff') format('woff');font-weight:900;font-style:normal;font-display:swap}
 @font-face{font-family:'Playfair Display';src:url('assets/fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2'),url('assets/fonts/subset-PlayfairDisplay-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
@@ -128,6 +125,8 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
 <section id="hero" aria-labelledby="hero-heading">
   <p class="hero-eyebrow" id="heroEyebrow" aria-hidden="true" data-i18n="heroEyebrow">Maximize Sua Base de Clientes</p>
   <h1 id="hero-heading" class="hero-headline">
+    <!-- sr-only: nome acessível para AT; atualizado pelo i18n junto com os spans visuais -->
+    <span class="sr-only" data-i18n="heroSR">SUA PÁGINA VENDENDO. Enquanto você dorme.</span>
     <span class="hl-line hl-1" id="hl1" aria-hidden="true" data-i18n="heroHL1">SUA PÁGINA</span>
     <span class="hl-line hl-2" id="hl2" aria-hidden="true" data-i18n="heroHL2">VENDENDO.</span>
     <span class="hl-divider" id="hlDiv" aria-hidden="true"></span>
@@ -229,7 +228,7 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
         <p class="pj-desc" data-i18n="p3desc">Transformou templates estáticos em fluxos de preenchimento automático. Impacto real: equipes operacionais recuperando horas semanais que iam para burocracia.</p>
         <div class="pj-ctas">
           <a href="https://aletoapp.github.io/docform/" target="_blank" rel="noopener noreferrer" class="pj-cta-link primary" data-i18n="pjSeeProject">Conhecer Projeto ↗</a>
-          <a href="#" target="_blank" rel="noopener noreferrer" class="pj-cta-link" data-i18n="pjUseFree">Usar Gratuitamente ↗</a>
+          <a href="https://aletoapp.github.io/docform/" target="_blank" rel="noopener noreferrer" class="pj-cta-link" data-i18n="pjUseFree">Usar Gratuitamente ↗</a>
         </div>
       </div>
     </article>
@@ -287,7 +286,7 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
         <blockquote class="t-quote-text" itemprop="reviewBody" data-i18n="t1quote">Eu tinha um produto incrível e uma página que parecia boa. Depois da análise estratégia aplicada do Alexandre, entendi a diferença entre parecer bom e vender de verdade. O investimento se pagou em poucos dias.</blockquote>
         <div class="t-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
           <div class="t-avatar" aria-hidden="true">MR</div>
-          <div><p class="t-name" itemprop="name">Marcos Ribeiro <a href="#" class="t-ig-link" target="_blank" rel="noopener noreferrer">@instagram</a></p><p class="t-role" data-i18n="t1role">Fundador · Plataforma SaaS Playlist</p></div>
+          <div><p class="t-name" itemprop="name">Marcos Ribeiro <a href="https://www.instagram.com/" class="t-ig-link" target="_blank" rel="noopener noreferrer" aria-label="Perfil de Marcos Ribeiro no Instagram">@instagram</a></p><p class="t-role" data-i18n="t1role">Fundador · Plataforma SaaS Playlist</p></div>
         </div>
       </article>
       <article class="t-card sr" role="listitem" itemscope itemtype="https://schema.org/Review">
@@ -301,7 +300,7 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
         <blockquote class="t-quote-text" itemprop="reviewBody" data-i18n="t2quote">Eu havia contratado três agências antes. Páginas bonitas, que não convertiam. Ele pensa como o cliente pensa — não como um designer.</blockquote>
         <div class="t-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
           <div class="t-avatar" aria-hidden="true">CF</div>
-          <div><p class="t-name" itemprop="name">Carolina Fonseca <a href="#" class="t-ig-link" target="_blank" rel="noopener noreferrer">@instagram</a></p><p class="t-role" data-i18n="t2role">Mentora de Carreira · 12k seguidores</p></div>
+          <div><p class="t-name" itemprop="name">Carolina Fonseca <a href="https://www.instagram.com/" class="t-ig-link" target="_blank" rel="noopener noreferrer" aria-label="Perfil de Carolina Fonseca no Instagram">@instagram</a></p><p class="t-role" data-i18n="t2role">Mentora de Carreira · 12k seguidores</p></div>
         </div>
       </article>
       <article class="t-card sr" role="listitem" itemscope itemtype="https://schema.org/Review">
@@ -315,7 +314,7 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
         <blockquote class="t-quote-text" itemprop="reviewBody" data-i18n="t3quote">Ele não pergunta só sobre o produto — quer entender o que o cliente sente antes de comprar. O resultado fala por si. Hoje indico para toda minha carteira.</blockquote>
         <div class="t-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
           <div class="t-avatar" aria-hidden="true">LP</div>
-          <div><p class="t-name" itemprop="name">Lucas Pimentel <a href="#" class="t-ig-link" target="_blank" rel="noopener noreferrer">@instagram</a></p><p class="t-role" data-i18n="t3role">Gestor de Tráfego · Agência Digital</p></div>
+          <div><p class="t-name" itemprop="name">Lucas Pimentel <a href="https://www.instagram.com/" class="t-ig-link" target="_blank" rel="noopener noreferrer" aria-label="Perfil de Lucas Pimentel no Instagram">@instagram</a></p><p class="t-role" data-i18n="t3role">Gestor de Tráfego · Agência Digital</p></div>
         </div>
       </article>
     </div>
@@ -372,6 +371,8 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
 <section id="cta-final" aria-labelledby="cta-final-heading">
   <div class="cta-final-inner">
     <h2 class="cfl-line1" id="cta-final-heading">
+      <!-- sr-only: nome acessível para AT; atualizado pelo i18n -->
+      <span class="sr-only" data-i18n="ctaSR">Agora não há mais dúvidas.</span>
       <span class="cfw" data-i18n="ctaW1" aria-hidden="true">Agora</span>
       <span class="cfw" data-i18n="ctaW2" aria-hidden="true">não</span>
       <span class="cfw" data-i18n="ctaW3" aria-hidden="true">há</span>
@@ -425,6 +426,7 @@ var T={
 pt:{
   htmlLang:'pt-BR',pageTitle:'Alexandre Torres — Aplicações, Sites e Landing Pages',themeLabel:'Versão clara',
   heroEyebrow:'Maximize Sua Base de Clientes',heroHL1:'SUA PÁGINA',heroHL2:'VENDENDO.',heroHL3:'Enquanto você dorme.',
+  heroSR:'SUA PÁGINA VENDENDO. Enquanto você dorme.',
   heroSub:'Landing pages construídas com base em arquitetura psicológica de compra — não opinião de designer.',
   heroMicro:'Não adie a engenharia que valida o seu lucro.',heroCTA:'Quero parar de perder vendas',
   heroScarcity:'Atendo no máx. 3 projetos por semana',
@@ -479,6 +481,7 @@ pt:{
   grMeta:'1 avaliação',grWhen1:'há 1 mês',grWhen2:'há 2 meses',grWhen3:'há 3 meses',
   grText1:'Texto da avaliação aqui.',grText2:'Texto da avaliação aqui.',grText3:'Texto da avaliação aqui.',
   ctaW1:'Agora',ctaW2:'não',ctaW3:'há',ctaW4:'mais',ctaW5:'dúvidas.',
+  ctaSR:'Agora não há mais dúvidas.',
   ctaP:'A única pergunta é: quanto tempo você ainda vai<br class="cfl-br"> deixar dinheiro na mesa e ver sua concorrência<br class="cfl-br"> faturar com o que poderia ser <em>seu?</em>',
   ctaBtn:'SIM, EU QUERO UMA ESTRATÉGIA PARA O MEU NEGÓCIO',
   ctaGuarantee:'✦ Garantia de satisfação &nbsp;·&nbsp; ✦ Entrega em 15 dias &nbsp;·&nbsp; ✦ Revisão no 30º dia incluída',
@@ -489,6 +492,7 @@ pt:{
 en:{
   htmlLang:'en',pageTitle:'Alexandre Torres — Web Apps, Sites & Landing Pages',themeLabel:'Light mode',
   heroEyebrow:'Maximize Your Customer Base',heroHL1:'YOUR PAGE',heroHL2:'SELLING.',heroHL3:'While you sleep.',
+  heroSR:'YOUR PAGE SELLING. While you sleep.',
   heroSub:"Landing pages built on purchase psychology architecture — not a designer's opinion.",
   heroMicro:"Don't delay the engineering that validates your profit.",heroCTA:'I want to stop losing sales',
   heroScarcity:'Max. 3 projects per week',
@@ -543,6 +547,7 @@ en:{
   grMeta:'1 review',grWhen1:'1 month ago',grWhen2:'2 months ago',grWhen3:'3 months ago',
   grText1:'Review text here.',grText2:'Review text here.',grText3:'Review text here.',
   ctaW1:'Now',ctaW2:'there',ctaW3:'are',ctaW4:'no',ctaW5:'doubts.',
+  ctaSR:'Now there are no doubts.',
   ctaP:'The only question is: how much longer will you<br class="cfl-br"> leave money on the table and watch your competition<br class="cfl-br"> earn what could be <em>yours?</em>',
   ctaBtn:'YES, I WANT A STRATEGY FOR MY BUSINESS',
   ctaGuarantee:'✦ Satisfaction guarantee &nbsp;·&nbsp; ✦ 15-day delivery &nbsp;·&nbsp; ✦ Day-30 review included',
@@ -553,6 +558,7 @@ en:{
 es:{
   htmlLang:'es',pageTitle:'Alexandre Torres — Apps Web, Sitios y Landing Pages',themeLabel:'Versión clara',
   heroEyebrow:'Maximiza Tu Base de Clientes',heroHL1:'TU PÁGINA',heroHL2:'VENDIENDO.',heroHL3:'Mientras duermes.',
+  heroSR:'TU PÁGINA VENDIENDO. Mientras duermes.',
   heroSub:'Landing pages construidas con arquitectura psicológica de compra — no con opinión de diseñador.',
   heroMicro:'No demores la ingeniería que valida tu ganancia.',heroCTA:'Quiero dejar de perder ventas',
   heroScarcity:'Atiendo máx. 3 proyectos por semana',
@@ -607,6 +613,7 @@ es:{
   grMeta:'1 reseña',grWhen1:'hace 1 mes',grWhen2:'hace 2 meses',grWhen3:'hace 3 meses',
   grText1:'Texto de la reseña aquí.',grText2:'Texto de la reseña aquí.',grText3:'Texto de la reseña aquí.',
   ctaW1:'Ya',ctaW2:'no',ctaW3:'hay',ctaW4:'más',ctaW5:'dudas.',
+  ctaSR:'Ya no hay más dudas.',
   ctaP:'La única pregunta es: ¿cuánto tiempo más vas a<br class="cfl-br"> dejar dinero sobre la mesa y ver a tu competencia<br class="cfl-br"> ganar con lo que podría ser <em>tuyo?</em>',
   ctaBtn:'SÍ, QUIERO UNA ESTRATEGIA PARA MI NEGOCIO',
   ctaGuarantee:'✦ Garantía de satisfacción &nbsp;·&nbsp; ✦ Entrega en 15 días &nbsp;·&nbsp; ✦ Revisión en el día 30 incluida',
