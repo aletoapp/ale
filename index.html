@@ -466,223 +466,7 @@ body{
 .footer-link{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);text-decoration:none;transition:color .3s}
 .footer-link:hover{color:var(--gold)}
 .footer-copy{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);width:100%;padding-top:1.5rem;border-top:1px solid var(--border-soft);margin-top:.5rem;transition:color .5s,border-color .5s}
- 
-/* ══════════════════════════════════════════════════
-   SUB-FOOTER — cole este bloco após </footer>
-═══════════════════════════════════════════════════ */
-.sub-footer{
-  background:var(--bg-2);
-  border-top:1px solid var(--border);
-  padding:0;
-  transition:background .5s,border-color .5s;
-  position:relative;
-  overflow:hidden;
-}
- 
-/* Linha gold topo */
-.sub-footer::before{
-  content:'';
-  display:block;
-  position:absolute;
-  top:0;left:50%;
-  transform:translateX(-50%);
-  width:40px;height:1px;
-  background:var(--gold);
-  opacity:.7;
-}
- 
-.sub-footer-inner{
-  max-width:1040px;
-  margin:0 auto;
-  padding:0 2.5rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:52px;
-}
- 
-/* ── Nav desktop ── */
-.sfnav{
-  display:flex;
-  align-items:center;
-  gap:0;
-  list-style:none;
-}
- 
-.sfnav-item{
-  display:flex;
-  align-items:center;
-}
- 
-.sfnav-link{
-  font-family:var(--mono);
-  font-size:.58rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--ink-4);
-  text-decoration:none;
-  padding:.95rem .9rem;
-  position:relative;
-  transition:color .22s;
-  white-space:nowrap;
-  display:flex;
-  align-items:center;
-  gap:.4rem;
-}
- 
-.sfnav-link::after{
-  content:'';
-  position:absolute;
-  bottom:0;left:50%;right:50%;
-  height:1px;
-  background:var(--gold);
-  transition:left .28s cubic-bezier(.22,1,.36,1),right .28s cubic-bezier(.22,1,.36,1);
-}
- 
-.sfnav-link:hover{color:var(--gold)}
-.sfnav-link:hover::after{left:.9rem;right:.9rem}
- 
-.sfnav-link:focus-visible{
-  outline:1px solid var(--gold);
-  outline-offset:-2px;
-  color:var(--gold);
-}
- 
-/* Dot separador */
-.sfnav-sep{
-  width:1px;
-  height:14px;
-  background:var(--border);
-  flex-shrink:0;
-  transition:background .5s;
-}
- 
-/* Pequeno ícone externo nos links que saem do AT·Lab */
-.sfnav-ext{
-  font-size:.55rem;
-  color:var(--ink-4);
-  opacity:.5;
-  transition:opacity .22s,color .22s;
-  line-height:1;
-}
-.sfnav-link:hover .sfnav-ext{opacity:1;color:var(--gold)}
- 
-/* Item "ALETOR" — o hub principal, leve destaque */
-.sfnav-link[data-hub]{
-  color:var(--ink-3);
-}
-.sfnav-link[data-hub]:hover{color:var(--gold)}
- 
-/* ── Hamburger (só mobile) ── */
-.sf-hamburger{
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  background:none;
-  border:none;
-  cursor:pointer;
-  padding:.8rem;
-  margin:0 auto;
-  width:100%;
-  transition:opacity .2s;
-}
-.sf-hamburger:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
- 
-.sf-hb-label{
-  font-family:var(--mono);
-  font-size:.52rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--ink-4);
-  margin-bottom:.1rem;
-  transition:color .22s;
-}
-.sf-hamburger:hover .sf-hb-label{color:var(--gold)}
- 
-.sf-hb-bars{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  width:22px;
-}
-.sf-hb-bar{
-  height:1px;
-  background:var(--ink-4);
-  transition:background .22s,transform .3s cubic-bezier(.22,1,.36,1),opacity .25s;
-  transform-origin:center;
-}
-.sf-hamburger:hover .sf-hb-bar{background:var(--gold)}
-.sf-hamburger[aria-expanded="true"] .sf-hb-bar{background:var(--gold)}
-.sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(1){transform:translateY(5px) rotate(45deg)}
-.sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(2){opacity:0;transform:scaleX(0)}
-.sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
- 
-/* ── Drawer mobile ── */
-.sf-drawer{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .38s cubic-bezier(.22,1,.36,1);
-}
-.sf-drawer.open{max-height:400px}
- 
-.sf-drawer-inner{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:.4rem 1.5rem 1.2rem;
-  gap:0;
-  border-top:1px solid var(--border-soft);
-}
- 
-.sf-drawer-link{
-  font-family:var(--mono);
-  font-size:.6rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--ink-4);
-  text-decoration:none;
-  padding:.7rem 1rem;
-  width:100%;
-  text-align:center;
-  border-bottom:1px solid var(--border-soft);
-  transition:color .2s,background .2s;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:.5rem;
-}
-.sf-drawer-link:last-child{border-bottom:none}
-.sf-drawer-link:hover{color:var(--gold);background:var(--gold-dim)}
-.sf-drawer-link[data-hub]{color:var(--ink-3)}
-.sf-drawer-link[data-hub]:hover{color:var(--gold)}
- 
-.sf-drawer-ext{font-size:.5rem;opacity:.5;transition:opacity .2s}
-.sf-drawer-link:hover .sf-drawer-ext{opacity:1}
- 
-/* ══ RESPONSIVE ══ */
-@media(max-width:640px){
-  .sub-footer-inner{
-    display:block;
-    padding:0;
-    min-height:auto;
-  }
-  .sfnav{display:none}
-  .sf-hamburger{display:flex}
-  .sub-footer::before{display:none}
-}
- 
-@media(min-width:641px) and (max-width:900px){
-  .sub-footer-inner{padding:0 1.5rem}
-  .sfnav-link{padding:.95rem .65rem}
-  .sfnav-link::after{left:.65rem;right:.65rem}
-  .sfnav-link:hover::after{left:.65rem;right:.65rem}
-}
-/* ══════════════════════════════════════════════════
-   FIM DO SUB-FOOTER
-═══════════════════════════════════════════════════ */
- 
+  
 /* Botão de tema para preview */
 .preview-toggle{
   position:fixed;top:1rem;right:1rem;
@@ -723,72 +507,149 @@ body{
 <!-- ══════════════════════════════════════════════════
      SUB-FOOTER — cole exatamente após </footer>
 ═══════════════════════════════════════════════════ -->
+<style>
+@font-face{font-family:'DM Mono';src:url('https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+ 
+:root{
+  --bg:#080807;--bg-2:#0f0e0a;
+  --border:rgba(200,169,110,.12);--border-soft:rgba(200,169,110,.07);
+  --ink-3:#9a9080;--ink-4:#6e6860;
+  --gold:#c8a96e;--gold-dim:rgba(200,169,110,.10);
+  --mono:'DM Mono',monospace;
+}
+[data-theme="light"]{
+  --bg:#f5f0e8;--bg-2:#edeae0;
+  --border:rgba(0,0,0,.10);--border-soft:rgba(0,0,0,.06);
+  --ink-3:#5a5248;--ink-4:#7a7060;
+  --gold:#9c7c3e;--gold-dim:rgba(156,124,62,.10);
+}
+ 
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:17px}
+body{background:var(--bg);transition:background .5s}
+ 
+.sub-footer{
+  background:var(--bg-2);
+  border-top:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+  transition:background .5s,border-color .5s;
+}
+.sub-footer::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:40px;height:1px;background:var(--gold);opacity:.6;
+}
+ 
+.sub-footer-inner{
+  max-width:1040px;margin:0 auto;padding:0 2.5rem;
+  display:flex;align-items:center;justify-content:center;min-height:48px;
+}
+ 
+.sfnav{display:flex;align-items:center;list-style:none}
+ 
+.sfnav-sep{width:1px;height:14px;background:var(--border);flex-shrink:0;transition:background .5s}
+ 
+.sfnav-link{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-4);text-decoration:none;
+  padding:.85rem .9rem;
+  position:relative;display:flex;align-items:center;gap:.35rem;
+  transition:color .22s;white-space:nowrap;
+}
+.sfnav-link::after{
+  content:'';position:absolute;bottom:0;left:50%;right:50%;
+  height:1px;background:var(--gold);
+  transition:left .28s cubic-bezier(.22,1,.36,1),right .28s cubic-bezier(.22,1,.36,1);
+}
+.sfnav-link:hover{color:var(--gold)}
+.sfnav-link:hover::after{left:.9rem;right:.9rem}
+.sfnav-link:focus-visible{outline:1px solid var(--gold);outline-offset:-2px;color:var(--gold)}
+.sfnav-link[data-hub]{color:var(--ink-3)}
+ 
+.sfnav-ext{font-size:.48rem;opacity:.45;transition:opacity .22s,color .22s;line-height:1}
+.sfnav-link:hover .sfnav-ext{opacity:.9;color:var(--gold)}
+ 
+/* Hamburger */
+.sf-hamburger{
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  background:none;border:none;cursor:pointer;padding:.9rem;width:100%;
+}
+.sf-hamburger:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
+ 
+.sf-hb-label{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-4);transition:color .22s;
+}
+.sf-hamburger:hover .sf-hb-label,
+.sf-hamburger[aria-expanded="true"] .sf-hb-label{color:var(--gold)}
+ 
+.sf-hb-bars{display:flex;flex-direction:column;gap:4px;width:20px}
+.sf-hb-bar{
+  height:1px;background:var(--ink-4);
+  transition:background .22s,transform .3s cubic-bezier(.22,1,.36,1),opacity .22s;
+  transform-origin:center;
+}
+.sf-hamburger:hover .sf-hb-bar,
+.sf-hamburger[aria-expanded="true"] .sf-hb-bar{background:var(--gold)}
+.sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(2){opacity:0;transform:scaleX(0)}
+.sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+ 
+/* Drawer */
+.sf-drawer{max-height:0;overflow:hidden;transition:max-height .36s cubic-bezier(.22,1,.36,1)}
+.sf-drawer.open{max-height:360px}
+ 
+.sf-drawer-inner{
+  display:flex;flex-direction:column;align-items:center;
+  padding:.2rem 1.5rem 1rem;
+  border-top:1px solid var(--border-soft);
+}
+.sf-drawer-link{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-4);text-decoration:none;
+  padding:.72rem 1rem;width:100%;text-align:center;
+  border-bottom:1px solid var(--border-soft);
+  display:flex;align-items:center;justify-content:center;gap:.45rem;
+  transition:color .2s,background .2s;
+}
+.sf-drawer-link:last-child{border-bottom:none}
+.sf-drawer-link:hover{color:var(--gold);background:var(--gold-dim)}
+.sf-drawer-link[data-hub]{color:var(--ink-3)}
+.sf-drawer-ext{font-size:.48rem;opacity:.4;transition:opacity .2s}
+.sf-drawer-link:hover .sf-drawer-ext{opacity:.9}
+ 
+@media(max-width:640px){
+  .sub-footer-inner{display:block;padding:0;min-height:auto}
+  .sfnav{display:none}
+  .sf-hamburger{display:flex}
+  .sub-footer::before{display:none}
+}
+@media(min-width:641px) and (max-width:860px){
+  .sub-footer-inner{padding:0 1.2rem}
+  .sfnav-link{padding:.85rem .65rem;letter-spacing:.14em}
+  .sfnav-link:hover::after{left:.65rem;right:.65rem}
+}
+</style>
+</head>
+<body>
+ 
 <div class="sub-footer" role="navigation" aria-label="Rede de ferramentas Alexandre Torres">
  
-  <!-- Desktop nav -->
   <div class="sub-footer-inner">
     <ul class="sfnav" role="list">
- 
-      <li class="sfnav-item">
-        <a href="https://alexandretorres.com.br/"
-           class="sfnav-link"
-           data-hub
-           aria-label="Aletor — site principal de Alexandre Torres">
-          Aletor
-          <span class="sfnav-ext" aria-hidden="true">↗</span>
-        </a>
-      </li>
- 
+      <li><a href="https://alexandretorres.com.br/" class="sfnav-link" data-hub aria-label="Aletor — site principal">Aletor <span class="sfnav-ext" aria-hidden="true">↗</span></a></li>
       <li class="sfnav-sep" aria-hidden="true"></li>
- 
-      <li class="sfnav-item">
-        <a href="https://alexandretorres.com.br/docform"
-           class="sfnav-link"
-           aria-label="DocForm — automação de documentos">
-          DocForm
-        </a>
-      </li>
- 
+      <li><a href="https://alexandretorres.com.br/docform"  class="sfnav-link">DocForm</a></li>
       <li class="sfnav-sep" aria-hidden="true"></li>
- 
-      <li class="sfnav-item">
-        <a href="https://alexandretorres.com.br/ilist"
-           class="sfnav-link"
-           aria-label="iList — listas inteligentes">
-          iList
-        </a>
-      </li>
- 
+      <li><a href="https://alexandretorres.com.br/ilist"    class="sfnav-link">iList</a></li>
       <li class="sfnav-sep" aria-hidden="true"></li>
- 
-      <li class="sfnav-item">
-        <a href="https://alexandretorres.com.br/dylist"
-           class="sfnav-link"
-           aria-label="DyList — listas dinâmicas">
-          DyList
-        </a>
-      </li>
- 
+      <li><a href="https://alexandretorres.com.br/dylist"   class="sfnav-link">DyList</a></li>
       <li class="sfnav-sep" aria-hidden="true"></li>
- 
-      <li class="sfnav-item">
-        <a href="https://alexandretorres.com.br/voicelab"
-           class="sfnav-link"
-           aria-label="VoiceLab — processador de áudio profissional">
-          VoiceLab
-        </a>
-      </li>
- 
+      <li><a href="https://alexandretorres.com.br/voicelab" class="sfnav-link">VoiceLab</a></li>
     </ul>
   </div>
  
-  <!-- Mobile: hamburger centralizado + drawer -->
-  <button
-    class="sf-hamburger"
-    id="sfHamburger"
-    aria-label="Menu de ferramentas"
-    aria-expanded="false"
-    aria-controls="sfDrawer">
+  <button class="sf-hamburger" id="sfHamburger" aria-label="Menu de ferramentas" aria-expanded="false" aria-controls="sfDrawer">
     <span class="sf-hb-label">Ferramentas</span>
     <span class="sf-hb-bars" aria-hidden="true">
       <span class="sf-hb-bar"></span>
@@ -797,96 +658,46 @@ body{
     </span>
   </button>
  
-  <nav class="sf-drawer" id="sfDrawer" aria-label="Menu de ferramentas mobile">
+  <nav class="sf-drawer" id="sfDrawer" aria-label="Menu mobile">
     <div class="sf-drawer-inner">
- 
-      <a href="https://alexandretorres.com.br/"
-         class="sf-drawer-link"
-         data-hub
-         aria-label="Aletor — site principal">
-        Aletor
-        <span class="sf-drawer-ext" aria-hidden="true">↗</span>
-      </a>
- 
-      <a href="https://alexandretorres.com.br/docform"
-         class="sf-drawer-link"
-         aria-label="DocForm — automação de documentos">
-        DocForm
-      </a>
- 
-      <a href="https://alexandretorres.com.br/ilist"
-         class="sf-drawer-link"
-         aria-label="iList — listas inteligentes">
-        iList
-      </a>
- 
-      <a href="https://alexandretorres.com.br/dylist"
-         class="sf-drawer-link"
-         aria-label="DyList — listas dinâmicas">
-        DyList
-      </a>
- 
-      <a href="https://alexandretorres.com.br/voicelab"
-         class="sf-drawer-link"
-         aria-label="VoiceLab — processador de áudio">
-        VoiceLab
-      </a>
- 
+      <a href="https://alexandretorres.com.br/"        class="sf-drawer-link" data-hub>Aletor <span class="sf-drawer-ext" aria-hidden="true">↗</span></a>
+      <a href="https://alexandretorres.com.br/docform"  class="sf-drawer-link">DocForm</a>
+      <a href="https://alexandretorres.com.br/ilist"    class="sf-drawer-link">iList</a>
+      <a href="https://alexandretorres.com.br/dylist"   class="sf-drawer-link">DyList</a>
+      <a href="https://alexandretorres.com.br/voicelab" class="sf-drawer-link">VoiceLab</a>
     </div>
   </nav>
  
 </div>
-<!-- ══ FIM SUB-FOOTER ══ -->
  
 <script>
 (function(){
   'use strict';
- 
-  /* Theme toggle (preview) */
-  var html = document.documentElement;
-  document.getElementById('themeToggle').addEventListener('click', function(){
-    html.setAttribute('data-theme',
-      html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  });
- 
-  /* Hamburger */
-  var btn    = document.getElementById('sfHamburger');
-  var drawer = document.getElementById('sfDrawer');
-  var isOpen = false;
+  var btn=document.getElementById('sfHamburger');
+  var drawer=document.getElementById('sfDrawer');
+  var isOpen=false;
  
   function setOpen(v){
-    isOpen = v;
-    drawer.classList.toggle('open', v);
-    btn.setAttribute('aria-expanded', String(v));
+    isOpen=v;
+    drawer.classList.toggle('open',v);
+    btn.setAttribute('aria-expanded',String(v));
   }
  
-  btn.addEventListener('click', function(){
-    setOpen(!isOpen);
+  btn.addEventListener('click',function(){setOpen(!isOpen)});
+  document.addEventListener('click',function(e){
+    if(isOpen&&!btn.contains(e.target)&&!drawer.contains(e.target))setOpen(false);
   });
- 
-  /* Fecha se clicar fora */
-  document.addEventListener('click', function(e){
-    if(isOpen && !btn.contains(e.target) && !drawer.contains(e.target)){
-      setOpen(false);
-    }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&isOpen){setOpen(false);btn.focus();}
   });
- 
-  /* Fecha com Escape */
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && isOpen){ setOpen(false); btn.focus(); }
-  });
- 
-  /* Fecha ao rolar (mobile UX) */
-  var scrollY = window.scrollY;
-  window.addEventListener('scroll', function(){
-    if(isOpen && Math.abs(window.scrollY - scrollY) > 40) setOpen(false);
-    scrollY = window.scrollY;
-  }, { passive: true });
- 
+  var sy=window.scrollY;
+  window.addEventListener('scroll',function(){
+    if(isOpen&&Math.abs(window.scrollY-sy)>40)setOpen(false);
+    sy=window.scrollY;
+  },{passive:true});
 })();
 </script>
-
-  <!-- FIM DO SUB-FFOTER -->
+   <!-- FIM DO SUB-FFOTER -->
 
 <script src="assets/js/script.js" defer></script>
 
