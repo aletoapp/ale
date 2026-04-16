@@ -351,6 +351,21 @@ font-size {1rem;}
 
 .hero-note { font-size: 0.8rem; color: var(--ink-4); font-style: italic; transition: color 0.55s ease; }
 
+
+.hero-sub{
+  font-size:clamp(1.05rem,2.2vw,1.35rem);
+  max-width:720px;
+  line-height:1.5;
+  color:#c4bfb2;
+  margin:1.2rem auto 0;
+  letter-spacing:-0.01em;
+}
+.hero-sub em{
+  color:#c8a96e;
+  font-style:italic;
+  font-family:'Playfair Display',serif;
+}
+
 /* ══════════════════════════════════════════════════════
    DOR
 ══════════════════════════════════════════════════════ */
