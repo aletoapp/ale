@@ -291,7 +291,7 @@ section { position: relative; overflow: hidden; }
 /* Sub + CTA */
 .hero-sub {
   max-width: 420px; margin: 3rem auto 0;
-  font-size: 1.1rem; color: var(--ink-3); line-height: 1.9;
+  font-size: 1.25rem; color: var(--ink-3); line-height: 1.9;
   opacity: 0; transition: color 0.55s ease;
 }
 .hero-sub.visible { animation: lineIn 0.7s ease forwards; }
