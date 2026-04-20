@@ -3,12 +3,11 @@
    Ativado via JS quando rem != 16px no dispositivo.
    Classe .font-scale-fix injetada no <html>.
 ══════════════════════════════════════════════════════ */
-
 html {
-  font-size: 16px;
+  font-size: 18px;
   -webkit-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  touch-action: pan-x pan-y; /* bloqueia pinch-zoom */
 }
 
 /* ── Parágrafos e textos corridos ── */
