@@ -418,212 +418,44 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
   </div>
 </footer>
 
-  <style>
-/* ══ FONTS (mesmas do site) ══ */
-@font-face{font-family:'Playfair Display';src:url('https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:'DM Sans';src:url('https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:'DM Mono';src:url('https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
- 
-/* ══ TOKENS (idênticos ao site) ══ */
-:root{
-  --bg:#080807;--bg-2:#0f0e0a;--bg-3:#141310;
-  --surface:rgba(255,255,255,.03);
-  --border:rgba(200,169,110,.12);--border-soft:rgba(200,169,110,.07);
-  --ink:#f0ece2;--ink-2:#c4bfb2;--ink-3:#9a9080;--ink-4:#6e6860;
-  --gold:#c8a96e;--gold-dim:rgba(200,169,110,.10);--rust:#9c3d2e;
-  --mono:'DM Mono',monospace;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',sans-serif;
-  --tt:background .5s ease,color .5s ease,border-color .5s ease;
-}
-[data-theme="light"]{
-  --bg:#f5f0e8;--bg-2:#edeae0;--bg-3:#e6e2d8;
-  --surface:rgba(0,0,0,.025);--border:rgba(0,0,0,.10);--border-soft:rgba(0,0,0,.06);
-  --ink:#0a0907;--ink-2:#3a342c;--ink-3:#5a5248;--ink-4:#7a7060;
-  --gold:#9c7c3e;--gold-dim:rgba(156,124,62,.10);--rust:#8c3222;
-}
- 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:17px}
-body{
-  background:var(--bg);color:var(--ink);
-  font-family:var(--sans);
-  /* Apenas para o preview — simula o footer acima */
-  display:flex;flex-direction:column;min-height:100vh;
-  transition:var(--tt);
-}
- 
-/* ══ PREVIEW SPACER (remove no site real) ══ */
-.preview-footer-mock{
-  background:var(--bg);
-  padding:2.5rem 2.5rem 2rem;
-  border-top:1px solid var(--border-soft);
-  flex:1;display:flex;align-items:flex-end;
-  transition:background .5s,border-color .5s;
-}
-.preview-footer-mock .footer-inner{
-  max-width:1040px;margin:0 auto;width:100%;
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
-}
-.footer-logo{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;text-decoration:none;transition:color .3s}
-.footer-links{display:flex;gap:1.6rem;flex-wrap:wrap}
-.footer-link{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);text-decoration:none;transition:color .3s}
-.footer-link:hover{color:var(--gold)}
-.footer-copy{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);width:100%;padding-top:1.5rem;border-top:1px solid var(--border-soft);margin-top:.5rem;transition:color .5s,border-color .5s}
-  
-/* Botão de tema para preview */
-.preview-toggle{
-  position:fixed;top:1rem;right:1rem;
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink-4);border:1px solid var(--border);background:var(--surface);
-  padding:.5rem .8rem;cursor:pointer;transition:all .3s;z-index:100;
-}
-.preview-toggle:hover{color:var(--gold);border-color:var(--gold);background:var(--gold-dim)}
- 
-.preview-note{
-  text-align:center;padding:1.5rem 2.5rem;
-  font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-4);border-bottom:1px solid var(--border-soft);
-  transition:color .5s,border-color .5s;
-}
-.preview-note span{color:var(--gold)}
-</style>
-</head>
-<body>
- 
-<button class="preview-toggle" id="themeToggle">☀ / ☾ Tema</button>
- 
-
-  </div>
-</footer>
- 
-<!-- ══════════════════════════════════════════════════
-     SUB-FOOTER — cole exatamente após </footer>
-═══════════════════════════════════════════════════ -->
+<!-- SUB-FOOTER STYLES — integrado ao sistema de design principal -->
 <style>
-@font-face{font-family:'DM Mono';src:url('https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
- 
-:root{
-  --bg:#080807;--bg-2:#0f0e0a;
-  --border:rgba(200,169,110,.12);--border-soft:rgba(200,169,110,.07);
-  --ink-3:#9a9080;--ink-4:#6e6860;
-  --gold:#c8a96e;--gold-dim:rgba(200,169,110,.10);
-  --mono:'DM Mono',monospace;
-}
-[data-theme="light"]{
-  --bg:#f5f0e8;--bg-2:#edeae0;
-  --border:rgba(0,0,0,.10);--border-soft:rgba(0,0,0,.06);
-  --ink-3:#5a5248;--ink-4:#7a7060;
-  --gold:#9c7c3e;--gold-dim:rgba(156,124,62,.10);
-}
- 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:17px}
-body{background:var(--bg);transition:background .5s}
- 
-.sub-footer{
-  background:var(--bg-2);
-  border-top:1px solid var(--border);
-  position:relative;
-  overflow:hidden;
-  transition:background .5s,border-color .5s;
-}
-.sub-footer::before{
-  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:40px;height:1px;background:var(--gold);opacity:.6;
-}
- 
-.sub-footer-inner{
-  max-width:1040px;margin:0 auto;padding:0 2.5rem;
-  display:flex;align-items:center;justify-content:center;min-height:48px;
-}
- 
+.sub-footer{background:var(--bg-2);border-top:1px solid var(--border);position:relative;overflow:hidden;transition:background .5s,border-color .5s}
+.sub-footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:1px;background:var(--gold);opacity:.6}
+.sub-footer-inner{max-width:1040px;margin:0 auto;padding:0 2.5rem;display:flex;align-items:center;justify-content:center;min-height:48px}
 .sfnav{display:flex;align-items:center;list-style:none}
- 
 .sfnav-sep{width:1px;height:14px;background:var(--border);flex-shrink:0;transition:background .5s}
- 
-.sfnav-link{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--ink-4);text-decoration:none;
-  padding:.85rem .9rem;
-  position:relative;display:flex;align-items:center;gap:.35rem;
-  transition:color .22s;white-space:nowrap;
-}
-.sfnav-link::after{
-  content:'';position:absolute;bottom:0;left:50%;right:50%;
-  height:1px;background:var(--gold);
-  transition:left .28s cubic-bezier(.22,1,.36,1),right .28s cubic-bezier(.22,1,.36,1);
-}
+.sfnav-link{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);text-decoration:none;padding:.85rem .9rem;position:relative;display:flex;align-items:center;gap:.35rem;transition:color .22s;white-space:nowrap}
+.sfnav-link::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:1px;background:var(--gold);transition:left .28s cubic-bezier(.22,1,.36,1),right .28s cubic-bezier(.22,1,.36,1)}
 .sfnav-link:hover{color:var(--gold)}
 .sfnav-link:hover::after{left:.9rem;right:.9rem}
 .sfnav-link:focus-visible{outline:1px solid var(--gold);outline-offset:-2px;color:var(--gold)}
 .sfnav-link[data-hub]{color:var(--ink-3)}
- 
 .sfnav-ext{font-size:.48rem;opacity:.45;transition:opacity .22s,color .22s;line-height:1}
 .sfnav-link:hover .sfnav-ext{opacity:.9;color:var(--gold)}
- 
-/* Hamburger */
-.sf-hamburger{
-  display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;
-  background:none;border:none;cursor:pointer;padding:.9rem;width:100%;
-}
+.sf-hamburger{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:.9rem;width:100%}
 .sf-hamburger:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
- 
-.sf-hb-label{
-  font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--ink-4);transition:color .22s;
-}
-.sf-hamburger:hover .sf-hb-label,
-.sf-hamburger[aria-expanded="true"] .sf-hb-label{color:var(--gold)}
- 
+.sf-hb-label{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-4);transition:color .22s}
+.sf-hamburger:hover .sf-hb-label,.sf-hamburger[aria-expanded="true"] .sf-hb-label{color:var(--gold)}
 .sf-hb-bars{display:flex;flex-direction:column;gap:4px;width:20px}
-.sf-hb-bar{
-  height:1px;background:var(--ink-4);
-  transition:background .22s,transform .3s cubic-bezier(.22,1,.36,1),opacity .22s;
-  transform-origin:center;
-}
-.sf-hamburger:hover .sf-hb-bar,
-.sf-hamburger[aria-expanded="true"] .sf-hb-bar{background:var(--gold)}
+.sf-hb-bar{height:1px;background:var(--ink-4);transition:background .22s,transform .3s cubic-bezier(.22,1,.36,1),opacity .22s;transform-origin:center}
+.sf-hamburger:hover .sf-hb-bar,.sf-hamburger[aria-expanded="true"] .sf-hb-bar{background:var(--gold)}
 .sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(1){transform:translateY(5px) rotate(45deg)}
 .sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(2){opacity:0;transform:scaleX(0)}
 .sf-hamburger[aria-expanded="true"] .sf-hb-bar:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
- 
-/* Drawer */
 .sf-drawer{max-height:0;overflow:hidden;transition:max-height .36s cubic-bezier(.22,1,.36,1)}
 .sf-drawer.open{max-height:360px}
- 
-.sf-drawer-inner{
-  display:flex;flex-direction:column;align-items:center;
-  padding:.2rem 1.5rem 1rem;
-  border-top:1px solid var(--border-soft);
-}
-.sf-drawer-link{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--ink-4);text-decoration:none;
-  padding:.72rem 1rem;width:100%;text-align:center;
-  border-bottom:1px solid var(--border-soft);
-  display:flex;align-items:center;justify-content:center;gap:.45rem;
-  transition:color .2s,background .2s;
-}
+.sf-drawer-inner{display:flex;flex-direction:column;align-items:center;padding:.2rem 1.5rem 1rem;border-top:1px solid var(--border-soft)}
+.sf-drawer-link{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);text-decoration:none;padding:.72rem 1rem;width:100%;text-align:center;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:center;gap:.45rem;transition:color .2s,background .2s}
 .sf-drawer-link:last-child{border-bottom:none}
 .sf-drawer-link:hover{color:var(--gold);background:var(--gold-dim)}
 .sf-drawer-link[data-hub]{color:var(--ink-3)}
 .sf-drawer-ext{font-size:.48rem;opacity:.4;transition:opacity .2s}
 .sf-drawer-link:hover .sf-drawer-ext{opacity:.9}
- 
-@media(max-width:640px){
-  .sub-footer-inner{display:block;padding:0;min-height:auto}
-  .sfnav{display:none}
-  .sf-hamburger{display:flex}
-  .sub-footer::before{display:none}
-}
-@media(min-width:641px) and (max-width:860px){
-  .sub-footer-inner{padding:0 1.2rem}
-  .sfnav-link{padding:.85rem .65rem;letter-spacing:.14em}
-  .sfnav-link:hover::after{left:.65rem;right:.65rem}
-}
+@media(max-width:640px){.sub-footer-inner{display:block;padding:0;min-height:auto}.sfnav{display:none}.sf-hamburger{display:flex}.sub-footer::before{display:none}}
+@media(min-width:641px) and (max-width:860px){.sub-footer-inner{padding:0 1.2rem}.sfnav-link{padding:.85rem .65rem;letter-spacing:.14em}.sfnav-link:hover::after{left:.65rem;right:.65rem}}
 </style>
-</head>
-<body>
- 
+
 <div class="sub-footer" role="navigation" aria-label="Rede de ferramentas Alexandre Torres">
  
   <div class="sub-footer-inner">
@@ -657,7 +489,7 @@ body{background:var(--bg);transition:background .5s}
   </nav>
  
 </div>
- 
+
 <script>
 (function(){
   'use strict';
@@ -685,7 +517,6 @@ body{background:var(--bg);transition:background .5s}
   },{passive:true});
 })();
 </script>
-   <!-- FIM DO SUB-FFOTER -->
 
 <script src="assets/js/script.js" defer></script>
 
@@ -936,5 +767,6 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){
 
 })();
 </script>
+
 </body>
 </html>
