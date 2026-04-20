@@ -981,12 +981,12 @@ footer {
   #garantia   { padding: 5rem 10px; }
   #cta        { padding: 7rem 10px; }
   footer { padding: 2.5rem 10px 2rem; }
-.footer-inner { grid-template-columns: 1fr; gap: 0; }
-.footer-col-brand { text-align: center; margin-bottom: 1.8rem; }
-.footer-col-contacts { align-items: center; }
-.footer-contacts { justify-content: center; }
-.footer-bottom { flex-direction: column; align-items: center; gap: 0.8rem; text-align: center; }
-.footer-bottom-links { gap: 1rem; }
+  .footer-inner { grid-template-columns: 1fr; gap: 0; }
+  .footer-col-brand { text-align: center; margin-bottom: 1.8rem; }
+  .footer-col-contacts { align-items: center; }
+  .footer-contacts { justify-content: center; }
+  .footer-bottom { flex-direction: column; align-items: center; gap: 0.8rem; text-align: center; }
+  .footer-bottom-links { gap: 1rem; }
   .dor-grid { grid-template-columns: 1fr; gap: 3rem; }
   .metodo-grid { grid-template-columns: 1fr; }
   .step { border-right: none; border-bottom: 1px solid var(--border); }
@@ -1008,9 +1008,48 @@ footer {
   .garantia-box { padding: 1.5rem; }
   .hero-diag-input { font-size: 0.78rem; }
   .hero-diag-input::placeholder { font-size: 0.7rem; letter-spacing: 0; }
-  .dor-left p, .dor-item p, .portfolio-header p, .pj-desc, .metodo-header p, .step p, .t-text, .t-quote-text, .prova-header p, 
-   .objecao-answer p, .garantia-inner p, .cta-sub, .cta-relief, .hero-mechanism, .balloon-intro p, .obj-item p, 
-   .reward-item { font-size: 1rem; line-height: 1.75; }
+
+  /* ── Tamanhos de fonte globais para <p> em mobile ── */
+  p,
+  .dor-left p,
+  .dor-item p,
+  .portfolio-header p,
+  .pj-desc,
+  .metodo-header p,
+  .step p,
+  .t-text,
+  .t-quote-text,
+  .prova-header p,
+  .objecao-answer p,
+  .garantia-inner p,
+  .cta-sub,
+  .cta-relief,
+  .hero-mechanism,
+  .balloon-intro p,
+  .obj-item p,
+  .reward-item { font-size: 1.25rem; line-height: 1.75; }
+
+  /* ── Textos específicos por conteúdo ── */
+
+  /* "Landing pages construídas com arquitetura psicológica..." */
+  .hero-sub { font-size: 1.2rem; }
+
+  /* "A única pergunta é: quanto tempo você ainda vai deixar dinheiro..." */
+  .objecao-answer p { font-size: 1.2rem; }
+
+  /* "Não adie a engenharia que valida o seu lucro." */
+  .hero-micro-proof { font-size: 0.75rem; }
+  /* Remove o ícone ▲ do .hero-micro-proof em mobile */
+  .hero-micro-proof::before { content: none; display: none; }
+
+  /* "Atendo no máx. 3 projetos por semana" */
+  .hero-scarcity { font-size: 0.74rem; }
+
+  /* ── Botão CTA em negrito ── */
+  .btn-primary { font-weight: 900; }
+  .cfl-btn { font-weight: 900 !important; }
+
+  /* ── Tamanhos tipográficos gerais ── */
   .dor-left h2 { font-size: clamp(1.7rem, 7vw, 2.4rem); }
   .dor-item strong { font-size: 1.05rem; }
   .step h3 { font-size: 1.1rem; }
@@ -1022,7 +1061,6 @@ footer {
   .result-label { font-size: 0.72rem; }
   .garantia-inner h2 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
   .garantia-box p { font-size: 1.1rem; }
-  .objecao-answer p { font-size: 1.1rem; }
   .dor-quote p { font-size: 1.05rem; }
   .objecao-header h2 { font-size: clamp(1.7rem, 7vw, 2.6rem); }
   #hero { padding: 7rem 1.6rem 8rem; justify-content: flex-start; padding-top: max(7rem, calc(50vh - 22rem)); }
@@ -1031,7 +1069,6 @@ footer {
   .hl-2 { font-size: clamp(3rem, 14vw, 5.5rem); margin-bottom: 0.06em; }
   .hl-3 { font-size: clamp(2.2rem, 10.5vw, 3.6rem); }
   .hl-divider { margin: 0.8rem auto; }
-  .hero-sub { font-size: 1.1rem; margin-top: 1.8rem; line-height: 1.75; max-width: 100%; }
   .hero-cta-row { margin-top: 2rem; gap: 1.2rem; flex-direction: column; align-items: center; }
   .btn-primary { width: 100%; text-align: center; padding: 1rem 1.5rem; }
   .portfolio-header { grid-template-columns: 1fr; gap: 1.5rem; }
