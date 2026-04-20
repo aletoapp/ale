@@ -3,7 +3,7 @@
 <head>
 <!-- charset e viewport SEMPRE antes de qualquer script — requisito de Best Practices -->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -767,6 +767,22 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){
 
 })();
 </script>
+
+  (function () {
+  var expected = 16;
+  var div = document.createElement('div');
+  div.style.cssText = 'position:absolute;visibility:hidden;width:1rem;height:1rem;';
+  document.body.appendChild(div);
+  var actual = parseFloat(getComputedStyle(div).width);
+  document.body.removeChild(div);
+
+  if (Math.abs(actual - expected) > 1) {
+    // rem está sendo escalonado pelo sistema
+    document.documentElement.classList.add('font-scale-fix');
+    // Força a base de volta
+    document.documentElement.style.fontSize = expected + 'px';
+  }
+})();
 
 </body>
 </html>
