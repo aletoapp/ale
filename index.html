@@ -768,21 +768,20 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){
 })();
 </script>
 
-  (function () {
-  var expected = 16;
+  <script>
+(function () {
   var div = document.createElement('div');
   div.style.cssText = 'position:absolute;visibility:hidden;width:1rem;height:1rem;';
   document.body.appendChild(div);
   var actual = parseFloat(getComputedStyle(div).width);
   document.body.removeChild(div);
 
-  if (Math.abs(actual - expected) > 1) {
-    // rem está sendo escalonado pelo sistema
-    document.documentElement.classList.add('font-scale-fix');
-    // Força a base de volta
-    document.documentElement.style.fontSize = expected + 'px';
-  }
+  var info = document.createElement('div');
+  info.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:#fff;font-size:14px;padding:8px 12px;font-family:monospace;';
+  info.textContent = '1rem = ' + actual + 'px | html fontSize = ' + getComputedStyle(document.documentElement).fontSize + ' | devicePixelRatio = ' + window.devicePixelRatio;
+  document.body.appendChild(info);
 })();
+</script>
 
 </body>
 </html>
