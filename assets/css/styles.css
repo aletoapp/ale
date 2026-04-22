@@ -1714,3 +1714,153 @@ body {
     opacity: 0.9;
   }
 }
+/* ══════════════════════════════════════════════════════
+   PATCH CIRÚRGICO — HERO + DIAGNÓSTICO + DOR LINK
+   foco: mobile, sem mexer no desktop
+══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+  /* 1) HERO: remover +16% e deixar 15dias | 100% em uma linha */
+  .hero-stats {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: min(100%, 420px);
+    margin: 1.1rem auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--border);
+    background: transparent;
+  }
+
+  .hero-stats .hs-item:first-child {
+    display: none;
+  }
+
+  .hero-stats .hs-item,
+  .hero-stats .hs-item:last-child {
+    border-right: none;
+    border-top: none;
+    padding: 1rem 0.7rem 0.9rem;
+    grid-column: auto;
+  }
+
+  .hero-stats .hs-item:nth-child(2) {
+    border-right: 1px solid var(--border);
+  }
+
+  .hero-stats .hs-num {
+    font-size: 1.55rem;
+    line-height: 1.05;
+  }
+
+  .hero-stats .hs-label {
+    font-size: 0.76rem;
+    letter-spacing: 0.10em;
+    line-height: 1.35;
+    margin-top: 0.35rem;
+  }
+
+  /* 2) HERO: reduzir o vazio enorme antes da próxima seção */
+  #hero {
+    min-height: auto;
+    padding-bottom: 3.6rem;
+  }
+
+  #dor {
+    padding-top: 5.2rem;
+  }
+
+  /* 3) Diagnóstico Gratuito: transformar em destaque real */
+  .dor-diagnostic-block {
+    margin-top: 2rem;
+    padding: 1.15rem 1rem 1.1rem;
+    border: 1px solid rgba(200,169,110,0.22);
+    background: linear-gradient(
+      180deg,
+      rgba(200,169,110,0.08) 0%,
+      rgba(255,255,255,0.015) 100%
+    );
+    box-shadow: 0 0 0 1px rgba(200,169,110,0.04) inset;
+  }
+
+  .dor-diag-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.7rem;
+  }
+
+  .dor-diag-label::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow:
+      0 0 0 4px rgba(200,169,110,0.10),
+      0 0 12px rgba(200,169,110,0.55),
+      0 0 24px rgba(200,169,110,0.22);
+    flex-shrink: 0;
+  }
+
+  .dor-diag-headline {
+    font-size: 1.08rem;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 0.45rem;
+  }
+
+  .dor-diag-sub {
+    font-size: 0.95rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+    margin-bottom: 0.9rem;
+  }
+
+  .dor-diag-note {
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--ink-3);
+  }
+
+  /* 4) “Ver como resolvemos isso”: voltar para dentro do contexto e legível */
+  .dor-method-link {
+    display: block;
+    width: 100%;
+    margin-top: 1.4rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid rgba(200,169,110,0.10);
+  }
+
+  .dor-method-link a {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.10em;
+    line-height: 1.45;
+    color: var(--ink-2);
+    border-bottom: none;
+    text-decoration: none;
+    padding-bottom: 0;
+  }
+
+  .dor-method-link a::after {
+    content: none;
+  }
+
+  .dor-method-sub {
+    margin-top: 0.38rem;
+    max-width: 30ch;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+}
