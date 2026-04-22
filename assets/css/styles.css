@@ -1597,3 +1597,120 @@ body {
     font-size: 1.42rem;
   }
 }
+/* ══════════════════════════════════════════════════════
+   PATCH — CONTRASTE MOBILE SEM PERDER IDENTIDADE
+══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* textos corridos e subtítulos ficam um pouco mais presentes */
+  .hero-sub,
+  .dor-left p,
+  .dor-item p,
+  .pj-desc,
+  .step p,
+  .prova-header p,
+  .balloon-intro p,
+  .t-quote-text,
+  .t-role,
+  .t-result-line,
+  .hero-note,
+  .metodo-transition,
+  .objecao-intro p,
+  .reward-item,
+  .result-note {
+    color: var(--ink-2);
+  }
+
+  /* microtextos sobem um degrau de legibilidade */
+  .mono,
+  .hs-label,
+  .pj-tag,
+  .pj-result,
+  .step-tag,
+  .t-pill,
+  .t-bar-label,
+  .reward-tag,
+  .result-label,
+  .reward-code-label,
+  .reward-note,
+  .footer-bottom-copy,
+  .footer-bottom-link,
+  .dor-method-sub,
+  .hero-scarcity {
+    color: #cfc7b8;
+  }
+
+  /* links e elementos finos ganham presença sem virar farol */
+  .pj-cta-link,
+  .dor-method-link a,
+  .t-ig-link {
+    color: #ddd4c4;
+    border-color: rgba(200,169,110,0.26);
+  }
+
+  /* linhas e divisórias muito suaves ficam um pouco mais visíveis */
+  .rule,
+  .nav-sep,
+  .hl-divider {
+    opacity: 0.9;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   PATCH — CONTRASTE MOBILE SEM PERDER IDENTIDADE
+══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* textos corridos e subtítulos ficam um pouco mais presentes */
+  .hero-sub,
+  .dor-left p,
+  .dor-item p,
+  .pj-desc,
+  .step p,
+  .prova-header p,
+  .balloon-intro p,
+  .t-quote-text,
+  .t-role,
+  .t-result-line,
+  .hero-note,
+  .metodo-transition,
+  .objecao-intro p,
+  .reward-item,
+  .result-note {
+    color: var(--ink-2);
+  }
+
+  /* microtextos sobem um degrau de legibilidade */
+  .mono,
+  .hs-label,
+  .pj-tag,
+  .pj-result,
+  .step-tag,
+  .t-pill,
+  .t-bar-label,
+  .reward-tag,
+  .result-label,
+  .reward-code-label,
+  .reward-note,
+  .footer-bottom-copy,
+  .footer-bottom-link,
+  .dor-method-sub,
+  .hero-scarcity {
+    color: #cfc7b8;
+  }
+
+  /* links e elementos finos ganham presença sem virar farol */
+  .pj-cta-link,
+  .dor-method-link a,
+  .t-ig-link {
+    color: #ddd4c4;
+    border-color: rgba(200,169,110,0.26);
+  }
+
+  /* linhas e divisórias muito suaves ficam um pouco mais visíveis */
+  .rule,
+  .nav-sep,
+  .hl-divider {
+    opacity: 0.9;
+  }
+}
