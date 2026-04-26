@@ -4,16 +4,19 @@
 <!-- charset e viewport SEMPRE antes de qualquer script — requisito de Best Practices -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-WWHT6VJF');</script>
+<!-- Google Tag Manager — adiado para não bloquear LCP/FCP -->
+<script>
+window.dataLayer=window.dataLayer||[];
+window.addEventListener('load',function(){
+  var f=document.getElementsByTagName('script')[0],j=document.createElement('script');
+  j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id=GTM-WWHT6VJF';
+  f.parentNode.insertBefore(j,f);
+},{once:true,passive:true});
+</script>
 <!-- End Google Tag Manager -->
 <meta name="google" content="notranslate">
 <title>Alexandre Torres — Aplicações, Sites e Landing Pages</title>
-<meta name="description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios.">
+<meta name="description" content="Landing pages de alta conversão e aplicações web sob medida em Serra, ES. Diagnóstico gratuito. Entrega em 15 dias. Atendimento nacional.">
 <meta name="author" content="Alexandre Torres">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://alexandretorres.com.br/">
@@ -21,7 +24,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content="https://alexandretorres.com.br/">
 <meta property="og:site_name" content="Alexandre Torres">
 <meta property="og:title" content="Alexandre Torres — Landing Pages e Aplicações Web">
-<meta property="og:description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios.">
+<meta property="og:description" content="Landing pages de alta conversão e aplicações web sob medida. Diagnóstico gratuito. Entrega em 15 dias. Atendimento nacional.">
 <meta property="og:image" content="https://alexandretorres.com.br/assets/img/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -29,7 +32,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Alexandre Torres — Landing Pages e Aplicações Web">
-<meta name="twitter:description" content="Landing Pages e Aplicações Web Premium com Estratégia Psicológica de Negócios.">
+<meta name="twitter:description" content="Landing pages de alta conversão e aplicações web sob medida. Diagnóstico gratuito. Entrega em 15 dias. Atendimento nacional.">
 <meta name="twitter:image" content="https://alexandretorres.com.br/assets/img/og.jpg">
 <link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Black.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,8 +43,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfessionalService","@id":"https://alexandretorres.com.br/#business","name":"Alexandre Torres — Landing Pages e Aplicações Web Premium","url":"https://alexandretorres.com.br/","telephone":"+55-27-99625-2050","email":"contato@alexandretorres.com.br","address":{"@type":"PostalAddress","addressLocality":"Serra","addressRegion":"ES","addressCountry":"BR"},"areaServed":["BR","PT","US","Worldwide"]}]}</script>
 <!-- CSS não-bloqueante: CSS crítico já está inline acima; o resto carrega async -->
-<link rel="preload" href="assets/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/styles.css"></noscript>
+<!-- CSS modular — 9 camadas em cascata correta -->
+<link rel="preload" href="assets/css/01-root.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/02-reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/03-base.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/04-layout.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/05-components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/06-sections.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/07-utilities.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/08-responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="assets/css/09-accessibility.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link rel="stylesheet" href="assets/css/01-root.css">
+  <link rel="stylesheet" href="assets/css/02-reset.css">
+  <link rel="stylesheet" href="assets/css/03-base.css">
+  <link rel="stylesheet" href="assets/css/04-layout.css">
+  <link rel="stylesheet" href="assets/css/05-components.css">
+  <link rel="stylesheet" href="assets/css/06-sections.css">
+  <link rel="stylesheet" href="assets/css/07-utilities.css">
+  <link rel="stylesheet" href="assets/css/08-responsive.css">
+  <link rel="stylesheet" href="assets/css/09-accessibility.css">
+</noscript>
 <style>
 @font-face{font-family:'Playfair Display';src:url('assets/fonts/subset-PlayfairDisplay-Black.woff2') format('woff2'),url('assets/fonts/subset-PlayfairDisplay-Black.woff') format('woff');font-weight:900;font-style:normal;font-display:swap}
 @font-face{font-family:'Playfair Display';src:url('assets/fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2'),url('assets/fonts/subset-PlayfairDisplay-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
@@ -98,6 +120,9 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
 </style>
 </head>
 <body>
+<!-- Skip link — acessibilidade por teclado -->
+<a href="#hero" class="skip-link">Ir para o conteúdo principal</a>
+
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WWHT6VJF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- NAV -->
@@ -114,6 +139,13 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
       <button class="lang-btn" id="langES" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
     </div>
     <!-- FIX 1: tt-label removido visualmente via CSS (.tt-label { display:none }) -->
+    <!-- ARIA live region para screen-readers (font control) -->
+    <span id="fontLiveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></span>
+    <!-- Controle de fonte A- / A+ (Camada 1 de acessibilidade) -->
+    <div class="font-ctrl" role="group" aria-label="Tamanho do texto">
+      <button class="font-btn" id="fontDecrease" aria-label="Diminuir tamanho do texto">A−</button>
+      <button class="font-btn" id="fontIncrease" aria-label="Aumentar tamanho do texto">A+</button>
+    </div>
     <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema" title="Alternar modo claro/escuro">
       <div class="tt-track" aria-hidden="true"><div class="tt-dot" id="ttDot">🌙</div></div>
       <span class="tt-label" id="ttLabel" data-i18n="themeLabel">Versão clara</span>
@@ -688,6 +720,7 @@ body{background:var(--bg);transition:background .5s}
    <!-- FIM DO SUB-FFOTER -->
 
 <script src="assets/js/script.js" defer></script>
+<script src="assets/js/font-control.js" defer></script>
 
 <script>
 (function(){
