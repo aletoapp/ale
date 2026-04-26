@@ -1,0 +1,21 @@
+/* ══════════════════════════════════════════════════════
+   07-UTILITIES — ACESSIBILIDADE · UTILITÁRIOS
+══════════════════════════════════════════════════════ */
+
+/* Screen-reader only — visualmente oculto, acessível */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Text rendering global — otimiza hinting sem inflar desktop */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}

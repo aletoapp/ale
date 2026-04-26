@@ -1,0 +1,300 @@
+/* ══════════════════════════════════════════════════════
+   08-RESPONSIVE — MOBILE FIRST
+   Ordem: tablet → mobile → pequeno → Android → estreito
+   Patch de contraste mobile (único — sem duplicação)
+══════════════════════════════════════════════════════ */
+
+
+/* ── TABLET / MOBILE GERAL (≤ 768px) ───────────────── */
+
+@media (max-width: 768px) {
+
+  /* Espaçamento global */
+  .container,
+  #dor,
+  #portfolio,
+  #balloon-section,
+  #metodo,
+  #prova,
+  #objecao,
+  #garantia,
+  #cta,
+  footer {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  /* Nav */
+  #site-nav { padding: 0 14px; height: 64px; }
+  .nav-left  { gap: 1rem; min-width: 0; }
+  .nav-logo  { font-size: 0.78rem; letter-spacing: 0.18em; white-space: nowrap; }
+  .nav-right { gap: 0.75rem; }
+  .nav-tag   { display: none; }
+  .nav-sep   { display: none; }
+  .lang-switcher { flex-shrink: 0; }
+  .lang-btn  { font-size: 0.72rem; padding: 0.42rem 0.58rem; line-height: 1; }
+  .theme-toggle  { padding: 0.35rem 0.65rem 0.35rem 0.45rem; min-height: 36px; }
+  .tt-track  { width: 34px; height: 18px; }
+  .tt-dot    { width: 14px; height: 14px; }
+  [data-theme="light"] .tt-dot { transform: translateX(16px); }
+
+  /* Oculta font-ctrl em telas muito pequenas — apenas no modo ultra-compacto */
+  /* .font-ctrl { display: none; } ← descomente se precisar em <380px */
+
+  /* Hero */
+  #hero { padding: 7rem 1rem 8.5rem; }
+  .hero-eyebrow { font-size: 0.74rem; letter-spacing: 0.16em; margin-bottom: 2.4rem; }
+  .hl-1 { font-size: clamp(2.2rem, 10.5vw, 3.6rem); margin-bottom: 0.02em; }
+  .hl-2 { font-size: clamp(3rem, 14vw, 5.5rem); margin-bottom: 0.06em; }
+  .hl-3 { font-size: clamp(2.2rem, 10.5vw, 3.6rem); }
+  .hl-divider { margin: 0.8rem auto; }
+
+  .hero-sub {
+    max-width: 34ch;
+    font-size: 1.02rem;
+    line-height: 1.62;
+    letter-spacing: -0.01em;
+    margin-top: 1.15rem;
+  }
+
+  .hero-micro-proof { font-size: 0.88rem; line-height: 1.5; }
+  .hero-cta-row { gap: 0.95rem; margin-top: 2rem; }
+  .hero-diagnostic { max-width: 100%; }
+  .hero-diag-input { font-size: 0.78rem; }
+  .hero-diag-input::placeholder { font-size: 0.7rem; letter-spacing: 0; }
+  .hero-scarcity, .hero-note { font-size: 0.82rem; line-height: 1.5; }
+
+  .hero-stats { grid-template-columns: 1fr; }
+  .hs-item,
+  .hs-item:last-child {
+    grid-column: auto;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    padding: 0.95rem 0.8rem;
+  }
+  .hs-item:first-child { border-top: none; }
+  .hs-num   { font-size: 1.45rem; }
+  .hs-label { font-size: 0.74rem; letter-spacing: 0.11em; }
+
+  /* Botões */
+  .btn-primary, .btn-ghost {
+    width: 100%; text-align: center;
+    font-size: 0.8rem; letter-spacing: 0.11em;
+    padding: 0.95rem 1.25rem;
+  }
+
+  /* DOR */
+  .dor-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .dor-left h2 { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+  .dor-item { padding: 1.1rem 0 1.1rem 1.1rem; }
+  .dor-item strong { font-size: 1.02rem; line-height: 1.28; }
+  .dor-quote p { font-size: 1.05rem; }
+  .dor-method-link { margin-top: 1.1rem; }
+  .dor-method-link a { font-size: 0.76rem; letter-spacing: 0.11em; line-height: 1.35; }
+  .dor-method-sub { font-size: 0.82rem; line-height: 1.45; }
+
+  /* Portfolio */
+  .portfolio-header { grid-template-columns: 1fr; gap: 1.4rem; margin-bottom: 3.2rem; }
+  #portfolio::before { display: none; }
+  .pj-item { grid-template-columns: 52px 1fr 28px; gap: 1.2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--border-soft); }
+  .pj-num  { font-size: 2.8rem; opacity: 0.18; }
+  .pj-name { font-size: 1.45rem; line-height: 1.12; }
+  .pj-ctas { gap: 0.55rem; margin-top: 0.85rem; opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .pj-cta-link { font-size: 0.72rem; letter-spacing: 0.09em; padding: 0.48rem 0.7rem; }
+
+  /* Método */
+  .metodo-grid { grid-template-columns: 1fr; }
+  .step { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem 1rem; }
+  .step:last-child { border-bottom: none; }
+  .step-num { font-size: 2.5rem; opacity: 0.2; }
+  .step h3  { font-size: 1.28rem; line-height: 1.18; margin-bottom: 0.7rem; }
+  .step p   { max-width: 30ch; }
+  .step-tag { display: inline-flex; margin-top: 0.95rem; padding: 0.38rem 0.6rem; }
+  .metodo-header { margin-bottom: 3rem; }
+  .metodo-transition, .metodo-header > p:last-child { font-size: 0.98rem; line-height: 1.72; }
+  .metodo-grid .step:last-child { border-bottom: 1px solid var(--border); border-right: none; }
+  .metodo-grid .step:last-child::after { top: 0.9rem; right: 1rem; }
+
+  /* Prova */
+  .testimonials { grid-template-columns: 1fr; }
+  .testimonial.featured { grid-column: span 1; }
+  .prova-header { grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+  .testimonials-structured { grid-template-columns: 1fr; gap: 1rem; }
+  .t-card.featured { grid-column: span 1; }
+  .t-card { padding: 1.2rem; }
+  .t-pill-row { gap: 0.4rem; margin-bottom: 0.95rem; }
+  .t-pill { padding: 0.32rem 0.56rem; }
+  .t-metric-bar { margin-bottom: 1rem; }
+  .t-bar-label  { font-size: 0.7rem; }
+  .t-result-line { font-size: 1.5rem; line-height: 1.12; margin-bottom: 0.7rem; }
+  .t-card.featured .t-result-line { font-size: 1.72rem; }
+  .t-quote-text { font-size: 1.02rem; line-height: 1.74; color: var(--ink-2); margin-bottom: 1rem; }
+  .t-card.featured .t-quote-text { font-size: 1.05rem; }
+  .t-author { gap: 0.8rem; align-items: center; }
+  .t-avatar { width: 50px; height: 50px; font-size: 1rem; flex-shrink: 0; }
+  .t-name { font-size: 0.98rem; line-height: 1.2; }
+  .t-ig-link { font-size: 0.82rem; }
+  .t-role { font-size: 0.74rem; line-height: 1.5; letter-spacing: 0.08em; }
+
+  /* Results bar */
+  .results-bar { grid-template-columns: 1fr 1fr; }
+  .result-item { padding: 1.4rem 1rem; }
+  .result-num  { font-size: 2rem; }
+  .result-item:nth-child(2) { border-right: none; }
+  .result-item:nth-child(3), .result-item:nth-child(4) { border-top: 1px solid var(--border); }
+
+  /* Objeção */
+  .objecao-grid { grid-template-columns: 1fr; }
+  .objecao-header h2 { font-size: clamp(1.7rem, 7vw, 2.6rem); }
+  .objecao-answer p  { font-size: 1.1rem; }
+  .obj-item h3 { font-size: 1.1rem; }
+
+  /* Garantia */
+  .garantia-box { padding: 1.5rem; }
+  .garantia-inner h2 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .garantia-box p { font-size: 1.1rem; }
+
+  /* CTA Final */
+  #cta-final { padding: 6rem 1.6rem 5rem; }
+  .cfl-line1  { font-size: clamp(2.4rem, 11vw, 3.8rem); gap: 0 0.22em; }
+  .cfl-line2  { font-size: clamp(1rem, 4.5vw, 1.35rem); }
+  .cfl-br     { display: none; }
+  .cfl-btn    { width: 100%; text-align: center; padding: 1.1rem 1.5rem !important; }
+
+  /* Footer */
+  footer { padding: 2.5rem 10px 2rem; }
+  .footer-inner { grid-template-columns: 1fr; gap: 0; }
+  .footer-col-brand { text-align: center; margin-bottom: 1.8rem; }
+  .footer-col-contacts { align-items: center; }
+  .footer-contacts { justify-content: center; }
+  .footer-bottom { flex-direction: column; align-items: center; gap: 0.8rem; text-align: center; }
+  .footer-bottom-links { gap: 1rem; }
+
+  /* Microtextos — escala legível */
+  .mono, .pj-tag, .pj-result, .step-tag, .reward-tag, .result-label,
+  .t-pill, .t-bar-label, .reward-code-label, .reward-note,
+  .footer-bottom-copy, .footer-bottom-link {
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+  }
+
+  /* Headings — text-wrap balance */
+  .dor-left h2, .portfolio-header h2, .metodo-header h2,
+  .prova-header h2, .balloon-intro h2, .cta-headline {
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  /* Textos corridos e subtítulos */
+  .dor-left p, .dor-item p, .pj-desc, .step p, .balloon-intro p,
+  .prova-header p, .reward-item, .result-note, .objecao-intro p {
+    font-size: 0.98rem;
+    line-height: 1.72;
+    color: var(--ink-2);
+  }
+
+  /* Reward */
+  .reward-title { font-size: 1.36rem; line-height: 1.18; }
+  .reward-item  { font-size: 0.94rem; line-height: 1.62; }
+  .reward-cta   { font-size: 0.74rem; letter-spacing: 0.11em; padding: 0.9rem; }
+}
+
+
+/* ── CONTRASTE MOBILE — patch único ─────────────────── */
+
+@media (max-width: 768px) {
+
+  /* Textos corridos: um degrau acima para garantir 4.5:1 */
+  .hero-sub, .dor-left p, .dor-item p, .pj-desc, .step p,
+  .prova-header p, .balloon-intro p, .t-quote-text, .t-role,
+  .t-result-line, .hero-note, .metodo-transition, .objecao-intro p,
+  .reward-item, .result-note {
+    color: var(--ink-2);
+  }
+
+  /* Microtextos: uma escala acima de opacidade */
+  .mono, .hs-label, .pj-tag, .pj-result, .step-tag, .t-pill,
+  .t-bar-label, .reward-tag, .result-label, .reward-code-label,
+  .reward-note, .footer-bottom-copy, .footer-bottom-link,
+  .dor-method-sub, .hero-scarcity {
+    color: #cfc7b8;
+  }
+
+  /* Links finos: mais presença sem virar farol */
+  .pj-cta-link, .dor-method-link a, .t-ig-link {
+    color: #ddd4c4;
+    border-color: rgba(200,169,110,0.26);
+  }
+
+  /* Separadores: levemente mais visíveis */
+  .rule, .nav-sep, .hl-divider {
+    opacity: 0.9;
+  }
+}
+
+
+/* ── MODAL GOOGLE — pequeno (≤ 480px) ───────────────── */
+
+@media (max-width: 480px) {
+  .gr-modal      { max-height: 92vh; border-radius: 3px 3px 0 0; }
+  .gr-overlay    { align-items: flex-end; padding: 0; }
+  .gr-big-score  { font-size: 40px; }
+  .gr-avaliar-btn{ margin-left: 0; }
+}
+
+
+/* ── ANDROID PEQUENO / MOTOROLA (≤ 430px) ───────────── */
+
+@media (max-width: 430px) {
+
+  #site-nav { padding: 0 12px; }
+  .nav-logo  { font-size: 0.74rem; letter-spacing: 0.16em; }
+  .lang-btn  { font-size: 0.7rem; padding: 0.4rem 0.52rem; }
+  .theme-toggle { padding-right: 0.55rem; }
+
+  .hero-eyebrow { font-size: 0.7rem; margin-bottom: 2rem; }
+  .hl-1 { font-size: clamp(2.15rem, 8.8vw, 3rem); }
+  .hl-2 { font-size: clamp(2.7rem, 11.5vw, 3.95rem); }
+  .hl-3 { font-size: clamp(2.05rem, 8.5vw, 2.85rem); }
+  .hero-sub { font-size: 1rem; line-height: 1.6; max-width: 32ch; }
+
+  .mono, .pj-tag, .pj-result, .step-tag, .reward-tag, .result-label,
+  .t-pill, .t-bar-label, .reward-code-label, .reward-note,
+  .footer-bottom-copy, .footer-bottom-link, .hs-label {
+    font-size: 0.7rem;
+  }
+
+  .dor-left p, .dor-item p, .pj-desc, .step p, .balloon-intro p,
+  .prova-header p, .reward-item, .objecao-intro p, .t-quote-text {
+    font-size: 0.96rem;
+    line-height: 1.68;
+  }
+
+  .step h3         { font-size: 1.2rem; }
+  .t-card          { padding: 1.05rem; }
+  .t-result-line   { font-size: 1.36rem; }
+  .t-card.featured .t-result-line  { font-size: 1.56rem; }
+  .t-quote-text,
+  .t-card.featured .t-quote-text   { font-size: 0.98rem; }
+  .t-role { font-size: 0.7rem; }
+  .t-avatar { width: 46px; height: 46px; }
+  .results-bar { grid-template-columns: 1fr 1fr; }
+  .result-item { padding: 1.4rem 1rem; }
+  .result-num  { font-size: 2rem; }
+  .reward-title { font-size: 1.36rem; line-height: 1.18; }
+  .reward-item  { font-size: 0.94rem; line-height: 1.62; }
+  .reward-cta   { font-size: 0.74rem; letter-spacing: 0.11em; padding: 0.9rem; }
+}
+
+
+/* ── MUITO ESTREITO (≤ 360px) ───────────────────────── */
+
+@media (max-width: 360px) {
+  .nav-logo { font-size: 0.7rem; letter-spacing: 0.14em; }
+  .lang-btn { font-size: 0.66rem; padding: 0.38rem 0.44rem; }
+  .hl-1 { font-size: 2rem; }
+  .hl-2 { font-size: 2.5rem; }
+  .hl-3 { font-size: 1.92rem; }
+  .t-result-line { font-size: 1.26rem; }
+  .t-card.featured .t-result-line { font-size: 1.42rem; }
+}

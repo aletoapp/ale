@@ -1,0 +1,128 @@
+/* ══════════════════════════════════════════════════════
+   01-ROOT — FONTES · TOKENS · CONTROLE DE FONTE
+   Camada 1: Preferência do usuário (A- / A+)
+   Camada 2: Responsividade (→ 08-responsive.css)
+   Camada 3: Acessibilidade (→ 09-accessibility.css)
+══════════════════════════════════════════════════════ */
+
+
+/* ── FONTES LOCAIS ─────────────────────────────────── */
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2'),
+       url('../fonts/subset-PlayfairDisplay-Bold.woff')  format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../fonts/subset-PlayfairDisplay-Black.woff2') format('woff2'),
+       url('../fonts/subset-PlayfairDisplay-Black.woff')  format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../fonts/subset-DMSans-9ptRegular.woff2') format('woff2'),
+       url('../fonts/subset-DMSans-9ptRegular.woff')  format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../fonts/DMSans-9ptItalic.woff2') format('woff2'),
+       url('../fonts/DMSans-9ptItalic.woff')  format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('../fonts/subset-DMMono-Regular.woff2') format('woff2'),
+       url('../fonts/subset-DMMono-Regular.woff')  format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* ── TOKENS — DARK (padrão) ────────────────────────── */
+
+:root {
+  --bg:          #080807;
+  --bg-2:        #0f0e0a;
+  --bg-3:        #141310;
+  --surface:     rgba(255,255,255,0.03);
+  --border:      rgba(200,169,110,0.12);
+  --border-soft: rgba(200,169,110,0.07);
+
+  --ink:         #f0ece2;
+  --ink-2:       #c4bfb2;
+  --ink-3:       #9a9080;
+  --ink-4:       #6e6860;
+
+  --gold:        #c8a96e;
+  --gold-dim:    rgba(200,169,110,0.15);
+  --rust:        #9c3d2e;
+
+  --nav-bg:      rgba(8,8,7,0.88);
+  --nav-border:  rgba(200,169,110,0.08);
+
+  --theme-transition: background 0.55s ease, color 0.55s ease,
+                      border-color 0.55s ease, box-shadow 0.55s ease,
+                      fill 0.55s ease;
+}
+
+
+/* ── TOKENS — LIGHT ────────────────────────────────── */
+
+[data-theme="light"] {
+  --bg:          #f5f0e8;
+  --bg-2:        #edeae0;
+  --bg-3:        #e6e2d8;
+  --surface:     rgba(0,0,0,0.025);
+  --border:      rgba(0,0,0,0.1);
+  --border-soft: rgba(0,0,0,0.06);
+
+  --ink:         #0a0907;
+  --ink-2:       #3a342c;
+  --ink-3:       #5a5248;
+  --ink-4:       #7a7060;
+
+  --gold:        #9c7c3e;
+  --gold-dim:    rgba(156,124,62,0.1);
+  --rust:        #8c3222;
+
+  --nav-bg:      rgba(245,240,232,0.92);
+  --nav-border:  rgba(0,0,0,0.07);
+}
+
+
+/* ── CONTROLE DE FONTE — A- / A+ ───────────────────────
+   Camada 1: preferência explícita do usuário
+   Atua na escala tipográfica do produto via font-size root.
+   Todo valor em rem herda esta escala automaticamente.
+   Valores px (ex: alturas fixas de nav, avatares) não mudam.
+   Especificidade: html[attr] (0,1,0) > html (0,0,1) — correto.
+─────────────────────────────────────────────────────── */
+
+html                    { font-size: 16px; }
+html[data-font="small"] { font-size: 14px; }
+html[data-font="normal"]{ font-size: 16px; }
+html[data-font="large"] { font-size: 18.5px; }
+
+/* Leve boost em Android — preservado em cada tamanho */
+@media (max-width: 480px) {
+  html                    { font-size: 17px; }
+  html[data-font="small"] { font-size: 15px; }
+  html[data-font="normal"]{ font-size: 17px; }
+  html[data-font="large"] { font-size: 19.5px; }
+}

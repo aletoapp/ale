@@ -1,0 +1,162 @@
+/* ══════════════════════════════════════════════════════
+   09-ACCESSIBILITY
+   Camada 3 — acessibilidade (máxima especificidade)
+   Cobre: reduced-motion · focus-visible · high-contrast
+══════════════════════════════════════════════════════ */
+
+
+/* ── REDUCED MOTION ─────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+
+  /* Scroll suave desativado */
+  html { scroll-behavior: auto; }
+
+  /* Hero — mostra tudo sem animação */
+  .hl-line.visible,
+  .hero-eyebrow.visible,
+  .hero-sub.visible,
+  .hero-cta-row.visible,
+  .hero-stats.visible,
+  .hero-mechanism.visible,
+  .hero-micro-proof.visible,
+  .hero-diagnostic.visible,
+  .hero-diag-note.visible {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hl-divider.visible {
+    animation: none;
+    width: 60px;
+    opacity: 1;
+  }
+
+  /* Scroll reveals */
+  .sr        { opacity: 1; transform: none; }
+  .fade-in   { opacity: 1; transform: none; }
+
+  /* CTA final word-by-word */
+  .cfw       { opacity: 1; transform: none; }
+  .cfl-line2 { opacity: 1; transform: none; }
+  .cfl-cta   { opacity: 1; transform: none; }
+
+  /* Balloon hint */
+  #balloon-hint { animation: none; }
+
+  /* Noise layer — sem will-change desnecessário */
+  body::before { will-change: auto; }
+
+  /* Dot pulse */
+  .hero-scarcity::before,
+  .crr-dot { animation: none; }
+
+  /* Reward box */
+  #balloon-reward,
+  #balloon-reward.open {
+    transition: none;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+
+/* ── FOCUS VISIBLE — GLOBAL ─────────────────────────── */
+
+/* Garante foco visível em todos os elementos interativos */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Remove outline padrão quando já temos :focus-visible */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Elementos com foco próprio já definido — não sobrescreve */
+.btn-primary:focus-visible,
+.btn-ghost:focus-visible,
+.theme-toggle:focus-visible,
+.font-btn:focus-visible,
+.hero-diag-btn:focus-visible,
+.btn-google-reviews:focus-visible,
+.gr-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Skip link — acessibilidade por teclado */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--gold);
+  color: var(--bg);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+
+/* ── HIGH CONTRAST MODE ─────────────────────────────── */
+
+@media (forced-colors: active) {
+
+  /* Tokens sobrescritos pelo sistema — mapa forçado */
+  :root {
+    --gold:    ButtonText;
+    --ink:     CanvasText;
+    --ink-2:   CanvasText;
+    --ink-3:   GrayText;
+    --bg:      Canvas;
+    --surface: Canvas;
+    --border:  ButtonBorder;
+  }
+
+  /* Botões: garante borda visível */
+  .btn-primary,
+  .btn-ghost,
+  .theme-toggle,
+  .font-btn,
+  .lang-btn {
+    forced-color-adjust: none;
+    border: 2px solid ButtonText;
+  }
+
+  /* Animações de noise e radial gradient: desativadas */
+  body::before         { display: none; }
+  #hero::after         { display: none; }
+  #objecao::before     { display: none; }
+  #balloon-section::before { display: none; }
+}
+
+
+/* ── PRINT ──────────────────────────────────────────── */
+
+@media print {
+  body::before,
+  #site-nav,
+  .theme-toggle,
+  .lang-switcher,
+  .font-ctrl,
+  #balloon-section,
+  .gr-overlay,
+  .btn-primary,
+  .btn-ghost {
+    display: none !important;
+  }
+
+  body    { background: #fff; color: #000; }
+  a       { color: #000; text-decoration: underline; }
+  section { break-inside: avoid; }
+}

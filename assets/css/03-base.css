@@ -1,0 +1,39 @@
+/* ══════════════════════════════════════════════════════
+   03-BASE — PRIMITIVOS TIPOGRÁFICOS · CONTAINER
+══════════════════════════════════════════════════════ */
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.1;
+}
+
+.mono {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.gold-text {
+  color: var(--gold);
+}
+
+.rule {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 1.4rem 0;
+  transition: background 0.55s ease;
+}
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+section {
+  position: relative;
+  overflow: hidden;
+}

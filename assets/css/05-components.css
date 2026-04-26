@@ -1,0 +1,147 @@
+/* ══════════════════════════════════════════════════════
+   05-COMPONENTS — KEYFRAMES · BOTÕES · ANIMAÇÕES · SR
+══════════════════════════════════════════════════════ */
+
+
+/* ── KEYFRAMES ──────────────────────────────────────── */
+
+@keyframes lineIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ruleGrow {
+  from { width: 0; opacity: 0; }
+  to   { width: 60px; opacity: 1; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(200,169,110,0); }
+}
+
+@keyframes hintFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(5px); }
+}
+
+@keyframes jiggle {
+  0%, 100% { transform: rotate(0); }
+  25%       { transform: rotate(-2deg); }
+  75%       { transform: rotate(2deg); }
+}
+
+@keyframes flashPop {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+  55%  { transform: translate(-50%,-50%) scale(2.2); opacity: 0.8; }
+  100% { transform: translate(-50%,-50%) scale(3.5); opacity: 0; }
+}
+
+@keyframes rewardGlow {
+  0%   { box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--border-soft), 0 0 0 rgba(200,169,110,0); }
+  30%  { box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 3px rgba(200,169,110,0.6), 0 0 40px rgba(200,169,110,0.25); }
+  70%  { box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 2px rgba(200,169,110,0.3), 0 0 20px rgba(200,169,110,0.12); }
+  100% { box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--border-soft), 0 0 0 rgba(200,169,110,0); }
+}
+
+@keyframes rewardItemIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes rewardCtaIn {
+  from { opacity: 0; transform: scaleX(0.88) scaleY(0.92); }
+  to   { opacity: 1; transform: scaleX(1) scaleY(1); }
+}
+
+
+/* ── BOTÕES ─────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--bg);
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 1rem 2.4rem;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s, background 0.55s ease;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--rust);
+  transform: translateX(-101%);
+  transition: transform 0.35s ease;
+  z-index: 0;
+}
+
+.btn-primary:hover::after  { transform: translateX(0); }
+.btn-primary:hover         { color: var(--ink); }
+.btn-primary span          { position: relative; z-index: 1; }
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.btn-ghost {
+  display: inline-block;
+  border: 1px solid var(--border);
+  color: var(--ink-3);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 1rem 2.2rem;
+  text-decoration: none;
+  transition: border-color 0.25s, color 0.25s, var(--theme-transition);
+}
+
+.btn-ghost:hover         { border-color: var(--gold); color: var(--gold); }
+.btn-ghost:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+
+/* ── SCROLL REVEALS ─────────────────────────────────── */
+
+.sr {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.sr.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in.in { opacity: 1; transform: translateY(0); }
+
+.fade-in[data-delay="1"] { transition-delay: 0.1s; }
+.fade-in[data-delay="2"] { transition-delay: 0.2s; }
+.fade-in[data-delay="3"] { transition-delay: 0.35s; }
+.fade-in[data-delay="4"] { transition-delay: 0.5s; }
+.fade-in[data-delay="5"] { transition-delay: 0.65s; }
+
+
+/* ── UTILITÁRIO ─────────────────────────────────────── */
+
+.hero-note {
+  font-size: 0.8rem;
+  color: var(--ink-4);
+  font-style: italic;
+  transition: color 0.55s ease;
+}
