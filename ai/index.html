@@ -1,1 +1,900 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditivo Imobiliário — Apresentação Estratégica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #8B6E2E;
+    --dark: #0C0C0E;
+    --dark-2: #131318;
+    --dark-3: #1C1C24;
+    --dark-4: #242430;
+    --off-white: #F0EDE6;
+    --muted: #8A8A9A;
+    --accent: #C9A84C;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 19px; }
+
+  body {
+    background: var(--dark);
+    color: var(--off-white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(12,12,14,0.98), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; letter-spacing: 0.18em;
+    color: var(--gold); text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.4rem; }
+  .nav-links a {
+    font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 3rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 40%, rgba(201,168,76,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  }
+  .hero-line {
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin-bottom: 2.5rem;
+    animation: fadeDown 1.2s ease forwards;
+  }
+  .hero-tag {
+    font-size: 0.82rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.6rem;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    font-weight: 300; line-height: 1.05;
+    max-width: 780px;
+    animation: fadeUp 1s ease 0.4s both;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    margin-top: 2.2rem; max-width: 560px;
+    font-size: 1.1rem; color: var(--muted); line-height: 1.85;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+  .hero-divider {
+    margin-top: 4rem;
+    width: 120px; height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    animation: fadeUp 1s ease 0.8s both;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 3rem; position: relative; }
+  .section-label {
+    font-size: 0.78rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 300; line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .section-body { font-size: 1.05rem; color: var(--muted); max-width: 640px; line-height: 1.9; }
+
+  /* ── PROBLEMA ── */
+  .problem { background: var(--dark-2); }
+  .problem-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; margin-top: 4rem; align-items: start;
+  }
+  .problem-col p { font-size: 1rem; color: var(--muted); line-height: 1.9; }
+  .problem-col p + p { margin-top: 1rem; }
+  .quote-block {
+    border-left: 1px solid var(--gold);
+    padding: 1.6rem 2rem;
+    background: rgba(201,168,76,0.04);
+    margin-top: 2.5rem;
+  }
+  .quote-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem; font-weight: 300; font-style: italic;
+    color: var(--off-white); line-height: 1.6;
+  }
+  .quote-block span { display: block; margin-top: 1rem; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-family: 'DM Sans', sans-serif; font-style: normal; }
+
+  /* ── ARQUITETURA ── */
+  .arch { background: var(--dark-3); }
+  .arch-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; margin-top: 4rem;
+    border: 1px solid rgba(201,168,76,0.12);
+  }
+  .arch-card {
+    padding: 2.4rem 2rem;
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.08);
+    transition: background 0.3s, border-color 0.3s;
+    cursor: default;
+  }
+  .arch-card:hover {
+    background: rgba(201,168,76,0.05);
+    border-color: rgba(201,168,76,0.22);
+  }
+  .arch-card-tag {
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .arch-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; margin-bottom: 0.8rem;
+  }
+  .arch-card p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
+
+  /* ── FLUXO ── */
+  .flow { background: var(--dark); }
+  .flow-steps {
+    display: flex; align-items: flex-start;
+    gap: 0; margin-top: 4rem; flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 1; min-width: 120px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+  }
+  .flow-node {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 1px solid var(--gold-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--gold);
+    background: rgba(201,168,76,0.06);
+    position: relative; z-index: 1;
+  }
+  .flow-connector {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--gold-dim), transparent);
+    margin-top: 24px; min-width: 20px;
+  }
+  .flow-label {
+    margin-top: 1rem;
+    font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); line-height: 1.5;
+  }
+
+  /* ── APD ── */
+  .apd { background: var(--dark-2); }
+  .apd-intro {
+    padding: 2.5rem 2.5rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: rgba(201,168,76,0.03);
+    max-width: 780px; margin-bottom: 3rem;
+  }
+  .apd-intro p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-style: italic; line-height: 1.75;
+    color: var(--off-white);
+  }
+  .apd-blocks { display: flex; flex-direction: column; gap: 1px; }
+  .apd-block {
+    display: grid; grid-template-columns: 80px 1fr 1fr;
+    align-items: start; gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.3s;
+  }
+  .apd-block:hover { background: rgba(201,168,76,0.03); padding-left: 1rem; }
+  .apd-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; color: rgba(201,168,76,0.2); font-weight: 300; line-height: 1;
+  }
+  .apd-block-title {
+    font-size: 1rem; font-weight: 500; color: var(--off-white);
+    margin-bottom: 0.4rem; letter-spacing: 0.04em;
+  }
+  .apd-block-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.8; }
+  .apd-block-cog {
+    font-size: 0.86rem; color: var(--gold-dim);
+    line-height: 1.8; font-style: italic;
+  }
+  .cog-label {
+    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.4rem; font-style: normal;
+  }
+
+  /* ── TECH ── */
+  .tech { background: var(--dark-3); }
+  .tech-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; margin-top: 4rem;
+  }
+  .tech-col h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 300;
+    margin-bottom: 1.6rem; padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .tech-item {
+    display: flex; align-items: flex-start;
+    gap: 1rem; margin-bottom: 1.2rem;
+  }
+  .tech-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--gold); margin-top: 0.55rem; flex-shrink: 0;
+  }
+  .tech-item-label { font-size: 1rem; color: var(--off-white); margin-bottom: 0.15rem; }
+  .tech-item-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .api-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--gold);
+    font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); margin-top: 2rem;
+  }
+  .api-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 1.5s ease infinite; }
+
+  /* ── PRIORIDADES ── */
+  .priorities { background: var(--dark); }
+  .prio-table { width: 100%; margin-top: 3rem; border-collapse: collapse; }
+  .prio-table th {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold-dim); text-align: left;
+    padding: 0.8rem 1.2rem; border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .prio-table td {
+    padding: 1.1rem 1.2rem;
+    font-size: 0.95rem; color: var(--muted);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  .prio-table tr:hover td { background: rgba(201,168,76,0.03); }
+  .prio-table td:first-child { color: rgba(201,168,76,0.35); font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; }
+  .prio-table td:nth-child(2) { color: var(--gold); font-size: 0.82rem; letter-spacing: 0.1em; }
+  .prio-table td:nth-child(3) { color: var(--off-white); font-weight: 400; }
+  .prio-table td:last-child { color: var(--gold-dim); font-size: 0.88rem; }
+  .badge {
+    display: inline-block; padding: 0.2rem 0.6rem;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    border: 1px solid; border-radius: 2px;
+  }
+  .badge-auto { color: #6EC6A0; border-color: #6EC6A0; }
+  .badge-manual { color: #C9A84C; border-color: #C9A84C; }
+  .badge-infra { color: #8A8AB0; border-color: #8A8AB0; }
+
+  /* ── TIMELINE ── */
+  .timeline { background: var(--dark-2); }
+  .timeline-track {
+    margin-top: 4rem; position: relative;
+  }
+  .timeline-bar {
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), rgba(201,168,76,0.15));
+    margin-bottom: 3rem; position: relative;
+  }
+  .timeline-marker {
+    position: absolute; top: -4px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--gold);
+  }
+  .preview-marker {
+    position: absolute; top: -4px;
+    left: 60%;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--dark); border: 1px solid var(--gold);
+  }
+  .preview-label {
+    position: absolute; top: -32px; left: 60%;
+    transform: translateX(-50%);
+    font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); white-space: nowrap;
+  }
+  .tl-days {
+    display: grid; grid-template-columns: repeat(10, 1fr);
+    gap: 1rem;
+  }
+  .tl-day {
+    text-align: center;
+  }
+  .tl-day-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; color: rgba(201,168,76,0.25);
+    line-height: 1;
+  }
+  .tl-day.active .tl-day-num { color: var(--gold); }
+  .tl-day-label {
+    font-size: 0.75rem; color: var(--muted);
+    line-height: 1.4; margin-top: 0.4rem;
+  }
+  .tl-day.preview .tl-day-num { color: var(--off-white); }
+  .tl-day.preview .tl-day-label { color: var(--gold); font-weight: 500; }
+  .tl-summary {
+    margin-top: 3rem; padding: 2rem 2.5rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    background: rgba(201,168,76,0.03);
+    display: flex; gap: 4rem;
+  }
+  .tl-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; color: var(--gold); line-height: 1;
+  }
+  .tl-stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; letter-spacing: 0.08em; }
+
+  /* ── POSICIONAMENTO ── */
+  .positioning { background: var(--dark-3); }
+  .pos-split { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+  .pos-before, .pos-after { padding: 2.5rem; }
+  .pos-before {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .pos-after {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .pos-tag {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .pos-before .pos-tag { color: var(--muted); }
+  .pos-after .pos-tag { color: var(--gold); }
+  .pos-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem; font-style: italic; line-height: 1.7;
+    color: var(--off-white);
+  }
+  .pos-before .pos-text { opacity: 0.45; }
+  .pos-vocab {
+    margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .vocab-tag {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.76rem; letter-spacing: 0.1em;
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold-dim);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 4rem 3rem;
+    background: var(--dark);
+    border-top: 1px solid rgba(201,168,76,0.08);
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; color: var(--gold); font-weight: 300;
+  }
+  .footer-note {
+    font-size: 0.82rem; color: var(--muted);
+    text-align: right; line-height: 1.8;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    to { opacity: 1; transform: scaleY(1); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    html { font-size: 17px; }
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .problem-grid, .tech-grid, .pos-split { grid-template-columns: 1fr; gap: 2rem; }
+    .arch-cards { grid-template-columns: 1fr; }
+    .apd-block { grid-template-columns: 60px 1fr; }
+    .apd-block-cog { display: none; }
+    .tl-days { grid-template-columns: repeat(5, 1fr); }
+    footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    .footer-note { text-align: left; }
+    .tl-summary { flex-direction: column; gap: 1.5rem; }
+    .section-title { font-size: clamp(2rem, 8vw, 3rem); }
+    .hero-title { font-size: clamp(2.8rem, 11vw, 5rem); }
+    .prio-table { font-size: 0.9rem; }
+    .prio-table th, .prio-table td { padding: 0.8rem 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Aditivo Imobiliário</div>
+  <div class="nav-links">
+    <a href="#problema">Problema</a>
+    <a href="#arquitetura">Arquitetura</a>
+    <a href="#apd">APD</a>
+    <a href="#tech">Tecnologia</a>
+    <a href="#prioridades">Prioridades</a>
+    <a href="#timeline">Prazo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-tag">Proposta Estratégica para Allan Mattos · Psicólogo Clínico &amp; Corretor de Imóveis</div>
+  <h1 class="hero-title">
+    Aditivo<br><em>Imobiliário</em><br>+ APD
+  </h1>
+  <div class="hero-sub">
+    Uma camada estratégica integrada ao Instagram do corretor.<br>
+    Transforma conteúdo social em ativos organizados, permanentes e estruturados para decisão de compra.<br>
+    <span style="color: var(--gold); font-size: 0.88rem; letter-spacing: 0.06em; margin-top: 0.6rem; display: block;">allanmattos.com.br</span>
+  </div>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problem" id="problema">
+  <div class="section-label">01 — Diagnóstico</div>
+  <h2 class="section-title">O Instagram é <em>fluxo.</em><br>Imóvel é ativo.</h2>
+  <div class="problem-grid">
+    <div class="problem-col">
+      <p>Ativo precisa de permanência. O Instagram enterra. O conteúdo desaparece com o tempo, imóveis se perdem no feed, o cliente não revisita com facilidade, não existe catálogo organizado.</p>
+      <p>O resultado: dependência da memória do cliente, dificuldade de compartilhamento estruturado e perda silenciosa de oportunidades a cada semana.</p>
+      <div class="quote-block">
+        <p>"O corretor não precisa de mais uma ferramenta.<br>Ele precisa de estrutura."</p>
+        <span>Diagnóstico estratégico</span>
+      </div>
+    </div>
+    <div class="problem-col">
+      <p>O mercado responde com landing pages, sites de catálogo, CRMs — todos produtos que exigem mudança de rotina, curva de aprendizado e separação do fluxo já estabelecido.</p>
+      <p>Nossa abordagem é oposta: <strong style="color: var(--off-white);">zero mudança de rotina.</strong> O corretor continua exatamente como está. O sistema trabalha em paralelo.</p>
+      <div class="quote-block">
+        <p>"Instagram é palco de atração.<br>O Aditivo é o ambiente de conversão."</p>
+        <span>Posicionamento do produto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARQUITETURA -->
+<section class="arch" id="arquitetura">
+  <div class="section-label">02 — Arquitetura do Sistema</div>
+  <h2 class="section-title">Três camadas.<br><em>Uma operação.</em></h2>
+  <p class="section-body">O sistema opera em três camadas independentes e complementares. Cada uma tem função, linguagem e responsabilidade distintas.</p>
+  <div class="arch-cards">
+    <div class="arch-card">
+      <div class="arch-card-tag">Camada 01 — Atração</div>
+      <h3>Instagram</h3>
+      <p>O palco continua o mesmo. Reels, stories, feed. O corretor grava, edita e publica normalmente. Sem mudar rotina. A única adição é a hashtag de ativação personalizada.</p>
+    </div>
+    <div class="arch-card">
+      <div class="arch-card-tag">Camada 02 — Estrutura</div>
+      <h3>Aditivo Imobiliário</h3>
+      <p>O sistema detecta a hashtag via API oficial do Instagram e indexa automaticamente o imóvel no domínio próprio do corretor. Galeria, card, página. Sem intervenção manual.</p>
+    </div>
+    <div class="arch-card">
+      <div class="arch-card-tag">Camada 03 — Decisão</div>
+      <h3>APD</h3>
+      <p>O Ambiente de Percepção e Decisão. Construído manualmente por imóvel. Não é landing page. É arquitetura cognitiva aplicada à jornada de aquisição. O diferencial real do produto.</p>
+    </div>
+  </div>
+
+  <!-- FLUXO -->
+  <div style="margin-top: 4rem;">
+    <div class="section-label">Fluxo de conversão</div>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-node">IG</div><div class="flow-label">Instagram<br>Reels</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-node">#</div><div class="flow-label">Hashtag<br>Ativação</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-node">AI</div><div class="flow-label">Aditivo<br>Indexa</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-node">GL</div><div class="flow-label">Galeria<br>Viva</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-node">APD</div><div class="flow-label">Ambiente<br>Decisão</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-node">WA</div><div class="flow-label">WhatsApp<br>CTA</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-node">✓</div><div class="flow-label">Visita<br>Fechamento</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- APD -->
+<section class="apd" id="apd">
+  <div class="section-label">03 — APD · Ambiente de Percepção e Decisão</div>
+  <h2 class="section-title">Não é landing page.<br><em>É arquitetura cognitiva.</em></h2>
+  <div class="apd-intro">
+    <p>"Não modelamos páginas para vender imóveis.<br>Modelamos a jornada psicológica de aquisição de um ativo."</p>
+  </div>
+
+  <div class="apd-blocks">
+    <div class="apd-block">
+      <div class="apd-num">01</div>
+      <div>
+        <div class="apd-block-title">Reel Incorporado</div>
+        <div class="apd-block-desc">Embed oficial do Instagram. O conteúdo original preservado — com autoridade e contexto social intactos. Primeira âncora de percepção.</div>
+      </div>
+      <div class="apd-block-cog">
+        <div class="cog-label">Racional cognitivo</div>
+        Ancoragem de percepção inicial.<br>Familiaridade gera confiança.
+      </div>
+    </div>
+    <div class="apd-block">
+      <div class="apd-num">02</div>
+      <div>
+        <div class="apd-block-title">Galeria Complementar</div>
+        <div class="apd-block-desc">Fotos em alta resolução. Ambientes internos. Detalhes que o Reel não entrega. Aprofundamento visual controlado.</div>
+      </div>
+      <div class="apd-block-cog">
+        <div class="cog-label">Racional cognitivo</div>
+        Redução de carga cognitiva.<br>Informação entregue em hierarquia.
+      </div>
+    </div>
+    <div class="apd-block">
+      <div class="apd-num">03</div>
+      <div>
+        <div class="apd-block-title">Ficha Técnica</div>
+        <div class="apd-block-desc">Metragem, quartos, suítes, vagas, diferenciais. Objetividade que reduz atrito de decisão. O racional depois do emocional.</div>
+      </div>
+      <div class="apd-block-cog">
+        <div class="cog-label">Racional cognitivo</div>
+        Heurística de confirmação.<br>O cliente busca razão para a decisão já tomada.
+      </div>
+    </div>
+    <div class="apd-block">
+      <div class="apd-num">04</div>
+      <div>
+        <div class="apd-block-title">Mapa Contextual</div>
+        <div class="apd-block-desc">Google Maps integrado mostrando praia, comércio, mobilidade, valorização. O imóvel no seu ecossistema de valor real.</div>
+      </div>
+      <div class="apd-block-cog">
+        <div class="cog-label">Racional cognitivo</div>
+        Expansão de percepção de valor.<br>O ativo além das paredes.
+      </div>
+    </div>
+    <div class="apd-block">
+      <div class="apd-num">05</div>
+      <div>
+        <div class="apd-block-title">Contexto Emocional</div>
+        <div class="apd-block-desc">Narrativa de projeção de vida. Não "3 quartos, 2 vagas" — mas "espaço, privacidade e vista definitiva para viver com tranquilidade e mobilidade."</div>
+      </div>
+      <div class="apd-block-cog">
+        <div class="cog-label">Racional cognitivo</div>
+        Projeção identitária.<br>O cliente se vê no imóvel antes da visita.
+      </div>
+    </div>
+    <div class="apd-block">
+      <div class="apd-num">06</div>
+      <div>
+        <div class="apd-block-title">Conversão — CTA WhatsApp</div>
+        <div class="apd-block-desc">Botão único, direto, sem ruído. "Quero conhecer este imóvel." Fricção zero no momento de maior intenção.</div>
+      </div>
+      <div class="apd-block-cog">
+        <div class="cog-label">Racional cognitivo</div>
+        Redução de fricção no pico decisório.<br>Caminho mais curto no momento certo.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="tech" id="tech">
+  <div class="section-label">04 — Stack Tecnológica</div>
+  <h2 class="section-title">Infraestrutura <em>robusta.</em><br>Operação invisível.</h2>
+  <p class="section-body">A integração via API oficial do Instagram é necessária, robusta e estável. Garante leitura confiável de hashtags, webhook em tempo real e operação sem intervenção manual do corretor.</p>
+
+  <div class="tech-grid">
+    <div class="tech-col">
+      <h3>Backend & Automação</h3>
+      <div class="tech-item">
+        <div class="tech-dot"></div>
+        <div>
+          <div class="tech-item-label">Cloudflare Workers</div>
+          <div class="tech-item-desc">Serverless edge. Alta performance, baixa latência, escala global automática.</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-dot"></div>
+        <div>
+          <div class="tech-item-label">Instagram Graph API (Meta)</div>
+          <div class="tech-item-desc">Integração oficial via webhook. Detecção de hashtag em tempo real. Requer conta Business + app aprovado no Meta — processo padrão, documentado e estável.</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-dot"></div>
+        <div>
+          <div class="tech-item-label">Cloudflare KV / D1</div>
+          <div class="tech-item-desc">Armazenamento de dados dos imóveis. Persistência edge, sem servidor dedicado.</div>
+        </div>
+      </div>
+      <div class="api-badge">
+        <span></span>
+        API Oficial Meta — Integração Ativa
+      </div>
+    </div>
+    <div class="tech-col">
+      <h3>Frontend & Entrega</h3>
+      <div class="tech-item">
+        <div class="tech-dot"></div>
+        <div>
+          <div class="tech-item-label">HTML5 + CSS3 + JavaScript</div>
+          <div class="tech-item-desc">Frontend estático de alta performance. Carregamento imediato, compatível com todos os dispositivos.</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-dot"></div>
+        <div>
+          <div class="tech-item-label">Domínio Próprio do Corretor</div>
+          <div class="tech-item-desc">Ex: alancorretor.com.br — autoridade de marca, presença digital própria, separada do Instagram.</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-dot"></div>
+        <div>
+          <div class="tech-item-label">SEO Técnico</div>
+          <div class="tech-item-desc">Schema local, sitemap automático, URLs limpas, OG tags para preview de link no WhatsApp.</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-dot"></div>
+        <div>
+          <div class="tech-item-label">Edge Delivery + Cache</div>
+          <div class="tech-item-desc">Velocidade de carregamento máxima. Performance crítica no momento de decisão do cliente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIORIDADES -->
+<section class="priorities" id="prioridades">
+  <div class="section-label">05 — Roadmap de Execução</div>
+  <h2 class="section-title">Prioridades <em>ordenadas.</em></h2>
+  <p class="section-body">Cada entrega tem natureza e tokens estimados. Camadas automáticas e manuais com responsabilidades distintas.</p>
+
+  <table class="prio-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Sigla</th>
+        <th>Entrega</th>
+        <th>Natureza</th>
+        <th>Tokens Est.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td>ARQ</td>
+        <td>Arquitetura técnica + decisões de stack</td>
+        <td><span class="badge badge-infra">Infra</span></td>
+        <td>~4k</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td>KV</td>
+        <td>Schema de dados — estrutura de imóveis no KV</td>
+        <td><span class="badge badge-infra">Infra</span></td>
+        <td>~5k</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td>WHK</td>
+        <td>Cloudflare Worker — webhook + leitura de hashtag via API Meta</td>
+        <td><span class="badge badge-auto">Auto</span></td>
+        <td>~14k</td>
+      </tr>
+      <tr>
+        <td>04</td>
+        <td>GL</td>
+        <td>Galeria dinâmica — catálogo de imóveis ativos</td>
+        <td><span class="badge badge-auto">Auto</span></td>
+        <td>~12k</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td>APD</td>
+        <td>Ambiente de Percepção e Decisão — estrutura base</td>
+        <td><span class="badge badge-manual">Manual</span></td>
+        <td>~22k</td>
+      </tr>
+      <tr>
+        <td>06</td>
+        <td>EMB</td>
+        <td>Embed do Reel + galeria de fotos complementar</td>
+        <td><span class="badge badge-auto">Auto</span></td>
+        <td>~6k</td>
+      </tr>
+      <tr>
+        <td>07</td>
+        <td>MAP</td>
+        <td>Google Maps integrado por imóvel</td>
+        <td><span class="badge badge-manual">Manual</span></td>
+        <td>~8k</td>
+      </tr>
+      <tr>
+        <td>08</td>
+        <td>WA</td>
+        <td>CTA WhatsApp com contexto dinâmico do imóvel</td>
+        <td><span class="badge badge-auto">Auto</span></td>
+        <td>~3k</td>
+      </tr>
+      <tr>
+        <td>09</td>
+        <td>SEO</td>
+        <td>Schema local, sitemap, URLs limpas, OG tags</td>
+        <td><span class="badge badge-infra">Infra</span></td>
+        <td>~8k</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>DASH</td>
+        <td>Painel do corretor — métricas por imóvel</td>
+        <td><span class="badge badge-manual">Manual</span></td>
+        <td>~16k</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>DEP</td>
+        <td>Deploy + domínio customizado + configuração Meta App</td>
+        <td><span class="badge badge-infra">Infra</span></td>
+        <td>~10k</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 1.5rem; font-size: 0.78rem; color: var(--muted);">
+    Total estimado: ~108k tokens · 1 sessão por dia
+  </p>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline" id="timeline">
+  <div class="section-label">06 — Projeção de Entrega</div>
+  <h2 class="section-title">Primeira prévia<br><em>em até 10 dias.</em></h2>
+  <div class="timeline-track">
+    <div class="timeline-bar">
+      <div class="timeline-marker" style="left: 0;"></div>
+      <div class="preview-label">Primeira Prévia</div>
+      <div class="preview-marker"></div>
+      <div class="timeline-marker" style="left: 100%;background:rgba(201,168,76,0.2);border:1px solid var(--gold-dim);"></div>
+    </div>
+    <div class="tl-days">
+      <div class="tl-day active">
+        <div class="tl-day-num">1</div>
+        <div class="tl-day-label">ARQ<br>Stack</div>
+      </div>
+      <div class="tl-day active">
+        <div class="tl-day-num">2</div>
+        <div class="tl-day-label">KV<br>Schema</div>
+      </div>
+      <div class="tl-day active">
+        <div class="tl-day-num">3</div>
+        <div class="tl-day-label">WHK<br>Webhook</div>
+      </div>
+      <div class="tl-day active">
+        <div class="tl-day-num">4</div>
+        <div class="tl-day-label">GL<br>Galeria</div>
+      </div>
+      <div class="tl-day active">
+        <div class="tl-day-num">5</div>
+        <div class="tl-day-label">EMB<br>Reel</div>
+      </div>
+      <div class="tl-day preview">
+        <div class="tl-day-num">6</div>
+        <div class="tl-day-label">APD<br>Base</div>
+      </div>
+      <div class="tl-day">
+        <div class="tl-day-num">7</div>
+        <div class="tl-day-label">MAP<br>Mapas</div>
+      </div>
+      <div class="tl-day">
+        <div class="tl-day-num">8</div>
+        <div class="tl-day-label">WA + SEO<br>CTA</div>
+      </div>
+      <div class="tl-day">
+        <div class="tl-day-num">9</div>
+        <div class="tl-day-label">DASH<br>Painel</div>
+      </div>
+      <div class="tl-day">
+        <div class="tl-day-num">10</div>
+        <div class="tl-day-label">DEP<br>Deploy</div>
+      </div>
+    </div>
+    <div class="tl-summary">
+      <div>
+        <div class="tl-stat-num">6</div>
+        <div class="tl-stat-label">Dias até primeira prévia navegável</div>
+      </div>
+      <div>
+        <div class="tl-stat-num">10</div>
+        <div class="tl-stat-label">Dias até versão completa em produção</div>
+      </div>
+      <div>
+        <div class="tl-stat-num">~108k</div>
+        <div class="tl-stat-label">Tokens totais estimados</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSICIONAMENTO -->
+<section class="positioning" id="posicionamento">
+  <div class="section-label">07 — Posicionamento Comercial</div>
+  <h2 class="section-title">A proposta que<br><em>muda o peso da conversa.</em></h2>
+  <div class="pos-split">
+    <div class="pos-before">
+      <div class="pos-tag">Antes</div>
+      <div class="pos-text">"Fiz uma página para vender o seu imóvel."</div>
+      <div class="pos-vocab">
+        <span class="vocab-tag">Landing Page</span>
+        <span class="vocab-tag">Site</span>
+        <span class="vocab-tag">Catálogo</span>
+        <span class="vocab-tag">Link</span>
+      </div>
+    </div>
+    <div class="pos-after">
+      <div class="pos-tag">Agora</div>
+      <div class="pos-text">"Modelei a jornada psicológica de aquisição do seu ativo."</div>
+      <div class="pos-vocab">
+        <span class="vocab-tag">Arquitetura de Decisão</span>
+        <span class="vocab-tag">Fluxo de Percepção</span>
+        <span class="vocab-tag">Redução de Carga Cognitiva</span>
+        <span class="vocab-tag">Hierarquia de Valor</span>
+        <span class="vocab-tag">Ancoragem de Percepção</span>
+        <span class="vocab-tag">APD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Alexandre Torres</div>
+    <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; letter-spacing: 0.06em;">Arquitetura Digital Estratégica<br>(27) 99625-2050 &nbsp;·&nbsp; CNPJ 54.806.916/0001-62</p>
+ 
+    <p style="font-size: 0.78rem; color: var(--gold-dim); margin-top: 0.2rem; letter-spacing: 0.06em;">Serra, Espírito Santo — ES · Brasil</p>
+  </div>
+  <div class="footer-note">
+    Proposta estratégica elaborada para<br>
+    <span style="color: var(--gold); letter-spacing: 0.1em;">Allan Mattos · Corretor<br>@exclusivaondaimoveis</span><br>
+  </div>
+</footer>
+
+</body>
+</html>
