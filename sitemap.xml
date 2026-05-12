@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://alexandretorres.com.br/</loc>
-    <lastmod>2026-04-26T15:04:45.000+00:00</lastmod>
+    <lastmod>2026-05-12T14:47:55.000+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,31 +15,31 @@
   <url>
     <loc>https://alexandretorres.com.br/at-lab/</loc>
     <lastmod>2026-04-10T22:47:59.000+00:00</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alexandretorres.com.br/docform/</loc>
     <lastmod>2026-04-10T11:22:14.000+00:00</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alexandretorres.com.br/ilist/</loc>
     <lastmod>2026-04-10T11:22:46.000+00:00</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alexandretorres.com.br/privacidade/</loc>
     <lastmod>2026-04-07T11:34:55.000+00:00</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alexandretorres.com.br/voicelab/</loc>
     <lastmod>2026-04-10T11:23:10.000+00:00</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>
