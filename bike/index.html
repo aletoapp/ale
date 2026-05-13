@@ -1,1 +1,757 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R10 Full — Bike Elétrica 1000W</title>
 
+<!-- Meta description -->
+<meta name="description" content="R10 Full: bike elétrica 1000W, Fat Tire 20x4.0, Bluetooth, freio a disco e bateria removível. Lançamento abril 2026. Estoque limitado — fale agora no WhatsApp.">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:title"       content="R10 Full — Bike Elétrica 1000W">
+<meta property="og:description" content="1000W · Fat Tire · Bluetooth · Freio a disco · Bateria removível. Lançamento abril 2026. Estoque limitado.">
+<meta property="og:image"       content="https://aletoapp.github.io/bike/img/bike-bg.webp">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- preconnect Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- preload hero image (LCP) -->
+<link rel="preload" as="image" href="https://aletoapp.github.io/bike/img/bike-bg.webp" fetchpriority="high">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  /* ── DARK MODE (padrão) ── */
+  :root{
+    --black:#0A0A0A;
+    --dark:#111111;
+    --card:#181818;
+    --border:#2a2a2a;
+    --orange:#FF6B00;
+    --orange-light:#FF8C35;
+    --orange-glow:#FF6B0022;
+    --white:#F5F5F0;
+    --muted:#888880;
+    --font-display:'Bebas Neue',sans-serif;
+    --font-body:'Barlow',sans-serif;
+    --font-cond:'Barlow Condensed',sans-serif;
+    --nav-bg:rgba(10,10,10,0.92);
+    --hero-gradient:linear-gradient(135deg,rgba(10,10,10,0.92) 0%,rgba(26,15,0,0.55) 100%);
+    --shadow-sm:none;
+    --shadow-orange:none;
+  }
+
+  /* ── LIGHT MODE ── */
+  html.light{
+    --black:#FFFFFF;
+    --dark:#F4F2EE;
+    --card:#FFFFFF;
+    --border:#D8D3CB;
+    --orange:#E85A00;
+    --orange-light:#FF7A20;
+    --orange-glow:#E85A0015;
+    --white:#1A1714;
+    --muted:#6B6560;
+    --nav-bg:rgba(255,255,255,0.95);
+    --hero-gradient:linear-gradient(135deg,rgba(255,255,255,0.55) 0%,rgba(248,242,235,0.35) 100%);
+    --shadow-sm:0 1px 4px rgba(0,0,0,0.08);
+    --shadow-orange:0 4px 20px rgba(232,90,0,0.25);
+  }
+
+  /* ── TRANSIÇÃO GLOBAL SUAVE ── */
+  *, *::before, *::after {
+    transition: background-color 0.45s cubic-bezier(.4,0,.2,1),
+                color 0.45s cubic-bezier(.4,0,.2,1),
+                border-color 0.45s cubic-bezier(.4,0,.2,1),
+                box-shadow 0.45s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── THEME TOGGLE BUTTON ── */
+  #theme-toggle {
+    position: relative;
+    width: 56px;
+    height: 28px;
+    background: var(--border);
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    outline: none;
+    transition: background 0.4s ease, box-shadow 0.3s ease !important;
+  }
+  #theme-toggle:hover {
+    box-shadow: 0 0 0 3px rgba(255,107,0,0.3);
+  }
+  html.light #theme-toggle:hover {
+    box-shadow: 0 0 0 3px rgba(232,90,0,0.25);
+  }
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+    pointer-events: none;
+  }
+  .toggle-icon-moon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    opacity: 1;
+    transition: opacity 0.3s ease !important;
+  }
+  .toggle-icon-sun {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    opacity: 0.4;
+    transition: opacity 0.3s ease !important;
+  }
+  html.light .toggle-icon-moon { opacity: 0.4; }
+  html.light .toggle-icon-sun  { opacity: 1; }
+  .toggle-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #C0C0C0;
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), background 0.4s ease !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    pointer-events: none;
+  }
+  html.light .toggle-knob {
+    transform: translateX(28px);
+    background: #F5C842;
+  }
+
+  /* ── RIPPLE DE TRANSIÇÃO ── */
+  #theme-ripple {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: scale(0);
+    transition: transform 0.65s cubic-bezier(.4,0,.2,1), opacity 0.65s ease !important;
+    opacity: 0;
+  }
+  #theme-ripple.expanding {
+    transform: scale(1);
+    opacity: 1;
+  }
+  #theme-ripple.fading {
+    opacity: 0;
+  }
+
+  /* Overrides modo claro específicos */
+  html.light nav {
+    background: var(--nav-bg) !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  html.light .hero {
+    background: var(--hero-gradient), url('https://aletoapp.github.io/bike/img/bike-bg.webp') center/cover no-repeat !important;
+  }
+  html.light .nav-cta {
+    box-shadow: var(--shadow-orange) !important;
+  }
+  html.light .btn-primary {
+    box-shadow: var(--shadow-orange) !important;
+  }
+  html.light .hero-stat-label {
+    color: #4a3728 !important;
+  }
+  html.light .hero-badge {
+    color: #361c0c !important;
+    border-color: #361c0c !important;
+    background: rgba(54,28,12,0.08) !important;
+  }
+  html.light .hero-badge::before {
+    background: #361c0c !important;
+  }
+
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:var(--font-display);font-size:28px;font-weight:900;letter-spacing:2px;color:var(--orange)}
+  .nav-cta{background:var(--orange);color:#fff;font-family:var(--font-body);font-weight:700;font-size:14px;padding:10px 22px;border:none;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:background .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+  .nav-cta:hover{background:var(--orange-light)}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 48px 80px;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(10,10,10,0.92) 0%,rgba(26,15,0,0.85) 100%),url('https://aletoapp.github.io/bike/img/bike-bg.webp') center/cover no-repeat}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-glow);border:1px solid var(--orange);color:var(--orange);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;margin-bottom:32px}
+  .hero-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--orange);animation:pulse 1.5s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+  .hero h1{font-family:var(--font-display);font-size:clamp(72px,10vw,140px);line-height:.92;letter-spacing:2px;color:var(--white);max-width:900px}
+  .hero h1 span{color:var(--orange)}
+  .hero-sub{font-family:var(--font-cond);font-size:clamp(22px,3vw,32px);color:#555;margin-top:24px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+  .hero-price-block{margin-top:48px;display:flex;align-items:flex-end;gap:32px;flex-wrap:wrap}
+  .hero-pix{display:flex;flex-direction:column}
+  .hero-pix-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600}
+  .hero-pix-val{font-family:var(--font-display);font-size:72px;color:var(--orange);line-height:1}
+  .hero-parc{display:flex;flex-direction:column;padding-bottom:8px}
+  .hero-parc-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600}
+  .hero-parc-val{font-family:var(--font-cond);font-size:34px;font-weight:900;color:var(--white)}
+  .hero-ctas{margin-top:48px;display:flex;gap:16px;flex-wrap:wrap}
+  .btn-primary{background:var(--orange);color:#fff;font-family:var(--font-body);font-weight:900;font-size:18px;padding:20px 48px;border:none;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;display:inline-block}
+  .btn-primary:hover{background:var(--orange-light);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--white);font-family:var(--font-body);font-weight:700;font-size:18px;padding:20px 48px;border:2px solid var(--border);cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;display:inline-block}
+  .btn-outline:hover{border-color:var(--orange);color:var(--orange)}
+  .hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+  .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--orange),transparent);animation:scrollAnim 2s ease-in-out infinite}
+  @keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:80px;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+  .hero-stat{padding:32px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .hero-stat-num{font-family:var(--font-display);font-size:52px;color:var(--orange);line-height:1}
+  .hero-stat-label{font-size:14px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-top:6px;font-weight:600}
+
+  /* SEÇÃO GENÉRICA */
+  section{padding:100px 48px}
+  .section-tag{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:16px}
+  .section-title{font-family:var(--font-display);font-size:clamp(48px,6vw,80px);line-height:.95;letter-spacing:1px;color:var(--white);margin-bottom:24px}
+  .section-desc{font-size:18px;line-height:1.7;color:var(--muted);max-width:600px}
+
+  /* VÍDEO */
+  .video-section{background:var(--dark)}
+  .video-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto}
+  .video-placeholder{background:var(--card);border:1px solid var(--border);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
+  .video-placeholder:hover{border-color:var(--orange)}
+  .play-btn{width:72px;height:72px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+  .play-btn::after{content:'';border-left:28px solid #fff;border-top:18px solid transparent;border-bottom:18px solid transparent;margin-left:6px}
+  .video-placeholder:hover .play-btn{transform:scale(1.1)}
+  .video-label{font-size:14px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+
+  /* DESTAQUES */
+  .features-section{background:var(--black)}
+  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--border);border-left:1px solid var(--border);margin-top:64px}
+  .feature-card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:48px 36px;position:relative;overflow:hidden;transition:background .3s}
+  .feature-card:hover{background:var(--card)}
+  .feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .feature-card:hover::before{transform:scaleX(1)}
+  .feature-icon{font-family:var(--font-display);font-size:64px;color:var(--orange);opacity:.15;position:absolute;top:24px;right:24px;line-height:1}
+  .feature-num{font-family:var(--font-display);font-size:18px;color:var(--orange);margin-bottom:16px;letter-spacing:2px}
+  .feature-title{font-family:var(--font-cond);font-size:28px;font-weight:700;color:var(--white);text-transform:uppercase;margin-bottom:12px;letter-spacing:1px}
+  .feature-desc{font-size:15px;line-height:1.7;color:var(--muted)}
+  .feature-tag{display:inline-block;background:var(--orange-glow);border:1px solid var(--orange);color:var(--orange);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;margin-top:16px}
+
+  /* FOTOS */
+  .photos-section{background:var(--dark)}
+  .photos-intro{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:64px}
+  .photos-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:16px}
+  .photo-slot{background:var(--card);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden;transition:border-color .2s}
+  .photo-slot:hover{border-color:var(--orange)}
+  .photo-slot.tall{grid-row:span 2;min-height:500px}
+  .photo-slot.normal{min-height:240px}
+  .photo-slot-label{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+  .photo-slot img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
+  .photo-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.85));padding:16px;opacity:0;transition:opacity .3s}
+  .photo-slot:hover .photo-overlay{opacity:1}
+  .photo-overlay-text{font-size:13px;color:var(--white);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+
+  /* ESPECIFICAÇÕES */
+  .specs-section{background:var(--black)}
+  .specs-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:64px}
+  .spec-table{width:100%;border-collapse:collapse}
+  .spec-row{border-bottom:1px solid var(--border)}
+  .spec-row:last-child{border-bottom:none}
+  .spec-row td{padding:20px 0;font-size:16px}
+  .spec-row td:first-child{color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:13px;width:45%}
+  .spec-row td:last-child{color:var(--white);font-weight:700;text-align:right}
+  .spec-highlight{color:var(--orange) !important}
+  .power-block{background:var(--card);border:1px solid var(--border);padding:48px;text-align:center;position:relative;overflow:hidden}
+  .power-block::before{content:'1000W';font-family:var(--font-display);font-size:160px;color:var(--orange);opacity:.05;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;letter-spacing:0}
+  .power-num{font-family:var(--font-display);font-size:100px;color:var(--orange);line-height:1;position:relative}
+  .power-unit{font-family:var(--font-cond);font-size:32px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:3px;position:relative}
+  .power-desc{font-size:15px;color:var(--muted);margin-top:16px;line-height:1.6;position:relative}
+  .power-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;justify-content:center;position:relative}
+  .power-tag{background:var(--orange-glow);border:1px solid var(--orange);color:var(--orange);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px}
+
+  /* BENEFÍCIOS */
+  .benefits-section{background:var(--dark)}
+  .benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:64px}
+  .benefit-item{background:var(--black);border:1px solid var(--border);padding:36px;display:flex;gap:24px;align-items:flex-start;transition:border-color .3s}
+  .benefit-item:hover{border-color:var(--orange)}
+  .benefit-num{font-family:var(--font-display);font-size:52px;color:var(--orange);opacity:.3;line-height:1;flex-shrink:0;width:48px}
+  .benefit-title{font-family:var(--font-cond);font-size:22px;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+  .benefit-text{font-size:15px;color:var(--muted);line-height:1.7}
+
+  /* URGÊNCIA */
+  .urgency-section{background:var(--orange);padding:80px 48px;text-align:center}
+  .urgency-title{font-family:var(--font-display);font-size:clamp(56px,8vw,96px);color:#fff;line-height:.9;margin-bottom:24px}
+  .urgency-sub{font-size:20px;color:rgba(255,255,255,.8);margin-bottom:48px;font-weight:500}
+  .btn-dark{background:#0A0A0A;color:#fff;font-family:var(--font-body);font-weight:900;font-size:20px;padding:24px 64px;border:none;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;display:inline-block}
+  .btn-dark:hover{background:#1a1a1a;transform:translateY(-2px)}
+  .urgency-note{margin-top:24px;font-size:14px;color:rgba(255,255,255,.6);letter-spacing:1px;text-transform:uppercase}
+
+  /* COMPRAR */
+  .buy-section{background:var(--black);padding:100px 48px}
+  .buy-inner{max-width:900px;margin:0 auto;text-align:center}
+  .buy-title{font-family:var(--font-display);font-size:clamp(56px,7vw,90px);line-height:.9;color:var(--white);margin-bottom:16px}
+  .buy-title span{color:var(--orange)}
+  .buy-anchor{display:inline-block;font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:48px;margin-top:8px}
+  .buy-anchor s{color:var(--muted);opacity:.6}
+  .buy-price-hero{margin:0 auto 48px;padding:48px 40px;background:var(--card);border:2px solid var(--orange);position:relative;max-width:560px}
+  .buy-price-hero::before{content:'OFERTA DE LANÇAMENTO';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:11px;font-weight:800;letter-spacing:3px;padding:6px 20px;white-space:nowrap}
+  .buy-price-pix-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:4px}
+  .buy-price-pix{font-family:var(--font-display);font-size:clamp(80px,12vw,120px);color:var(--orange);line-height:1;letter-spacing:-2px}
+  .buy-price-divider{width:48px;height:2px;background:var(--border);margin:20px auto}
+  .buy-price-parc-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:4px}
+  .buy-price-parc{font-family:var(--font-cond);font-size:32px;font-weight:700;color:var(--white)}
+  .buy-options{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0 0 32px}
+  .buy-card{background:var(--card);border:1px solid var(--border);padding:32px 24px;text-align:center;position:relative}
+  .buy-card.featured{border-color:var(--orange);border-width:2px}
+  .buy-card-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;white-space:nowrap}
+  .buy-method{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px}
+  .buy-price{font-family:var(--font-display);font-size:64px;color:var(--orange);line-height:1}
+  .buy-detail{font-size:15px;color:var(--muted);margin-top:8px;line-height:1.6}
+  .wpp-btn{background:#25D366;color:#fff;font-family:var(--font-body);font-weight:900;font-size:20px;padding:24px 64px;border:none;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;display:inline-block;width:100%;max-width:480px;margin-top:8px}
+  .wpp-btn:hover{background:#1ebe5d;transform:translateY(-2px)}
+  .buy-perks{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-top:24px;margin-bottom:48px}
+  .buy-perk{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+  .buy-perk::before{content:'✓';color:var(--orange);font-weight:900}
+  .buy-guarantee{margin-top:40px;padding:32px;border:1px solid var(--border);display:flex;align-items:center;gap:24px;text-align:left}
+  .guar-icon{font-family:var(--font-display);font-size:48px;color:var(--orange);flex-shrink:0}
+  .guar-title{font-weight:700;font-size:16px;margin-bottom:4px;color:var(--white)}
+  .guar-text{font-size:14px;color:var(--muted);line-height:1.6}
+  .wpp-btn2{background:#25D366;color:#333;font-family:var(--font-body);font-weight:700;font-size:20px;padding:24px 64px;border:none;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;display:inline-block;width:100%;max-width:480px;margin-top:8px}
+  .wpp-btn2:hover{background:#1ebe5d;transform:translateY(-2px)}
+
+  /* FOOTER */
+  footer{background:var(--dark);border-top:1px solid var(--border);padding:48px 48px 110px;display:flex;flex-direction:column;align-items:center;gap:0}
+  .footer-top{width:100%;max-width:1200px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+  .footer-brand{font-family:var(--font-display);font-size:32px;color:var(--orange);letter-spacing:3px;line-height:1}
+  .footer-tagline{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:6px}
+  .footer-cta-block{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+  .footer-phone{font-family:var(--font-display);font-size:36px;color:var(--white);letter-spacing:1px;line-height:1}
+  .footer-wpp{background:var(--orange);color:#fff;font-family:var(--font-body);font-weight:800;font-size:13px;padding:12px 28px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .2s}
+  .footer-wpp:hover{background:var(--orange-light)}
+  .footer-seller{width:100%;max-width:1200px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-top:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+  .footer-seller-info{font-size:13px;color:var(--muted);line-height:1.8}
+  .footer-seller-info strong{color:var(--white);font-weight:700}
+  .footer-bottom{width:100%;max-width:1200px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:20px}
+  .footer-text{font-size:12px;color:var(--muted)}
+
+  /* ANIMAÇÕES */
+  .fade-in{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .fade-in.visible{opacity:1;transform:none}
+  @keyframes ringPulse{
+    0%{transform:scale(1);opacity:.7}
+    50%{transform:scale(1.35);opacity:0.15}
+    100%{transform:scale(1);opacity:.7}
+  }
+
+  @media(max-width:900px){
+    nav{padding:12px 20px}
+    section{padding:60px 20px}
+    .hero{padding:100px 20px 60px;background:linear-gradient(135deg,rgba(10,10,10,0.92) 0%,rgba(26,15,0,0.55) 100%),url('https://aletoapp.github.io/bike/img/bike-bg.webp') left/cover no-repeat}
+    .hero-stats{grid-template-columns:repeat(2,1fr)}
+    .video-wrapper,.photos-intro,.specs-layout,.benefits-grid,.buy-options{grid-template-columns:1fr}
+    .features-grid{grid-template-columns:1fr}
+    .photos-grid{grid-template-columns:1fr 1fr}
+    .photo-slot.tall{grid-row:span 1;min-height:240px}
+    .urgency-section{padding:60px 20px}
+    footer{padding:40px 20px 110px}
+    .footer-top{flex-direction:column;gap:20px}
+    .footer-cta-block{align-items:flex-start}
+    .footer-seller{flex-direction:column;gap:12px}
+    .footer-seller-info:last-child{text-align:left!important}
+    .footer-bottom{flex-direction:column;gap:4px;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">R10 FULL</div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <button id="theme-toggle" aria-label="Alternar modo claro/escuro" title="Modo claro / escuro">
+      <span class="toggle-track">
+        <span class="toggle-icon-moon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#D0D0D8" stroke="#D0D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="toggle-icon-sun">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="5" fill="#F5C842" stroke="#F5C842" stroke-width="1.5"/>
+            <line x1="12" y1="2" x2="12" y2="4" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="12" y1="20" x2="12" y2="22" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="2" y1="12" x2="4" y2="12" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="12" x2="22" y2="12" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </span>
+      <span class="toggle-knob"></span>
+    </button>
+    <a class="nav-cta" href="#" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32" fill="none" style="flex-shrink:0"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.648 4.8 1.78 6.82L2 30l7.38-1.74A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="#fff"/><path d="M23.07 19.44c-.32-.16-1.9-.94-2.2-1.04-.3-.1-.52-.16-.73.16-.22.32-.84 1.04-1.03 1.26-.19.22-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.15-.14.32-.38.48-.57.16-.19.22-.32.32-.54.1-.22.05-.41-.03-.57-.08-.16-.73-1.76-1-2.42-.26-.63-.53-.55-.73-.56h-.62c-.22 0-.57.08-.87.41-.3.32-1.14 1.11-1.14 2.71s1.17 3.14 1.33 3.36c.16.22 2.3 3.51 5.57 4.92.78.34 1.38.54 1.86.69.78.25 1.49.21 2.05.13.63-.09 1.9-.78 2.17-1.53.27-.75.27-1.39.19-1.53-.08-.14-.3-.22-.62-.38z" fill="#25D366"/></svg>Quero a minha</a>
+  </div>
+</nav>
+
+<!-- RIPPLE DE TRANSIÇÃO DE TEMA -->
+<div id="theme-ripple"></div>
+
+<!-- ═══════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-badge">Lançamento Abril 2026 • Estoque Limitado</div>
+  <h1>NÃO É<br>UMA BIKE.<br>É <span>LIBERDADE</span><br>COM SOM.</h1>
+  <p class="hero-sub">R10 Full • 1000W • Fat Tire • Bluetooth</p>
+
+  <div class="hero-ctas">
+    <a class="btn-primary" href="#" target="_blank">Quero a minha agora</a>
+    <a class="btn-outline" href="#especificacoes">Ver detalhes</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">1000</div>
+      <div class="hero-stat-label">Watts de potência</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">20"</div>
+      <div class="hero-stat-label">Pneu fat 4.0</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5–7h</div>
+      <div class="hero-stat-label">Recarga completa</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">0</div>
+      <div class="hero-stat-label">Reais em gasolina</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Role para ver</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ VÍDEO -->
+<section class="video-section fade-in">
+  <div class="video-wrapper">
+    <div>
+      <p class="section-tag">Veja em movimento</p>
+      <h2 class="section-title">Cada detalhe<br>foi pensado<br>para você.</h2>
+      <p class="section-desc">Do freio a disco ao banco de couro, da suspensão traseira ao som Bluetooth — assista ao vídeo completo e veja por que a R10 Full é diferente de tudo que você já viu.</p>
+    </div>
+    <div style="display:flex;justify-content:center"><div id="yt-wrapper" style="background:#000;border:1px solid var(--border);overflow:hidden;position:relative;width:100%;max-width:383px;aspect-ratio:9/16;cursor:pointer">
+      <img id="yt-thumb" src="https://aletoapp.github.io/bike/img/capa.jpg" alt="R10 Full — assistir vídeo" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block">
+      <div id="yt-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;z-index:10">
+        <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+          <div style="position:absolute;width:88px;height:88px;border-radius:50%;border:2px solid rgba(255,107,0,0.5);animation:ringPulse 2.5s ease-in-out infinite;"></div>
+          <div id="yt-play-circle" style="width:68px;height:68px;border-radius:50%;background:rgba(255,107,0,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,107,0,0.4);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="margin-left:4px">
+              <path d="M8 5.5L22 14L8 22.5V5.5Z" fill="white"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <iframe id="yt-iframe" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:none"
+        title="R10 Full — Bike Elétrica 1000W"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ DIFERENCIAIS -->
+<section class="features-section fade-in">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Por que a R10 Full</p>
+    <h2 class="section-title">6 razões para<br>você querer agora.</h2>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">①</div>
+        <div class="feature-num">01</div>
+        <div class="feature-title">Autonomia real</div>
+        <div class="feature-desc">Bateria removível que você recarrega em 5 a 7 horas — em casa ou no trabalho. Sem depender de posto, sem gastar nada com combustível.</div>
+        <div class="feature-tag">Bateria removível</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">②</div>
+        <div class="feature-num">02</div>
+        <div class="feature-title">Conforto de verdade</div>
+        <div class="feature-desc">Pneu fat 20x4.0 + suspensão traseira = absorção de impacto em qualquer terreno. Banco de couro que você sente diferença desde o primeiro km.</div>
+        <div class="feature-tag">Suspensão + Fat Tire</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">③</div>
+        <div class="feature-num">03</div>
+        <div class="feature-title">Sobe morro sem sofrimento</div>
+        <div class="feature-desc">1000W de potência entregam torque real nas subidas. Não importa a ladeira — a R10 sobe sem forçar, sem reduzir.</div>
+        <div class="feature-tag" style="background:rgba(255,107,0,0.3);border-color:var(--orange)">1000W</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">④</div>
+        <div class="feature-num">04</div>
+        <div class="feature-title">Segurança completa</div>
+        <div class="feature-desc">Freios a disco dianteiro e traseiro, farol LED, buzina e alarme integrado com controle remoto. Andar de dia ou de noite — protegido.</div>
+        <div class="feature-tag">Alarme + Controle</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⑤</div>
+        <div class="feature-num">05</div>
+        <div class="feature-title">Som Bluetooth nativo</div>
+        <div class="feature-desc">Caixa de som embutida com Bluetooth. Sem gambiarras, sem suporte improvisado. Conecta, toca e você vai embora com sua trilha sonora.</div>
+        <div class="feature-tag" style="background:rgba(255,107,0,0.3);border-color:var(--orange)">Diferencial exclusivo</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⑥</div>
+        <div class="feature-num">06</div>
+        <div class="feature-title">Visual que intimida</div>
+        <div class="feature-desc">Fat tire + estrutura robusta + aparência de mini moto. Essa bike não passa despercebida. É estilo, é identidade, é presença.</div>
+        <div class="feature-tag">Design agressivo</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ FOTOS -->
+<section class="photos-section fade-in">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="photos-intro">
+      <div>
+        <p class="section-tag">Galeria</p>
+        <h2 class="section-title">Cada ângulo<br>conta uma<br>história.</h2>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);padding:40px">
+        <div style="font-family:var(--font-display);font-size:32px;color:var(--orange);margin-bottom:12px">Fotos da Cabulosa!</div>
+        <p style="font-size:15px;color:var(--muted);line-height:1.7">Design que chama atenção, detalhes que fazem diferença. Cada componente foi escolhido para entregar mais conforto, segurança e estilo.<br>Zero km  ·  Montada  ·  Manual · Nota fiscal  ·   Garantia 180 dias
+        <br><span style="font-size:15px; color:#EE9611;">+ clique para ampliar</span></p>
+      </div>
+    </div>
+    <div class="photos-grid">
+      <!-- SLOT GRANDE — vídeo da bike -->
+      <div class="photo-slot tall" style="grid-column:1;grid-row:1/3;padding:0;cursor:pointer" id="video-slot">
+        <video
+          id="bike-video"
+          src="https://aletoapp.github.io/bike/img/6990.mp4"
+          playsinline
+          muted
+          autoplay
+          loop
+          preload="none"
+          style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:block;pointer-events:none"
+        ></video>
+        <div id="play-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:10;cursor:pointer;background:rgba(0,0,0,0.25);">
+          <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+            <div id="play-ring" style="position:absolute;width:88px;height:88px;border-radius:50%;border:2px solid rgba(255,107,0,0.5);animation:ringPulse 2.5s ease-in-out infinite;"></div>
+            <div id="play-circle" style="width:68px;height:68px;border-radius:50%;background:rgba(255,107,0,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,107,0,0.4);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="margin-left:4px">
+                <path d="M8 5.5L22 14L8 22.5V5.5Z" fill="white"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="photo-overlay" style="opacity:1"><div class="photo-overlay-text">▶ Toque para assistir</div></div>
+      </div>
+      <!-- SLOT 2 -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/01.jpg" data-caption="Suspensão traseira" data-index="0" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/01.jpg" alt="Suspensão traseira" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Suspensão traseira</div></div>
+      </div>
+      <!-- SLOT 3 -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/02.jpg" data-caption="Display digital" data-index="1" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/02.jpg" alt="Display digital" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Display digital</div></div>
+      </div>
+      <!-- SLOT 4 -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/03.jpg" data-caption="Banco de couro" data-index="2" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/03.jpg" alt="Banco de couro" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Banco de couro</div></div>
+      </div>
+      <!-- SLOT 5 -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/04.jpg" data-caption="Freio a disco" data-index="3" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/04.jpg" alt="Freio a disco" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Freio a disco</div></div>
+      </div>
+    </div>
+
+    <!-- GALERIA EXTRA -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px">
+      <div class="photo-slot lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/001.webp" data-caption="R10 Full — Vista 1" data-index="4" style="cursor:zoom-in;min-height:240px">
+        <img src="https://aletoapp.github.io/bike/img/001.webp" alt="R10 Full — Vista 1" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 R10 Full — Vista 1</div></div>
+      </div>
+      <div class="photo-slot lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/002.webp" data-caption="R10 Full — Vista 2" data-index="5" style="cursor:zoom-in;min-height:240px">
+        <img src="https://aletoapp.github.io/bike/img/002.webp" alt="R10 Full — Vista 2" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 R10 Full — Vista 2</div></div>
+      </div>
+      <div class="photo-slot lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/003.webp" data-caption="R10 Full — Vista 3" data-index="6" style="cursor:zoom-in;min-height:240px">
+        <img src="https://aletoapp.github.io/bike/img/003.webp" alt="R10 Full — Vista 3" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 R10 Full — Vista 3</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ ESPECIFICAÇÕES -->
+<section class="specs-section fade-in" id="especificacoes">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Especificações técnicas</p>
+    <h2 class="section-title">Números que<br>comprovam.</h2>
+    <div class="specs-layout">
+      <div>
+        <table class="spec-table">
+          <tr class="spec-row"><td>Motor</td><td class="spec-highlight">1000W</td></tr>
+          <tr class="spec-row"><td>Pneu</td><td>20 x 4.0 Fat Tire</td></tr>
+          <tr class="spec-row"><td>Suspensão</td><td>Traseira</td></tr>
+          <tr class="spec-row"><td>Freio</td><td>A disco dianteiro e traseiro</td></tr>
+          <tr class="spec-row"><td>Bateria</td><td>Removível (Li-Ion)</td></tr>
+          <tr class="spec-row"><td>Recarga</td><td>5 a 7 horas</td></tr>
+          <tr class="spec-row"><td>Banco</td><td>Couro premium</td></tr>
+          <tr class="spec-row"><td>Iluminação</td><td>Farol LED</td></tr>
+          <tr class="spec-row"><td>Segurança</td><td>Alarme + controle remoto</td></tr>
+          <tr class="spec-row"><td>Áudio</td><td class="spec-highlight">Bluetooth + caixa embutida</td></tr>
+          <tr class="spec-row"><td>Display</td><td>Digital LCD</td></tr>
+          <tr class="spec-row"><td>Buzina</td><td>Sim</td></tr>
+        </table>
+      </div>
+      <div class="power-block">
+        <div class="power-num">1000</div>
+        <div class="power-unit">Watts</div>
+        <p class="power-desc">Potência para subir qualquer ladeira, manter velocidade em terrenos irregulares e entregar torque imediato quando você precisar.</p>
+        <div class="power-tags">
+          <span class="power-tag">Torque real</span>
+          <span class="power-tag">Subida sem esforço</span>
+          <span class="power-tag">Motor brushless</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ BENEFÍCIOS -->
+<section class="benefits-section fade-in">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Para quem é essa bike</p>
+    <h2 class="section-title">Seu dia a dia<br>vai mudar.</h2>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-num">01</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Economia todo mês</div>
+          <div class="benefit-text">Zero gasto com gasolina. Recarga na tomada de casa por centavos. Em poucos meses a bike se paga sozinha com o que você deixa de gastar no posto.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">02</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Chega no horário</div>
+          <div class="benefit-text">Fura fila, fura trânsito, fura estresse. Enquanto o carro fica parado no congestionamento, você já chegou, estacionou e está tomando o café.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">03</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Renda com delivery</div>
+          <div class="benefit-text">Custo operacional quase zero para entregadores. Sem gasolina, sem manutenção cara. Cada pedido entregue é lucro de verdade.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">04</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Lazer com estilo</div>
+          <div class="benefit-text">Passeio no fim de semana com sua trilha sonora no Bluetooth. Som embutido, visual agressivo, conforto total. Não é só transporte — é experiência.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ URGÊNCIA -->
+<section class="urgency-section fade-in">
+  <div class="urgency-title">ESTOQUE<br>LIMITADO.<br>DECIDE AGORA.</div>
+  <p class="urgency-sub">Quando acabar, acabou. Sem previsão de reposição imediata.</p>
+  <a class="btn-dark" href="#" target="_blank">Garantir minha unidade</a>
+  <p class="urgency-note">Atendimento via WhatsApp • Resposta imediata</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ COMPRAR -->
+<section class="buy-section fade-in">
+  <div class="buy-inner">
+    <h2 class="buy-title">ESCOLHA<br>SUA <span>FORMA</span><br>DE PAGAR.</h2>
+    <p class="buy-anchor">R10 Full • 1000W • Fat Tire • Bluetooth</p>
+
+    <div class="buy-price-hero">
+      <div class="buy-price-pix-label">No Pix ou Dinheiro</div>
+      <div class="buy-price-pix">R$ 6.790</div>
+      <div class="buy-price-divider"></div>
+      <div class="buy-price-parc-label">Ou parcele sem juros</div>
+      <div class="buy-price-parc">10x de R$ 728,09</div>
+    </div>
+
+    <a class="wpp-btn2" href="#" target="_blank">Falar no WhatsApp agora</a>
+
+    <div class="buy-perks">
+      <span class="buy-perk">Zero km</span>
+      <span class="buy-perk">Montada</span>
+      <span class="buy-perk">Nota fiscal</span>
+      <span class="buy-perk">Garantia 180 dias</span>
+      <span class="buy-perk">Entrega inclusa GV</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">R10 FULL</div>
+      <div class="footer-tagline">Bike elétrica • 1000W • Fat Tire • Bluetooth</div>
+    </div>
+    <div class="footer-cta-block">
+      <div class="footer-phone">(27) 99625-2050</div>
+      <a class="footer-wpp" href="#" target="_blank">Chamar no WhatsApp</a>
+    </div>
+  </div>
+  <div class="footer-seller">
+    <div class="footer-seller-info">
+      <strong>Alexandre Torres</strong> — Vendedor responsável<br>
+      CNPJ 54.806.916/0001-62<br>
+      Retirada em <strong>Jardim Camburi / Vitória–ES</strong> · CEP 29090-010
+    </div>
+    <div class="footer-seller-info" style="text-align:right">
+      <strong style="color:var(--orange)">✓ Zero km &nbsp;·&nbsp; ✓ Montada &nbsp;·&nbsp; ✓ Manual</strong><br>
+      <strong style="color:var(--orange)">✓ Nota fiscal &nbsp;·&nbsp; ✓ Garantia 180 dias</strong><br>
+      Entrega inclusa em toda Grande Vitória
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-text">© 2026 — Todos os direitos reservados</div>
+    <div class="footer-text">Atendimento direto com o vendedor.</div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════ APP SCRIPT -->
+<script src="bike-app.min.js"></script>
+
+</body>
+</html>
