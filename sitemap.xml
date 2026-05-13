@@ -19,6 +19,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://alexandretorres.com.br/bike/</loc>
+    <lastmod>2026-05-13T12:42:03.000+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://alexandretorres.com.br/docform/</loc>
     <lastmod>2026-04-10T11:22:14.000+00:00</lastmod>
     <changefreq>yearly</changefreq>
