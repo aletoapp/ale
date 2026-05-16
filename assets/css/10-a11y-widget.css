@@ -65,23 +65,14 @@
 }
 
 
-/* ── BACKDROP ───────────────────────────────────────── */
+/* ── BACKDROP — leve sombra lateral, sem blur, sem bloquear a página ── */
 
 .a11y-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 400;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  display: none; /* removido — sidebar flutua sem backdrop */
 }
 
 .a11y-backdrop.open {
-  opacity: 1;
-  pointer-events: auto;
+  display: none;
 }
 
 
@@ -106,7 +97,7 @@
 
 .a11y-panel.open {
   transform: translateX(0);
-  box-shadow: -12px 0 60px rgba(0,0,0,0.35);
+  box-shadow: -20px 0 80px rgba(0,0,0,0.55), -1px 0 0 var(--border);
 }
 
 
@@ -290,6 +281,8 @@
   opacity: 0;
   width: 0; height: 0;
   position: absolute;
+  top: 0; left: 0;   /* ancora no pai — impede scroll ao footer */
+  pointer-events: none;
 }
 
 .a11y-sw-track {
