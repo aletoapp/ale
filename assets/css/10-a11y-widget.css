@@ -1,0 +1,652 @@
+/* ══════════════════════════════════════════════════════
+   10-A11Y-WIDGET — PAINEL DE ACESSIBILIDADE
+   Botão flutuante (FAB) + sidebar lateral deslizante.
+   Integra-se com os tokens de 01-root.css e o sistema
+   de data-font / data-theme / lang já existentes.
+   
+   Ordem de import em styles.css:
+   @import '10-a11y-widget.css';   ← após 09-accessibility
+══════════════════════════════════════════════════════ */
+
+
+/* ── FAB — Botão flutuante ────────────────────────── */
+
+.a11y-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 300;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 0 rgba(200,169,110,0.4);
+  transition:
+    transform 0.3s cubic-bezier(0.34,1.4,0.64,1),
+    box-shadow 0.3s ease,
+    background 0.55s ease;
+  animation: a11yFabPulse 3.5s ease-in-out infinite;
+}
+
+.a11y-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.45), 0 0 0 10px rgba(200,169,110,0.1);
+  animation: none;
+}
+
+.a11y-fab:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.a11y-fab svg {
+  width: 25px;
+  height: 25px;
+  transition: transform 0.3s ease;
+}
+
+.a11y-fab[aria-expanded="true"] {
+  animation: none;
+  transform: rotate(90deg);
+}
+
+.a11y-fab[aria-expanded="true"]:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+@keyframes a11yFabPulse {
+  0%,100% { box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 0 rgba(200,169,110,0.4); }
+  50%      { box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 12px rgba(200,169,110,0); }
+}
+
+
+/* ── BACKDROP ───────────────────────────────────────── */
+
+.a11y-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.a11y-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* ── PANEL ──────────────────────────────────────────── */
+
+.a11y-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+  width: 310px;
+  background: var(--bg-2);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  overflow: hidden;
+  will-change: transform;
+}
+
+.a11y-panel.open {
+  transform: translateX(0);
+  box-shadow: -12px 0 60px rgba(0,0,0,0.35);
+}
+
+
+/* ── HEADER ─────────────────────────────────────────── */
+
+.a11y-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.95rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-3);
+  flex-shrink: 0;
+}
+
+.a11y-hd-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.a11y-hd-icon {
+  width: 30px;
+  height: 30px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.a11y-hd-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.a11y-hd-text {}
+
+.a11y-hd-title {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.18rem;
+}
+
+.a11y-hd-sub {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  line-height: 1;
+  transition: color 0.55s ease;
+}
+
+.a11y-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+
+.a11y-close:hover {
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.a11y-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+
+/* ── BODY SCROLLÁVEL ───────────────────────────────── */
+
+.a11y-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.4rem 0 0.8rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.a11y-body::-webkit-scrollbar { width: 3px; }
+.a11y-body::-webkit-scrollbar-track { background: transparent; }
+.a11y-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+
+/* ── SECTIONS ───────────────────────────────────────── */
+
+.a11y-sec {
+  padding: 0.8rem 1.2rem 0.85rem;
+}
+
+.a11y-sec + .a11y-sec {
+  border-top: 1px solid var(--border-soft);
+}
+
+.a11y-sec-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 0.7rem;
+  transition: color 0.55s ease;
+}
+
+.a11y-sec-label::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+  transition: background 0.55s ease;
+}
+
+
+/* ── ROW — uma feature ──────────────────────────────── */
+
+.a11y-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.45rem 0;
+  min-height: 44px;
+}
+
+.a11y-row-info {}
+
+.a11y-row-name {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+  line-height: 1.25;
+  transition: color 0.55s ease;
+}
+
+.a11y-row-desc {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-4);
+  margin-top: 0.12rem;
+  transition: color 0.55s ease;
+}
+
+
+/* ── TOGGLE SWITCH ──────────────────────────────────── */
+
+.a11y-sw {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.a11y-sw input {
+  opacity: 0;
+  width: 0; height: 0;
+  position: absolute;
+}
+
+.a11y-sw-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: rgba(200,169,110,0.12);
+  border: 1px solid var(--border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.a11y-sw-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--ink-4);
+  transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1), background 0.3s;
+}
+
+.a11y-sw input:checked + .a11y-sw-track {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.a11y-sw input:checked + .a11y-sw-track::after {
+  transform: translateX(18px);
+  background: var(--bg);
+}
+
+.a11y-sw input:focus-visible + .a11y-sw-track {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+
+/* ── STEPPER — font size / spacing ─────────────────── */
+
+.a11y-stepper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.a11y-step-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s;
+  flex-shrink: 0;
+  letter-spacing: 0;
+}
+
+.a11y-step-btn:hover:not(:disabled) {
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.a11y-step-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.a11y-step-btn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.a11y-step-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  width: 44px;
+  text-align: center;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.55s ease, border-color 0.55s ease;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+
+/* ── BUTTON GROUP — lang / theme ────────────────────── */
+
+.a11y-grp {
+  display: flex;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.a11y-grp-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0 0.7rem;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.a11y-grp-btn:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+
+.a11y-grp-btn:hover { color: var(--gold); }
+
+.a11y-grp-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.a11y-grp-btn.active {
+  background: var(--gold-dim);
+  color: var(--gold);
+  font-weight: 600;
+}
+
+[data-theme="light"] .a11y-grp-btn.active {
+  background: rgba(156,124,62,0.12);
+}
+
+
+/* ── FOOTER — Reset ─────────────────────────────────── */
+
+.a11y-ft {
+  padding: 0.8rem 1.2rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg-3);
+}
+
+.a11y-reset {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--ink-4);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.6rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.a11y-reset:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.a11y-reset:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+
+/* ── READING GUIDE ──────────────────────────────────── */
+
+.a11y-reading-guide {
+  position: fixed;
+  left: 0; right: 0;
+  z-index: 9990;
+  pointer-events: none;
+  display: none;
+  top: -100px;
+
+  /* A linha em si */
+  height: 2px;
+  background: rgba(200,169,110,0.7);
+
+  /* "Sombra" que escurece acima e abaixo */
+  box-shadow:
+    0 -9999px 0 9999px rgba(0,0,0,0.06),
+    0  9999px 0 9999px rgba(0,0,0,0.06);
+
+  transition: background 0.55s ease;
+}
+
+body.a11y-guide-on .a11y-reading-guide {
+  display: block;
+}
+
+[data-theme="light"] .a11y-reading-guide {
+  background: rgba(156,124,62,0.65);
+}
+
+
+/* ── FEATURE BODY CLASSES ───────────────────────────── */
+
+/* Alto contraste */
+body.a11y-contrast {
+  filter: contrast(1.45) brightness(1.04);
+}
+
+/* Escala de cinza */
+body.a11y-gray {
+  filter: grayscale(1);
+}
+
+/* Alto contraste + escala de cinza */
+body.a11y-contrast.a11y-gray {
+  filter: contrast(1.45) brightness(1.04) grayscale(1);
+}
+
+/* Destacar links */
+body.a11y-links a:not(.a11y-fab):not(.a11y-reset) {
+  text-decoration: underline !important;
+  text-decoration-color: var(--gold) !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+  background: rgba(200,169,110,0.08) !important;
+  padding: 0 3px !important;
+  border-radius: 2px !important;
+}
+
+/* Fonte para dislexia — espaçamento e ritmo mais generosos */
+body.a11y-dyslexia * {
+  font-family: Arial, Verdana, sans-serif !important;
+  letter-spacing: 0.06em !important;
+  word-spacing: 0.18em !important;
+  line-height: 1.95 !important;
+}
+
+/* Pausar animações */
+body.a11y-freeze *,
+body.a11y-freeze *::before,
+body.a11y-freeze *::after {
+  animation-play-state: paused !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Espaçamento de texto — 3 níveis */
+body.a11y-sp1 p,
+body.a11y-sp1 li,
+body.a11y-sp1 span { letter-spacing: 0.04em; }
+
+body.a11y-sp2 p,
+body.a11y-sp2 li,
+body.a11y-sp2 span { letter-spacing: 0.08em; word-spacing: 0.12em; }
+
+body.a11y-sp3 p,
+body.a11y-sp3 li,
+body.a11y-sp3 span { letter-spacing: 0.13em; word-spacing: 0.18em; line-height: 2; }
+
+/* Cursor grande */
+body.a11y-cursor,
+body.a11y-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cpath d='M4 2L4 30L11 23L17 34L22 31L16 20L26 20Z' fill='%23f0ece2' stroke='%23080807' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, auto !important;
+}
+
+[data-theme="light"] body.a11y-cursor,
+[data-theme="light"] body.a11y-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cpath d='M4 2L4 30L11 23L17 34L22 31L16 20L26 20Z' fill='%230a0907' stroke='%23f5f0e8' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, auto !important;
+}
+
+
+/* ── MOBILE ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .a11y-panel {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .a11y-fab {
+    bottom: 1.4rem;
+    right: 1rem;
+    width: 48px;
+    height: 48px;
+  }
+
+  .a11y-fab svg { width: 22px; height: 22px; }
+}
+
+/* Bottom sheet em telas muito pequenas */
+@media (max-width: 430px) {
+  .a11y-panel {
+    max-width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: 14px 14px 0 0;
+    top: auto;
+    height: 88vh;
+    transform: translateY(100%);
+  }
+
+  .a11y-panel.open {
+    transform: translateY(0);
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.3);
+  }
+
+  /* Drag handle visual */
+  .a11y-hd::before {
+    content: '';
+    position: absolute;
+    top: 7px; left: 50%;
+    transform: translateX(-50%);
+    width: 32px; height: 3px;
+    border-radius: 3px;
+    background: var(--border);
+  }
+
+  .a11y-hd { position: relative; padding-top: 1.3rem; }
+}
+
+
+/* ── REDUCED MOTION ─────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .a11y-fab        { animation: none; }
+  .a11y-panel      { transition: none; }
+  .a11y-backdrop   { transition: none; }
+  .a11y-sw-track,
+  .a11y-sw-track::after { transition: none; }
+}
+
+
+/* ── HIGH CONTRAST MODE (SO) ────────────────────────── */
+
+@media (forced-colors: active) {
+  .a11y-fab { forced-color-adjust: none; border: 2px solid ButtonText; }
+  .a11y-panel { border-color: ButtonBorder; }
+}
