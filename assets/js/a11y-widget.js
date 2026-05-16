@@ -110,7 +110,7 @@
           <span class="a11y-row-desc">${desc}</span>
         </div>
         <label class="a11y-sw" aria-label="${label}">
-          <input type="checkbox" id="${id}" ${checked ? 'checked' : ''}>
+          <input type="checkbox" id="${id}" tabindex="-1" ${checked ? 'checked' : ''}>
           <span class="a11y-sw-track"></span>
         </label>
       </div>`;
@@ -271,7 +271,7 @@
     });
     fab.setAttribute('aria-expanded', 'true');
     document.getElementById('a11yClose').focus();
-    body.style.overflow = 'hidden';
+    /* NÃO trava scroll — usuário precisa ver as mudanças ao vivo na página */
   }
 
   function closePanel() {
@@ -283,7 +283,6 @@
     backdrop.classList.remove('open');
     backdrop.setAttribute('aria-hidden', 'true');
     fab.setAttribute('aria-expanded', 'false');
-    body.style.overflow = '';
     panel.addEventListener('transitionend', () => { panel.setAttribute('hidden', ''); }, { once: true });
     fab.focus();
   }
