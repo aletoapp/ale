@@ -1,498 +1,507 @@
-/* ════════════════════════════════════════════════════
-   A11Y WIDGET — Painel de Acessibilidade
-   Integra-se com o sistema existente:
-     - data-font="small|normal|large"  (01-root.css)
-     - data-theme="dark|light"         (script.js)
-     - data-lang="pt|en"              (script.js)
-
-   Como usar:
-   1. <link rel="stylesheet" href="assets/css/10-a11y-widget.css">
-   2. <script src="assets/js/a11y-widget.js" defer></script>
-   O script injeta o HTML e cria o live-region no <body>.
-════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════
+   a11y-widget.js — Painel de acessibilidade AT·Lab
+   ────────────────────────────────────────────────────────
+   • Botão vive em .nav-right — NÃO é FAB flutuante
+   • Apenas 2 idiomas: PT / EN
+   • Não duplica tema nem tamanho de fonte (já estão na nav)
+   • Sem body.style.overflow — não bloqueia scroll da página
+   • Sem backdrop-filter — mudanças visíveis ao vivo
+   • tabindex="-1" nos inputs para evitar scroll ao footer
+   ════════════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
-  const STORE_KEY = 'aletor-a11y-v1';
-  const html      = document.documentElement;
-  const body      = document.body;
-
-  /* ── Estado padrão ─────────────────────────────── */
-  const defaults = {
-    fontStep:  1,        // 0=small 1=normal 2=large
-    contrast:  false,
-    gray:      false,
-    links:     false,
-    dyslexia:  false,
-    freeze:    false,
-    guide:     false,
-    cursor:    false,
-    spacing:   0,        // 0=padrão 1=médio 2=alto
-    lang:      null,     // null=herda do documento
-    theme:     null,     // null=herda do documento
-  };
-
-  /* ── Persistência ──────────────────────────────── */
-  function load() {
-    try { return Object.assign({}, defaults, JSON.parse(localStorage.getItem(STORE_KEY) || '{}')); }
-    catch { return Object.assign({}, defaults); }
-  }
-
-  function save(state) {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {}
-  }
-
-  let state = load();
-
-  /* ── Helpers ────────────────────────────────────── */
-  const FONT_STEPS  = ['small', 'normal', 'large'];
-  const FONT_LABELS = ['Pequeno', 'Normal', 'Grande'];
-  const SP_LABELS   = ['Padrão', 'Médio', 'Alto'];
-
-  /* ── Aplica todo o estado no DOM ─────────────────── */
-  function applyAll() {
-    /* Font size */
-    html.setAttribute('data-font', FONT_STEPS[state.fontStep]);
-    try { localStorage.setItem('aletor-font-size', FONT_STEPS[state.fontStep]); } catch {}
-
-    /* Theme */
-    if (state.theme) html.setAttribute('data-theme', state.theme);
-
-    /* Lang */
-    if (state.lang) {
-      html.setAttribute('lang', state.lang);
-      document.querySelectorAll('[data-lang]').forEach(el => {
-        el.style.display = el.getAttribute('data-lang') === state.lang ? '' : 'none';
-      });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-lang-target') === state.lang);
-      });
-    }
-
-    /* Body classes */
-    body.classList.toggle('a11y-contrast', state.contrast);
-    body.classList.toggle('a11y-gray',     state.gray);
-    body.classList.toggle('a11y-links',    state.links);
-    body.classList.toggle('a11y-dyslexia', state.dyslexia);
-    body.classList.toggle('a11y-freeze',   state.freeze);
-    body.classList.toggle('a11y-guide-on', state.guide);
-    body.classList.toggle('a11y-cursor',   state.cursor);
-
-    /* Spacing */
-    body.classList.remove('a11y-sp1','a11y-sp2','a11y-sp3');
-    if (state.spacing > 0) body.classList.add('a11y-sp' + state.spacing);
-  }
-
-  /* ── HTML do Widget ─────────────────────────────── */
-  const ICON_A11Y = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <circle cx="12" cy="5" r="1.5"/><path d="M7 9h10M9 21l1.5-6L12 17l1.5-2L15 21"/><path d="M9.5 9.5C10.3 13 11 14.5 12 15c1-.5 1.7-2 2.5-5.5"/>
-  </svg>`;
-
-  const ICON_CLOSE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-    <path d="M18 6L6 18M6 6l12 12"/>
-  </svg>`;
-
-  const ICON_RESET = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="12" height="12">
-    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
-  </svg>`;
+  /* ── HTML do painel ──────────────────────────────────── */
 
   function buildHTML() {
-    const t = FONT_STEPS[state.fontStep];
-    const sp = SP_LABELS[state.spacing];
+    const panel = document.createElement('div');
+    panel.id = 'a11yPanel';
+    panel.className = 'a11y-panel';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'false');   /* não modal — página continua acessível */
+    panel.setAttribute('aria-label', 'Ajustes de acessibilidade');
 
-    /* helpers para toggle e stepper */
-    function sw(id, checked, label, desc) {
-      return `
-      <div class="a11y-row">
-        <div class="a11y-row-info">
-          <span class="a11y-row-name">${label}</span>
-          <span class="a11y-row-desc">${desc}</span>
-        </div>
-        <label class="a11y-sw" aria-label="${label}">
-          <input type="checkbox" id="${id}" tabindex="-1" ${checked ? 'checked' : ''}>
-          <span class="a11y-sw-track"></span>
-        </label>
-      </div>`;
-    }
-
-    return `
-    <!-- FAB -->
-    <button class="a11y-fab" id="a11yFab" aria-label="Abrir painel de acessibilidade" aria-expanded="false" aria-controls="a11yPanel">
-      ${ICON_A11Y}
-    </button>
-
-    <!-- Backdrop -->
-    <div class="a11y-backdrop" id="a11yBackdrop" aria-hidden="true"></div>
-
-    <!-- Painel -->
-    <aside class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="true" aria-label="Painel de acessibilidade" hidden>
-
+    panel.innerHTML = `
       <!-- Header -->
       <div class="a11y-hd">
         <div class="a11y-hd-left">
-          <div class="a11y-hd-icon">${ICON_A11Y}</div>
+          <div class="a11y-hd-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="5" r="1.5"/>
+              <path d="M5 8h14M8 8v4l-2 4m6-8v4l2 4m-4-4h4"/>
+            </svg>
+          </div>
           <div class="a11y-hd-text">
-            <span class="a11y-hd-title">Acessibilidade</span>
+            <span class="a11y-hd-title">Acessibilidade AT·Lab</span>
             <span class="a11y-hd-sub">Ajustes de leitura · WCAG 2.1</span>
           </div>
         </div>
-        <button class="a11y-close" id="a11yClose" aria-label="Fechar painel">
-          ${ICON_CLOSE}
+        <button class="a11y-close" id="a11yClose" aria-label="Fechar painel de acessibilidade">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M1 1l12 12M13 1L1 13"/>
+          </svg>
         </button>
       </div>
 
       <!-- Body -->
-      <div class="a11y-body" id="a11yBody">
+      <div class="a11y-body">
 
-        <!-- TIPOGRAFIA -->
+        <!-- Visão -->
         <div class="a11y-sec">
-          <span class="a11y-sec-label">Tipografia</span>
+          <div class="a11y-sec-label">Visão</div>
 
-          <!-- Font size -->
           <div class="a11y-row">
             <div class="a11y-row-info">
-              <span class="a11y-row-name">Tamanho do texto</span>
-              <span class="a11y-row-desc">Afeta toda a escala em rem</span>
+              <span class="a11y-row-name">Alto contraste</span>
+              <span class="a11y-row-desc">Aumenta diferença tonal</span>
             </div>
-            <div class="a11y-stepper" role="group" aria-label="Tamanho do texto">
-              <button class="a11y-step-btn" id="a11yFontDec" aria-label="Diminuir texto" ${state.fontStep === 0 ? 'disabled' : ''}>A−</button>
-              <span class="a11y-step-val" id="a11yFontVal" aria-live="polite">${FONT_LABELS[state.fontStep]}</span>
-              <button class="a11y-step-btn" id="a11yFontInc" aria-label="Aumentar texto" ${state.fontStep === 2 ? 'disabled' : ''}>A+</button>
-            </div>
+            <label class="a11y-sw" aria-label="Alto contraste">
+              <input type="checkbox" id="swContrast" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Alto contraste"></span>
+            </label>
           </div>
 
-          <!-- Espaçamento -->
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Escala de cinza</span>
+              <span class="a11y-row-desc">Remove cores da interface</span>
+            </div>
+            <label class="a11y-sw" aria-label="Escala de cinza">
+              <input type="checkbox" id="swGray" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Escala de cinza"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Destacar links</span>
+              <span class="a11y-row-desc">Sublinha e realça âncoras</span>
+            </div>
+            <label class="a11y-sw" aria-label="Destacar links">
+              <input type="checkbox" id="swLinks" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Destacar links"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Guia de leitura</span>
+              <span class="a11y-row-desc">Linha que segue o cursor</span>
+            </div>
+            <label class="a11y-sw" aria-label="Guia de leitura">
+              <input type="checkbox" id="swGuide" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Guia de leitura"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Cursor ampliado</span>
+              <span class="a11y-row-desc">Ponteiro maior e mais visível</span>
+            </div>
+            <label class="a11y-sw" aria-label="Cursor ampliado">
+              <input type="checkbox" id="swCursor" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Cursor ampliado"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Leitura -->
+        <div class="a11y-sec">
+          <div class="a11y-sec-label">Leitura</div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Fonte para dislexia</span>
+              <span class="a11y-row-desc">Espaçamento e ritmo generosos</span>
+            </div>
+            <label class="a11y-sw" aria-label="Fonte para dislexia">
+              <input type="checkbox" id="swDyslexia" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Fonte para dislexia"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Pausar animações</span>
+              <span class="a11y-row-desc">Congela todas as transições</span>
+            </div>
+            <label class="a11y-sw" aria-label="Pausar animações">
+              <input type="checkbox" id="swFreeze" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Pausar animações"></span>
+            </label>
+          </div>
+
           <div class="a11y-row">
             <div class="a11y-row-info">
               <span class="a11y-row-name">Espaçamento</span>
-              <span class="a11y-row-desc">Entre letras e palavras</span>
+              <span class="a11y-row-desc">Kerning e word-spacing</span>
             </div>
-            <div class="a11y-stepper" role="group" aria-label="Espaçamento">
-              <button class="a11y-step-btn" id="a11ySpDec" aria-label="Menos espaço" ${state.spacing === 0 ? 'disabled' : ''}>−</button>
-              <span class="a11y-step-val" id="a11ySpVal" aria-live="polite">${sp}</span>
-              <button class="a11y-step-btn" id="a11ySpInc" aria-label="Mais espaço" ${state.spacing === 2 ? 'disabled' : ''}>+</button>
+            <div class="a11y-stepper" role="group" aria-label="Espaçamento de texto">
+              <button class="a11y-step-btn" id="spDec" aria-label="Reduzir espaçamento">−</button>
+              <span  class="a11y-step-val"  id="spVal" aria-live="polite">Normal</span>
+              <button class="a11y-step-btn" id="spInc" aria-label="Aumentar espaçamento">+</button>
             </div>
           </div>
-
-          <!-- Dislexia -->
-          ${sw('a11yDyslexia', state.dyslexia, 'Fonte para dislexia', 'Arial · espaço extra · ritmo generoso')}
         </div>
 
-        <!-- VISUAL -->
+        <!-- Idioma — apenas PT e EN -->
         <div class="a11y-sec">
-          <span class="a11y-sec-label">Visual</span>
-          ${sw('a11yContrast', state.contrast, 'Alto contraste', 'Aumenta contraste em 45%')}
-          ${sw('a11yGray',     state.gray,     'Escala de cinza', 'Remove cores da interface')}
-          ${sw('a11yLinks',    state.links,    'Destacar links', 'Sublinha e destaca âncoras')}
-        </div>
-
-        <!-- LEITURA -->
-        <div class="a11y-sec">
-          <span class="a11y-sec-label">Leitura</span>
-          ${sw('a11yGuide',  state.guide,  'Guia de leitura', 'Linha dourada segue o cursor')}
-          ${sw('a11yCursor', state.cursor, 'Cursor grande',   'Ponteiro ampliado e visível')}
-          ${sw('a11yFreeze', state.freeze, 'Pausar animações','Para todos os movimentos')}
-        </div>
-
-        <!-- APARÊNCIA -->
-        <div class="a11y-sec">
-          <span class="a11y-sec-label">Aparência</span>
-
-          <!-- Tema -->
+          <div class="a11y-sec-label">Idioma</div>
           <div class="a11y-row">
             <div class="a11y-row-info">
-              <span class="a11y-row-name">Tema</span>
-              <span class="a11y-row-desc">Claro ou escuro</span>
+              <span class="a11y-row-name">Idioma do site</span>
+              <span class="a11y-row-desc">Altera todo o conteúdo</span>
             </div>
-            <div class="a11y-grp" role="group" aria-label="Tema">
-              <button class="a11y-grp-btn ${state.theme === 'dark' || (!state.theme && html.getAttribute('data-theme') === 'dark') ? 'active' : ''}" data-theme-set="dark" aria-pressed="${state.theme === 'dark' || (!state.theme && html.getAttribute('data-theme') === 'dark')}">Escuro</button>
-              <button class="a11y-grp-btn ${state.theme === 'light' || (!state.theme && html.getAttribute('data-theme') === 'light') ? 'active' : ''}" data-theme-set="light" aria-pressed="${state.theme === 'light' || (!state.theme && html.getAttribute('data-theme') === 'light')}">Claro</button>
-            </div>
-          </div>
-
-          <!-- Idioma -->
-          <div class="a11y-row">
-            <div class="a11y-row-info">
-              <span class="a11y-row-name">Idioma</span>
-              <span class="a11y-row-desc">Muda conteúdo multilíngue</span>
-            </div>
-            <div class="a11y-grp" role="group" aria-label="Idioma">
-              <button class="a11y-grp-btn ${(state.lang || html.getAttribute('lang') || 'pt').startsWith('pt') ? 'active' : ''}" data-lang-set="pt-BR" aria-pressed="${(state.lang || html.getAttribute('lang') || 'pt').startsWith('pt')}">PT</button>
-              <button class="a11y-grp-btn ${(state.lang || html.getAttribute('lang') || 'pt').startsWith('en') ? 'active' : ''}" data-lang-set="en" aria-pressed="${(state.lang || html.getAttribute('lang') || 'pt').startsWith('en')}">EN</button>
+            <div class="a11y-grp" role="group" aria-label="Selecionar idioma">
+              <button class="a11y-grp-btn active" id="langPT" aria-pressed="true"  lang="pt">PT</button>
+              <button class="a11y-grp-btn"        id="langEN" aria-pressed="false" lang="en">EN</button>
             </div>
           </div>
         </div>
 
-      </div><!-- /.a11y-body -->
+      </div><!-- /a11y-body -->
 
-      <!-- Footer reset -->
+      <!-- Footer -->
       <div class="a11y-ft">
         <button class="a11y-reset" id="a11yReset">
-          ${ICON_RESET}
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 6a5 5 0 1 0 1.5-3.5L1 1v3h3"/>
+          </svg>
           Restaurar padrões
         </button>
       </div>
 
-    </aside>
-
-    <!-- Guia de leitura (linha) -->
-    <div class="a11y-reading-guide" id="a11yGuide" aria-hidden="true"></div>
-
-    <!-- Live region para screen readers -->
-    <div id="a11yLive" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+      <!-- Guia de leitura (elemento separado, fora do painel) -->
     `;
+
+    return panel;
   }
 
-  /* ── Injeção no DOM ─────────────────────────────── */
-  function inject() {
-    const wrap = document.createElement('div');
-    wrap.id = 'a11yRoot';
-    wrap.innerHTML = buildHTML();
-    document.body.appendChild(wrap);
-  }
-
-  /* ── Controles ──────────────────────────────────── */
-  function announce(msg) {
-    const live = document.getElementById('a11yLive');
-    if (live) { live.textContent = ''; requestAnimationFrame(() => { live.textContent = msg; }); }
-  }
-
-  function openPanel() {
-    const panel = document.getElementById('a11yPanel');
-    const backdrop = document.getElementById('a11yBackdrop');
-    const fab = document.getElementById('a11yFab');
-    if (!panel) return;
-    panel.removeAttribute('hidden');
-    requestAnimationFrame(() => {
-      panel.classList.add('open');
-      backdrop.classList.add('open');
-      backdrop.removeAttribute('aria-hidden');
-    });
-    fab.setAttribute('aria-expanded', 'true');
-    document.getElementById('a11yClose').focus();
-    /* NÃO trava scroll — usuário precisa ver as mudanças ao vivo na página */
-  }
-
-  function closePanel() {
-    const panel = document.getElementById('a11yPanel');
-    const backdrop = document.getElementById('a11yBackdrop');
-    const fab = document.getElementById('a11yFab');
-    if (!panel) return;
-    panel.classList.remove('open');
-    backdrop.classList.remove('open');
-    backdrop.setAttribute('aria-hidden', 'true');
-    fab.setAttribute('aria-expanded', 'false');
-    panel.addEventListener('transitionend', () => { panel.setAttribute('hidden', ''); }, { once: true });
-    fab.focus();
-  }
-
-  function updateFontUI() {
-    const dec = document.getElementById('a11yFontDec');
-    const inc = document.getElementById('a11yFontInc');
-    const val = document.getElementById('a11yFontVal');
-    if (dec) dec.disabled = state.fontStep === 0;
-    if (inc) inc.disabled = state.fontStep === 2;
-    if (val) val.textContent = FONT_LABELS[state.fontStep];
-    /* Sincroniza com os botões originais do nav (se existirem) */
-    html.setAttribute('data-font', FONT_STEPS[state.fontStep]);
-    try { localStorage.setItem('aletor-font-size', FONT_STEPS[state.fontStep]); } catch {}
-  }
-
-  function updateSpUI() {
-    const dec = document.getElementById('a11ySpDec');
-    const inc = document.getElementById('a11ySpInc');
-    const val = document.getElementById('a11ySpVal');
-    if (dec) dec.disabled = state.spacing === 0;
-    if (inc) inc.disabled = state.spacing === 2;
-    if (val) val.textContent = SP_LABELS[state.spacing];
-  }
-
-  function syncThemeUI(theme) {
-    document.querySelectorAll('[data-theme-set]').forEach(btn => {
-      const active = btn.getAttribute('data-theme-set') === theme;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-pressed', active);
-    });
-  }
-
-  function syncLangUI(lang) {
-    document.querySelectorAll('[data-lang-set]').forEach(btn => {
-      const active = lang && lang.startsWith(btn.getAttribute('data-lang-set').slice(0,2));
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-pressed', active);
-    });
-  }
 
   /* ── Guia de leitura ─────────────────────────────── */
-  let guideRAF = null;
-  function onMouseMove(e) {
-    const guide = document.getElementById('a11yGuide');
-    if (!guide) return;
-    if (guideRAF) cancelAnimationFrame(guideRAF);
-    guideRAF = requestAnimationFrame(() => {
-      guide.style.top = (e.clientY + window.scrollY) + 'px';
-    });
+
+  function buildReadingGuide() {
+    const guide = document.createElement('div');
+    guide.className = 'a11y-reading-guide';
+    guide.id = 'a11yReadingGuide';
+    guide.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(guide);
+
+    document.addEventListener('mousemove', function (e) {
+      if (document.body.classList.contains('a11y-guide-on')) {
+        guide.style.top = e.clientY + 'px';
+      }
+    }, { passive: true });
   }
 
-  function toggleGuide(on) {
-    const guide = document.getElementById('a11yGuide');
-    if (on) {
-      body.addEventListener('mousemove', onMouseMove, { passive: true });
-      if (guide) guide.style.display = 'block';
-    } else {
-      body.removeEventListener('mousemove', onMouseMove);
-      if (guide) guide.style.display = 'none';
+
+  /* ── Botão na nav (.nav-right) ───────────────────── */
+
+  function buildNavBtn() {
+    const btn = document.createElement('button');
+    btn.id = 'a11yNavBtn';
+    btn.className = 'a11y-nav-btn';
+    btn.setAttribute('aria-controls', 'a11yPanel');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Abrir painel de acessibilidade');
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="5" r="1.5"/>
+        <path d="M5 8h14M8 8v4l-2 4m6-8v4l2 4m-4-4h4"/>
+      </svg>
+      <span class="a11y-nav-label">Acessibilidade</span>
+    `;
+    return btn;
+  }
+
+
+  /* ── Lógica principal ────────────────────────────── */
+
+  function init() {
+    /* 1 — Insere o painel no body */
+    const panel = buildHTML();
+    document.body.appendChild(panel);
+
+    /* 2 — Guia de leitura */
+    buildReadingGuide();
+
+    /* 3 — Botão na nav */
+    const navRight = document.querySelector('.nav-right');
+    if (navRight) {
+      const navBtn = buildNavBtn();
+      /* Insere antes do theme-toggle (último filho típico) */
+      navRight.insertBefore(navBtn, navRight.firstChild);
+      wireToggle(navBtn, panel);
+    }
+
+    /* 4 — Fecha */
+    document.getElementById('a11yClose').addEventListener('click', () => closePanel(panel));
+
+    /* 5 — Fecha ao pressionar Escape */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('open')) closePanel(panel);
+    });
+
+    /* 6 — Features */
+    wireFeatures(panel);
+
+    /* 7 — Reset */
+    document.getElementById('a11yReset').addEventListener('click', () => resetAll(panel));
+
+    /* 8 — Recupera estado salvo */
+    restoreState(panel);
+
+    /* 9 — Live region para leitores de tela (font-control já usa fontLiveRegion) */
+    let liveA11y = document.getElementById('a11yLiveRegion');
+    if (!liveA11y) {
+      liveA11y = document.createElement('div');
+      liveA11y.id = 'a11yLiveRegion';
+      liveA11y.setAttribute('aria-live', 'polite');
+      liveA11y.setAttribute('aria-atomic', 'true');
+      liveA11y.className = 'sr-only';
+      document.body.appendChild(liveA11y);
     }
   }
 
-  /* ── Eventos ─────────────────────────────────────── */
-  function bindEvents() {
-    const $ = id => document.getElementById(id);
 
-    /* FAB */
-    $('a11yFab').addEventListener('click', () => {
-      const panel = $('a11yPanel');
-      panel && panel.classList.contains('open') ? closePanel() : openPanel();
-    });
+  /* ── Abrir / fechar ──────────────────────────────── */
 
-    /* Close */
-    $('a11yClose').addEventListener('click', closePanel);
-    $('a11yBackdrop').addEventListener('click', closePanel);
-
-    /* Escape */
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && $('a11yPanel')?.classList.contains('open')) closePanel();
-    });
-
-    /* Font size */
-    $('a11yFontDec').addEventListener('click', () => {
-      if (state.fontStep > 0) { state.fontStep--; updateFontUI(); save(state); announce(FONT_LABELS[state.fontStep]); }
-    });
-    $('a11yFontInc').addEventListener('click', () => {
-      if (state.fontStep < 2) { state.fontStep++; updateFontUI(); save(state); announce(FONT_LABELS[state.fontStep]); }
-    });
-
-    /* Spacing */
-    $('a11ySpDec').addEventListener('click', () => {
-      if (state.spacing > 0) {
-        state.spacing--;
-        body.classList.remove('a11y-sp1','a11y-sp2','a11y-sp3');
-        if (state.spacing > 0) body.classList.add('a11y-sp' + state.spacing);
-        updateSpUI(); save(state); announce('Espaçamento: ' + SP_LABELS[state.spacing]);
+  function wireToggle(btn, panel) {
+    btn.addEventListener('click', function () {
+      const isOpen = panel.classList.contains('open');
+      if (isOpen) {
+        closePanel(panel);
+      } else {
+        openPanel(panel);
       }
-    });
-    $('a11ySpInc').addEventListener('click', () => {
-      if (state.spacing < 2) {
-        state.spacing++;
-        body.classList.remove('a11y-sp1','a11y-sp2','a11y-sp3');
-        body.classList.add('a11y-sp' + state.spacing);
-        updateSpUI(); save(state); announce('Espaçamento: ' + SP_LABELS[state.spacing]);
-      }
-    });
-
-    /* Toggles */
-    const toggleMap = [
-      ['a11yContrast', 'contrast', 'Alto contraste'],
-      ['a11yGray',     'gray',     'Escala de cinza'],
-      ['a11yLinks',    'links',    'Destacar links'],
-      ['a11yDyslexia', 'dyslexia', 'Fonte dislexia'],
-      ['a11yFreeze',   'freeze',   'Animações pausadas'],
-      ['a11yCursor',   'cursor',   'Cursor grande'],
-      ['a11yGuide',    'guide',    'Guia de leitura'],
-    ];
-
-    toggleMap.forEach(([id, key, label]) => {
-      const el = $(id);
-      if (!el) return;
-      el.addEventListener('change', () => {
-        state[key] = el.checked;
-        if (key === 'guide') toggleGuide(state[key]);
-        else body.classList.toggle('a11y-' + key, state[key]);
-        save(state); announce(label + (state[key] ? ' ativado' : ' desativado'));
-      });
-    });
-
-    /* Theme buttons */
-    document.querySelectorAll('[data-theme-set]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const t = btn.getAttribute('data-theme-set');
-        state.theme = t;
-        html.setAttribute('data-theme', t);
-        syncThemeUI(t);
-        /* Sincroniza com o toggle original do nav */
-        const ttDot = document.getElementById('ttDot');
-        const ttLabel = document.getElementById('ttLabel');
-        if (ttDot)   ttDot.textContent   = t === 'dark' ? '🌙' : '☀️';
-        if (ttLabel) ttLabel.textContent = t === 'dark' ? 'Versão clara' : 'Versão escura';
-        save(state);
-        announce('Tema ' + (t === 'dark' ? 'escuro' : 'claro') + ' ativado');
-      });
-    });
-
-    /* Lang buttons */
-    document.querySelectorAll('[data-lang-set]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const l = btn.getAttribute('data-lang-set');
-        state.lang = l;
-        html.setAttribute('lang', l);
-        syncLangUI(l);
-        /* Sincroniza com os lang-btn do nav */
-        document.querySelectorAll('.lang-btn').forEach(lb => {
-          const target = lb.getAttribute('data-lang-target') || lb.textContent.trim().toLowerCase();
-          lb.classList.toggle('active', target === l.slice(0,2));
-        });
-        /* Mostra/oculta conteúdo data-lang */
-        document.querySelectorAll('[data-lang]').forEach(el => {
-          el.style.display = el.getAttribute('data-lang') === l ? '' : 'none';
-        });
-        save(state);
-        announce('Idioma alterado para ' + (l.startsWith('pt') ? 'Português' : 'English'));
-      });
-    });
-
-    /* Focus trap */
-    $('a11yPanel').addEventListener('keydown', e => {
-      if (e.key !== 'Tab') return;
-      const focusable = $('a11yPanel').querySelectorAll(
-        'button:not([disabled]), input, [tabindex="0"]'
-      );
-      const first = focusable[0];
-      const last  = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    });
-
-    /* Reset */
-    $('a11yReset').addEventListener('click', () => {
-      /* Remove body classes */
-      ['contrast','gray','links','dyslexia','freeze','guide-on','cursor',
-       'sp1','sp2','sp3'].forEach(c => body.classList.remove('a11y-' + c));
-
-      toggleGuide(false);
-
-      state = Object.assign({}, defaults);
-      save(state);
-
-      /* Restaura font e tema do sistema */
-      html.setAttribute('data-font', 'normal');
-      try { localStorage.removeItem('aletor-font-size'); } catch {}
-
-      /* Rebuid UI */
-      const root = document.getElementById('a11yRoot');
-      if (root) { root.remove(); inject(); bindEvents(); applyAll(); }
-
-      announce('Todos os ajustes restaurados');
     });
   }
 
-  /* ── Init ────────────────────────────────────────── */
-  function init() {
-    inject();
-    applyAll();
-    bindEvents();
-    if (state.guide) toggleGuide(true);
+  function openPanel(panel) {
+    panel.classList.add('open');
+    /* NÃO trava o scroll — usuário precisa ver as mudanças ao vivo */
+    const btn = document.getElementById('a11yNavBtn');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    /* Foco no botão fechar */
+    setTimeout(() => {
+      const closeBtn = document.getElementById('a11yClose');
+      if (closeBtn) closeBtn.focus();
+    }, 420);
   }
+
+  function closePanel(panel) {
+    panel.classList.remove('open');
+    const btn = document.getElementById('a11yNavBtn');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus();
+    }
+  }
+
+
+  /* ── Features ────────────────────────────────────── */
+
+  function wireFeatures(panel) {
+    /* Helpers */
+    function sw(id, bodyClass, storageKey) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      /* O track (role=switch) é o elemento focável */
+      const track = input.nextElementSibling;
+
+      function apply(checked) {
+        input.checked = checked;
+        track.setAttribute('aria-checked', String(checked));
+        document.body.classList.toggle(bodyClass, checked);
+        save(storageKey, checked);
+      }
+
+      /* Clique no track (label delega para aqui via pointer) */
+      track.addEventListener('click', () => apply(!input.checked));
+
+      /* Teclado no track */
+      track.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          apply(!input.checked);
+        }
+      });
+
+      return apply;
+    }
+
+    sw('swContrast',  'a11y-contrast',  'a11y-contrast');
+    sw('swGray',      'a11y-gray',      'a11y-gray');
+    sw('swLinks',     'a11y-links',     'a11y-links');
+    sw('swDyslexia',  'a11y-dyslexia',  'a11y-dyslexia');
+    sw('swFreeze',    'a11y-freeze',    'a11y-freeze');
+    sw('swCursor',    'a11y-cursor',    'a11y-cursor');
+
+    /* Guia de leitura */
+    sw('swGuide', 'a11y-guide-on', 'a11y-guide');
+
+    /* Espaçamento — stepper */
+    const SP_STEPS = ['Normal', 'Médio', 'Amplo'];
+    const SP_CLASSES = ['', 'a11y-sp2', 'a11y-sp3'];
+    let spIdx = 0;
+
+    const spVal = document.getElementById('spVal');
+    const spDec = document.getElementById('spDec');
+    const spInc = document.getElementById('spInc');
+
+    function applySpacing(idx) {
+      SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
+      if (SP_CLASSES[idx]) document.body.classList.add(SP_CLASSES[idx]);
+      spVal.textContent = SP_STEPS[idx];
+      spDec.disabled = idx === 0;
+      spInc.disabled = idx === SP_STEPS.length - 1;
+      save('a11y-spacing', idx);
+    }
+
+    spDec.addEventListener('click', () => { if (spIdx > 0) applySpacing(--spIdx); });
+    spInc.addEventListener('click', () => { if (spIdx < SP_STEPS.length - 1) applySpacing(++spIdx); });
+    applySpacing(spIdx);
+
+    /* Idioma — apenas PT / EN */
+    const langPT = document.getElementById('langPT');
+    const langEN = document.getElementById('langEN');
+
+    function setLang(lang) {
+      document.documentElement.setAttribute('lang', lang);
+      /* Sincroniza com o lang-switcher da nav, se existir */
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        const active = btn.dataset.lang === lang || btn.textContent.trim().toLowerCase() === lang.toLowerCase();
+        btn.classList.toggle('active', active);
+      });
+      langPT.classList.toggle('active', lang === 'pt');
+      langEN.classList.toggle('active', lang === 'en');
+      langPT.setAttribute('aria-pressed', String(lang === 'pt'));
+      langEN.setAttribute('aria-pressed', String(lang === 'en'));
+      save('a11y-lang', lang);
+    }
+
+    langPT.addEventListener('click', () => setLang('pt'));
+    langEN.addEventListener('click', () => setLang('en'));
+  }
+
+
+  /* ── Persistência ────────────────────────────────── */
+
+  function save(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) {}
+  }
+
+  function load(key) {
+    try {
+      const v = localStorage.getItem(key);
+      return v !== null ? JSON.parse(v) : null;
+    } catch (_) { return null; }
+  }
+
+  function restoreState(panel) {
+    const toggleMap = {
+      'a11y-contrast':  'swContrast',
+      'a11y-gray':      'swGray',
+      'a11y-links':     'swLinks',
+      'a11y-dyslexia':  'swDyslexia',
+      'a11y-freeze':    'swFreeze',
+      'a11y-cursor':    'swCursor',
+      'a11y-guide':     'swGuide',
+    };
+    const classMap = {
+      'a11y-contrast':  'a11y-contrast',
+      'a11y-gray':      'a11y-gray',
+      'a11y-links':     'a11y-links',
+      'a11y-dyslexia':  'a11y-dyslexia',
+      'a11y-freeze':    'a11y-freeze',
+      'a11y-cursor':    'a11y-cursor',
+      'a11y-guide':     'a11y-guide-on',
+    };
+
+    Object.keys(toggleMap).forEach(function (key) {
+      const val = load(key);
+      if (val === true) {
+        const input = document.getElementById(toggleMap[key]);
+        if (input) {
+          input.checked = true;
+          const track = input.nextElementSibling;
+          if (track) track.setAttribute('aria-checked', 'true');
+          document.body.classList.add(classMap[key]);
+        }
+      }
+    });
+
+    /* Espaçamento */
+    const SP_STEPS   = ['Normal', 'Médio', 'Amplo'];
+    const SP_CLASSES  = ['', 'a11y-sp2', 'a11y-sp3'];
+    const savedSp = load('a11y-spacing');
+    if (typeof savedSp === 'number' && savedSp > 0 && savedSp < SP_STEPS.length) {
+      SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
+      if (SP_CLASSES[savedSp]) document.body.classList.add(SP_CLASSES[savedSp]);
+      const spVal = document.getElementById('spVal');
+      const spDec = document.getElementById('spDec');
+      const spInc = document.getElementById('spInc');
+      if (spVal) spVal.textContent = SP_STEPS[savedSp];
+      if (spDec) spDec.disabled = savedSp === 0;
+      if (spInc) spInc.disabled = savedSp === SP_STEPS.length - 1;
+    }
+
+    /* Idioma */
+    const savedLang = load('a11y-lang');
+    if (savedLang === 'en') {
+      document.documentElement.setAttribute('lang', 'en');
+      const langPT = document.getElementById('langPT');
+      const langEN = document.getElementById('langEN');
+      if (langPT) { langPT.classList.remove('active'); langPT.setAttribute('aria-pressed', 'false'); }
+      if (langEN) { langEN.classList.add('active');    langEN.setAttribute('aria-pressed', 'true');  }
+    }
+  }
+
+  function resetAll(panel) {
+    /* Remove classes do body */
+    ['a11y-contrast','a11y-gray','a11y-links','a11y-dyslexia',
+     'a11y-freeze','a11y-cursor','a11y-guide-on',
+     'a11y-sp1','a11y-sp2','a11y-sp3'].forEach(c => document.body.classList.remove(c));
+
+    /* Reseta inputs */
+    ['swContrast','swGray','swLinks','swDyslexia','swFreeze','swCursor','swGuide'].forEach(function (id) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      input.checked = false;
+      const track = input.nextElementSibling;
+      if (track) track.setAttribute('aria-checked', 'false');
+    });
+
+    /* Espaçamento */
+    const spVal = document.getElementById('spVal');
+    const spDec = document.getElementById('spDec');
+    const spInc = document.getElementById('spInc');
+    if (spVal) spVal.textContent = 'Normal';
+    if (spDec) spDec.disabled = true;
+    if (spInc) spInc.disabled = false;
+
+    /* Idioma → PT */
+    document.documentElement.setAttribute('lang', 'pt');
+    const langPT = document.getElementById('langPT');
+    const langEN = document.getElementById('langEN');
+    if (langPT) { langPT.classList.add('active');    langPT.setAttribute('aria-pressed', 'true');  }
+    if (langEN) { langEN.classList.remove('active'); langEN.setAttribute('aria-pressed', 'false'); }
+
+    /* Limpa storage */
+    ['a11y-contrast','a11y-gray','a11y-links','a11y-dyslexia',
+     'a11y-freeze','a11y-cursor','a11y-guide','a11y-spacing','a11y-lang'].forEach(function (k) {
+      try { localStorage.removeItem(k); } catch (_) {}
+    });
+
+    /* Feedback */
+    const live = document.getElementById('a11yLiveRegion');
+    if (live) live.textContent = 'Configurações de acessibilidade restauradas.';
+  }
+
+
+  /* ── Inicia após DOM pronto ──────────────────────── */
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -500,4 +509,4 @@
     init();
   }
 
-})();
+}());
