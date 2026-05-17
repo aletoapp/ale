@@ -1,79 +1,87 @@
 /* ══════════════════════════════════════════════════════
    10-A11Y-WIDGET — PAINEL DE ACESSIBILIDADE
-   Botão flutuante (FAB) + sidebar lateral deslizante.
+   Botão vive na .nav-right (não é FAB flutuante).
+   Sidebar lateral deslizante — sem backdrop, sem blur.
    Integra-se com os tokens de 01-root.css e o sistema
    de data-font / data-theme / lang já existentes.
-   
+
    Ordem de import em styles.css:
    @import '10-a11y-widget.css';   ← após 09-accessibility
 ══════════════════════════════════════════════════════ */
 
 
-/* ── FAB — Botão flutuante ────────────────────────── */
+/* ── BOTÃO NAV — dentro de .nav-right ──────────────── */
 
-.a11y-fab {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 300;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--gold);
-  border: none;
-  cursor: pointer;
+.a11y-nav-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 0 rgba(200,169,110,0.4);
-  transition:
-    transform 0.3s cubic-bezier(0.34,1.4,0.64,1),
-    box-shadow 0.3s ease,
-    background 0.55s ease;
-  animation: a11yFabPulse 3.5s ease-in-out infinite;
+  gap: 0.4rem;
+  background: rgba(200,169,110,0.06);
+  border: 1px solid rgba(200,169,110,0.15);
+  border-radius: 6px;
+  color: rgba(200,169,110,0.55);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.a11y-fab:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 32px rgba(0,0,0,0.45), 0 0 0 10px rgba(200,169,110,0.1);
-  animation: none;
+.a11y-nav-btn svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
-.a11y-fab:focus-visible {
+.a11y-nav-btn:hover {
+  color: var(--gold);
+  border-color: rgba(200,169,110,0.4);
+  background: rgba(200,169,110,0.1);
+}
+
+.a11y-nav-btn:hover svg { opacity: 1; }
+
+.a11y-nav-btn[aria-expanded="true"] {
+  color: var(--gold);
+  border-color: rgba(200,169,110,0.45);
+  background: rgba(200,169,110,0.12);
+}
+
+.a11y-nav-btn:focus-visible {
   outline: 2px solid var(--gold);
-  outline-offset: 4px;
+  outline-offset: 2px;
 }
 
-.a11y-fab svg {
-  width: 25px;
-  height: 25px;
-  transition: transform 0.3s ease;
+/* Rótulo oculto no mobile compacto */
+.a11y-nav-label {
+  /* visível por padrão; escondido em telas muito pequenas */
 }
 
-.a11y-fab[aria-expanded="true"] {
-  animation: none;
-  transform: rotate(90deg);
+/* Light overrides */
+[data-theme="light"] .a11y-nav-btn {
+  background: rgba(156,124,62,0.07);
+  border-color: rgba(156,124,62,0.2);
+  color: rgba(156,124,62,0.55);
+}
+[data-theme="light"] .a11y-nav-btn:hover,
+[data-theme="light"] .a11y-nav-btn[aria-expanded="true"] {
+  color: var(--gold);
+  border-color: rgba(156,124,62,0.45);
+  background: rgba(156,124,62,0.12);
 }
 
-.a11y-fab[aria-expanded="true"]:hover {
-  transform: rotate(90deg) scale(1.1);
-}
 
-@keyframes a11yFabPulse {
-  0%,100% { box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 0 rgba(200,169,110,0.4); }
-  50%      { box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 12px rgba(200,169,110,0); }
-}
-
-
-/* ── BACKDROP — leve sombra lateral, sem blur, sem bloquear a página ── */
-
-.a11y-backdrop {
-  display: none; /* removido — sidebar flutua sem backdrop */
-}
-
-.a11y-backdrop.open {
-  display: none;
-}
+/* ── SEM BACKDROP — sidebar flutua sem bloquear ─────── */
+/* (backdrop-filter removido intencionalmente — permite
+    ver as mudanças de acessibilidade ao vivo) */
 
 
 /* ── PANEL ──────────────────────────────────────────── */
@@ -84,7 +92,7 @@
   right: 0;
   bottom: 0;
   z-index: 500;
-  width: 310px;
+  width: 320px;
   background: var(--bg-2);
   border-left: 1px solid var(--border);
   display: flex;
@@ -93,11 +101,12 @@
   transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
   overflow: hidden;
   will-change: transform;
+  /* Sem backdrop-filter — o usuário precisa ver as mudanças ao vivo */
 }
 
 .a11y-panel.open {
   transform: translateX(0);
-  box-shadow: -20px 0 80px rgba(0,0,0,0.55), -1px 0 0 var(--border);
+  box-shadow: -24px 0 80px rgba(0,0,0,0.55), -1px 0 0 var(--border);
 }
 
 
@@ -107,7 +116,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.95rem 1.2rem;
+  padding: 1rem 1.2rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-3);
   flex-shrink: 0;
@@ -116,12 +125,12 @@
 .a11y-hd-left {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.7rem;
 }
 
 .a11y-hd-icon {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   background: var(--gold);
   border-radius: 50%;
   display: flex;
@@ -131,27 +140,25 @@
 }
 
 .a11y-hd-icon svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
 }
-
-.a11y-hd-text {}
 
 .a11y-hd-title {
   display: block;
   font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
+  font-size: 0.68rem;       /* ↑ era 0.62 — mais legível */
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
   line-height: 1;
-  margin-bottom: 0.18rem;
+  margin-bottom: 0.22rem;
 }
 
 .a11y-hd-sub {
   display: block;
   font-family: 'DM Mono', monospace;
-  font-size: 0.52rem;
+  font-size: 0.58rem;       /* ↑ era 0.52 */
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-4);
@@ -164,8 +171,8 @@
   border: none;
   cursor: pointer;
   color: var(--ink-3);
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,7 +197,7 @@
 .a11y-body {
   flex: 1;
   overflow-y: auto;
-  padding: 0.4rem 0 0.8rem;
+  padding: 0.4rem 0 1rem;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
@@ -203,7 +210,7 @@
 /* ── SECTIONS ───────────────────────────────────────── */
 
 .a11y-sec {
-  padding: 0.8rem 1.2rem 0.85rem;
+  padding: 0.9rem 1.2rem 0.95rem;
 }
 
 .a11y-sec + .a11y-sec {
@@ -213,13 +220,13 @@
 .a11y-sec-label {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   font-family: 'DM Mono', monospace;
-  font-size: 0.52rem;
-  letter-spacing: 0.22em;
+  font-size: 0.58rem;       /* ↑ era 0.52 */
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ink-4);
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.8rem;
   transition: color 0.55s ease;
 }
 
@@ -241,28 +248,26 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
-  padding: 0.45rem 0;
+  padding: 0.5rem 0;
   min-height: 44px;
 }
-
-.a11y-row-info {}
 
 .a11y-row-name {
   display: block;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;       /* ↑ era 0.80 — melhora legibilidade */
   color: var(--ink-2);
-  line-height: 1.25;
+  line-height: 1.3;
   transition: color 0.55s ease;
 }
 
 .a11y-row-desc {
   display: block;
   font-family: 'DM Mono', monospace;
-  font-size: 0.55rem;
+  font-size: 0.6rem;        /* ↑ era 0.55 */
   letter-spacing: 0.06em;
   color: var(--ink-4);
-  margin-top: 0.12rem;
+  margin-top: 0.14rem;
   transition: color 0.55s ease;
 }
 
@@ -277,12 +282,18 @@
   cursor: pointer;
 }
 
+/* FIX BUG scroll-to-footer:
+   input absolutamente posicionado dentro do pai relative,
+   sem sair do fluxo visual. tabindex="-1" via JS. */
 .a11y-sw input {
   opacity: 0;
-  width: 0; height: 0;
+  width: 0;
+  height: 0;
   position: absolute;
-  top: 0; left: 0;   /* ancora no pai — impede scroll ao footer */
+  top: 0;
+  left: 0;
   pointer-events: none;
+  /* tabindex="-1" aplicado via JS no buildHTML */
 }
 
 .a11y-sw-track {
@@ -298,8 +309,10 @@
 .a11y-sw-track::after {
   content: '';
   position: absolute;
-  top: 3px; left: 3px;
-  width: 14px; height: 14px;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--ink-4);
   transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1), background 0.3s;
@@ -339,10 +352,10 @@
   cursor: pointer;
   color: var(--ink-3);
   font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.75rem;       /* ↑ ligeiramente */
   font-weight: 600;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -368,14 +381,14 @@
 
 .a11y-step-val {
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.62rem;       /* ↑ era 0.58 */
   letter-spacing: 0.08em;
   color: var(--gold);
-  width: 44px;
+  width: 46px;
   text-align: center;
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
-  height: 30px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -402,11 +415,11 @@
   cursor: pointer;
   color: var(--ink-3);
   font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
+  font-size: 0.65rem;       /* ↑ era 0.60 */
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0 0.7rem;
-  height: 30px;
+  padding: 0 0.8rem;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -439,7 +452,7 @@
 /* ── FOOTER — Reset ─────────────────────────────────── */
 
 .a11y-ft {
-  padding: 0.8rem 1.2rem;
+  padding: 0.9rem 1.2rem;
   border-top: 1px solid var(--border);
   flex-shrink: 0;
   background: var(--bg-3);
@@ -451,10 +464,10 @@
   border: 1px solid var(--border);
   color: var(--ink-4);
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
+  font-size: 0.62rem;       /* ↑ era 0.58 */
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.6rem;
+  padding: 0.65rem;
   cursor: pointer;
   border-radius: 4px;
   transition: border-color 0.2s, color 0.2s, background 0.2s;
@@ -480,21 +493,17 @@
 
 .a11y-reading-guide {
   position: fixed;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   z-index: 9990;
   pointer-events: none;
   display: none;
   top: -100px;
-
-  /* A linha em si */
   height: 2px;
   background: rgba(200,169,110,0.7);
-
-  /* "Sombra" que escurece acima e abaixo */
   box-shadow:
     0 -9999px 0 9999px rgba(0,0,0,0.06),
     0  9999px 0 9999px rgba(0,0,0,0.06);
-
   transition: background 0.55s ease;
 }
 
@@ -509,23 +518,19 @@ body.a11y-guide-on .a11y-reading-guide {
 
 /* ── FEATURE BODY CLASSES ───────────────────────────── */
 
-/* Alto contraste */
 body.a11y-contrast {
   filter: contrast(1.45) brightness(1.04);
 }
 
-/* Escala de cinza */
 body.a11y-gray {
   filter: grayscale(1);
 }
 
-/* Alto contraste + escala de cinza */
 body.a11y-contrast.a11y-gray {
   filter: contrast(1.45) brightness(1.04) grayscale(1);
 }
 
-/* Destacar links */
-body.a11y-links a:not(.a11y-fab):not(.a11y-reset) {
+body.a11y-links a:not(.a11y-reset) {
   text-decoration: underline !important;
   text-decoration-color: var(--gold) !important;
   text-decoration-thickness: 2px !important;
@@ -535,7 +540,6 @@ body.a11y-links a:not(.a11y-fab):not(.a11y-reset) {
   border-radius: 2px !important;
 }
 
-/* Fonte para dislexia — espaçamento e ritmo mais generosos */
 body.a11y-dyslexia * {
   font-family: Arial, Verdana, sans-serif !important;
   letter-spacing: 0.06em !important;
@@ -543,7 +547,6 @@ body.a11y-dyslexia * {
   line-height: 1.95 !important;
 }
 
-/* Pausar animações */
 body.a11y-freeze *,
 body.a11y-freeze *::before,
 body.a11y-freeze *::after {
@@ -551,7 +554,6 @@ body.a11y-freeze *::after {
   transition-duration: 0.001ms !important;
 }
 
-/* Espaçamento de texto — 3 níveis */
 body.a11y-sp1 p,
 body.a11y-sp1 li,
 body.a11y-sp1 span { letter-spacing: 0.04em; }
@@ -564,7 +566,6 @@ body.a11y-sp3 p,
 body.a11y-sp3 li,
 body.a11y-sp3 span { letter-spacing: 0.13em; word-spacing: 0.18em; line-height: 2; }
 
-/* Cursor grande */
 body.a11y-cursor,
 body.a11y-cursor * {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cpath d='M4 2L4 30L11 23L17 34L22 31L16 20L26 20Z' fill='%23f0ece2' stroke='%23080807' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, auto !important;
@@ -579,19 +580,31 @@ body.a11y-cursor * {
 /* ── MOBILE ─────────────────────────────────────────── */
 
 @media (max-width: 768px) {
+
+  /* Painel: ocupa largura total até 340px */
   .a11y-panel {
     width: 100%;
     max-width: 340px;
   }
 
-  .a11y-fab {
-    bottom: 1.4rem;
-    right: 1rem;
-    width: 48px;
-    height: 48px;
+  /* Botão nav: só ícone, sem rótulo de texto */
+  .a11y-nav-label {
+    display: none;
   }
 
-  .a11y-fab svg { width: 22px; height: 22px; }
+  .a11y-nav-btn {
+    /* Padding quadrado — target 44px */
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    border-radius: 6px;
+  }
+
+  .a11y-nav-btn svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 /* Bottom sheet em telas muito pequenas */
@@ -608,30 +621,33 @@ body.a11y-cursor * {
 
   .a11y-panel.open {
     transform: translateY(0);
-    box-shadow: 0 -8px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.35);
   }
 
   /* Drag handle visual */
+  .a11y-hd {
+    position: relative;
+    padding-top: 1.4rem;
+  }
+
   .a11y-hd::before {
     content: '';
     position: absolute;
-    top: 7px; left: 50%;
+    top: 7px;
+    left: 50%;
     transform: translateX(-50%);
-    width: 32px; height: 3px;
+    width: 32px;
+    height: 3px;
     border-radius: 3px;
     background: var(--border);
   }
-
-  .a11y-hd { position: relative; padding-top: 1.3rem; }
 }
 
 
 /* ── REDUCED MOTION ─────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .a11y-fab        { animation: none; }
-  .a11y-panel      { transition: none; }
-  .a11y-backdrop   { transition: none; }
+  .a11y-panel     { transition: none; }
   .a11y-sw-track,
   .a11y-sw-track::after { transition: none; }
 }
@@ -640,6 +656,6 @@ body.a11y-cursor * {
 /* ── HIGH CONTRAST MODE (SO) ────────────────────────── */
 
 @media (forced-colors: active) {
-  .a11y-fab { forced-color-adjust: none; border: 2px solid ButtonText; }
-  .a11y-panel { border-color: ButtonBorder; }
+  .a11y-nav-btn { forced-color-adjust: none; border: 2px solid ButtonText; }
+  .a11y-panel   { border-color: ButtonBorder; }
 }
