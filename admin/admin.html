@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · Chat-Protocolo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #080808;
+      --panel:       #0f0f0f;
+      --surface:     #161616;
+      --border:      #222;
+      --border-hi:   #333;
+      --text:        #e2e2e2;
+      --muted:       #555;
+      --muted2:      #777;
+      --accent:      #c8ff00;
+      --accent-dim:  #1e2a00;
+      --red:         #ff4444;
+      --blue:        #4488ff;
+      --blue-dim:    #0a1530;
+      --radius:      8px;
+      --mono:        'IBM Plex Mono', monospace;
+      --sans:        'IBM Plex Sans', sans-serif;
+      --sidebar-w:   340px;
+    }
+
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+    /* ── Login overlay ─────────────────────────────────────────── */
+    #login-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeIn .3s ease;
+    }
+
+    .login-box {
+      width: 360px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px 32px;
+    }
+
+    .login-logo {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 32px;
+    }
+
+    .login-icon {
+      width: 36px; height: 36px; background: var(--accent); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .login-icon svg { width: 20px; height: 20px; }
+
+    .login-title { font-family: var(--mono); font-size: 13px; color: var(--muted2); letter-spacing: .06em; text-transform: uppercase; }
+
+    .login-box h2 { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
+    .login-box p  { color: var(--muted2); font-size: 13px; margin-bottom: 28px; }
+
+    .login-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      padding: 12px 14px;
+      outline: none;
+      letter-spacing: .04em;
+      transition: border-color .2s;
+      margin-bottom: 12px;
+    }
+    .login-input:focus { border-color: var(--accent); }
+
+    .login-btn {
+      width: 100%; padding: 12px;
+      background: var(--accent); color: #000;
+      font-family: var(--mono); font-size: 12px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      border: none; border-radius: var(--radius); cursor: pointer;
+      transition: opacity .2s;
+    }
+    .login-btn:hover { opacity: .85; }
+
+    .login-erro { font-size: 12px; color: var(--red); margin-top: 10px; min-height: 16px; text-align: center; }
+
+    /* ── App layout ────────────────────────────────────────────── */
+    #app {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-rows: 48px 1fr;
+      height: 100vh;
+    }
+
+    /* ── Topbar ────────────────────────────────────────────────── */
+    .topbar {
+      grid-column: 1 / -1;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 10px; }
+
+    .topbar-icon {
+      width: 26px; height: 26px; background: var(--accent); border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .topbar-icon svg { width: 14px; height: 14px; }
+
+    .topbar-nome { font-family: var(--mono); font-size: 12px; color: var(--muted2); letter-spacing: .06em; text-transform: uppercase; }
+
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+
+    #badge-abertos {
+      font-family: var(--mono); font-size: 11px;
+      background: var(--accent-dim); color: var(--accent);
+      padding: 3px 9px; border-radius: 20px;
+    }
+
+    .btn-logout {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      background: none; border: 1px solid var(--border); border-radius: 5px;
+      padding: 4px 10px; cursor: pointer; letter-spacing: .04em;
+      transition: color .2s, border-color .2s;
+    }
+    .btn-logout:hover { color: var(--text); border-color: var(--border-hi); }
+
+    /* ── Sidebar ───────────────────────────────────────────────── */
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-filters {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .search-wrap { position: relative; }
+
+    .search-wrap svg {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; color: var(--muted);
+    }
+
+    #busca {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      padding: 8px 10px 8px 32px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    #busca:focus { border-color: var(--accent); }
+    #busca::placeholder { color: var(--muted); }
+
+    .filtros-status {
+      display: flex; gap: 4px;
+    }
+
+    .filtro-btn {
+      flex: 1; font-family: var(--mono); font-size: 10px;
+      letter-spacing: .05em; text-transform: uppercase;
+      padding: 5px 4px;
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 5px; color: var(--muted); cursor: pointer;
+      transition: all .2s;
+    }
+    .filtro-btn:hover { color: var(--text); border-color: var(--border-hi); }
+    .filtro-btn.ativo { background: var(--surface); color: var(--text); border-color: var(--border-hi); }
+    .filtro-btn[data-s="aberto"].ativo      { color: var(--accent); border-color: var(--accent-dim); background: var(--accent-dim); }
+    .filtro-btn[data-s="respondido"].ativo  { color: var(--blue); border-color: var(--blue-dim); background: var(--blue-dim); }
+    .filtro-btn[data-s="fechado"].ativo     { color: var(--muted2); }
+
+    .lista-chamados {
+      flex: 1; overflow-y: auto;
+    }
+    .lista-chamados::-webkit-scrollbar { width: 3px; }
+    .lista-chamados::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .chamado-item {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .15s;
+      position: relative;
+    }
+    .chamado-item:hover { background: var(--surface); }
+    .chamado-item.ativo { background: var(--surface); border-left: 2px solid var(--accent); }
+
+    .ci-topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+
+    .ci-nome { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+
+    .ci-proto { font-family: var(--mono); font-size: 10px; color: var(--muted2); }
+
+    .ci-msg { font-size: 12px; color: var(--muted2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; }
+
+    .ci-bottom { display: flex; align-items: center; justify-content: space-between; }
+
+    .ci-tempo { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+    }
+    .status-dot.aberto     { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+    .status-dot.respondido { background: var(--blue); }
+    .status-dot.fechado    { background: var(--muted); }
+
+    .empty-list {
+      padding: 40px 20px; text-align: center;
+      color: var(--muted); font-size: 13px;
+    }
+
+    .loading-lista {
+      padding: 20px; display: flex; justify-content: center;
+    }
+
+    /* ── Painel direito: chat ──────────────────────────────────── */
+    .painel-chat {
+      display: flex; flex-direction: column; overflow: hidden;
+      background: var(--bg);
+    }
+
+    .chat-vazio {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--muted); gap: 12px;
+      animation: fadeIn .3s ease;
+    }
+    .chat-vazio svg { width: 48px; height: 48px; opacity: .2; }
+    .chat-vazio p { font-size: 13px; }
+
+    /* Cabeçalho do chamado aberto */
+    .chat-header {
+      padding: 14px 20px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .ch-left { display: flex; flex-direction: column; gap: 2px; }
+
+    .ch-proto { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--accent); }
+
+    .ch-cliente { font-size: 12px; color: var(--muted2); }
+    .ch-cliente strong { color: var(--text); }
+
+    .ch-right { display: flex; align-items: center; gap: 8px; }
+
+    .status-select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 5px 8px;
+      outline: none;
+      cursor: pointer;
+      letter-spacing: .04em;
+    }
+    .status-select:focus { border-color: var(--accent); }
+
+    .btn-icon {
+      width: 32px; height: 32px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--muted2);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-icon:hover { color: var(--text); border-color: var(--border-hi); }
+    .btn-icon svg { width: 14px; height: 14px; }
+
+    /* Área de mensagens */
+    .chat-msgs {
+      flex: 1; overflow-y: auto; padding: 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      scroll-behavior: smooth;
+    }
+    .chat-msgs::-webkit-scrollbar { width: 4px; }
+    .chat-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .balao {
+      max-width: 68%; padding: 10px 14px;
+      border-radius: 14px; font-size: 13px; line-height: 1.55;
+      word-break: break-word;
+      animation: fadeUp .2s ease both;
+    }
+    .balao-suporte {
+      background: var(--surface); border: 1px solid var(--border);
+      border-bottom-left-radius: 4px; align-self: flex-start;
+    }
+    .balao-cliente {
+      background: #101a00; border: 1px solid #1e2e00;
+      border-bottom-right-radius: 4px; align-self: flex-end;
+    }
+    .balao-meta { font-size: 10px; color: var(--muted); margin-top: 4px; font-family: var(--mono); }
+    .balao-suporte .balao-meta { text-align: left; }
+    .balao-cliente .balao-meta { text-align: right; }
+
+    .marcador-data {
+      align-self: center; font-size: 10px; font-family: var(--mono);
+      color: var(--muted); background: var(--panel);
+      border: 1px solid var(--border); padding: 2px 10px;
+      border-radius: 20px; margin: 4px 0;
+    }
+
+    /* Área de resposta */
+    .reply-area {
+      padding: 14px 20px;
+      background: var(--panel);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .reply-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .reply-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+    #resposta-textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      padding: 11px 14px;
+      resize: none;
+      outline: none;
+      min-height: 72px;
+      max-height: 200px;
+      line-height: 1.55;
+      transition: border-color .2s;
+    }
+    #resposta-textarea:focus { border-color: var(--accent); }
+    #resposta-textarea::placeholder { color: var(--muted); }
+
+    .reply-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .reply-dica { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+    .btn-enviar-resposta {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--accent); color: #000;
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      border: none; border-radius: var(--radius);
+      padding: 9px 18px; cursor: pointer;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn-enviar-resposta:hover { opacity: .85; }
+    .btn-enviar-resposta:active { transform: scale(.97); }
+    .btn-enviar-resposta:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-enviar-resposta svg { width: 13px; height: 13px; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      color: var(--text); font-size: 13px;
+      padding: 12px 18px; border-radius: var(--radius);
+      font-family: var(--mono);
+      opacity: 0; transform: translateY(10px);
+      transition: opacity .3s, transform .3s;
+      pointer-events: none; z-index: 50;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Animações ─────────────────────────────────────────────── */
+    @keyframes fadeIn  { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes fadeUp  { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
+
+    /* ── Spinner ───────────────────────────────────────────────── */
+    .spin {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg) } }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      :root { --sidebar-w: 100vw; }
+      #app { grid-template-columns: 1fr; }
+      .painel-chat { display: none; }
+      .painel-chat.mobile-ativo { display: flex; position: fixed; inset: 48px 0 0 0; z-index: 10; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═════════════════ LOGIN ═════════════════ -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-icon">
+        <svg viewBox="0 0 20 20" fill="none">
+          <rect x="3" y="9" width="14" height="9" rx="2" stroke="#000" stroke-width="1.6"/>
+          <path d="M7 9V6a3 3 0 016 0v3" stroke="#000" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="login-title">Chat · Protocolo Admin</span>
+    </div>
+    <h2>Acesso restrito</h2>
+    <p>Digite a chave de administrador para continuar.</p>
+    <input type="password" id="login-secret" class="login-input" placeholder="••••••••••••" autocomplete="current-password">
+    <button class="login-btn" id="login-btn">Entrar no painel →</button>
+    <p class="login-erro" id="login-erro"></p>
+  </div>
+</div>
+
+<!-- ═════════════════ APP ═════════════════ -->
+<div id="app">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-icon">
+        <svg viewBox="0 0 14 14" fill="none">
+          <path d="M1 2h12v9H1zM5 11v1.5M9 11v1.5M5 12.5h4" stroke="#000" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="topbar-nome">Painel Admin</span>
+    </div>
+    <div class="topbar-right">
+      <span id="badge-abertos">— abertos</span>
+      <button class="btn-logout" id="btn-logout">Sair</button>
+    </div>
+  </header>
+
+  <!-- Sidebar: lista de chamados -->
+  <aside class="sidebar">
+    <div class="sidebar-filters">
+      <div class="search-wrap">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="6" cy="6" r="4"/><path d="M10 10l2.5 2.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="busca" placeholder="Buscar cliente ou protocolo…">
+      </div>
+      <div class="filtros-status">
+        <button class="filtro-btn ativo" data-s="">Todos</button>
+        <button class="filtro-btn" data-s="aberto">Aberto</button>
+        <button class="filtro-btn" data-s="respondido">Respondido</button>
+        <button class="filtro-btn" data-s="fechado">Fechado</button>
+      </div>
+    </div>
+    <div class="lista-chamados" id="lista-chamados">
+      <div class="loading-lista"><div class="spin"></div></div>
+    </div>
+  </aside>
+
+  <!-- Painel direito: chat -->
+  <section class="painel-chat" id="painel-chat">
+    <div class="chat-vazio" id="chat-vazio">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 8h32v28H8zM16 8v28M24 36l-4 8h16l-4-8"/>
+      </svg>
+      <p>Selecione um chamado para visualizar a conversa</p>
+    </div>
+
+    <!-- Conteúdo do chamado — escondido até seleção -->
+    <div id="chat-ativo" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="chat-header">
+        <div class="ch-left">
+          <span class="ch-proto" id="h-proto">#----</span>
+          <span class="ch-cliente" id="h-cliente">—</span>
+        </div>
+        <div class="ch-right">
+          <select class="status-select" id="status-select">
+            <option value="aberto">● Aberto</option>
+            <option value="respondido">● Respondido</option>
+            <option value="fechado">● Fechado</option>
+          </select>
+          <button class="btn-icon" id="btn-reload" title="Atualizar">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+              <path d="M1 7a6 6 0 106-6 6 6 0 00-4.5 2L1 5"/>
+              <path d="M1 2v3h3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-msgs" id="chat-msgs"></div>
+
+      <div class="reply-area">
+        <div class="reply-toolbar">
+          <span class="reply-label">Sua resposta</span>
+        </div>
+        <textarea id="resposta-textarea" placeholder="Escreva sua resposta ao cliente…"></textarea>
+        <div class="reply-footer">
+          <span class="reply-dica">Ctrl + Enter para enviar · E-mail disparado automaticamente</span>
+          <button class="btn-enviar-resposta" id="btn-enviar-resposta">
+            <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 6.5h11M7 2l5 4.5-5 4.5"/>
+            </svg>
+            Enviar resposta
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- #app -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Config ───────────────────────────────────────────────────────────────────
+  const API = 'https://lively-waterfall-f6fa.aletor-app.workers.dev';
+
+  // ── Estado ───────────────────────────────────────────────────────────────────
+  let secret          = '';
+  let filtroStatus    = '';
+  let buscaDebounce   = null;
+  let protocoloAtivo  = null;
+  let chamadoAtivoObj = null;
+
+  // ── DOM ──────────────────────────────────────────────────────────────────────
+  const loginOverlay  = document.getElementById('login-overlay');
+  const loginSecret   = document.getElementById('login-secret');
+  const loginBtn      = document.getElementById('login-btn');
+  const loginErro     = document.getElementById('login-erro');
+  const listaChamados = document.getElementById('lista-chamados');
+  const badgeAbertos  = document.getElementById('badge-abertos');
+  const chatVazio     = document.getElementById('chat-vazio');
+  const chatAtivo     = document.getElementById('chat-ativo');
+  const hProto        = document.getElementById('h-proto');
+  const hCliente      = document.getElementById('h-cliente');
+  const statusSelect  = document.getElementById('status-select');
+  const chatMsgs      = document.getElementById('chat-msgs');
+  const respostaTA    = document.getElementById('resposta-textarea');
+  const btnEnviar     = document.getElementById('btn-enviar-resposta');
+  const btnReload     = document.getElementById('btn-reload');
+  const busca         = document.getElementById('busca');
+
+  // ── Login ────────────────────────────────────────────────────────────────────
+  loginSecret.addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin(); });
+  loginBtn.addEventListener('click', fazerLogin);
+
+  async function fazerLogin() {
+    const s = loginSecret.value.trim();
+    if (!s) { loginErro.textContent = 'Digite a chave de administrador.'; return; }
+    loginBtn.disabled = true; loginBtn.textContent = 'Verificando…';
+    loginErro.textContent = '';
+    try {
+      const res = await fetch(`${API}/api/admin/chamados?limite=1`, {
+        headers: { 'Authorization': `Bearer ${s}` }
+      });
+      if (res.status === 401) { loginErro.textContent = 'Chave incorreta.'; return; }
+      secret = s;
+      sessionStorage.setItem('admin_secret', s);
+      loginOverlay.style.display = 'none';
+      iniciarApp();
+    } catch {
+      // modo demo offline
+      secret = s;
+      loginOverlay.style.display = 'none';
+      iniciarApp();
+    } finally {
+      loginBtn.disabled = false; loginBtn.textContent = 'Entrar no painel →';
+    }
+  }
+
+  // Restaura sessão
+  const savedSecret = sessionStorage.getItem('admin_secret');
+  if (savedSecret) {
+    secret = savedSecret;
+    loginOverlay.style.display = 'none';
+    iniciarApp();
+  }
+
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    sessionStorage.removeItem('admin_secret');
+    location.reload();
+  });
+
+  // ── App ───────────────────────────────────────────────────────────────────────
+  function iniciarApp() {
+    carregarLista();
+    // Polling a cada 30s
+    setInterval(carregarLista, 30000);
+  }
+
+  // ── Filtros ───────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.filtro-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
+      btn.classList.add('ativo');
+      filtroStatus = btn.dataset.s;
+      carregarLista();
+    });
+  });
+
+  busca.addEventListener('input', () => {
+    clearTimeout(buscaDebounce);
+    buscaDebounce = setTimeout(carregarLista, 380);
+  });
+
+  // ── Carregar lista ────────────────────────────────────────────────────────────
+  async function carregarLista() {
+    const params = new URLSearchParams();
+    if (filtroStatus) params.set('status', filtroStatus);
+    if (busca.value.trim()) params.set('q', busca.value.trim());
+
+    try {
+      const res  = await fetch(`${API}/api/admin/chamados?${params}`, {
+        headers: { 'Authorization': `Bearer ${secret}` }
+      });
+      const data = await res.json();
+      renderLista(data.chamados || []);
+      atualizarBadge(data.chamados || []);
+    } catch {
+      // Demo: dados fictícios
+      renderLista(dadosDemo());
+      atualizarBadge(dadosDemo());
+    }
+  }
+
+  function atualizarBadge(chamados) {
+    const abertos = chamados.filter(c => c.status === 'aberto').length;
+    badgeAbertos.textContent = `${abertos} aberto${abertos !== 1 ? 's' : ''}`;
+  }
+
+  function renderLista(chamados) {
+    if (!chamados.length) {
+      listaChamados.innerHTML = '<div class="empty-list">Nenhum chamado encontrado.</div>';
+      return;
+    }
+    listaChamados.innerHTML = '';
+    chamados.forEach(c => {
+      const el = document.createElement('div');
+      el.className = `chamado-item${protocoloAtivo === c.protocolo ? ' ativo' : ''}`;
+      el.dataset.protocolo = c.protocolo;
+
+      const tempo = formatarTempo(c.atualizado_em);
+      const prefixo = c.ultima_remetente === 'cliente' ? '↩ ' : '';
+
+      el.innerHTML = `
+        <div class="ci-topo">
+          <span class="ci-nome">${esc(c.cliente_nome)}</span>
+          <span class="ci-proto">#${c.protocolo}</span>
+        </div>
+        <div class="ci-msg">${prefixo}${esc(c.ultima_msg || '…')}</div>
+        <div class="ci-bottom">
+          <span class="ci-tempo">${tempo}</span>
+          <span class="status-dot ${c.status}" title="${c.status}"></span>
+        </div>
+      `;
+      el.addEventListener('click', () => abrirChamado(c.protocolo));
+      listaChamados.appendChild(el);
+    });
+  }
+
+  // ── Abrir chamado ─────────────────────────────────────────────────────────────
+  async function abrirChamado(protocolo) {
+    protocoloAtivo = protocolo;
+
+    // Marca ativo na lista
+    document.querySelectorAll('.chamado-item').forEach(el => {
+      el.classList.toggle('ativo', el.dataset.protocolo === protocolo);
+    });
+
+    chatVazio.style.display  = 'none';
+    chatAtivo.style.display  = 'flex';
+
+    hProto.textContent    = `#${protocolo}`;
+    hCliente.textContent  = '…';
+    chatMsgs.innerHTML    = '<div class="loading-lista"><div class="spin"></div></div>';
+
+    try {
+      const res  = await fetch(`${API}/api/admin/chamado/${protocolo}`, {
+        headers: { 'Authorization': `Bearer ${secret}` }
+      });
+      const data = await res.json();
+      renderChatDetalhe(data);
+    } catch {
+      // Demo
+      renderChatDetalhe(detalheDemo(protocolo));
+    }
+  }
+
+  function renderChatDetalhe({ chamado, mensagens }) {
+    chamadoAtivoObj = chamado;
+
+    hProto.textContent   = `#${chamado.protocolo}`;
+    hCliente.innerHTML   = `<strong>${esc(chamado.nome)}</strong> · ${esc(chamado.email)} · ${esc(chamado.telefone)}`;
+    statusSelect.value   = chamado.status;
+
+    chatMsgs.innerHTML = '';
+    let ultimaData = '';
+    mensagens.forEach(m => {
+      const d = new Date(m.criado_em);
+      const dataStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+      if (dataStr !== ultimaData) {
+        const sep = document.createElement('div');
+        sep.className = 'marcador-data';
+        sep.textContent = dataStr;
+        chatMsgs.appendChild(sep);
+        ultimaData = dataStr;
+      }
+      const b = document.createElement('div');
+      b.className = `balao balao-${m.remetente}`;
+      const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const quem = m.remetente === 'suporte' ? 'Você (suporte)' : 'Cliente';
+      b.innerHTML = `<div>${escBr(m.conteudo)}</div><div class="balao-meta">${quem} · ${hora}</div>`;
+      chatMsgs.appendChild(b);
+    });
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    respostaTA.value = '';
+    respostaTA.focus();
+  }
+
+  // ── Alterar status ────────────────────────────────────────────────────────────
+  statusSelect.addEventListener('change', async () => {
+    if (!protocoloAtivo) return;
+    const novoStatus = statusSelect.value;
+    try {
+      await fetch(`${API}/api/admin/status`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${secret}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ protocolo: protocoloAtivo, status: novoStatus }),
+      });
+    } catch {}
+    toast(`Status alterado para "${novoStatus}"`);
+    carregarLista();
+  });
+
+  // ── Reload ────────────────────────────────────────────────────────────────────
+  btnReload.addEventListener('click', () => {
+    if (protocoloAtivo) abrirChamado(protocoloAtivo);
+    carregarLista();
+  });
+
+  // ── Enviar resposta ───────────────────────────────────────────────────────────
+  respostaTA.addEventListener('keydown', e => { if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault(); enviarResposta(); } });
+  btnEnviar.addEventListener('click', enviarResposta);
+
+  async function enviarResposta() {
+    const texto = respostaTA.value.trim();
+    if (!texto || !protocoloAtivo) return;
+    btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando…';
+
+    try {
+      const res = await fetch(`${API}/api/admin/responder`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${secret}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ protocolo: protocoloAtivo, conteudo: texto }),
+      });
+      if (!res.ok) { toast('Erro ao enviar. Tente novamente.'); return; }
+      toast('Resposta enviada! E-mail disparado ao cliente.');
+      abrirChamado(protocoloAtivo);
+      carregarLista();
+    } catch {
+      // Demo
+      toast('(Demo) Resposta simulada.');
+      respostaTA.value = '';
+    } finally {
+      btnEnviar.disabled = false;
+      btnEnviar.innerHTML = `
+        <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px">
+          <path d="M1 6.5h11M7 2l5 4.5-5 4.5"/>
+        </svg> Enviar resposta`;
+    }
+  }
+
+  // ── Toast ─────────────────────────────────────────────────────────────────────
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg; el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 3200);
+  }
+
+  // ── Utilitários ───────────────────────────────────────────────────────────────
+  function esc(t='') {
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function escBr(t='') { return esc(t).replace(/\n/g,'<br>'); }
+
+  function formatarTempo(ts) {
+    if (!ts) return '—';
+    const d   = new Date(ts);
+    const ago = Date.now() - d.getTime();
+    const min = Math.floor(ago / 60000);
+    if (min < 1)   return 'agora';
+    if (min < 60)  return `${min}min`;
+    const h = Math.floor(min / 60);
+    if (h < 24)    return `${h}h`;
+    const dias = Math.floor(h / 24);
+    if (dias < 7)  return `${dias}d`;
+    return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short' });
+  }
+
+  // ── Dados demo (offline) ──────────────────────────────────────────────────────
+  function dadosDemo() {
+    return [
+      { protocolo:'2026-0003', cliente_nome:'Maria Souza',  status:'aberto',     atualizado_em: new Date(Date.now()-300000).toISOString(),  ultima_msg:'Boa tarde! Queria saber sobre os prazos do projeto.',  ultima_remetente:'cliente' },
+      { protocolo:'2026-0002', cliente_nome:'João Ferreira',status:'respondido',  atualizado_em: new Date(Date.now()-3600000).toISOString(), ultima_msg:'Obrigado pelo retorno, entendido!',                    ultima_remetente:'cliente' },
+      { protocolo:'2026-0001', cliente_nome:'Ana Ribeiro',  status:'fechado',     atualizado_em: new Date(Date.now()-86400000).toISOString(),ultima_msg:'Perfeito, muito obrigada pela atenção.',               ultima_remetente:'cliente' },
+    ];
+  }
+
+  function detalheDemo(protocolo) {
+    const nomes = { '2026-0003': 'Maria Souza', '2026-0002': 'João Ferreira', '2026-0001': 'Ana Ribeiro' };
+    const emails = { '2026-0003': 'maria@email.com', '2026-0002': 'joao@email.com', '2026-0001': 'ana@email.com' };
+    const status = { '2026-0003': 'aberto', '2026-0002': 'respondido', '2026-0001': 'fechado' };
+    return {
+      chamado: { protocolo, nome: nomes[protocolo]||'Cliente', email: emails[protocolo]||'—', telefone:'11999999999', status: status[protocolo]||'aberto' },
+      mensagens: [
+        { remetente:'suporte', conteudo:`Olá! Protocolo #${protocolo} aberto. Como posso ajudar?`, criado_em: new Date(Date.now()-7200000).toISOString() },
+        { remetente:'cliente', conteudo:'Boa tarde! Queria saber sobre os prazos do projeto.', criado_em: new Date(Date.now()-300000).toISOString() },
+      ]
+    };
+  }
+</script>
+</body>
+</html>
