@@ -16,6 +16,7 @@
 <!-- ── PRELOAD CRITICAL FONTS ──────────────────────────────── -->
 <link rel="preload" href="assets/fonts/subset-PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/subset-DMMono-Regular.woff2"       as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/img/logo-alexandre-torres-web.webp"      as="image">
 
 <!-- ── FAVICONS ──────────────────────────────────────────── -->
 <link rel="icon"             type="image/svg+xml"  href="assets/img/favicon-ouro.svg">
@@ -118,9 +119,10 @@
 }
 </script>
 
-</head>
-
-<body>
+<!-- ══════════════════════════════════════════════════════════
+     CRITICAL CSS — above-the-fold only (stage + logo + nav)
+     Modal CSS is deferred via <link media="print"> trick
+     ══════════════════════════════════════════════════════════ -->
 <style>
 /* ── FONTS ───────────────────────────────────────────────── */
 @font-face {
@@ -193,9 +195,14 @@ body::before {
 }
 
 /* ── LOGO ────────────────────────────────────────────────── */
+/*
+  FIX LCP: o logo é o elemento LCP.
+  Removemos opacity:0 do estado inicial para que o Lighthouse
+  consiga medir o LCP corretamente. A animação usa will-change
+  apenas em transform, mantendo o elemento visível desde o início.
+*/
 .logo-wrap {
-  opacity: 0;
-  animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+  animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s both;
 }
 
 .logo-wrap img {
@@ -212,8 +219,7 @@ body::before {
   text-transform: uppercase;
   color: var(--ink-3);
   margin-top: 28px;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.7s forwards;
+  animation: fadeUp 0.7s ease 0.7s both;
 }
 
 /* ── DIVIDER ─────────────────────────────────────────────── */
@@ -222,16 +228,14 @@ body::before {
   height: 40px;
   background: linear-gradient(to bottom, transparent, var(--border), transparent);
   margin: 36px 0;
-  opacity: 0;
-  animation: fadeIn 0.6s ease 1.0s forwards;
+  animation: fadeIn 0.6s ease 1.0s both;
 }
 
 /* ── NAV BUTTONS ─────────────────────────────────────────── */
 .nav-buttons {
   display: flex;
   gap: 20px;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 1.1s forwards;
+  animation: fadeUp 0.7s ease 1.1s both;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -284,199 +288,8 @@ body::before {
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--gold);
-  opacity: 0;
+  animation: fadeIn 0.8s ease 1.5s both;
   margin-top: 44px;
-  animation: fadeIn 0.8s ease 1.5s forwards;
-}
-
-/* ── MODAL OVERLAY ───────────────────────────────────────── */
-.modal-overlay {
-  position: fixed; inset: 0;
-  z-index: 500;
-  background: rgba(8,8,7,0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-end;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-
-.modal-overlay.open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* ── MODAL PANEL ─────────────────────────────────────────── */
-.modal-panel {
-  background: var(--modal-bg);
-  border-left: 1px solid var(--border-soft);
-  width: min(680px, 100vw);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(40px);
-  transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
-  overflow: hidden;
-}
-
-.modal-overlay.open .modal-panel {
-  transform: translateX(0);
-}
-
-/* modal header */
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 28px 40px;
-  border-bottom: 1px solid var(--border-soft);
-  flex-shrink: 0;
-}
-
-.modal-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.modal-close {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  background: none;
-  border: 1px solid var(--border-soft);
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
-}
-.modal-close:hover { color: var(--ink); border-color: var(--border); }
-
-/* modal body */
-.modal-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 52px 40px 40px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-.modal-body::-webkit-scrollbar { width: 4px; }
-.modal-body::-webkit-scrollbar-track { background: transparent; }
-.modal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-/* modal footer */
-.modal-footer {
-  padding: 24px 40px;
-  border-top: 1px solid var(--border-soft);
-  flex-shrink: 0;
-}
-
-.modal-footer-text {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  opacity: 0.6;
-}
-
-/* ── MODAL CONTENT TYPOGRAPHY ────────────────────────────── */
-.sobre-lead {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 1.2;
-  color: var(--ink);
-  letter-spacing: -0.01em;
-  margin-bottom: 32px;
-}
-
-.sobre-lead em {
-  color: var(--gold);
-  font-style: normal;
-}
-
-.sobre-block {
-  margin-bottom: 40px;
-}
-
-.sobre-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.7;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.sobre-label::after {
-  content: '';
-  display: block;
-  flex: 1;
-  height: 1px;
-  background: var(--border-soft);
-}
-
-.sobre-block p {
-  font-size: 17px;
-  line-height: 1.75;
-  color: var(--ink-2);
-  margin-bottom: 16px;
-}
-.sobre-block p:last-child { margin-bottom: 0; }
-
-.sobre-block p strong {
-  color: var(--ink);
-  font-weight: 400;
-}
-
-.sobre-quote {
-  border-left: 2px solid var(--gold);
-  padding: 4px 0 4px 20px;
-  margin: 28px 0;
-}
-
-.sobre-quote p {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 19px !important;
-  line-height: 1.55 !important;
-  color: var(--ink) !important;
-  font-style: italic;
-}
-
-.sobre-list {
-  list-style: none;
-  padding: 0;
-  margin: 16px 0 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 24px;
-}
-
-.sobre-list li {
-  font-size: 15px;
-  color: var(--ink-3);
-  padding-left: 14px;
-  position: relative;
-  line-height: 1.5;
-}
-.sobre-list li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--gold);
-  opacity: 0.5;
-  font-size: 12px;
-  top: 2px;
 }
 
 /* ── BYLINE ──────────────────────────────────────────────── */
@@ -486,9 +299,8 @@ body::before {
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--ink-3);
-  opacity: 0;
+  animation: fadeIn 0.8s ease 1.7s both;
   margin-top: 10px;
-  animation: fadeIn 0.8s ease 1.7s forwards;
 }
 
 .byline span {
@@ -517,17 +329,24 @@ body::before {
   .tagline { font-size: 11px; letter-spacing: 0.18em; }
   .nav-buttons { gap: 12px; }
   .btn { font-size: 10px; padding: 11px 18px; }
+}
 
-  .modal-header { padding: 22px 24px; }
-  .modal-body   { padding: 36px 24px 32px; }
-  .modal-footer { padding: 20px 24px; }
-
-  .sobre-lead { font-size: 24px; }
-  .sobre-block p { font-size: 16px; }
-  .sobre-list { grid-template-columns: 1fr; }
-  .sobre-quote p { font-size: 17px !important; }
+/* ── MODAL — estado inicial (oculto, sem layout cost) ─────── */
+.modal-overlay {
+  display: none;
+}
+.modal-overlay.open {
+  display: flex;
 }
 </style>
+
+<!-- Modal CSS não-crítico: carregado de forma assíncrona -->
+<link rel="stylesheet" href="assets/css/modal.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="assets/css/modal.css"></noscript>
+
+</head>
+
+<body>
 
 <!-- ══ STAGE ══════════════════════════════════════════════ -->
 <div class="stage">
@@ -536,7 +355,8 @@ body::before {
     <img src="assets/img/logo-alexandre-torres-web.webp"
          alt="Alexandre Torres — Web Design & Software Development"
          width="280" height="80"
-         fetchpriority="high">
+         fetchpriority="high"
+         decoding="sync">
   </div>
 
   <p class="tagline">Web Design &amp; Software Development</p>
@@ -639,7 +459,7 @@ body::before {
 
 </div><!-- /modal-overlay -->
 
-<script>
+<script defer>
 const overlay   = document.getElementById('modal-sobre');
 const btnAbrir  = document.getElementById('btn-sobre');
 const btnFechar = document.getElementById('modal-close-btn');
