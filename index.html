@@ -54,16 +54,8 @@
       "url": "https://alexandretorres.com.br",
       "jobTitle": "Web Designer & Software Developer",
       "description": "Especialista em engenharia web, arquitetura de conversão e comunicação estratégica digital. Cria ambientes que transformam atenção em decisão.",
-      "knowsAbout": [
-        "Web Design",
-        "Software Development",
-        "UX Strategy",
-        "Conversion Architecture",
-        "Digital Positioning"
-      ],
-      "sameAs": [
-        "https://alexandretorres.com.br"
-      ]
+      "knowsAbout": ["Web Design","Software Development","UX Strategy","Conversion Architecture","Digital Positioning"],
+      "sameAs": ["https://alexandretorres.com.br"]
     },
     {
       "@type": "ProfessionalService",
@@ -87,30 +79,16 @@
       "review": [
         {
           "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "Elson Costa"
-          },
+          "author": { "@type": "Person", "name": "Elson Costa" },
           "reviewBody": "Sou Elson Costa, servidor federal. Utilizo o DyList Pro e indico o web design alexandretorres.com.br",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
           "url": "https://www.youtube.com/shorts/4zdPr3ByZTY"
         },
         {
           "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "Jonatas Costa"
-          },
+          "author": { "@type": "Person", "name": "Jonatas Costa" },
           "reviewBody": "Excelente profissional!",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
           "datePublished": "2023-05-01"
         }
       ]
@@ -119,225 +97,50 @@
 }
 </script>
 
-<!-- ══════════════════════════════════════════════════════════
-     CRITICAL CSS — above-the-fold only (stage + logo + nav)
-     Modal CSS is deferred via <link media="print"> trick
-     ══════════════════════════════════════════════════════════ -->
 <style>
-/* ── FONTS ───────────────────────────────────────────────── */
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('assets/fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2'),
-       url('assets/fonts/subset-PlayfairDisplay-Bold.woff') format('woff');
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'DM Sans';
-  src: url('assets/fonts/subset-DMSans-9ptRegular.woff2') format('woff2'),
-       url('assets/fonts/subset-DMSans-9ptRegular.woff') format('woff');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'DM Mono';
-  src: url('assets/fonts/subset-DMMono-Regular.woff2') format('woff2'),
-       url('assets/fonts/subset-DMMono-Regular.woff') format('woff');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
+@font-face{font-family:'Playfair Display';src:url('assets/fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2'),url('assets/fonts/subset-PlayfairDisplay-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Sans';src:url('assets/fonts/subset-DMSans-9ptRegular.woff2') format('woff2'),url('assets/fonts/subset-DMSans-9ptRegular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Mono';src:url('assets/fonts/subset-DMMono-Regular.woff2') format('woff2'),url('assets/fonts/subset-DMMono-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+:root{--bg:#080807;--surface:rgba(255,255,255,0.03);--border:rgba(200,169,110,0.18);--border-soft:rgba(200,169,110,0.08);--ink:#f0ece2;--ink-2:#c4bfb2;--ink-3:#9a9080;--gold:#c8a96e;--gold-dim:rgba(200,169,110,0.10);--modal-bg:#0c0b09}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.65;overflow-x:hidden;min-height:100vh;display:flex;align-items:center;justify-content:center}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.28}
+.stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:60px 40px;gap:0}
 
-/* ── TOKENS ──────────────────────────────────────────────── */
-:root {
-  --bg:          #080807;
-  --surface:     rgba(255,255,255,0.03);
-  --border:      rgba(200,169,110,0.18);
-  --border-soft: rgba(200,169,110,0.08);
-  --ink:         #f0ece2;
-  --ink-2:       #c4bfb2;
-  --ink-3:       #9a9080;
-  --gold:        #c8a96e;
-  --gold-dim:    rgba(200,169,110,0.10);
-  --modal-bg:    #0c0b09;
+/* ── FIX LCP ─────────────────────────────────────────────────
+   PROBLEMA: animation com `both` iniciava o logo em opacity:0,
+   impedindo o Lighthouse de registrar o LCP.
+   SOLUÇÃO: usamos `forwards` (não `both`) + definimos opacity:1
+   como estado inicial no próprio elemento, não na keyframe.
+   Assim o logo é visível imediatamente; a animação apenas
+   adiciona o efeito de deslizamento sem esconder o elemento.
+   ──────────────────────────────────────────────────────────── */
+.logo-wrap{
+  opacity:1; /* visível imediatamente para o LCP */
+  animation:fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards
 }
+.logo-wrap img{width:min(280px,72vw);height:auto;display:block}
 
-/* ── RESET ───────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 400;
-  line-height: 1.65;
-  overflow-x: hidden;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* noise */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 0; opacity: 0.28;
-}
-
-/* ── STAGE ───────────────────────────────────────────────── */
-.stage {
-  position: relative; z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 60px 40px;
-  gap: 0;
-}
-
-/* ── LOGO ────────────────────────────────────────────────── */
-/*
-  FIX LCP: o logo é o elemento LCP.
-  Removemos opacity:0 do estado inicial para que o Lighthouse
-  consiga medir o LCP corretamente. A animação usa will-change
-  apenas em transform, mantendo o elemento visível desde o início.
-*/
-.logo-wrap {
-  animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s both;
-}
-
-.logo-wrap img {
-  width: min(280px, 72vw);
-  height: auto;
-  display: block;
-}
-
-/* ── TAGLINE ─────────────────────────────────────────────── */
-.tagline {
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-top: 28px;
-  animation: fadeUp 0.7s ease 0.7s both;
-}
-
-/* ── DIVIDER ─────────────────────────────────────────────── */
-.divider {
-  width: 2px;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, var(--border), transparent);
-  margin: 36px 0;
-  animation: fadeIn 0.6s ease 1.0s both;
-}
-
-/* ── NAV BUTTONS ─────────────────────────────────────────── */
-.nav-buttons {
-  display: flex;
-  gap: 20px;
-  animation: fadeUp 0.7s ease 1.1s both;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.btn {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  text-decoration: none;
-  padding: 12px 24px;
-  border: 1px solid var(--border);
-  background: transparent;
-  cursor: pointer;
-  transition: color 0.25s ease,
-              border-color 0.25s ease,
-              background 0.25s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: var(--gold-dim);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.btn:hover {
-  color: var(--gold);
-  border-color: var(--gold);
-}
-.btn:hover::before { opacity: 1; }
-
-.btn-primary {
-  color: var(--gold);
-  border-color: rgba(200,169,110,0.55);
-}
-.btn-primary::before { opacity: 1; }
-.btn-primary:hover {
-  border-color: var(--gold);
-}
-
-/* ── EPIGRAPH ────────────────────────────────────────────── */
-.epigraph {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--gold);
-  animation: fadeIn 0.8s ease 1.5s both;
-  margin-top: 44px;
-}
-
-/* ── BYLINE ──────────────────────────────────────────────── */
-.byline {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  animation: fadeIn 0.8s ease 1.7s both;
-  margin-top: 10px;
-}
-
-.byline span {
-  opacity: 0.4;
-}
-
-/* ── FOCUS VISIBLE (Accessibility / Lighthouse) ──────────── */
-:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
-}
-
-/* ── ANIMATIONS ──────────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* ── RESPONSIVE ──────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .stage { padding: 40px 24px; }
-  .tagline { font-size: 11px; letter-spacing: 0.18em; }
-  .nav-buttons { gap: 12px; }
-  .btn { font-size: 10px; padding: 11px 18px; }
-}
-
-/* ── MODAL — estado inicial (oculto, sem layout cost) ─────── */
-.modal-overlay {
-  display: none;
-}
-.modal-overlay.open {
-  display: flex;
-}
+.tagline{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3);margin-top:28px;animation:fadeUp 0.7s ease 0.7s both}
+.divider{width:2px;height:40px;background:linear-gradient(to bottom,transparent,var(--border),transparent);margin:36px 0;animation:fadeIn 0.6s ease 1.0s both}
+.nav-buttons{display:flex;gap:20px;animation:fadeUp 0.7s ease 1.1s both;flex-wrap:wrap;justify-content:center}
+.btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;padding:12px 24px;border:1px solid var(--border);background:transparent;cursor:pointer;transition:color .25s ease,border-color .25s ease,background .25s ease;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:var(--gold-dim);opacity:0;transition:opacity .25s ease}
+.btn:hover{color:var(--gold);border-color:var(--gold)}
+.btn:hover::before{opacity:1}
+.btn-primary{color:var(--gold);border-color:rgba(200,169,110,0.55)}
+.btn-primary::before{opacity:1}
+.btn-primary:hover{border-color:var(--gold)}
+.epigraph{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);animation:fadeIn 0.8s ease 1.5s both;margin-top:44px}
+.byline{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);animation:fadeIn 0.8s ease 1.7s both;margin-top:10px}
+.byline span{opacity:.4}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){.stage{padding:40px 24px}.tagline{font-size:11px;letter-spacing:.18em}.nav-buttons{gap:12px}.btn{font-size:10px;padding:11px 18px}}
+.modal-overlay{display:none}
+.modal-overlay.open{display:flex}
 </style>
 
 <!-- Modal CSS não-crítico: carregado de forma assíncrona -->
@@ -348,9 +151,7 @@ body::before {
 
 <body>
 
-<!-- ══ STAGE ══════════════════════════════════════════════ -->
 <div class="stage">
-
   <div class="logo-wrap">
     <img src="assets/img/logo-alexandre-torres-web.webp"
          alt="Alexandre Torres — Web Design & Software Development"
@@ -358,136 +159,70 @@ body::before {
          fetchpriority="high"
          decoding="sync">
   </div>
-
   <p class="tagline">Web Design &amp; Software Development</p>
-
   <div class="divider" aria-hidden="true"></div>
-
-  <nav class="nav-buttons" aria-label="Navegação">
+  <nav class="nav-buttons" aria-label="Navegação principal">
     <a href="atendimento/" class="btn btn-primary">iniciar projeto</a>
     <a href="at-lab/"      class="btn">ver resultados</a>
     <button class="btn" id="btn-sobre" type="button" aria-haspopup="dialog">posicionamento</button>
   </nav>
-
   <p class="epigraph">Engenharia · Percepção · Decisão</p>
   <p class="byline"><span>by</span> Alexandre Torres</p>
-
 </div>
 
+<main id="conteudo-principal"><!-- ponto de ancoragem acessível --></main>
 
-
-<!-- ══ MODAL SOBRE ════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-sobre" role="dialog" aria-modal="true" aria-labelledby="modal-sobre-title">
-
   <div class="modal-panel">
-
     <header class="modal-header">
       <span class="modal-title" id="modal-sobre-title">Alexandre Torres</span>
       <button class="modal-close" id="modal-close-btn" type="button" aria-label="Fechar">Fechar</button>
     </header>
-
     <div class="modal-body">
-
-      <h2 class="sobre-lead">
-        Construo ambientes digitais.<br>
-        Não apenas <em>páginas.</em>
-      </h2>
-
-      <!-- bloco 1 -->
+      <h2 class="sobre-lead">Construo ambientes digitais.<br>Não apenas <em>páginas.</em></h2>
       <div class="sobre-block">
         <p class="sobre-label">Posicionamento</p>
         <p>Existem profissionais que entregam páginas. Existem os que entregam sistemas. E existem os que constroem <strong>ambientes capazes de influenciar percepção, comportamento e decisão.</strong></p>
         <p>Pertenço à terceira categoria.</p>
-        <div class="sobre-quote">
-          <p>Uma boa aplicação não precisa apenas funcionar. Ela precisa conduzir.</p>
-        </div>
+        <div class="sobre-quote"><p>Uma boa aplicação não precisa apenas funcionar. Ela precisa conduzir.</p></div>
       </div>
-
-      <!-- bloco 2 -->
       <div class="sobre-block">
         <p class="sobre-label">Método</p>
         <p>Atuo no cruzamento entre desenvolvimento web, experiência do usuário, posicionamento digital e engenharia de percepção. O foco está em criar estruturas capazes de <strong>transformar atenção em ação</strong> — com clareza, autoridade e intenção.</p>
         <p>Cada projeto parte de uma pergunta central: como esta pessoa lê, decide, percebe valor — e o que faz com que ela aja sem sentir que foi pressionada?</p>
       </div>
-
-      <!-- bloco 3 -->
       <div class="sobre-block">
         <p class="sobre-label">Arquitetura de decisão</p>
         <p>Uma landing page não é um panfleto online. É um ambiente cognitivo. O visitante chega com dúvidas, excesso de informação e resistência. O papel da engenharia é organizar a experiência de forma tão clara que a decisão se torne consequência natural.</p>
         <p>Isso aparece em cada projeto — na tipografia, no contraste, no tempo de carregamento, na densidade de informação. <strong>Nada existe apenas porque ficou bonito.</strong></p>
       </div>
-
-      <!-- bloco 4 -->
       <div class="sobre-block">
         <p class="sobre-label">AT‑LAB</p>
         <p>Meu laboratório público de aplicações e micro SaaS. Ali, conceitos viram produtos funcionais — ferramentas reais, interfaces que operam no mundo real. O discurso precisa sobreviver à realidade.</p>
       </div>
-
-      <!-- bloco 5 -->
       <div class="sobre-block">
         <p class="sobre-label">Infraestrutura</p>
         <p>Prefiro construir ambientes premium sem transformar o cliente em refém de estruturas inchadas. Arquiteturas leves e modernas:</p>
         <ul class="sobre-list">
-          <li>GitHub Pages + Cloudflare</li>
-          <li>Distribuição edge</li>
-          <li>Assets otimizados</li>
-          <li>Fontes locais</li>
-          <li>Design tokens</li>
-          <li>Temas dinâmicos</li>
-          <li>SEO semântico</li>
-          <li>Performance real</li>
+          <li>GitHub Pages + Cloudflare</li><li>Distribuição edge</li>
+          <li>Assets otimizados</li><li>Fontes locais</li>
+          <li>Design tokens</li><li>Temas dinâmicos</li>
+          <li>SEO semântico</li><li>Performance real</li>
         </ul>
       </div>
-
-      <!-- bloco 6 -->
       <div class="sobre-block">
         <p class="sobre-label">O trabalho</p>
         <p>Não atuo apenas como designer, desenvolvedor ou estrategista. O trabalho funciona na interseção entre todas essas áreas — comunicação, escrita, direção criativa, UX, branding, copy e experiência emocional do usuário.</p>
         <p>Muitos negócios são excelentes no que fazem, mas comunicam mal. <strong>Meu trabalho traduz valor invisível em percepção concreta.</strong></p>
-        <div class="sobre-quote">
-          <p>Tecnologia sem direção vira ruído.<br>Direção sem execução continua sendo apenas ideia.</p>
-        </div>
+        <div class="sobre-quote"><p>Tecnologia sem direção vira ruído.<br>Direção sem execução continua sendo apenas ideia.</p></div>
       </div>
-
-    </div><!-- /modal-body -->
-
+    </div>
     <footer class="modal-footer">
       <p class="modal-footer-text">Engenharia · Percepção · Decisão</p>
     </footer>
+  </div>
+</div>
 
-  </div><!-- /modal-panel -->
-
-</div><!-- /modal-overlay -->
-
-<script defer>
-const overlay   = document.getElementById('modal-sobre');
-const btnAbrir  = document.getElementById('btn-sobre');
-const btnFechar = document.getElementById('modal-close-btn');
-
-function openModal() {
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  btnFechar.focus();
-}
-
-function closeModal() {
-  overlay.classList.remove('open');
-  document.body.style.overflow = '';
-  btnAbrir.focus();
-}
-
-btnAbrir.addEventListener('click', openModal);
-btnFechar.addEventListener('click', closeModal);
-
-// fechar clicando fora do painel
-overlay.addEventListener('click', e => {
-  if (e.target === overlay) closeModal();
-});
-
-// fechar com ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
-});
-</script>
+<script>const o=document.getElementById('modal-sobre'),b=document.getElementById('btn-sobre'),c=document.getElementById('modal-close-btn');function open(){o.classList.add('open');document.body.style.overflow='hidden';c.focus()}function close(){o.classList.remove('open');document.body.style.overflow='';b.focus()}b.addEventListener('click',open);c.addEventListener('click',close);o.addEventListener('click',e=>{if(e.target===o)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&o.classList.contains('open'))close()});</script>
 </body>
 </html>
