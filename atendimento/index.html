@@ -870,7 +870,7 @@
 
   async function assinarPushSilencioso() {
     try {
-      const reg = await navigator.serviceWorker.register('sw-cliente.js', { scope: '/atendimento/' })
+      const reg = await navigator.serviceWorker.register('sw-cliente.js', { scope: '/atendimento/' });
       await navigator.serviceWorker.ready;
 
       const sub = await reg.pushManager.subscribe({
