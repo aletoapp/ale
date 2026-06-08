@@ -407,6 +407,59 @@
       30%           { transform: translateY(-6px); }
     }
 
+    /* ── Banner de Notificações ────────────────────────────────── */
+    #banner-notif {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      width: calc(100% - 32px);
+      max-width: 480px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-left: 3px solid var(--accent);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s, transform .3s;
+      z-index: 100;
+      font-size: 13px;
+    }
+    #banner-notif.visivel {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+    .banner-notif-icon {
+      width: 34px; height: 34px; min-width: 34px;
+      background: var(--accent-dim);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .banner-notif-icon svg { width: 16px; height: 16px; color: var(--accent); }
+    .banner-notif-texto { flex: 1; line-height: 1.4; }
+    .banner-notif-texto strong { color: var(--text); display: block; margin-bottom: 2px; font-size: 13px; }
+    .banner-notif-texto span { color: #888; font-size: 12px; }
+    .banner-notif-btns { display: flex; flex-direction: column; gap: 6px; }
+    .btn-notif-sim {
+      background: var(--accent); color: #000;
+      border: none; border-radius: 6px;
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      padding: 6px 12px; cursor: pointer; white-space: nowrap;
+      letter-spacing: .04em;
+    }
+    .btn-notif-sim:hover { opacity: .85; }
+    .btn-notif-nao {
+      background: none; color: #666;
+      border: none; font-size: 11px; cursor: pointer;
+      font-family: var(--mono); text-align: center;
+    }
+    .btn-notif-nao:hover { color: #999; }
+
     /* ── Responsivo ────────────────────────────────────────────── */
     @media (max-width: 480px) {
       h1 { font-size: 22px; }
@@ -513,6 +566,23 @@
   </section>
 
 </div><!-- #app -->
+
+<!-- Banner de notificações (cliente) -->
+<div id="banner-notif" role="complementary" aria-label="Ativar notificações">
+  <div class="banner-notif-icon">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+      <path d="M8 1a4 4 0 014 4c0 3 1 3.5 1 3.5H3s1-.5 1-3.5a4 4 0 014-4zM6 8.5S6 10 8 10s2-1.5 2-1.5"/>
+    </svg>
+  </div>
+  <div class="banner-notif-texto">
+    <strong>Quer ser avisado quando respondermos?</strong>
+    <span>Notificação mesmo com a aba fechada.</span>
+  </div>
+  <div class="banner-notif-btns">
+    <button class="btn-notif-sim" id="btn-notif-sim">Ativar</button>
+    <button class="btn-notif-nao" id="btn-notif-nao">Agora não</button>
+  </div>
+</div>
 
 <script>
   // ── Config ─────────────────────────────────────────────────────────────────
@@ -714,6 +784,12 @@
     renderBalao('cliente', texto, agora);
     scrollChat();
 
+    // Mostra banner de notificações após a 1ª mensagem
+    if (!primeiraMsgEnviada) {
+      primeiraMsgEnviada = true;
+      setTimeout(mostrarBanner, 1200);
+    }
+
     try {
       const res = await fetch(`${API}/api/mensagem`, {
         method: 'POST',
@@ -744,6 +820,90 @@
       .replace(/"/g,'&quot;').replace(/'/g,'&#x27;')
       .replace(/\n/g,'<br>');
   }
+
+  // ── Push Notifications (cliente) ────────────────────────────────────────────
+  const VAPID_PUBLIC_KEY = 'BPE9YWXI37YJU_vaQlAX_a6dKA0eQwqcrv1QrryVae-iSqJEEsZeK8wuWgcr4OKa62mdfwF_ok1IDHlLCXC4aSg';
+
+  const bannerNotif  = document.getElementById('banner-notif');
+  const btnNotifSim  = document.getElementById('btn-notif-sim');
+  const btnNotifNao  = document.getElementById('btn-notif-nao');
+
+  let bannerJaMostrado    = false;
+  let primeiraMsgEnviada  = false;
+  let notifAtivada        = false;
+
+  function urlBase64ToUint8Array(b64) {
+    const pad = '='.repeat((4 - b64.length % 4) % 4);
+    const raw = atob((b64 + pad).replace(/-/g,'+').replace(/_/g,'/'));
+    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  }
+
+  function mostrarBanner() {
+    if (bannerJaMostrado || notifAtivada) return;
+    if (!('Notification' in window) || Notification.permission === 'denied') return;
+    if (Notification.permission === 'granted') {
+      // Já tem permissão — assina silenciosamente
+      assinarPushSilencioso();
+      return;
+    }
+    bannerJaMostrado = true;
+    bannerNotif.classList.add('visivel');
+  }
+
+  function esconderBanner() {
+    bannerNotif.classList.remove('visivel');
+  }
+
+  async function assinarPush() {
+    esconderBanner();
+    btnNotifSim.textContent = 'Ativando…';
+    btnNotifSim.disabled = true;
+
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') return;
+      await assinarPushSilencioso();
+    } catch (err) {
+      console.error('Erro ao ativar notificações:', err);
+    }
+  }
+
+  async function assinarPushSilencioso() {
+    try {
+      const reg = await navigator.serviceWorker.register('sw-cliente.js', { scope: '/atendimento/' })
+      await navigator.serviceWorker.ready;
+
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+
+      await fetch(`${API}/api/push/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...JSON.parse(JSON.stringify(sub)), tipo: 'cliente', protocolo: sessao.protocolo })
+      });
+
+      notifAtivada = true;
+    } catch (err) {
+      console.error('Erro ao assinar push:', err);
+    }
+  }
+
+  btnNotifSim.addEventListener('click', assinarPush);
+  btnNotifNao.addEventListener('click', () => {
+    esconderBanner();
+    bannerJaMostrado = true;
+  });
+
+  // Mostra banner ao tentar fechar a aba (beforeunload)
+  window.addEventListener('beforeunload', e => {
+    if (!primeiraMsgEnviada || notifAtivada || bannerJaMostrado) return;
+    mostrarBanner();
+    // Mantém a aba aberta um instante para o banner aparecer
+    e.preventDefault();
+    e.returnValue = '';
+  });
 
   // ── URL param: protocolo direto (link do e-mail) ─────────────────────────────
   (function carregarPelaURL() {
