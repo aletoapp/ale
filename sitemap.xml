@@ -7,15 +7,9 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://alexandretorres.com.br/admin/</loc>
-    <lastmod>2026-05-26T01:33:40.000+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://alexandretorres.com.br/ai/</loc>
     <lastmod>2026-05-05T22:23:27.000+00:00</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
