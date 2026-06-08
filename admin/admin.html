@@ -408,6 +408,20 @@
     }
     @keyframes spin { to { transform: rotate(360deg) } }
 
+    /* ── Botão de Notificações ─────────────────────────────────── */
+    #btn-notif {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: .04em;
+      padding: 4px 10px; border-radius: 5px; cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all .2s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    #btn-notif.inativo  { background: none; color: var(--muted); }
+    #btn-notif.inativo:hover { color: var(--text); border-color: var(--border-hi); }
+    #btn-notif.ativo    { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-dim); }
+    #btn-notif.negado   { background: none; color: var(--red); border-color: var(--red); opacity: .6; cursor: not-allowed; }
+
     /* ── Responsive ────────────────────────────────────────────── */
     @media (max-width: 700px) {
       :root { --sidebar-w: 100vw; }
@@ -454,6 +468,12 @@
     </div>
     <div class="topbar-right">
       <span id="badge-abertos">— abertos</span>
+      <button id="btn-notif" class="inativo" title="Ativar notificações push">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="width:13px;height:13px">
+          <path d="M7 1a4 4 0 014 4c0 3 1 4 1 4H2s1-1 1-4a4 4 0 014-4zM5.5 9S5.5 11 7 11s1.5-2 1.5-2"/>
+        </svg>
+        <span id="btn-notif-label">Notificações</span>
+      </button>
       <button class="btn-logout" id="btn-logout">Sair</button>
     </div>
   </header>
@@ -604,12 +624,111 @@
     location.reload();
   });
 
-  // ── App ───────────────────────────────────────────────────────────────────────
+  // ── Push Notifications ───────────────────────────────────────────────────────
+  const VAPID_PUBLIC_KEY = 'BPE9YWXI37YJU_vaQlAX_a6dKA0eQwqcrv1QrryVae-iSqJEEsZeK8wuWgcr4OKa62mdfwF_ok1IDHlLCXC4aSg';
+
+  const btnNotif      = document.getElementById('btn-notif');
+  const btnNotifLabel = document.getElementById('btn-notif-label');
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const raw     = atob(base64);
+    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  }
+
+  async function verificarEstadoNotificacoes() {
+    if (!('Notification' in window) || !('serviceWorker' in navigator)) {
+      btnNotif.classList.replace('inativo', 'negado');
+      btnNotifLabel.textContent = 'Não suportado';
+      btnNotif.disabled = true;
+      return;
+    }
+    const perm = Notification.permission;
+    if (perm === 'granted') {
+      const reg = await navigator.serviceWorker.getRegistration('sw.js');
+      if (reg) {
+        const sub = await reg.pushManager.getSubscription();
+        if (sub) {
+          btnNotif.classList.replace('inativo', 'ativo');
+          btnNotifLabel.textContent = 'Notificações ativas';
+          return;
+        }
+      }
+    }
+    if (perm === 'denied') {
+      btnNotif.classList.replace('inativo', 'negado');
+      btnNotifLabel.textContent = 'Bloqueado pelo navegador';
+      btnNotif.disabled = true;
+    }
+  }
+
+  async function ativarNotificacoes() {
+    if (btnNotif.classList.contains('ativo')) {
+      toast('Notificações já estão ativas!');
+      return;
+    }
+    btnNotif.disabled = true;
+    btnNotifLabel.textContent = 'Ativando…';
+
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') {
+        btnNotif.classList.replace('inativo', 'negado');
+        btnNotifLabel.textContent = 'Bloqueado';
+        btnNotif.disabled = false;
+        return;
+      }
+
+      const reg = await navigator.serviceWorker.register('/admin/sw.js', { scope: '/admin/' });
+      await navigator.serviceWorker.ready;
+
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+
+      await fetch(`${API}/api/push/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${secret}`
+        },
+        body: JSON.stringify(sub)
+      });
+
+      btnNotif.classList.replace('inativo', 'ativo');
+      btnNotifLabel.textContent = 'Notificações ativas';
+      toast('🔔 Notificações ativadas! Você será avisado mesmo com a aba fechada.');
+    } catch (err) {
+      console.error('Erro ao ativar notificações:', err);
+      btnNotifLabel.textContent = 'Notificações';
+      toast('Erro ao ativar notificações. Tente novamente.');
+    } finally {
+      btnNotif.disabled = false;
+    }
+  }
+
+  btnNotif.addEventListener('click', ativarNotificacoes);
+
+  // Avisa ao tentar fechar a aba se notificações não estiverem ativas
+  window.addEventListener('beforeunload', e => {
+    if (btnNotif.classList.contains('ativo')) return;
+    e.preventDefault();
+    e.returnValue = '';
+    // Pisca o botão de notificações para chamar atenção
+    btnNotif.style.outline = '2px solid var(--accent)';
+    setTimeout(() => btnNotif.style.outline = '', 2000);
+  });
+
+  // Verifica estado ao carregar (após login)
   function iniciarApp() {
     carregarLista();
-    // Polling a cada 30s
     setInterval(carregarLista, 30000);
+    verificarEstadoNotificacoes();
   }
+
+
 
   // ── Filtros ───────────────────────────────────────────────────────────────────
   document.querySelectorAll('.filtro-btn').forEach(btn => {
