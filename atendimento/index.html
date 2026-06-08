@@ -575,7 +575,7 @@
     </svg>
   </div>
   <div class="banner-notif-texto">
-    <strong>Quer ser avisado quando eu te responder?</strong>
+    <strong>Quer ser avisado quando respondermos?</strong>
     <span>Notificação mesmo com a aba fechada.</span>
   </div>
   <div class="banner-notif-btns">
@@ -733,6 +733,13 @@
 
     scrollChat();
 
+    // Registra o maior id já visto e inicia polling
+    if (mensagens.length) {
+      const ids = mensagens.map(m => m.id || 0);
+      ultimoIdVisto = Math.max(...ids);
+    }
+    iniciarPolling();
+
     telaEntrada.style.display = 'none';
     document.getElementById('app').style.alignItems = 'stretch';
     document.getElementById('app').style.padding = '0';
@@ -811,6 +818,49 @@
     requestAnimationFrame(() => {
       chatMensagens.scrollTop = chatMensagens.scrollHeight;
     });
+  }
+
+  // ── Polling — verifica mensagens novas a cada 2s ─────────────────────────────
+  let ultimoIdVisto = 0;
+  let pollingTimer  = null;
+  let pollingAtivo  = false;
+
+  function iniciarPolling() {
+    if (pollingAtivo) return;
+    pollingAtivo = true;
+    pollingTimer = setInterval(verificarMensagensNovas, 2000);
+  }
+
+  function pararPolling() {
+    pollingAtivo = false;
+    clearInterval(pollingTimer);
+  }
+
+  async function verificarMensagensNovas() {
+    if (!sessao.protocolo || !sessao.telefone) return;
+    try {
+      const res  = await fetch(`${API}/api/chat/${sessao.protocolo}?tel=${sessao.telefone}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.mensagens) return;
+
+      const novas = data.mensagens.filter(m => m.id > ultimoIdVisto);
+      if (!novas.length) return;
+
+      novas.forEach(m => {
+        ultimoIdVisto = Math.max(ultimoIdVisto, m.id);
+        if (m.remetente === 'cliente') return; // já está na tela
+        renderBalao(m.remetente, m.conteudo, new Date(m.criado_em));
+      });
+
+      const novasSuporte = novas.filter(m => m.remetente === 'suporte');
+      if (novasSuporte.length) {
+        scrollChat();
+        if (data.chamado?.status) atualizarStatus(data.chamado.status);
+      }
+    } catch {
+      // silencia erros de rede — tenta no próximo ciclo
+    }
   }
 
   // ── XSS básico ──────────────────────────────────────────────────────────────
