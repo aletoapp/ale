@@ -646,7 +646,7 @@
     }
     const perm = Notification.permission;
     if (perm === 'granted') {
-      const reg = await navigator.serviceWorker.getRegistration('sw.js');
+      const reg = await navigator.serviceWorker.getRegistration('/admin/sw.js');
       if (reg) {
         const sub = await reg.pushManager.getSubscription();
         if (sub) {
