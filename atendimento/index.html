@@ -460,6 +460,39 @@
     }
     .btn-notif-nao:hover { color: #999; }
 
+    /* ── Botão flutuante de msgs novas ────────────────────────── */
+    #btn-msgs-novas {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 90;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(200,255,0,.25);
+    }
+    #btn-msgs-novas.visivel {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+    #btn-msgs-novas svg { width: 13px; height: 13px; }
+
     /* ── Responsivo ────────────────────────────────────────────── */
     @media (max-width: 480px) {
       h1 { font-size: 22px; }
@@ -567,6 +600,13 @@
 
 </div><!-- #app -->
 
+<button id="btn-msgs-novas" aria-live="polite">
+  <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.5 1v11M2 7.5l4.5 4.5 4.5-4.5"/>
+  </svg>
+  mensagens te esperando
+</button>
+
 <!-- Banner de notificações (cliente) -->
 <div id="banner-notif" role="complementary" aria-label="Ativar notificações">
   <div class="banner-notif-icon">
@@ -613,6 +653,7 @@
   const chatMensagens  = document.getElementById('chat-mensagens');
   const campoMsg       = document.getElementById('campo-mensagem');
   const btnEnviar      = document.getElementById('btn-enviar');
+  const btnMsgsNovas   = document.getElementById('btn-msgs-novas');
 
   // ── Máscara de telefone ──────────────────────────────────────────────────────
   campoTel.addEventListener('input', () => {
@@ -733,11 +774,10 @@
 
     scrollChat();
 
-    // Registra o maior id já visto e inicia polling
-    if (mensagens.length) {
-      const ids = mensagens.map(m => m.id || 0);
-      ultimoIdVisto = Math.max(...ids);
-    }
+    // Cursor = total de mensagens já renderizadas (independe de haver campo id)
+    // Atribuído APÓS renderizar todas as msgs para evitar race condition
+    pollCursor = mensagens.length;
+    pollData   = ultimaData;
     iniciarPolling();
 
     telaEntrada.style.display = 'none';
@@ -808,6 +848,7 @@
         }),
       });
       if (!res.ok) console.error('Erro ao enviar mensagem');
+      else poll(); // dispara ciclo imediato sem esperar os 3s
     } catch {
       // modo demo: silencia erro
     }
@@ -820,46 +861,85 @@
     });
   }
 
-  // ── Polling — verifica mensagens novas a cada 2s ─────────────────────────────
-  let ultimoIdVisto = 0;
-  let pollingTimer  = null;
-  let pollingAtivo  = false;
+  // ══════════════════════════════════════════════════════════════════════════
+  // POLLING — estratégia: compara o total de msgs a cada ciclo
+  // Cursor = qtd de msgs já renderizadas. Sem depender de campo "id".
+  // ══════════════════════════════════════════════════════════════════════════
 
+  let pollCursor  = 0;        // qtd de msgs já renderizadas
+  let pollData    = '';        // última data renderizada (separadores)
+  let pollTimer   = null;
+  let pollPendentes = [];      // buffer quando usuário está rolado pra cima
+
+  // ── Iniciar / parar ────────────────────────────────────────────────────────
   function iniciarPolling() {
-    if (pollingAtivo) return;
-    pollingAtivo = true;
-    pollingTimer = setInterval(verificarMensagensNovas, 2000);
+    clearInterval(pollTimer);
+    pollTimer = setInterval(poll, 3000);
   }
 
-  function pararPolling() {
-    pollingAtivo = false;
-    clearInterval(pollingTimer);
+  // ── Botão "mensagens te esperando" ─────────────────────────────────────────
+  btnMsgsNovas.addEventListener('click', () => {
+    btnMsgsNovas.classList.remove('visivel');
+    flushPendentes();
+    scrollChat();
+  });
+
+  chatMensagens.addEventListener('scroll', () => {
+    const naBase = chatMensagens.scrollTop + chatMensagens.clientHeight >= chatMensagens.scrollHeight - 40;
+    if (naBase && pollPendentes.length) {
+      btnMsgsNovas.classList.remove('visivel');
+      flushPendentes();
+    }
+  });
+
+  function flushPendentes() {
+    pollPendentes.forEach(injetarMsg);
+    pollPendentes = [];
   }
 
-  async function verificarMensagensNovas() {
+  // ── Injeta uma mensagem no DOM respeitando separador de data ───────────────
+  function injetarMsg(m) {
+    const d = new Date(m.criado_em);
+    const dataStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+    if (dataStr !== pollData) {
+      renderMarcadorData(dataStr);
+      pollData = dataStr;
+    }
+    renderBalao(m.remetente, m.conteudo, d);
+  }
+
+  // ── Ciclo principal ────────────────────────────────────────────────────────
+  async function poll() {
     if (!sessao.protocolo || !sessao.telefone) return;
+    let data;
     try {
-      const res  = await fetch(`${API}/api/chat/${sessao.protocolo}?tel=${sessao.telefone}`);
+      const res = await fetch(`${API}/api/chat/${sessao.protocolo}?tel=${sessao.telefone}`);
       if (!res.ok) return;
-      const data = await res.json();
-      if (!data.mensagens) return;
+      data = await res.json();
+    } catch { return; }
 
-      const novas = data.mensagens.filter(m => m.id > ultimoIdVisto);
-      if (!novas.length) return;
+    // Atualiza status sempre
+    if (data.chamado?.status) atualizarStatus(data.chamado.status);
 
-      novas.forEach(m => {
-        ultimoIdVisto = Math.max(ultimoIdVisto, m.id);
-        if (m.remetente === 'cliente') return; // já está na tela
-        renderBalao(m.remetente, m.conteudo, new Date(m.criado_em));
-      });
+    const msgs = data.mensagens || [];
+    if (msgs.length <= pollCursor) return;           // nada novo
 
-      const novasSuporte = novas.filter(m => m.remetente === 'suporte');
-      if (novasSuporte.length) {
-        scrollChat();
-        if (data.chamado?.status) atualizarStatus(data.chamado.status);
-      }
-    } catch {
-      // silencia erros de rede — tenta no próximo ciclo
+    // Pega só as novas (a partir do cursor)
+    const novas = msgs.slice(pollCursor);
+    pollCursor = msgs.length;                        // avança cursor
+
+    // Filtra msgs do próprio cliente (já renderizadas localmente ao enviar)
+    const deSuporte = novas.filter(m => m.remetente !== 'cliente');
+    if (!deSuporte.length) return;
+
+    // Decide: renderiza direto ou guarda no buffer
+    const naBase = chatMensagens.scrollTop + chatMensagens.clientHeight >= chatMensagens.scrollHeight - 40;
+    if (naBase) {
+      deSuporte.forEach(injetarMsg);
+      scrollChat();
+    } else {
+      pollPendentes.push(...deSuporte);
+      btnMsgsNovas.classList.add('visivel');
     }
   }
 
