@@ -724,8 +724,81 @@
   // Verifica estado ao carregar (após login)
   function iniciarApp() {
     carregarLista();
-    setInterval(carregarLista, 30000);
     verificarEstadoNotificacoes();
+    iniciarPollingAdmin();
+  }
+
+  // ── Polling Admin ─────────────────────────────────────────────────────────────
+  let pollingListaTimer   = null;
+  let pollingChatTimer    = null;
+  let ultimoIdAdminVisto  = 0;
+  let ultimaDataAdminPoll = '';
+  let estaDigitando       = false;  // true apenas enquanto há texto não enviado no textarea
+
+  function iniciarPollingAdmin() {
+    // Sidebar: atualiza lista a cada 5s
+    if (pollingListaTimer) clearInterval(pollingListaTimer);
+    pollingListaTimer = setInterval(carregarLista, 5000);
+
+    // Chat: inicia polling de mensagens a cada 3s
+    if (pollingChatTimer) clearInterval(pollingChatTimer);
+    pollingChatTimer = setInterval(verificarMsgsNovasAdmin, 3000);
+  }
+
+  async function verificarMsgsNovasAdmin() {
+    if (!protocoloAtivo || !secret) return;
+    // Não injeta balões enquanto o admin está ativamente digitando
+    if (estaDigitando) return;
+    try {
+      const res = await fetch(`${API}/api/admin/chamado/${protocoloAtivo}`, {
+        headers: { 'Authorization': `Bearer ${secret}` }
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.mensagens) return;
+
+      // Atualiza status no select sem perder foco
+      if (data.chamado?.status && statusSelect.value !== data.chamado.status) {
+        statusSelect.value = data.chamado.status;
+        chamadoAtivoObj = data.chamado;
+      }
+
+      const totalApi = data.mensagens.length;
+      if (totalApi <= ultimoIdAdminVisto) return;
+
+      const novas = data.mensagens.slice(ultimoIdAdminVisto);
+      ultimoIdAdminVisto = totalApi;
+
+      const estavaNaBase = chatMsgs.scrollTop + chatMsgs.clientHeight >= chatMsgs.scrollHeight - 40;
+
+      novas.forEach(m => {
+        if (m.remetente === 'suporte') return; // já enviamos nós mesmos
+
+        const d = new Date(m.criado_em);
+        const dataStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+        if (dataStr !== ultimaDataAdminPoll) {
+          const sep = document.createElement('div');
+          sep.className = 'marcador-data';
+          sep.textContent = dataStr;
+          chatMsgs.appendChild(sep);
+          ultimaDataAdminPoll = dataStr;
+        }
+        const b = document.createElement('div');
+        b.className = `balao balao-${m.remetente}`;
+        const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        b.innerHTML = `<div>${escBr(m.conteudo)}</div><div class="balao-meta">Cliente · ${hora}</div>`;
+        chatMsgs.appendChild(b);
+      });
+
+      const novasCliente = novas.filter(m => m.remetente === 'cliente');
+      if (novasCliente.length) {
+        if (estavaNaBase) chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        // Atualiza item na sidebar para refletir nova msg sem reload completo
+        carregarLista();
+      }
+    } catch {
+      // silencia erros de rede
+    }
   }
 
 
@@ -775,29 +848,60 @@
       listaChamados.innerHTML = '<div class="empty-list">Nenhum chamado encontrado.</div>';
       return;
     }
-    listaChamados.innerHTML = '';
-    chamados.forEach(c => {
-      const el = document.createElement('div');
-      el.className = `chamado-item${protocoloAtivo === c.protocolo ? ' ativo' : ''}`;
-      el.dataset.protocolo = c.protocolo;
 
-      const tempo = formatarTempo(c.atualizado_em);
-      const prefixo = c.ultima_remetente === 'cliente' ? '↩ ' : '';
+    // Preserva scroll e evita piscada: diff item a item
+    const scrollAntes = listaChamados.scrollTop;
+    const protocolosNovos = chamados.map(c => c.protocolo);
 
-      el.innerHTML = `
+    // Remove itens que sumiram
+    listaChamados.querySelectorAll('.chamado-item').forEach(el => {
+      if (!protocolosNovos.includes(el.dataset.protocolo)) el.remove();
+    });
+
+    // Remove "empty-list" se existir
+    const empty = listaChamados.querySelector('.empty-list');
+    if (empty) empty.remove();
+
+    chamados.forEach((c, i) => {
+      const tempo   = formatarTempo(c.atualizado_em);
+      const prefixo = c.ultima_remetente === 'cliente' ? '\u21a9 ' : '';
+      const ativo   = protocoloAtivo === c.protocolo ? ' ativo' : '';
+
+      const novoHTML = `
         <div class="ci-topo">
           <span class="ci-nome">${esc(c.cliente_nome)}</span>
           <span class="ci-proto">#${c.protocolo}</span>
         </div>
-        <div class="ci-msg">${prefixo}${esc(c.ultima_msg || '…')}</div>
+        <div class="ci-msg">${prefixo}${esc(c.ultima_msg || '\u2026')}</div>
         <div class="ci-bottom">
           <span class="ci-tempo">${tempo}</span>
           <span class="status-dot ${c.status}" title="${c.status}"></span>
         </div>
       `;
-      el.addEventListener('click', () => abrirChamado(c.protocolo));
-      listaChamados.appendChild(el);
+
+      let el = listaChamados.querySelector(`.chamado-item[data-protocolo="${c.protocolo}"]`);
+      if (el) {
+        // Atualiza só o que mudou
+        el.className = `chamado-item${ativo}`;
+        if (el.innerHTML.trim() !== novoHTML.trim()) el.innerHTML = novoHTML;
+      } else {
+        // Item novo: cria e insere na posição correta
+        el = document.createElement('div');
+        el.className = `chamado-item${ativo}`;
+        el.dataset.protocolo = c.protocolo;
+        el.innerHTML = novoHTML;
+        const ref = listaChamados.children[i];
+        ref ? listaChamados.insertBefore(el, ref) : listaChamados.appendChild(el);
+      }
+
+      // Garante listener de click no elemento (novo ou existente)
+      if (!el._clickBound) {
+        el.addEventListener('click', () => abrirChamado(c.protocolo));
+        el._clickBound = true;
+      }
     });
+
+    listaChamados.scrollTop = scrollAntes;
   }
 
   // ── Abrir chamado ─────────────────────────────────────────────────────────────
@@ -855,6 +959,11 @@
       chatMsgs.appendChild(b);
     });
     chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+    // Cursor = total de mensagens já renderizadas (independe de haver campo id)
+    ultimoIdAdminVisto  = mensagens.length;
+    ultimaDataAdminPoll = ultimaData;
+
     respostaTA.value = '';
     respostaTA.focus();
   }
@@ -884,6 +993,15 @@
   respostaTA.addEventListener('keydown', e => { if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault(); enviarResposta(); } });
   btnEnviar.addEventListener('click', enviarResposta);
 
+  // Controla flag estaDigitando — protege o polling de injetar balões durante digitação
+  // mas volta a false imediatamente quando o campo esvazia (ex: após envio)
+  respostaTA.addEventListener('input', () => {
+    estaDigitando = respostaTA.value.length > 0;
+  });
+  // Suporte a IME (teclados asiáticos, autocomplete móvel)
+  respostaTA.addEventListener('compositionstart', () => { estaDigitando = true; });
+  respostaTA.addEventListener('compositionend',   () => { estaDigitando = respostaTA.value.length > 0; });
+
   async function enviarResposta() {
     const texto = respostaTA.value.trim();
     if (!texto || !protocoloAtivo) return;
@@ -904,6 +1022,9 @@
       toast('(Demo) Resposta simulada.');
       respostaTA.value = '';
     } finally {
+      // Zera flag e dispara polling imediatamente — não espera o próximo ciclo de 3s
+      estaDigitando = false;
+      verificarMsgsNovasAdmin();
       btnEnviar.disabled = false;
       btnEnviar.innerHTML = `
         <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px">
