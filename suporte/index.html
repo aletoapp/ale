@@ -1,1 +1,1062 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suporte · Chat-Protocolo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
+  <style>
+    /* ── Reset & Variáveis ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0d0d0d;
+      --surface:    #161616;
+      --border:     #2a2a2a;
+      --text:       #e8e8e8;
+      --muted:      #666;
+      --accent:     #c8ff00;   /* lima elétrico — marca de soberania */
+      --accent-dim: #8aad00;
+      --bubble-eu:  #1e2a00;
+      --bubble-sup: #1a1a1a;
+      --radius:     10px;
+      --mono:       'IBM Plex Mono', monospace;
+      --sans:       'IBM Plex Sans', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout geral ──────────────────────────────────────────── */
+    #app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    /* ── Tela de Identificação ─────────────────────────────────── */
+    #tela-entrada {
+      width: 100%;
+      max-width: 440px;
+      animation: fadeUp .4s ease both;
+    }
+
+    .logo-linha {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-icon svg { width: 18px; height: 18px; }
+
+    .logo-nome {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitulo {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    /* SLA badge */
+    .sla-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #111;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .sla-badge strong { color: var(--text); }
+
+
+
+    .rodape-identidade {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .rodape-identidade a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .rodape-identidade a:hover { color: var(--accent); }
+
+    /* Formulário */
+    .form-grupo {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    input:focus { border-color: var(--accent); }
+
+    .campos-novos {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .35s ease;
+    }
+
+    .campos-novos.visivel { max-height: 200px; }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 8px;
+      padding: 13px;
+      background: var(--accent);
+      color: #000;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+    }
+
+    .btn-primary:hover { opacity: .88; }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+
+    .msg-erro {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #ff6b6b;
+      text-align: center;
+      min-height: 18px;
+    }
+
+    /* ── Tela do Chat ──────────────────────────────────────────── */
+    #tela-chat {
+      display: none;
+      width: 100%;
+      max-width: 680px;
+      height: 100vh;
+      max-height: 100vh;
+      flex-direction: column;
+      animation: fadeUp .35s ease both;
+    }
+
+    #tela-chat.ativo {
+      display: flex;
+    }
+
+    /* Cabeçalho do chat */
+    .chat-header {
+      padding: 16px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .chat-header-left { display: flex; flex-direction: column; gap: 2px; }
+
+    .protocolo-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .protocolo-num {
+      font-family: var(--mono);
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .status-pill {
+      font-size: 11px;
+      font-family: var(--mono);
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .status-pill.aberto     { background: #1a2a00; color: var(--accent); }
+    .status-pill.respondido { background: #1a1a30; color: #7c8fff; }
+    .status-pill.fechado    { background: #2a1a1a; color: #ff7c7c; }
+
+    .sla-header {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    /* Área de mensagens */
+    .chat-mensagens {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-mensagens::-webkit-scrollbar { width: 4px; }
+    .chat-mensagens::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* Balões */
+    .balao {
+      max-width: 72%;
+      padding: 11px 15px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.55;
+      word-break: break-word;
+      animation: fadeUp .25s ease both;
+    }
+
+    .balao-suporte {
+      background: var(--bubble-sup);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+    }
+
+    .balao-cliente {
+      background: var(--bubble-eu);
+      border: 1px solid #2e3d00;
+      border-bottom-right-radius: 4px;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .balao-meta {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-family: var(--mono);
+    }
+
+    .balao-suporte .balao-meta { text-align: left; }
+    .balao-cliente .balao-meta { text-align: right; }
+
+    .marcador-data {
+      align-self: center;
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin: 6px 0;
+    }
+
+    /* Input area */
+    .chat-input-area {
+      padding: 16px 20px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    #campo-mensagem {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      padding: 11px 14px;
+      resize: none;
+      outline: none;
+      min-height: 44px;
+      max-height: 120px;
+      line-height: 1.5;
+      transition: border-color .2s;
+    }
+
+    #campo-mensagem:focus { border-color: var(--accent); }
+
+    .btn-enviar {
+      width: 44px; height: 44px;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: #000;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: opacity .2s;
+    }
+
+    .btn-enviar:hover { opacity: .85; }
+    .btn-enviar svg { width: 18px; height: 18px; }
+
+    .dica-atalho {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: var(--mono);
+      padding: 0 20px 10px;
+      background: var(--surface);
+    }
+
+    /* Indicador de digitação / loading */
+    .digitando {
+      display: flex;
+      gap: 4px;
+      padding: 10px 14px;
+      align-self: flex-start;
+    }
+
+    .digitando span {
+      width: 6px; height: 6px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: bounce .9s infinite;
+    }
+
+    .digitando span:nth-child(2) { animation-delay: .15s; }
+    .digitando span:nth-child(3) { animation-delay: .30s; }
+
+    /* ── Animações ─────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30%           { transform: translateY(-6px); }
+    }
+
+    /* ── Banner de Notificações ────────────────────────────────── */
+    #banner-notif {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      width: calc(100% - 32px);
+      max-width: 480px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-left: 3px solid var(--accent);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s, transform .3s;
+      z-index: 100;
+      font-size: 13px;
+    }
+    #banner-notif.visivel {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+    .banner-notif-icon {
+      width: 34px; height: 34px; min-width: 34px;
+      background: var(--accent-dim);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .banner-notif-icon svg { width: 16px; height: 16px; color: var(--accent); }
+    .banner-notif-texto { flex: 1; line-height: 1.4; }
+    .banner-notif-texto strong { color: var(--text); display: block; margin-bottom: 2px; font-size: 13px; }
+    .banner-notif-texto span { color: #888; font-size: 12px; }
+    .banner-notif-btns { display: flex; flex-direction: column; gap: 6px; }
+    .btn-notif-sim {
+      background: var(--accent); color: #000;
+      border: none; border-radius: 6px;
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      padding: 6px 12px; cursor: pointer; white-space: nowrap;
+      letter-spacing: .04em;
+    }
+    .btn-notif-sim:hover { opacity: .85; }
+    .btn-notif-nao {
+      background: none; color: #666;
+      border: none; font-size: 11px; cursor: pointer;
+      font-family: var(--mono); text-align: center;
+    }
+    .btn-notif-nao:hover { color: #999; }
+
+    /* ── Botão flutuante de msgs novas ────────────────────────── */
+    #btn-msgs-novas {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 90;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(200,255,0,.25);
+    }
+    #btn-msgs-novas.visivel {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+    #btn-msgs-novas svg { width: 13px; height: 13px; }
+
+    /* ── Responsivo ────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      h1 { font-size: 22px; }
+      .balao { max-width: 88%; }
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+
+  <!-- ═══════════════════════════════════════════════════
+       TELA 1: IDENTIFICAÇÃO
+  ════════════════════════════════════════════════════ -->
+  <section id="tela-entrada">
+
+    <div class="logo-linha">
+      <div class="logo-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 3h14v10H2zM6 13v2M12 13v2M6 15h6" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="logo-nome">Chat · Protocolo</span>
+    </div>
+
+  <!--   <h1>Atendimento direto<br>com <span>protocolo</span>.</h1> -->
+    <p class="subtitulo">Sua mensagem fica registrada, organizada e acessível para acompanhamento — com histórico e privacidade.</p>
+
+    <div class="sla-badge">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="6" stroke="#c8ff00" stroke-width="1.2"/>
+        <path d="M7 4v3.5l2 1.5" stroke="#c8ff00" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span>Retorno em até <strong>1 dia útil</strong>. Atendimento com ordem, registro e atenção real.</span>
+    </div>
+
+    <form id="form-entrada" novalidate>
+
+      <div class="form-grupo">
+        <label for="campo-tel">Telefone para identificação</label>
+        <input type="tel" id="campo-tel" placeholder="(11) 99999-9999" autocomplete="tel" required>
+      </div>
+
+      <!-- Campos extras: aparecem só para novos usuários -->
+      <div class="campos-novos" id="campos-novos">
+        <div class="form-grupo">
+          <label for="campo-nome">Seu nome</label>
+          <input type="text" id="campo-nome" placeholder="Como posso te chamar?">
+        </div>
+        <div class="form-grupo">
+          <label for="campo-email">E-mail para notificações</label>
+          <input type="email" id="campo-email" placeholder="voce@email.com">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" id="btn-entrar">Abrir atendimento →</button>
+      <p class="msg-erro" id="erro-entrada"></p>
+
+    </form>
+
+    <footer class="rodape-identidade" aria-label="Identificação profissional">
+      <div>Alexandre Torres · CNPJ 54.806.916/0001-62</div>
+      <div><a href="mailto:contato@alexandretorres.com.br">contato@alexandretorres.com.br</a></div>
+    </footer>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       TELA 2: CHAT
+  ════════════════════════════════════════════════════ -->
+  <section id="tela-chat">
+
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <span class="protocolo-label">Protocolo ativo</span>
+        <span class="protocolo-num" id="chat-protocolo">#----</span>
+        <span class="status-pill aberto" id="chat-status">Aberto</span>
+      </div>
+      <div class="sla-header">
+        <span id="chat-nome-cliente" style="color:var(--text);font-size:13px;"></span>
+        <span>Retorno: até 1 dia útil</span>
+        <span id="chat-ultima-at" style="font-size:10px;"></span>
+      </div>
+    </div>
+
+    <div class="chat-mensagens" id="chat-mensagens">
+      <!-- Mensagens injetadas via JS -->
+    </div>
+
+    <div class="chat-input-area">
+      <textarea
+        id="campo-mensagem"
+        placeholder="Digite sua mensagem…"
+        rows="1"
+      ></textarea>
+      <button class="btn-enviar" id="btn-enviar" title="Enviar (Ctrl+Enter)">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 9h14M9 3l6 6-6 6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="dica-atalho">Ctrl + Enter para enviar</div>
+
+  </section>
+
+</div><!-- #app -->
+
+<button id="btn-msgs-novas" aria-live="polite">
+  <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.5 1v11M2 7.5l4.5 4.5 4.5-4.5"/>
+  </svg>
+  mensagens te esperando
+</button>
+
+<!-- Banner de notificações (cliente) -->
+<div id="banner-notif" role="complementary" aria-label="Ativar notificações">
+  <div class="banner-notif-icon">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+      <path d="M8 1a4 4 0 014 4c0 3 1 3.5 1 3.5H3s1-.5 1-3.5a4 4 0 014-4zM6 8.5S6 10 8 10s2-1.5 2-1.5"/>
+    </svg>
+  </div>
+  <div class="banner-notif-texto">
+    <strong>Quer ser avisado quando respondermos?</strong>
+    <span>Notificação mesmo com a aba fechada.</span>
+  </div>
+  <div class="banner-notif-btns">
+    <button class="btn-notif-sim" id="btn-notif-sim">Ativar</button>
+    <button class="btn-notif-nao" id="btn-notif-nao">Agora não</button>
+  </div>
+</div>
+
+<script>
+  // ── Config ─────────────────────────────────────────────────────────────────
+  const API = 'https://lively-waterfall-f6fa.aletor-app.workers.dev';
+
+  // ── Estado da sessão ────────────────────────────────────────────────────────
+  let sessao = {
+    telefone:  '',
+    protocolo: '',
+    chamadoId: null,
+    nomeCli:   '',
+  };
+
+  // ── Elementos ───────────────────────────────────────────────────────────────
+  const telaEntrada    = document.getElementById('tela-entrada');
+  const telaChat       = document.getElementById('tela-chat');
+  const formEntrada    = document.getElementById('form-entrada');
+  const campoTel       = document.getElementById('campo-tel');
+  const campoNome      = document.getElementById('campo-nome');
+  const campoEmail     = document.getElementById('campo-email');
+  const camposNovos    = document.getElementById('campos-novos');
+  const btnEntrar      = document.getElementById('btn-entrar');
+  const erroEntrada    = document.getElementById('erro-entrada');
+  const chatProtocolo  = document.getElementById('chat-protocolo');
+  const chatStatus     = document.getElementById('chat-status');
+  const chatNomeCli    = document.getElementById('chat-nome-cliente');
+  const chatUltimaAt   = document.getElementById('chat-ultima-at');
+  const chatMensagens  = document.getElementById('chat-mensagens');
+  const campoMsg       = document.getElementById('campo-mensagem');
+  const btnEnviar      = document.getElementById('btn-enviar');
+  const btnMsgsNovas   = document.getElementById('btn-msgs-novas');
+
+  // ── Máscara de telefone ──────────────────────────────────────────────────────
+  campoTel.addEventListener('input', () => {
+    let v = campoTel.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 6)       v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+    else if (v.length > 2)  v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+    else if (v.length > 0)  v = `(${v}`;
+    campoTel.value = v;
+  });
+
+  // ── Auto-expand textarea ─────────────────────────────────────────────────────
+  campoMsg.addEventListener('input', () => {
+    campoMsg.style.height = 'auto';
+    campoMsg.style.height = Math.min(campoMsg.scrollHeight, 120) + 'px';
+  });
+
+  // ── Atalho Ctrl+Enter ────────────────────────────────────────────────────────
+  campoMsg.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault(); enviarMensagem(); }
+  });
+
+  // ── Identificação ────────────────────────────────────────────────────────────
+  formEntrada.addEventListener('submit', async e => {
+    e.preventDefault();
+    erroEntrada.textContent = '';
+    const tel = campoTel.value.replace(/\D/g, '');
+
+    if (tel.length < 8) {
+      erroEntrada.textContent = 'Digite um número de telefone válido.';
+      return;
+    }
+
+    btnEntrar.disabled = true;
+    btnEntrar.textContent = 'Verificando…';
+
+    try {
+      const body = { telefone: tel };
+      if (camposNovos.classList.contains('visivel')) {
+        body.nome  = campoNome.value.trim();
+        body.email = campoEmail.value.trim();
+        if (!body.nome || !body.email) {
+          erroEntrada.textContent = 'Preencha nome e e-mail para continuar.';
+          return;
+        }
+      }
+
+      const res  = await fetch(`${API}/api/identificar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      // Se cliente não encontrado e campos extras não visíveis, mostra-os
+      if (res.status === 400 && !camposNovos.classList.contains('visivel')) {
+        const data = await res.json();
+        if (data.erro?.includes('Nome e e-mail')) {
+          camposNovos.classList.add('visivel');
+          erroEntrada.textContent = 'Parece que é seu primeiro acesso! Informe seu nome e e-mail.';
+          campoNome.focus();
+          return;
+        }
+      }
+
+      const data = await res.json();
+      if (!res.ok) { erroEntrada.textContent = data.erro || 'Erro ao conectar.'; return; }
+
+      sessao.telefone  = tel;
+      sessao.protocolo = data.chamado.protocolo;
+      sessao.chamadoId = data.chamado.id;
+      sessao.nomeCli   = data.cliente.nome;
+
+      abrirChat(data);
+
+    } catch (err) {
+      // DEMO MODE: simula resposta local quando não há worker conectado
+      console.warn('Worker não conectado — modo demonstração.', err);
+      const proto = `${new Date().getFullYear()}-${String(Math.floor(Math.random()*9000)+1000)}`;
+      sessao.telefone  = tel;
+      sessao.protocolo = proto;
+      sessao.chamadoId = 1;
+      sessao.nomeCli   = campoNome.value.trim() || 'Visitante';
+      abrirChat({
+        cliente: { nome: sessao.nomeCli },
+        chamado: { protocolo: proto, status: 'aberto' },
+        mensagens: [{
+          remetente: 'suporte',
+          conteudo:  `Olá, ${sessao.nomeCli}! Protocolo #${proto} aberto. Como posso ajudar?`,
+          criado_em: new Date().toISOString(),
+        }],
+        novo: true,
+      });
+
+    } finally {
+      btnEntrar.disabled = false;
+      btnEntrar.textContent = 'Abrir atendimento →';
+    }
+  });
+
+  // ── Abre o chat com os dados recebidos ───────────────────────────────────────
+  function abrirChat({ cliente, chamado, mensagens }) {
+    chatProtocolo.textContent = `#${chamado.protocolo}`;
+    chatNomeCli.textContent   = cliente.nome;
+
+    atualizarStatus(chamado.status);
+
+    chatMensagens.innerHTML = '';
+    let ultimaData = '';
+
+    mensagens.forEach(m => {
+      const d = new Date(m.criado_em);
+      const dataStr = d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short' });
+      if (dataStr !== ultimaData) {
+        renderMarcadorData(dataStr);
+        ultimaData = dataStr;
+      }
+      renderBalao(m.remetente, m.conteudo, d);
+    });
+
+    scrollChat();
+
+    // Cursor = total de mensagens já renderizadas (independe de haver campo id)
+    // Atribuído APÓS renderizar todas as msgs para evitar race condition
+    pollCursor = mensagens.length;
+    pollData   = ultimaData;
+    iniciarPolling();
+
+    telaEntrada.style.display = 'none';
+    document.getElementById('app').style.alignItems = 'stretch';
+    document.getElementById('app').style.padding = '0';
+    telaChat.classList.add('ativo');
+    setTimeout(() => campoMsg.focus(), 200);
+  }
+
+  function atualizarStatus(status) {
+    const mapa = { aberto: 'Aberto', respondido: 'Respondido', fechado: 'Fechado' };
+    chatStatus.textContent = mapa[status] || status;
+    chatStatus.className   = `status-pill ${status}`;
+  }
+
+  // ── Renderiza balão ──────────────────────────────────────────────────────────
+  function renderBalao(remetente, conteudo, data) {
+    const wrap = document.createElement('div');
+    const hora  = data instanceof Date
+      ? data.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' })
+      : '';
+
+    const quem = remetente === 'cliente' ? 'Você' : 'Suporte';
+    wrap.className = `balao balao-${remetente}`;
+    wrap.innerHTML = `
+      <div class="balao-conteudo">${escapeHtml(conteudo)}</div>
+      <div class="balao-meta">${quem} · ${hora}</div>
+    `;
+    chatMensagens.appendChild(wrap);
+    return wrap;
+  }
+
+  function renderMarcadorData(dataStr) {
+    const el = document.createElement('div');
+    el.className = 'marcador-data';
+    el.textContent = dataStr;
+    chatMensagens.appendChild(el);
+  }
+
+  // ── Envio de mensagem ────────────────────────────────────────────────────────
+  btnEnviar.addEventListener('click', enviarMensagem);
+
+  async function enviarMensagem() {
+    const texto = campoMsg.value.trim();
+    if (!texto) return;
+
+    campoMsg.value = '';
+    campoMsg.style.height = 'auto';
+
+    const agora = new Date();
+    renderBalao('cliente', texto, agora);
+    scrollChat();
+
+    // Mostra banner de notificações após a 1ª mensagem
+    if (!primeiraMsgEnviada) {
+      primeiraMsgEnviada = true;
+      setTimeout(mostrarBanner, 1200);
+    }
+
+    try {
+      const res = await fetch(`${API}/api/mensagem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          protocolo: sessao.protocolo,
+          telefone:  sessao.telefone,
+          conteudo:  texto,
+        }),
+      });
+      if (!res.ok) console.error('Erro ao enviar mensagem');
+      else poll(); // dispara ciclo imediato sem esperar os 3s
+    } catch {
+      // modo demo: silencia erro
+    }
+  }
+
+  // ── Scroll automático ────────────────────────────────────────────────────────
+  function scrollChat() {
+    requestAnimationFrame(() => {
+      chatMensagens.scrollTop = chatMensagens.scrollHeight;
+    });
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // POLLING — estratégia: compara o total de msgs a cada ciclo
+  // Cursor = qtd de msgs já renderizadas. Sem depender de campo "id".
+  // ══════════════════════════════════════════════════════════════════════════
+
+  let pollCursor  = 0;        // qtd de msgs já renderizadas
+  let pollData    = '';        // última data renderizada (separadores)
+  let pollTimer   = null;
+  let pollPendentes = [];      // buffer quando usuário está rolado pra cima
+
+  // ── Iniciar / parar ────────────────────────────────────────────────────────
+  function iniciarPolling() {
+    clearInterval(pollTimer);
+    pollTimer = setInterval(poll, 3000);
+  }
+
+  // ── Botão "mensagens te esperando" ─────────────────────────────────────────
+  btnMsgsNovas.addEventListener('click', () => {
+    btnMsgsNovas.classList.remove('visivel');
+    flushPendentes();
+    scrollChat();
+  });
+
+  chatMensagens.addEventListener('scroll', () => {
+    const naBase = chatMensagens.scrollTop + chatMensagens.clientHeight >= chatMensagens.scrollHeight - 40;
+    if (naBase && pollPendentes.length) {
+      btnMsgsNovas.classList.remove('visivel');
+      flushPendentes();
+    }
+  });
+
+  function flushPendentes() {
+    pollPendentes.forEach(injetarMsg);
+    pollPendentes = [];
+  }
+
+  // ── Injeta uma mensagem no DOM respeitando separador de data ───────────────
+  function injetarMsg(m) {
+    const d = new Date(m.criado_em);
+    const dataStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+    if (dataStr !== pollData) {
+      renderMarcadorData(dataStr);
+      pollData = dataStr;
+    }
+    renderBalao(m.remetente, m.conteudo, d);
+  }
+
+  // ── Ciclo principal ────────────────────────────────────────────────────────
+  async function poll() {
+    if (!sessao.protocolo || !sessao.telefone) return;
+    let data;
+    try {
+      const res = await fetch(`${API}/api/chat/${sessao.protocolo}?tel=${sessao.telefone}`);
+      if (!res.ok) return;
+      data = await res.json();
+    } catch { return; }
+
+    // Atualiza status sempre
+    if (data.chamado?.status) atualizarStatus(data.chamado.status);
+
+    const msgs = data.mensagens || [];
+    if (msgs.length <= pollCursor) return;           // nada novo
+
+    // Pega só as novas (a partir do cursor)
+    const novas = msgs.slice(pollCursor);
+    pollCursor = msgs.length;                        // avança cursor
+
+    // Filtra msgs do próprio cliente (já renderizadas localmente ao enviar)
+    const deSuporte = novas.filter(m => m.remetente !== 'cliente');
+    if (!deSuporte.length) return;
+
+    // Decide: renderiza direto ou guarda no buffer
+    const naBase = chatMensagens.scrollTop + chatMensagens.clientHeight >= chatMensagens.scrollHeight - 40;
+    if (naBase) {
+      deSuporte.forEach(injetarMsg);
+      scrollChat();
+    } else {
+      pollPendentes.push(...deSuporte);
+      btnMsgsNovas.classList.add('visivel');
+    }
+  }
+
+  // ── XSS básico ──────────────────────────────────────────────────────────────
+  function escapeHtml(t) {
+    return t
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#x27;')
+      .replace(/\n/g,'<br>');
+  }
+
+  // ── Push Notifications (cliente) ────────────────────────────────────────────
+  const VAPID_PUBLIC_KEY = 'BPE9YWXI37YJU_vaQlAX_a6dKA0eQwqcrv1QrryVae-iSqJEEsZeK8wuWgcr4OKa62mdfwF_ok1IDHlLCXC4aSg';
+
+  const bannerNotif  = document.getElementById('banner-notif');
+  const btnNotifSim  = document.getElementById('btn-notif-sim');
+  const btnNotifNao  = document.getElementById('btn-notif-nao');
+
+  let bannerJaMostrado    = false;
+  let primeiraMsgEnviada  = false;
+  let notifAtivada        = false;
+
+  function urlBase64ToUint8Array(b64) {
+    const pad = '='.repeat((4 - b64.length % 4) % 4);
+    const raw = atob((b64 + pad).replace(/-/g,'+').replace(/_/g,'/'));
+    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  }
+
+  function mostrarBanner() {
+    if (bannerJaMostrado || notifAtivada) return;
+    if (!('Notification' in window) || Notification.permission === 'denied') return;
+    if (Notification.permission === 'granted') {
+      // Já tem permissão — assina silenciosamente
+      assinarPushSilencioso();
+      return;
+    }
+    bannerJaMostrado = true;
+    bannerNotif.classList.add('visivel');
+  }
+
+  function esconderBanner() {
+    bannerNotif.classList.remove('visivel');
+  }
+
+  async function assinarPush() {
+    esconderBanner();
+    btnNotifSim.textContent = 'Ativando…';
+    btnNotifSim.disabled = true;
+
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') return;
+      await assinarPushSilencioso();
+    } catch (err) {
+      console.error('Erro ao ativar notificações:', err);
+    }
+  }
+
+  async function assinarPushSilencioso() {
+    try {
+      const reg = await navigator.serviceWorker.register('sw-cliente.js', { scope: '/atendimento/' });
+      await navigator.serviceWorker.ready;
+
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+
+      await fetch(`${API}/api/push/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...JSON.parse(JSON.stringify(sub)), tipo: 'cliente', protocolo: sessao.protocolo })
+      });
+
+      notifAtivada = true;
+    } catch (err) {
+      console.error('Erro ao assinar push:', err);
+    }
+  }
+
+  btnNotifSim.addEventListener('click', assinarPush);
+  btnNotifNao.addEventListener('click', () => {
+    esconderBanner();
+    bannerJaMostrado = true;
+  });
+
+  // Mostra banner ao tentar fechar a aba (beforeunload)
+  window.addEventListener('beforeunload', e => {
+    if (!primeiraMsgEnviada || notifAtivada || bannerJaMostrado) return;
+    mostrarBanner();
+    // Mantém a aba aberta um instante para o banner aparecer
+    e.preventDefault();
+    e.returnValue = '';
+  });
+
+  // ── URL param: protocolo direto (link do e-mail) ─────────────────────────────
+  (function carregarPelaURL() {
+    const params = new URLSearchParams(location.search);
+    const p   = params.get('p');
+    const tel = params.get('tel');
+    if (!p || !tel) return;
+
+    campoTel.value = tel;
+    sessao.telefone  = tel.replace(/\D/g,'');
+    sessao.protocolo = p;
+
+    fetch(`${API}/api/chat/${p}?tel=${tel.replace(/\D/g,'')}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.chamado) {
+          sessao.nomeCli   = data.chamado.nome || '';
+          sessao.chamadoId = data.chamado.id;
+          abrirChat({ cliente: { nome: sessao.nomeCli }, chamado: data.chamado, mensagens: data.mensagens || [] });
+        }
+      })
+      .catch(() => {});
+  })();
+</script>
+</body>
+</html>
