@@ -32,6 +32,7 @@ const IGNORE = [
   'dist',
   'build',
   'coverage',
+  'atendimento', // excluído do sitemap
 ];
 
 // Pastas de assets que NÃO devem ter suas URLs no sitemap
@@ -164,7 +165,9 @@ function fileToUrl(filePath) {
  * Raiz (/) = 1.0, subpáginas = 0.8
  */
 function getPriority(url) {
-  return url === BASE_URL + '/' ? '1.0' : '0.8';
+  if (url === BASE_URL + '/') return '1.0';
+  if (url === BASE_URL + '/at-lab/') return '0.9';
+  return '0.8';
 }
 
 // ============================================================
