@@ -6,7 +6,7 @@
 
 <!-- ═══ SEO — Primary ══════════════════════════════════════════════ -->
 <title>AT-LAB — Web Engineering & Intelligence Lab | Alexandre Torres</title>
-<meta name="description" content="Infraestrutura serverless, SEO automatizado, automações e integrações sob demanda. Desenvolvimento web de alto nível com custo de infraestrutura zero e propriedade 100% do cliente.">
+<meta name="description" content="Engenharia web de alto nível: serverless, SEO técnico, automações e APIs. Infraestrutura enterprise — custo zero. Alexandre Torres, Vitória ES.">
 <meta name="author" content="Alexandre Torres">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://alexandretorres.com.br/at-lab/">
@@ -14,7 +14,7 @@
 <!-- ═══ OPEN GRAPH ══════════════════════════════════════════════════ -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://alexandretorres.com.br/at-lab/">
-<meta property="og:site_name" content="Alexandre Torres">
+<meta property="og:site_name" content="AT-LAB">
 <meta property="og:title" content="AT-LAB — Sistemas Web Escaláveis sem Custo de Infraestrutura">
 <meta property="og:description" content="Da ideia ao deploy: arquitetura serverless, performance real, SEO técnico e automações. Sem hospedagem paga. Sem lock-in. Código 100% seu.">
 
@@ -96,6 +96,45 @@
           "description": "Manutenção, infraestrutura, suporte técnico e estabilidade do sistema."
         }
       ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Projetos em Produção",
+        "itemListElement": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "YouList",
+            "url": "https://alexandretorres.com.br/ilist",
+            "applicationUrl": "https://startup-ldt.com.br/ilist/",
+            "description": "Ambiente de foco para consumo de conteúdo sem algoritmo. PWA instalável, zero dependências, dados 100% locais.",
+            "applicationCategory": "ProductivityApplication",
+            "operatingSystem": "Web Browser",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+            "author": { "@id": "https://alexandretorres.com.br/#business" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "VoiceLab",
+            "url": "https://alexandretorres.com.br/voicelab/",
+            "applicationUrl": "https://aletoapp.github.io/voicelab/",
+            "description": "Processador profissional de locução com EQ, compressor, de-esser, pitch correction WSOLA e exportação WAV. 100% no navegador.",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "Web Browser",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+            "author": { "@id": "https://alexandretorres.com.br/#business" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "DocForm",
+            "url": "https://alexandretorres.com.br/docform/",
+            "applicationUrl": "https://aletoapp.github.io/docform/",
+            "description": "Transforma texto de IA em contratos e documentos jurídicos formatados. Auto-fill com NLP, exportação PDF e DOCX, 12 presets OAB.",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web Browser",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+            "author": { "@id": "https://alexandretorres.com.br/#business" }
+          }
+        ]
+      },
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
@@ -141,11 +180,11 @@
       Web Engineering &amp; Intelligence Lab
     </div>
 
-    <div class="hero-headline" aria-label="Se é concebível, é codificável.">
+    <h1 class="hero-headline">
       <span class="hl-line hl-1" id="hl1">Se é concebível,</span>
       <div class="hl-divider" id="hlDiv" aria-hidden="true"></div>
       <span class="hl-line hl-2" id="hl2">É codificável.</span>
-    </div>
+    </h1>
 
     <p class="hero-sub" id="heroSub">
       O AT-LAB não entrega "sites".<br />
@@ -156,22 +195,742 @@
       <a href="#conceito" class="btn-primary"><span>Ver a proposta</span></a>
       <a href="#modelo" class="btn-ghost">Ver preços</a>
     </div>
-   <script src="/atlab-btn.js"></script>
     <div class="hero-stats" id="heroStats">
-      <div class="hs-item">
-        <span class="hs-num">R$0</span>
-        <span class="hs-label">Custo de infraestrutura</span>
+    </div>
+  </section>
+
+  <!-- ══════════ PROJETOS ══════════ -->
+  <section id="projetos" aria-labelledby="projetos-title">
+    <div class="container">
+
+      <div class="section-header sr">
+        <span class="mono gold-text">08 — Sistemas em Produção</span>
+        <div class="rule"></div>
+        <h2>Engenharia que<br /><em>já opera.</em></h2>
+        <p>Cada projeto abaixo é um sistema funcional, deployado, indexado e com usuários reais. Não são mockups — são ativos digitais em produção.</p>
       </div>
-      <div class="hs-item">
-        <span class="hs-num">Edge</span>
-        <span class="hs-label">Distribuição global CDN</span>
-      </div>
-      <div class="hs-item">
-        <span class="hs-num">100%</span>
-        <span class="hs-label">Propriedade do cliente</span>
+
+      <div class="projetos-grid">
+
+        <!-- YouList -->
+        <article class="projeto-card sr" data-delay="1" aria-label="Projeto YouList">
+          <div class="proj-mockup proj-mockup--youlist" aria-hidden="true">
+            <div class="pm-screen">
+              <div class="pm-bar"></div>
+              <div class="pm-playlist">
+                <div class="pm-item pm-item--active">
+                  <div class="pm-dot pm-dot--playing"></div>
+                  <div class="pm-lines">
+                    <div class="pm-line pm-line--title"></div>
+                    <div class="pm-line pm-line--sub"></div>
+                  </div>
+                  <div class="pm-badge">DEV</div>
+                </div>
+                <div class="pm-item">
+                  <div class="pm-dot"></div>
+                  <div class="pm-lines">
+                    <div class="pm-line pm-line--title" style="width:60%"></div>
+                    <div class="pm-line pm-line--sub" style="width:40%"></div>
+                  </div>
+                  <div class="pm-badge pm-badge--alt">EN</div>
+                </div>
+                <div class="pm-item">
+                  <div class="pm-dot"></div>
+                  <div class="pm-lines">
+                    <div class="pm-line pm-line--title" style="width:75%"></div>
+                    <div class="pm-line pm-line--sub" style="width:30%"></div>
+                  </div>
+                  <div class="pm-badge pm-badge--alt2">FIT</div>
+                </div>
+              </div>
+              <div class="pm-player">
+                <div class="pm-progress"><div class="pm-fill"></div></div>
+                <div class="pm-controls">
+                  <span class="pm-ctrl">⏮</span>
+                  <span class="pm-ctrl pm-ctrl--play">⏸</span>
+                  <span class="pm-ctrl">⏭</span>
+                </div>
+                <div class="pm-speed">1.5×</div>
+              </div>
+              <div class="pm-clean-badge">● Zero distrações</div>
+            </div>
+          </div>
+          <div class="proj-content">
+            <div class="proj-tags">
+              <span class="proj-tag">PWA</span>
+              <span class="proj-tag">Open Source</span>
+              <span class="proj-tag">Gratuito</span>
+            </div>
+            <h3 class="proj-title">YouList</h3>
+            <p class="proj-desc">Ambiente de foco para consumo de conteúdo sem algoritmo. O usuário monta sua lista — vídeos de qualquer canal ou playlist — e assiste sem sugestões, sem anúncios, sem autoplay indesejado. PWA instalável, funciona offline, dados 100% locais. Zero dependências de produção.</p>
+            <ul class="proj-tech">
+              <li>JS Vanilla · HTML5 · CSS</li>
+              <li>Web Audio API · localStorage</li>
+              <li>PWA · Service Worker</li>
+              <li>Zero framework · Zero bundler</li>
+            </ul>
+            <div class="proj-links">
+              <a href="https://alexandretorres.com.br/ilist" class="btn-proj-primary" target="_blank" rel="noopener">Ver Landing Page ↗</a>
+              <a href="https://startup-ldt.com.br/ilist/" class="btn-proj-ghost" target="_blank" rel="noopener">Abrir App →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- VoiceLab -->
+        <article class="projeto-card sr" data-delay="2" aria-label="Projeto VoiceLab">
+          <div class="proj-mockup proj-mockup--voicelab" aria-hidden="true">
+            <div class="pm-screen">
+              <div class="pm-bar"></div>
+              <div class="pm-eq-area">
+                <div class="pm-eq-label">EQ · Preset Clareza</div>
+                <div class="pm-bands">
+                  <div class="pm-band-wrap">
+                    <div class="pm-band-bar" style="--h:35%"></div>
+                    <span class="pm-band-freq">80Hz</span>
+                  </div>
+                  <div class="pm-band-wrap">
+                    <div class="pm-band-bar pm-band-bar--high" style="--h:78%"></div>
+                    <span class="pm-band-freq">1kHz</span>
+                  </div>
+                  <div class="pm-band-wrap">
+                    <div class="pm-band-bar pm-band-bar--high" style="--h:70%"></div>
+                    <span class="pm-band-freq">8kHz</span>
+                  </div>
+                </div>
+                <div class="pm-wave">
+                  <svg viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polyline class="pm-wave-line" points="0,15 10,8 20,20 30,5 40,22 50,10 60,18 70,4 80,20 90,9 100,17 110,6 120,15"/>
+                  </svg>
+                </div>
+                <div class="pm-presets-row">
+                  <span class="pm-preset">Bass</span>
+                  <span class="pm-preset pm-preset--active">Clareza</span>
+                  <span class="pm-preset">Pro</span>
+                  <span class="pm-preset">Surround</span>
+                </div>
+              </div>
+              <div class="pm-toggles">
+                <span class="pm-toggle pm-toggle--on">HPF</span>
+                <span class="pm-toggle pm-toggle--on">Comp</span>
+                <span class="pm-toggle pm-toggle--on">De-ess</span>
+                <span class="pm-toggle">Reverb</span>
+              </div>
+            </div>
+          </div>
+          <div class="proj-content">
+            <div class="proj-tags">
+              <span class="proj-tag">Web Audio API</span>
+              <span class="proj-tag">Offline</span>
+              <span class="proj-tag">1 arquivo HTML</span>
+            </div>
+            <h3 class="proj-title">VoiceLab</h3>
+            <p class="proj-desc">Processador profissional de locução que roda 100% no navegador. EQ logarítmico de 3 bandas, HPF, compressor, de-esser, limiter, reverb por convolução, stereo widening e controle de velocidade com pitch correction via WSOLA. Exporta WAV PCM 16-bit sem servidor. Um único arquivo HTML de ~80KB.</p>
+            <ul class="proj-tech">
+              <li>Web Audio API · OfflineAudioContext</li>
+              <li>WSOLA pitch correction</li>
+              <li>6 presets de locução profissional</li>
+              <li>100% offline · Zero upload</li>
+            </ul>
+            <div class="proj-links">
+              <a href="https://alexandretorres.com.br/voicelab/" class="btn-proj-primary" target="_blank" rel="noopener">Ver Landing Page ↗</a>
+              <a href="https://aletoapp.github.io/voicelab/" class="btn-proj-ghost" target="_blank" rel="noopener">Abrir App →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- DocForm -->
+        <article class="projeto-card sr" data-delay="3" aria-label="Projeto DocForm">
+          <div class="proj-mockup proj-mockup--docform" aria-hidden="true">
+            <div class="pm-screen">
+              <div class="pm-bar"></div>
+              <div class="pm-doc-area">
+                <div class="pm-doc-header">
+                  <div class="pm-doc-logo">⚖</div>
+                  <div class="pm-doc-meta">
+                    <div class="pm-line" style="width:70%"></div>
+                    <div class="pm-line pm-line--sub" style="width:45%"></div>
+                  </div>
+                </div>
+                <div class="pm-autofill">
+                  <div class="pm-field">
+                    <span class="pm-field-label">Título</span>
+                    <div class="pm-field-val">CONTRATO DE PRESTAÇÃO</div>
+                    <span class="pm-conf">90%</span>
+                  </div>
+                  <div class="pm-field">
+                    <span class="pm-field-label">Cidade</span>
+                    <div class="pm-field-val">Serra – ES</div>
+                    <span class="pm-conf">88%</span>
+                  </div>
+                  <div class="pm-field">
+                    <span class="pm-field-label">Contratado</span>
+                    <div class="pm-field-val">Alexandre Torres</div>
+                    <span class="pm-conf">82%</span>
+                  </div>
+                </div>
+                <div class="pm-export-row">
+                  <span class="pm-export-btn">↓ PDF</span>
+                  <span class="pm-export-btn">↓ DOCX</span>
+                  <span class="pm-privacy">🔒 100% local</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-content">
+            <div class="proj-tags">
+              <span class="proj-tag">PWA</span>
+              <span class="proj-tag">IA + Auto-fill</span>
+              <span class="proj-tag">PDF · DOCX</span>
+            </div>
+            <h3 class="proj-title">DocForm</h3>
+            <p class="proj-desc">Transforma texto gerado por IA em documentos jurídicos e profissionais formatados. Auto-detecta o tipo de contrato, preenche campos automaticamente com score de confiança, exporta PDF com margens OAB/Tribunais e DOCX editável. 12 presets jurídicos. PWA instalável. Zero dados enviados ao servidor.</p>
+            <ul class="proj-tech">
+              <li>jsPDF · docx.js · FileSaver.js</li>
+              <li>Auto-fill engine com fingerprint NLP</li>
+              <li>12 presets jurídicos OAB/Tribunais</li>
+              <li>PWA · Service Worker · Offline</li>
+            </ul>
+            <div class="proj-links">
+              <a href="https://alexandretorres.com.br/docform/" class="btn-proj-primary" target="_blank" rel="noopener">Ver Landing Page ↗</a>
+              <a href="https://aletoapp.github.io/docform/" class="btn-proj-ghost" target="_blank" rel="noopener">Abrir App →</a>
+            </div>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
+
+  <style>
+    /* ══════════ PROJETOS — SEÇÃO ══════════ */
+    #projetos { padding-block: 100px; }
+
+    .projetos-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+      margin-top: 64px;
+    }
+
+    .projeto-card {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .projeto-card:nth-child(even) {
+      grid-template-columns: 1fr 420px;
+    }
+
+    .projeto-card:nth-child(even) .proj-mockup {
+      order: 2;
+    }
+
+    .projeto-card:nth-child(even) .proj-content {
+      order: 1;
+    }
+
+    /* ══════════ MOCKUP BASE ══════════ */
+    .proj-mockup {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border-main, #2a2a2a);
+      background: var(--bg-2, #111);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: stretch;
+      position: relative;
+    }
+
+    .pm-screen {
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .pm-bar {
+      height: 2px;
+      background: var(--gold, #c9a84c);
+      border-radius: 2px;
+      width: 40px;
+      opacity: 0.6;
+      margin-bottom: 4px;
+    }
+
+    /* ══════════ YOULIST MOCKUP ══════════ */
+    .proj-mockup--youlist { background: #080d14; }
+
+    .pm-playlist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .pm-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.3s;
+    }
+
+    .pm-item--active {
+      background: rgba(201,168,76,0.08);
+      border-color: rgba(201,168,76,0.2);
+    }
+
+    .pm-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    .pm-dot--playing {
+      background: var(--gold, #c9a84c);
+      box-shadow: 0 0 6px rgba(201,168,76,0.6);
+      animation: pulse-dot 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 4px rgba(201,168,76,0.4); }
+      50%       { box-shadow: 0 0 12px rgba(201,168,76,0.9); }
+    }
+
+    .pm-lines { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+
+    .pm-line {
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .pm-line--title { width: 80%; }
+    .pm-line--sub   { width: 50%; background: rgba(255,255,255,0.07); }
+
+    .pm-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: rgba(201,168,76,0.15);
+      color: var(--gold, #c9a84c);
+      letter-spacing: 0.06em;
+    }
+
+    .pm-badge--alt  { background: rgba(99,179,237,0.1); color: #63b3ed; }
+    .pm-badge--alt2 { background: rgba(104,211,145,0.1); color: #68d391; }
+
+    .pm-player {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pm-progress {
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .pm-fill {
+      height: 100%;
+      width: 38%;
+      background: var(--gold, #c9a84c);
+      border-radius: 2px;
+      animation: progress-anim 4s linear infinite;
+    }
+
+    @keyframes progress-anim {
+      from { width: 35%; }
+      to   { width: 65%; }
+    }
+
+    .pm-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .pm-ctrl--play { color: var(--gold, #c9a84c); font-size: 16px; }
+
+    .pm-speed {
+      text-align: right;
+      font-size: 11px;
+      color: var(--gold, #c9a84c);
+      letter-spacing: 0.08em;
+    }
+
+    .pm-clean-badge {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ══════════ VOICELAB MOCKUP ══════════ */
+    .proj-mockup--voicelab { background: #080810; }
+
+    .pm-eq-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pm-eq-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .pm-bands {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      height: 70px;
+    }
+
+    .pm-band-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .pm-band-bar {
+      width: 100%;
+      height: var(--h, 40%);
+      background: rgba(255,255,255,0.12);
+      border-radius: 3px 3px 0 0;
+      position: relative;
+      overflow: hidden;
+      animation: bar-breathe 2.5s ease-in-out infinite;
+    }
+
+    .pm-band-bar--high {
+      background: linear-gradient(to top, rgba(201,168,76,0.4), rgba(201,168,76,0.7));
+      animation: bar-breathe-high 2s ease-in-out infinite;
+    }
+
+    @keyframes bar-breathe {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes bar-breathe-high {
+      0%, 100% { height: var(--h, 70%); }
+      50% { height: calc(var(--h, 70%) + 8%); }
+    }
+
+    .pm-band-freq {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    .pm-wave {
+      height: 32px;
+      opacity: 0.4;
+    }
+
+    .pm-wave svg { width: 100%; height: 100%; }
+
+    .pm-wave-line {
+      stroke: var(--gold, #c9a84c);
+      stroke-width: 1.5;
+      fill: none;
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: wave-draw 2s ease forwards 0.5s;
+    }
+
+    @keyframes wave-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .pm-presets-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pm-preset {
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    .pm-preset--active {
+      border-color: rgba(201,168,76,0.4);
+      color: var(--gold, #c9a84c);
+      background: rgba(201,168,76,0.08);
+    }
+
+    .pm-toggles {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pm-toggle {
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.08em;
+    }
+
+    .pm-toggle--on {
+      border-color: rgba(104,211,145,0.4);
+      color: #68d391;
+      background: rgba(104,211,145,0.06);
+    }
+
+    /* ══════════ DOCFORM MOCKUP ══════════ */
+    .proj-mockup--docform { background: #080c10; }
+
+    .pm-doc-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pm-doc-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .pm-doc-logo {
+      font-size: 22px;
+      width: 36px;
+      text-align: center;
+    }
+
+    .pm-doc-meta { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+    .pm-autofill {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .pm-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      animation: field-appear 0.4s ease both;
+    }
+
+    .pm-field:nth-child(1) { animation-delay: 0.2s; }
+    .pm-field:nth-child(2) { animation-delay: 0.5s; }
+    .pm-field:nth-child(3) { animation-delay: 0.8s; }
+
+    @keyframes field-appear {
+      from { opacity: 0; transform: translateX(-6px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .pm-field-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.08em;
+      width: 62px;
+      flex-shrink: 0;
+    }
+
+    .pm-field-val {
+      flex: 1;
+      font-size: 11px;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.02em;
+    }
+
+    .pm-conf {
+      font-size: 10px;
+      color: #68d391;
+      letter-spacing: 0.06em;
+    }
+
+    .pm-export-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .pm-export-btn {
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 5px;
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold, #c9a84c);
+      background: rgba(201,168,76,0.06);
+      letter-spacing: 0.06em;
+      cursor: default;
+    }
+
+    .pm-privacy {
+      margin-left: auto;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    /* ══════════ CONTEÚDO DOS CARDS ══════════ */
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .proj-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 3px;
+      border: 1px solid var(--border-main, #2a2a2a);
+      color: var(--ink-3, #888);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .proj-title {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+      line-height: 1.1;
+    }
+
+    .proj-desc {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--ink-3, #888);
+      margin-bottom: 20px;
+    }
+
+    .proj-tech {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 28px;
+      padding: 0;
+    }
+
+    .proj-tech li {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--ink-3, #888);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .proj-tech li::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold, #c9a84c);
+      flex-shrink: 0;
+    }
+
+    .proj-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-proj-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold, #c9a84c);
+      color: #000;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 6px;
+      transition: opacity 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-proj-primary:hover { opacity: 0.85; }
+
+    .btn-proj-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink-3, #888);
+      border-bottom: 1px solid var(--border-main, #2a2a2a);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-proj-ghost:hover {
+      color: var(--ink-1, #eee);
+      border-color: var(--ink-1, #eee);
+    }
+
+    /* ══════════ RESPONSIVE ══════════ */
+    @media (max-width: 900px) {
+      .projeto-card,
+      .projeto-card:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+
+      .projeto-card:nth-child(even) .proj-mockup,
+      .projeto-card:nth-child(even) .proj-content {
+        order: unset;
+      }
+
+      .proj-mockup { aspect-ratio: 3/2; }
+      .proj-title { font-size: 28px; }
+    }
+  </style>
+
 
   <!-- ══════════ CONCEITO ══════════ -->
   <section id="conceito">
@@ -649,6 +1408,7 @@
         <p class="footer-bottom-copy">© 2025 AT-LAB · Alexandre Torres · Todos os direitos reservados</p>
         <div class="footer-bottom-links">
           <a href="#hero" class="footer-bottom-link">Topo</a>
+          <a href="#projetos" class="footer-bottom-link">Projetos</a>
           <a href="#modelo" class="footer-bottom-link">Preços</a>
           <a href="#conceito" class="footer-bottom-link">Proposta</a>
         </div>
@@ -657,7 +1417,7 @@
   </footer>
 
   <script src="proposta.js" defer></script>
-  <script src="atlab-btn.js"></script>
+  <script src="atlab-btn.js" defer></script>
   
 </body>
 </html>
