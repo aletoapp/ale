@@ -182,27 +182,35 @@ document.addEventListener('keydown', e => {
   const saved = localStorage.getItem('r10-theme');
   if (saved === 'light') html.classList.add('light');
 
-  btn.addEventListener('click', function (e) {
-    const rect    = btn.getBoundingClientRect();
+  btn.addEventListener('click', function () {
+    /* ── LEITURA GEOMÉTRICA PRIMEIRO (evita reflow forçado) ── */
+    const rect    = btn.getBoundingClientRect();   // lê antes de qualquer escrita
     const cx      = rect.left + rect.width  / 2;
     const cy      = rect.top  + rect.height / 2;
     const isLight = html.classList.contains('light');
     const size    = Math.ceil(Math.hypot(window.innerWidth, window.innerHeight) * 2.2);
     const color   = isLight ? '#0A0A0A' : '#F4F2EE';
+    const halfSize = size / 2;
 
-    ripple.style.cssText = `
-      width:${size}px;
-      height:${size}px;
-      top:${cy - size / 2}px;
-      left:${cx - size / 2}px;
-      background:${color};
-      transform:scale(0);
-      opacity:1;
-    `;
-
+    /* ── TODAS AS ESCRITAS NO DOM EM requestAnimationFrame ── */
     requestAnimationFrame(() => {
-      ripple.style.transform  = 'scale(1)';
-      ripple.style.transition = 'transform 0.55s cubic-bezier(.4,0,.2,1)';
+      // 1ª escrita: posiciona e reseta o ripple sem transição
+      ripple.style.cssText = `
+        width:${size}px;
+        height:${size}px;
+        top:${cy - halfSize}px;
+        left:${cx - halfSize}px;
+        background:${color};
+        transform:scale(0);
+        opacity:1;
+        transition:none;
+      `;
+
+      // 2º frame: dispara a animação de expansão
+      requestAnimationFrame(() => {
+        ripple.style.transform  = 'scale(1)';
+        ripple.style.transition = 'transform 0.55s cubic-bezier(.4,0,.2,1)';
+      });
     });
 
     setTimeout(() => {
