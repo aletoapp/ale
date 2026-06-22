@@ -1,1 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R10 Full — Bike Elétrica 1000W</title>
 
+<!-- Meta description -->
+<meta name="description" content="R10 Full: bike elétrica 1000W, Fat Tire 20x4.0, Bluetooth, freio a disco e bateria removível. Lançamento abril 2026. Estoque limitado — fale agora no WhatsApp.">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:title"       content="R10 Full — Bike Elétrica 1000W">
+<meta property="og:description" content="1000W · Fat Tire · Bluetooth · Freio a disco · Bateria removível. Lançamento abril 2026. Estoque limitado.">
+<meta property="og:image"       content="https://aletoapp.github.io/bike/img/bike-bg.webp">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Preload apenas fontes críticas da dobra inicial -->
+<link rel="preload" href="fonts/BebasNeue-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Barlow-Bold.woff2"       as="font" type="font/woff2" crossorigin>
+
+<style>
+  /* @font-face declarations — arquivos em /fonts */
+  @font-face {
+    font-family: 'Bebas Neue';
+    src: url('fonts/BebasNeue-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Barlow';
+    src: url('fonts/Barlow-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Barlow';
+    src: url('fonts/Barlow-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Barlow';
+    src: url('fonts/Barlow-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Barlow';
+    src: url('fonts/Barlow-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Barlow';
+    src: url('fonts/Barlow-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Barlow Condensed';
+    src: url('fonts/BarlowCondensed-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Barlow Condensed';
+    src: url('fonts/BarlowCondensed-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+
+<!-- Preload hero image (LCP) -->
+<link rel="preload" as="image" href="https://aletoapp.github.io/bike/img/bike-bg.webp" fetchpriority="high">
+
+<!-- Script principal não-bloqueante -->
+<script src="script.js" defer></script>
+<!-- Estilos -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">R10 FULL</div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <!-- TOGGLE MODO CLARO/ESCURO -->
+    <button id="theme-toggle" aria-label="Alternar modo claro/escuro" title="Modo claro / escuro">
+      <span class="toggle-track">
+        <span class="toggle-icon-moon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#D0D0D8" stroke="#D0D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="toggle-icon-sun">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="5" fill="#F5C842" stroke="#F5C842" stroke-width="1.5"/>
+            <line x1="12" y1="2" x2="12" y2="4" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="12" y1="20" x2="12" y2="22" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="2" y1="12" x2="4" y2="12" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="12" x2="22" y2="12" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </span>
+      <span class="toggle-knob"></span>
+    </button>
+    <a class="nav-cta" href="https://wa.me/5527996252050?text=Quero%20a%20R10%20Full!" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32" fill="none" style="flex-shrink:0"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.648 4.8 1.78 6.82L2 30l7.38-1.74A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="#fff"/><path d="M23.07 19.44c-.32-.16-1.9-.94-2.2-1.04-.3-.1-.52-.16-.73.16-.22.32-.84 1.04-1.03 1.26-.19.22-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.15-.14.32-.38.48-.57.16-.19.22-.32.32-.54.1-.22.05-.41-.03-.57-.08-.16-.73-1.76-1-2.42-.26-.63-.53-.55-.73-.56h-.62c-.22 0-.57.08-.87.41-.3.32-1.14 1.11-1.14 2.71s1.17 3.14 1.33 3.36c.16.22 2.3 3.51 5.57 4.92.78.34 1.38.54 1.86.69.78.25 1.49.21 2.05.13.63-.09 1.9-.78 2.17-1.53.27-.75.27-1.39.19-1.53-.08-.14-.3-.22-.62-.38z" fill="#25D366"/></svg>Quero a minha</a>
+  </div>
+</nav>
+
+<!-- RIPPLE DE TRANSIÇÃO DE TEMA -->
+<div id="theme-ripple"></div>
+
+<!-- ═══════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-badge">Lançamento Abril 2026 • Estoque Limitado</div>
+  <h1>NÃO É<br>UMA BIKE.<br>É <span>LIBERDADE</span><br>COM SOM.</h1>
+  <p class="hero-sub">R10 Full • 1000W • Fat Tire • Bluetooth</p>
+
+  <div class="hero-ctas">
+    <a class="btn-primary" href="https://wa.me/5527996252050?text=Quero%20a%20R10%20Full!" target="_blank">Quero a minha agora</a>
+    <a class="btn-outline" href="#especificacoes">Ver detalhes</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">1000</div>
+      <div class="hero-stat-label">Watts de potência</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">20"</div>
+      <div class="hero-stat-label">Pneu fat 4.0</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5–7h</div>
+      <div class="hero-stat-label">Recarga completa</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">0</div>
+      <div class="hero-stat-label">Reais em gasolina</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Role para ver</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ VÍDEO -->
+<section class="video-section fade-in">
+  <div class="video-wrapper">
+    <div>
+      <p class="section-tag">Veja em movimento</p>
+      <h2 class="section-title">Cada detalhe<br>foi pensado<br>para você.</h2>
+      <p class="section-desc">Do freio a disco ao banco de couro, da suspensão traseira ao som Bluetooth — assista ao vídeo completo e veja por que a R10 Full é diferente de tudo que você já viu.</p>
+    </div>
+    <div style="display:flex;justify-content:center"><div id="yt-wrapper" style="background:#000;border:1px solid var(--border);overflow:hidden;position:relative;width:100%;max-width:383px;aspect-ratio:9/16;cursor:pointer" role="button" aria-label="Reproduzir vídeo da R10 Full no YouTube" tabindex="0">
+      <img id="yt-thumb" src="https://aletoapp.github.io/bike/img/capa.jpg" alt="R10 Full — assistir vídeo" width="383" height="681" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block">
+      <div id="yt-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;z-index:10">
+        <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+          <div style="position:absolute;width:88px;height:88px;border-radius:50%;border:2px solid rgba(255,107,0,0.5);animation:ringPulse 2.5s ease-in-out infinite;"></div>
+          <div id="yt-play-circle" style="width:68px;height:68px;border-radius:50%;background:rgba(255,107,0,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,107,0,0.4);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="margin-left:4px">
+              <path d="M8 5.5L22 14L8 22.5V5.5Z" fill="white"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <!-- O iframe só é criado após o clique (lazy YouTube) -->
+    </div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ DIFERENCIAIS -->
+<section class="features-section fade-in">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Por que a R10 Full</p>
+    <h2 class="section-title">6 razões para<br>você querer agora.</h2>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">①</div>
+        <div class="feature-num">01</div>
+        <div class="feature-title">Autonomia real</div>
+        <div class="feature-desc">Bateria removível que você recarrega em 5 a 7 horas — em casa ou no trabalho. Sem depender de posto, sem gastar nada com combustível.</div>
+        <div class="feature-tag">Bateria removível</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">②</div>
+        <div class="feature-num">02</div>
+        <div class="feature-title">Conforto de verdade</div>
+        <div class="feature-desc">Pneu fat 20x4.0 + suspensão traseira = absorção de impacto em qualquer terreno. Banco de couro que você sente diferença desde o primeiro km.</div>
+        <div class="feature-tag">Suspensão + Fat Tire</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">③</div>
+        <div class="feature-num">03</div>
+        <div class="feature-title">Sobe morro sem sofrimento</div>
+        <div class="feature-desc">1000W de potência entregam torque real nas subidas. Não importa a ladeira — a R10 sobe sem forçar, sem reduzir.</div>
+        <div class="feature-tag" style="background:rgba(255,107,0,0.3);border-color:var(--orange)">1000W</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">④</div>
+        <div class="feature-num">04</div>
+        <div class="feature-title">Segurança completa</div>
+        <div class="feature-desc">Freios a disco dianteiro e traseiro, farol LED, buzina e alarme integrado com controle remoto. Andar de dia ou de noite — protegido.</div>
+        <div class="feature-tag">Alarme + Controle</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⑤</div>
+        <div class="feature-num">05</div>
+        <div class="feature-title">Som Bluetooth nativo</div>
+        <div class="feature-desc">Caixa de som embutida com Bluetooth. Sem gambiarras, sem suporte improvisado. Conecta, toca e você vai embora com sua trilha sonora.</div>
+        <div class="feature-tag" style="background:rgba(255,107,0,0.3);border-color:var(--orange)">Diferencial exclusivo</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⑥</div>
+        <div class="feature-num">06</div>
+        <div class="feature-title">Visual que intimida</div>
+        <div class="feature-desc">Fat tire + estrutura robusta + aparência de mini moto. Essa bike não passa despercebida. É estilo, é identidade, é presença.</div>
+        <div class="feature-tag">Design agressivo</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ FOTOS -->
+<section class="photos-section fade-in">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="photos-intro">
+      <div>
+        <p class="section-tag">Galeria</p>
+        <h2 class="section-title">Cada ângulo<br>conta uma<br>história.</h2>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);padding:40px">
+        <div style="font-family:var(--font-display);font-size:32px;color:var(--orange);margin-bottom:12px">Fotos da Cabulosa!</div>
+        <p style="font-size:15px;color:var(--muted);line-height:1.7">Design que chama atenção, detalhes que fazem diferença. Cada componente foi escolhido para entregar mais conforto, segurança e estilo.<br>Zero km  ·  Montada  ·  Manual · Nota fiscal  ·   Garantia 180 dias
+        <br><span style="font-size:15px; color:#EE9611;">+ clique para ampliar</span></p>
+      </div>
+    </div>
+    <div class="photos-grid">
+      <!-- SLOT GRANDE — vídeo da bike -->
+      <div class="photo-slot tall" style="grid-column:1;grid-row:1/3;padding:0;cursor:pointer" id="video-slot" onclick="openVideoModal()">
+        <video
+          id="bike-video"
+          src="https://aletoapp.github.io/bike/img/6990.mp4"
+          playsinline
+          muted
+          autoplay
+          loop
+          preload="none"
+          style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:block;pointer-events:none"
+        ></video>
+        <div id="play-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:10;cursor:pointer;background:rgba(0,0,0,0.25);">
+          <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+            <div id="play-ring" style="position:absolute;width:88px;height:88px;border-radius:50%;border:2px solid rgba(255,107,0,0.5);animation:ringPulse 2.5s ease-in-out infinite;"></div>
+            <div id="play-circle" style="width:68px;height:68px;border-radius:50%;background:rgba(255,107,0,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,107,0,0.4);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="margin-left:4px">
+                <path d="M8 5.5L22 14L8 22.5V5.5Z" fill="white"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="photo-overlay" style="opacity:1"><div class="photo-overlay-text">▶ Toque para assistir</div></div>
+      </div>
+      <!-- SLOT 2 — amortecedores -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/01.jpg" data-caption="Suspensão traseira" data-index="0" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/01.jpg" alt="Suspensão traseira" width="400" height="300" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Suspensão traseira</div></div>
+      </div>
+      <!-- SLOT 3 — display -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/02.jpg" data-caption="Display digital" data-index="1" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/02.jpg" alt="Display digital" width="400" height="300" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Display digital</div></div>
+      </div>
+      <!-- SLOT 4 — banco couro -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/03.jpg" data-caption="Banco de couro" data-index="2" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/03.jpg" alt="Banco de couro" width="400" height="300" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Banco de couro</div></div>
+      </div>
+      <!-- SLOT 5 — freio a disco -->
+      <div class="photo-slot normal lightbox-trigger" data-img="https://aletoapp.github.io/bike/img/04.jpg" data-caption="Freio a disco" data-index="3" style="cursor:zoom-in">
+        <img src="https://aletoapp.github.io/bike/img/04.jpg" alt="Freio a disco" width="400" height="300" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 Freio a disco</div></div>
+      </div>
+    </div>
+
+    <!-- Galeria extra -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px">
+
+      <div class="photo-slot lightbox-trigger"
+           data-img="https://aletoapp.github.io/bike/img/001.webp"
+           data-caption="R10 Full — Vista 1"
+           data-index="4"
+           style="cursor:zoom-in;min-height:240px">
+        <img src="https://aletoapp.github.io/bike/img/001.webp" alt="R10 Full — Vista 1" width="400" height="300" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 R10 Full — Vista 1</div></div>
+      </div>
+
+      <div class="photo-slot lightbox-trigger"
+           data-img="https://aletoapp.github.io/bike/img/002.webp"
+           data-caption="R10 Full — Vista 2"
+           data-index="5"
+           style="cursor:zoom-in;min-height:240px">
+        <img src="https://aletoapp.github.io/bike/img/002.webp" alt="R10 Full — Vista 2" width="400" height="300" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 R10 Full — Vista 2</div></div>
+      </div>
+
+      <div class="photo-slot lightbox-trigger"
+           data-img="https://aletoapp.github.io/bike/img/003.webp"
+           data-caption="R10 Full — Vista 3"
+           data-index="6"
+           style="cursor:zoom-in;min-height:240px">
+        <img src="https://aletoapp.github.io/bike/img/003.webp" alt="R10 Full — Vista 3" width="400" height="300" loading="lazy">
+        <div class="photo-overlay"><div class="photo-overlay-text">🔍 R10 Full — Vista 3</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ ESPECIFICAÇÕES -->
+<section class="specs-section fade-in" id="especificacoes">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Especificações técnicas</p>
+    <h2 class="section-title">Números que<br>comprovam.</h2>
+    <div class="specs-layout">
+      <div>
+        <table class="spec-table">
+          <tr class="spec-row"><td>Motor</td><td class="spec-highlight">1000W</td></tr>
+          <tr class="spec-row"><td>Pneu</td><td>20 x 4.0 Fat Tire</td></tr>
+          <tr class="spec-row"><td>Suspensão</td><td>Traseira</td></tr>
+          <tr class="spec-row"><td>Freio</td><td>A disco dianteiro e traseiro</td></tr>
+          <tr class="spec-row"><td>Bateria</td><td>Removível (Li-Ion)</td></tr>
+          <tr class="spec-row"><td>Recarga</td><td>5 a 7 horas</td></tr>
+          <tr class="spec-row"><td>Banco</td><td>Couro premium</td></tr>
+          <tr class="spec-row"><td>Iluminação</td><td>Farol LED</td></tr>
+          <tr class="spec-row"><td>Segurança</td><td>Alarme + controle remoto</td></tr>
+          <tr class="spec-row"><td>Áudio</td><td class="spec-highlight">Bluetooth + caixa embutida</td></tr>
+          <tr class="spec-row"><td>Display</td><td>Digital LCD</td></tr>
+          <tr class="spec-row"><td>Buzina</td><td>Sim</td></tr>
+        </table>
+      </div>
+      <div class="power-block">
+        <div class="power-num">1000</div>
+        <div class="power-unit">Watts</div>
+        <p class="power-desc">Potência para subir qualquer ladeira, manter velocidade em terrenos irregulares e entregar torque imediato quando você precisar.</p>
+        <div class="power-tags">
+          <span class="power-tag">Torque real</span>
+          <span class="power-tag">Subida sem esforço</span>
+          <span class="power-tag">Motor brushless</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ BENEFÍCIOS -->
+<section class="benefits-section fade-in">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Para quem é essa bike</p>
+    <h2 class="section-title">Seu dia a dia<br>vai mudar.</h2>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-num">01</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Economia todo mês</div>
+          <div class="benefit-text">Zero gasto com gasolina. Recarga na tomada de casa por centavos. Em poucos meses a bike se paga sozinha com o que você deixa de gastar no posto.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">02</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Chega no horário</div>
+          <div class="benefit-text">Fura fila, fura trânsito, fura estresse. Enquanto o carro fica parado no congestionamento, você já chegou, estacionou e está tomando o café.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">03</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Renda com delivery</div>
+          <div class="benefit-text">Custo operacional quase zero para entregadores. Sem gasolina, sem manutenção cara. Cada pedido entregue é lucro de verdade.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-num">04</div>
+        <div class="benefit-content">
+          <div class="benefit-title">Lazer com estilo</div>
+          <div class="benefit-text">Passeio no fim de semana com sua trilha sonora no Bluetooth. Som embutido, visual agressivo, conforto total. Não é só transporte — é experiência.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ URGÊNCIA -->
+<section class="urgency-section fade-in">
+  <div class="urgency-title">ESTOQUE<br>LIMITADO.<br>DECIDE AGORA.</div>
+  <p class="urgency-sub">Quando acabar, acabou. Sem previsão de reposição imediata.</p>
+  <a class="btn-dark" href="https://wa.me/5527996252050?text=Quero%20garantir%20minha%20R10%20Full!" target="_blank">Garantir minha unidade</a>
+  <p class="urgency-note">Atendimento via WhatsApp • Resposta imediata</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ COMPRAR -->
+<section class="buy-section fade-in">
+  <div class="buy-inner">
+    <h2 class="buy-title">ESCOLHA<br>SUA <span>FORMA</span><br>DE PAGAR.</h2>
+    <p class="buy-anchor">R10 Full • 1000W • Fat Tire • Bluetooth</p>
+
+    <div class="buy-price-hero">
+      <div class="buy-price-pix-label">No Pix ou Dinheiro</div>
+      <div class="buy-price-pix">R$ 6.790</div>
+      <div class="buy-price-divider"></div>
+      <div class="buy-price-parc-label">Ou parcele sem juros</div>
+      <div class="buy-price-parc">10x de R$ 728,09</div>
+    </div>
+
+    <a class="wpp-btn2" href="https://wa.me/5527996252050?text=Quero%20comprar%20a%20R10%20Full!" target="_blank">Falar no WhatsApp agora</a>
+
+    <div class="buy-perks">
+      <span class="buy-perk">Zero km</span>
+      <span class="buy-perk">Montada</span>
+      <span class="buy-perk">Nota fiscal</span>
+      <span class="buy-perk">Garantia 180 dias</span>
+      <span class="buy-perk">Entrega inclusa GV</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">R10 FULL</div>
+      <div class="footer-tagline">Bike elétrica • 1000W • Fat Tire • Bluetooth</div>
+    </div>
+    <div class="footer-cta-block">
+      <div class="footer-phone">(27) 99625-2050</div>
+      <a class="footer-wpp" href="https://wa.me/5527996252050?text=Quero%20a%20R10%20Full!" target="_blank">Chamar no WhatsApp</a>
+    </div>
+  </div>
+  <div class="footer-seller">
+    <div class="footer-seller-info">
+      <strong>Alexandre Torres</strong> — Vendedor responsável<br>
+      CNPJ 54.806.916/0001-62<br>
+      Retirada em <strong>Jardim Camburi / Vitória–ES</strong> · CEP 29090-010
+    </div>
+    <div class="footer-seller-info" style="text-align:right">
+      <strong style="color:var(--orange)">✓ Zero km &nbsp;·&nbsp; ✓ Montada &nbsp;·&nbsp; ✓ Manual</strong><br>
+      <strong style="color:var(--orange)">✓ Nota fiscal &nbsp;·&nbsp; ✓ Garantia 180 dias</strong><br>
+      Entrega inclusa em toda Grande Vitória
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-text">© 2026 — Todos os direitos reservados</div>
+    <div class="footer-text">Atendimento direto com o vendedor.</div>
+  </div>
+</footer>
+
+<!-- ═══════════════ MODAL VÍDEO ═══════════════ -->
+<div id="video-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.95);align-items:center;justify-content:center">
+  <button onclick="closeVideoModal()" style="position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;font-size:36px;cursor:pointer;z-index:1001;line-height:1;opacity:.8;transition:opacity .2s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='.8'">✕</button>
+  <div style="position:relative;width:90vw;max-width:420px">
+    <video
+      id="modal-video"
+      src="https://aletoapp.github.io/bike/img/6990.mp4"
+      controls
+      playsinline
+      style="width:100%;display:block;outline:none;background:#000"
+    ></video>
+  </div>
+</div>
+
+<!-- ═══════════════ LIGHTBOX IMAGENS ═══════════════ -->
+<div id="lightbox" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.96);align-items:center;justify-content:center">
+  <button onclick="closeLightbox()" style="position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;font-size:36px;cursor:pointer;z-index:1001;line-height:1;opacity:.8;transition:opacity .2s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='.8'">✕</button>
+  <button onclick="lbNav(-1)" id="lb-prev" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);background:rgba(255,107,0,0.15);border:1px solid rgba(255,107,0,0.4);color:#fff;width:48px;height:48px;font-size:22px;cursor:pointer;z-index:1001;transition:background .2s;display:flex;align-items:center;justify-content:center" onmouseenter="this.style.background='rgba(255,107,0,0.4)'" onmouseleave="this.style.background='rgba(255,107,0,0.15)'">‹</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:16px;max-width:90vw;max-height:90vh">
+    <img id="lb-img" src="" alt="" style="max-width:90vw;max-height:78vh;object-fit:contain;display:block;transition:opacity .25s">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span id="lb-caption" style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#fff;letter-spacing:2px;text-transform:uppercase;opacity:.8"></span>
+      <span id="lb-counter" style="font-size:12px;color:rgba(255,255,255,.4);letter-spacing:1px"></span>
+    </div>
+    <div id="lb-thumbs" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"></div>
+  </div>
+  <button onclick="lbNav(1)" id="lb-next" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:rgba(255,107,0,0.15);border:1px solid rgba(255,107,0,0.4);color:#fff;width:48px;height:48px;font-size:22px;cursor:pointer;z-index:1001;transition:background .2s;display:flex;align-items:center;justify-content:center" onmouseenter="this.style.background='rgba(255,107,0,0.4)'" onmouseleave="this.style.background='rgba(255,107,0,0.15)'">›</button>
+</div>
+
+<!-- BOTÃO FLUTUANTE WHATSAPP -->
+<a href="https://wa.me/5527996252050?text=Quero%20a%20R10%20Full!" class="bt-whatsApp" target="_blank" aria-label="Falar no WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.648 4.8 1.78 6.82L2 30l7.38-1.74A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="#fff"/>
+    <path d="M23.07 19.44c-.32-.16-1.9-.94-2.2-1.04-.3-.1-.52-.16-.73.16-.22.32-.84 1.04-1.03 1.26-.19.22-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.15-.14.32-.38.48-.57.16-.19.22-.32.32-.54.1-.22.05-.41-.03-.57-.08-.16-.73-1.76-1-2.42-.26-.63-.53-.55-.73-.56h-.62c-.22 0-.57.08-.87.41-.3.32-1.14 1.11-1.14 2.71s1.17 3.14 1.33 3.36c.16.22 2.3 3.51 5.57 4.92.78.34 1.38.54 1.86.69.78.25 1.49.21 2.05.13.63-.09 1.9-.78 2.17-1.53.27-.75.27-1.39.19-1.53-.08-.14-.3-.22-.62-.38z" fill="#25D366"/>
+  </svg>
+</a>
+<span id="alertWapp">1</span>
+<div id="msg1">E s t o u &nbsp; &nbsp;  o n l i n e !</div>
+
+<!-- Script movido para o <head> com defer -->
+</body>
+</html>
