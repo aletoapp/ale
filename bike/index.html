@@ -17,17 +17,10 @@
 <meta property="og:image:height" content="630">
 
 <!-- Fontes locais (woff2 em /fonts) -->
-<!-- Bebas Neue -->
-<link rel="preload" href="fonts/BebasNeue-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<!-- Barlow (400, 500, 600, 700, 900) -->
-<link rel="preload" href="fonts/Barlow-Regular.woff2"    as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/Barlow-Medium.woff2"     as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/Barlow-SemiBold.woff2"   as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/Barlow-Bold.woff2"       as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/Barlow-Black.woff2"      as="font" type="font/woff2" crossorigin>
-<!-- Barlow Condensed (700, 900) -->
-<link rel="preload" href="fonts/BarlowCondensed-Bold.woff2"  as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/BarlowCondensed-Black.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Apenas as fontes usadas no primeiro viewport entram em preload, -->
+<!-- para não competir com a imagem da hero (LCP) pela banda inicial -->
+<link rel="preload" href="fonts/BebasNeue-Regular.woff2"      as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/BarlowCondensed-Bold.woff2"   as="font" type="font/woff2" crossorigin>
 
 <style>
   /* @font-face declarations — arquivos em /fonts */
@@ -89,9 +82,14 @@
   }
 </style>
 
-<!-- Preload hero image (LCP) -->
-<link rel="preload" as="image" href="https://alexandretorres.com.br/bike/bike-bg.webp"        media="(min-width: 768px)" fetchpriority="high">
-<link rel="preload" as="image" href="https://alexandretorres.com.br/bike/bike-bg-mobile.webp" media="(max-width: 767px)"  fetchpriority="high">
+<!-- Preload hero image (LCP) — arquivos locais, sem dependência de domínio externo -->
+<link rel="preload" as="image" href="bike-bg.webp"        media="(min-width: 768px)" fetchpriority="high">
+<link rel="preload" as="image" href="bike-bg-mobile.webp" media="(max-width: 767px)"  fetchpriority="high">
+
+<!-- Preconnect para domínios externos usados fora da hero (vídeo, lightbox, WhatsApp) -->
+<link rel="preconnect" href="https://aletoapp.github.io" crossorigin>
+<link rel="preconnect" href="https://www.youtube.com">
+<link rel="dns-prefetch" href="https://wa.me">
 
 <!-- Estilos -->
 <link rel="stylesheet" href="styles.css">
@@ -158,8 +156,8 @@
 <!-- ═══════════════════════════════════════════════════ HERO -->
 <section class="hero">
   <picture class="hero-bg" aria-hidden="true">
-    <source srcset="https://alexandretorres.com.br/bike/bike-bg-mobile.webp" media="(max-width: 767px)">
-    <img src="https://alexandretorres.com.br/bike/bike-bg.webp" alt="R10 Full — Bike Elétrica 1000W" fetchpriority="high">
+    <source srcset="bike-bg-mobile.webp" media="(max-width: 767px)" width="800" height="450">
+    <img src="bike-bg.webp" alt="R10 Full — Bike Elétrica 1000W" width="1672" height="941" fetchpriority="high" decoding="async">
   </picture>
   <div class="hero-badge">Lançamento Abril 2026 • Estoque Limitado</div>
   <h1>NÃO É<br>UMA BIKE.<br>É <span>LIBERDADE</span><br>COM SOM.</h1>

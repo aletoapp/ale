@@ -533,7 +533,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:48px 48
 @media(max-width:900px){
   nav{padding:12px 20px}
   section{padding:60px 20px}
-  .hero{padding:100px 20px 60px;background:linear-gradient(135deg,rgba(10,10,10,0.92) 0%,rgba(26,15,0,0.55) 100%),url('https://aletoapp.github.io/bike/img/bike-bg.webp') left/cover no-repeat}
+  .hero{padding:100px 20px 60px}
   .hero-stats{grid-template-columns:repeat(2,1fr)}
   .video-wrapper,.photos-intro,.specs-layout,.benefits-grid,.buy-options{grid-template-columns:1fr}
   .features-grid{grid-template-columns:1fr}
