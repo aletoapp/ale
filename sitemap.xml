@@ -3,7 +3,7 @@
   <url>
     <loc>https://alexandretorres.com.br/</loc>
     <lastmod>2026-06-21T17:38:22.000+00:00</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
@@ -15,6 +15,12 @@
   <url>
     <loc>https://alexandretorres.com.br/bike/</loc>
     <lastmod>2026-06-22T21:18:12.000+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alexandretorres.com.br/bike2/</loc>
+    <lastmod>2026-06-29T11:25:06.000+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
