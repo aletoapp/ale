@@ -90,7 +90,8 @@
 </style>
 
 <!-- Preload hero image (LCP) -->
-<link rel="preload" as="image" href="https://aletoapp.github.io/bike/img/bike-bg.webp" fetchpriority="high">
+<link rel="preload" as="image" href="https://alexandretorres.com.br/bike/bike-bg.webp"        media="(min-width: 768px)" fetchpriority="high">
+<link rel="preload" as="image" href="https://alexandretorres.com.br/bike/bike-bg-mobile.webp" media="(max-width: 767px)"  fetchpriority="high">
 
 <!-- Estilos -->
 <link rel="stylesheet" href="styles.css">
@@ -159,6 +160,10 @@
 
 <!-- ═══════════════════════════════════════════════════ HERO -->
 <section class="hero">
+  <picture class="hero-bg" aria-hidden="true">
+    <source srcset="https://alexandretorres.com.br/bike/bike-bg-mobile.webp" media="(max-width: 767px)">
+    <img src="https://alexandretorres.com.br/bike/bike-bg.webp" alt="" fetchpriority="high" decoding="async">
+  </picture>
   <div class="hero-badge">Lançamento Abril 2026 • Estoque Limitado</div>
   <h1>NÃO É<br>UMA BIKE.<br>É <span>LIBERDADE</span><br>COM SOM.</h1>
   <p class="hero-sub">R10 Full • 1000W • Fat Tire • Bluetooth</p>
