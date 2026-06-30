@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Razões do Corpo — A academia que mexe com você</title>
+<meta name="description" content="Fitness, musculação, pilates, piscina, ritmos, artes marciais, fisioterapia e RC Personal. Várias unidades em Vitória/ES, um só padrão de cuidado.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2314102b'/%3E%3Cpath d='M15 50h18l6-26 12 50 10-38 6 14h18' stroke='%2300a651' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RAZÕES DO CORPO — REDESIGN ELITE (v2 — revisado e ampliado)
+   Palette: roxo-tinta #14102B + verde-pulso #00A651 do logo
+   Type: DM Serif Display (display) + DM Sans (body)
+   ============================================================ */
+:root {
+  --ink:      #14102b;
+  --ink-60:   rgba(20,16,43,.60);
+  --ink-15:   rgba(20,16,43,.12);
+  --purple:   #3a1e8c;
+  --green:    #00a651;
+  --green-d:  #007d3c;
+  --paper:    #f6f4f0;
+  --white:    #ffffff;
+  --f-d:      'DM Serif Display', Georgia, serif;
+  --f-b:      'DM Sans', system-ui, sans-serif;
+  --r:        12px;
+  --w:        1160px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--f-b);background:var(--white);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 32px;}
+section{padding:88px 0;}
+
+/* ── REVEAL AO ROLAR (novidade) ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+.reveal.is-visible{opacity:1;transform:translateY(0);}
+
+/* ── TYPE ── */
+.tag{
+  font-family:var(--f-b);font-size:13.2px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--green);display:inline-flex;align-items:center;gap:8px;
+}
+.tag::before{content:"";display:inline-block;width:20px;height:1.5px;background:var(--green);}
+h2{font-family:var(--f-d);font-size:clamp(32px,3.6vw,50px);line-height:1.08;letter-spacing:-.01em;}
+h2 em{font-style:italic;color:var(--green);}
+.body-l{font-size:20.4px;color:#0F0F0F;line-height:1.65;font-weight:400;max-width:520px;}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;margin-bottom:52px;}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;font-family:var(--f-b);font-size:16.2px;
+  font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:13px 26px;
+  border-radius:999px;border:1.5px solid transparent;cursor:pointer;transition:.22s ease;
+}
+.btn-primary{background:var(--ink);color:var(--white);}
+.btn-primary:hover{background:var(--purple);transform:translateY(-2px);}
+.btn-green{background:var(--green);color:var(--white);}
+.btn-green:hover{background:var(--green-d);transform:translateY(-2px);}
+.btn-outline{background:transparent;border-color:var(--ink);color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:var(--white);}
+.btn-outline-w{background:transparent;border-color:rgba(255,255,255,.45);color:var(--white);}
+.btn-outline-w:hover{border-color:var(--white);}
+
+/* ── HEADER ── */
+header{
+  position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--ink-15);
+}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:24px;}
+.logo{font-family:var(--f-d);font-size:19px;letter-spacing:.01em;color:var(--ink);}
+.logo .g{color:var(--green);}
+nav.main{display:flex;align-items:center;gap:4px;}
+.nav-link{
+  padding:10px 14px;font-size:16.2px;font-weight:500;border-radius:8px;
+  transition:.18s;position:relative;display:flex;align-items:center;gap:5px;
+}
+.nav-link:hover{background:var(--paper);}
+.caret{width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);opacity:.5;margin-top:-3px;transition:.18s;}
+.has-mega:hover .caret, .has-mega.open .caret{transform:rotate(225deg);margin-top:3px;}
+.mega{
+  position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);
+  background:var(--white);border:1px solid var(--ink-15);border-radius:14px;
+  box-shadow:0 20px 40px -12px rgba(20,16,43,.18);padding:8px;min-width:200px;
+  opacity:0;visibility:hidden;transition:.18s ease;pointer-events:none;
+}
+.has-mega:hover .mega, .has-mega.open .mega{opacity:1;visibility:visible;pointer-events:auto;}
+.has-mega::after{content:"";position:absolute;left:0;right:0;top:100%;height:12px;}
+.mega a{display:block;padding:10px 14px;border-radius:8px;font-size:16.8px;font-weight:500;transition:.15s;}
+.mega a:hover{background:var(--paper);color:var(--purple);}
+.mega.wide{min-width:440px;columns:2;column-gap:4px;}
+.mega.wide a{break-inside:avoid;}
+.nav-actions{display:flex;align-items:center;gap:12px;}
+.burger{display:none;width:40px;height:40px;border-radius:9px;border:1.5px solid var(--ink-15);align-items:center;justify-content:center;background:none;cursor:pointer;flex-shrink:0;}
+.burger-icon{display:flex;flex-direction:column;gap:5px;position:relative;width:17px;height:12px;}
+.burger-icon span{width:17px;height:1.5px;background:var(--ink);border-radius:2px;position:absolute;left:0;transition:.25s ease;}
+.burger-icon span:nth-child(1){top:0;}
+.burger-icon span:nth-child(2){top:5.5px;}
+.burger-icon span:nth-child(3){top:11px;}
+.nav-actions.open .burger-icon span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+.nav-actions.open .burger-icon span:nth-child(2){opacity:0;}
+.nav-actions.open .burger-icon span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+
+/* ── MENU MOBILE (novidade: antes não existia) ── */
+.mobile-panel{
+  display:none;position:fixed;inset:0;top:65px;z-index:90;background:var(--white);
+  padding:24px 32px 40px;overflow-y:auto;
+}
+.mobile-panel.open{display:block;animation:fadeSlide .25s ease;}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.mobile-panel a{display:block;padding:14px 0;font-size:19.2px;font-weight:500;border-bottom:1px solid var(--ink-15);}
+.mobile-panel .m-group-title{font-size:13.2px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-60);margin-top:22px;margin-bottom:4px;}
+.mobile-panel .btn{width:100%;justify-content:center;margin-top:20px;}
+
+/* ── HERO ── */
+.hero{
+  background:var(--ink);color:var(--white);
+  padding:100px 0 80px;position:relative;overflow:hidden;
+}
+.hero-grid{position:relative;display:grid;grid-template-columns:1fr 380px;gap:64px;align-items:center;}
+.hero-eyebrow{margin-bottom:20px;align-items:flex-start;}
+.hero-eyebrow::before,.hero-eyebrow::after{margin-top:9px;flex-shrink:0;}
+.hero h1{
+  font-family:var(--f-d);font-size:clamp(42px,5.5vw,72px);
+  line-height:1.03;letter-spacing:-.02em;color:var(--white);margin-bottom:22px;
+}
+.hero h1 em{font-style:italic;color:var(--green);}
+.hero .body-l{color:rgba(255,255,255,.62);max-width:480px;margin-bottom:34px;}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px;}
+.hero-stats{display:flex;gap:0;position:relative;padding-top:32px;}
+.hero-freq-line{position:absolute;top:0;left:0;width:100%;height:40px;transform:translateY(-50%);overflow:visible;}
+.hero-freq-line polyline{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.2s ease forwards .4s;}
+@keyframes draw{to{stroke-dashoffset:0;}}
+.hstat{flex:1;padding-right:28px;padding-left:28px;border-right:1px solid rgba(255,255,255,.1);}
+.hstat:last-child{padding-right:0;border-right:none;}
+.hstat:first-child{padding-left:0;}
+.hstat b{font-family:var(--f-d);font-size:32px;font-style:italic;color:var(--green);display:block;line-height:1;}
+.hstat span{font-size:13.8px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-top:5px;display:block;font-weight:500;}
+
+.hero-card{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;padding:28px;transition:.3s ease;
+}
+.hero-card:hover{border-color:rgba(0,166,81,.4);transform:translateY(-4px);}
+.hcard-badge{
+  display:inline-block;background:var(--green);color:var(--white);
+  font-size:12.6px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 11px;border-radius:999px;margin-bottom:20px;
+}
+.hero-card h3{font-family:var(--f-d);font-size:22px;color:var(--white);margin-bottom:10px;font-style:italic;}
+.hero-card p{font-size:16.8px;color:rgba(255,255,255,.55);margin-bottom:22px;line-height:1.6;}
+.hcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.hcard-item{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:12px 14px;transition:.2s;
+}
+.hcard-item:hover{background:rgba(0,166,81,.1);border-color:rgba(0,166,81,.3);}
+.hcard-item .label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:3px;}
+.hcard-item .val{font-size:15.6px;font-weight:500;color:rgba(255,255,255,.75);}
+
+/* ── ATIVIDADES ── */
+#atividades{background:var(--paper);}
+.activities-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ink-15);border:1px solid var(--ink-15);border-radius:var(--r);overflow:hidden;}
+.act-card{
+  background:var(--white);padding:28px 24px 26px;
+  transition:.2s;position:relative;cursor:pointer;
+}
+.act-card:hover{background:var(--ink);color:var(--white);}
+.act-card:hover .act-num,.act-card:hover .act-desc{color:rgba(255,255,255,.45);}
+.act-card:hover .act-name{color:var(--white);}
+.act-num{font-size:12.6px;font-weight:700;letter-spacing:.1em;color:var(--ink-60);text-transform:uppercase;margin-bottom:32px;}
+.act-name{font-family:var(--f-d);font-size:19px;font-style:italic;margin-bottom:8px;line-height:1.1;transition:.2s;}
+.act-desc{font-size:15.6px;color:#0F0F0F;line-height:1.55;transition:.2s;}
+
+/* ── VÍDEOS ── */
+.video-band{background:var(--ink);color:var(--white);}
+.video-band .body-l{color:rgba(255,255,255,.5);}
+.video-band h2{color:var(--white);}
+.video-band h2 em{color:var(--green);}
+.video-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:4px;}
+.video-card{
+  aspect-ratio:3/4;border-radius:14px;overflow:hidden;
+  background:linear-gradient(155deg, rgba(0,166,81,.16), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:flex-end;padding:18px;position:relative;cursor:pointer;
+  transition:.22s;
+}
+.video-card:hover{border-color:rgba(255,255,255,.2);transform:translateY(-4px);}
+.video-card::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,.7) 0%,transparent 50%);
+}
+.play-btn{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+}
+.play-btn svg{width:14px;height:14px;fill:var(--white);margin-left:3px;}
+.video-card:hover .play-btn{border-color:var(--green);background:rgba(0,166,81,.2);}
+.vc-label{position:relative;z-index:1;font-size:15.6px;font-weight:600;letter-spacing:.01em;}
+
+/* ── IMC ── */
+.imc-section{background:var(--white);}
+.imc-box{
+  display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink-15);
+  border-radius:18px;overflow:hidden;box-shadow:0 24px 48px -20px rgba(20,16,43,.12);
+}
+.imc-form{padding:48px;}
+.imc-form h3{font-family:var(--f-d);font-size:26px;font-style:italic;margin-bottom:8px;}
+.imc-form .body-l{font-size:18px;margin-bottom:28px;}
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:13.2px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-60);margin-bottom:7px;}
+.field input{
+  width:100%;padding:13px 16px;border-radius:10px;border:1.5px solid var(--ink-15);
+  font-family:var(--f-b);font-size:19.2px;font-weight:500;background:var(--paper);color:var(--ink);
+  transition:.18s;
+}
+.field input:focus{outline:none;border-color:var(--purple);}
+.field.error input{border-color:#d23a3a;}
+.field .err-msg{font-size:14.4px;color:#d23a3a;margin-top:6px;display:none;font-weight:500;}
+.field.error .err-msg{display:block;}
+.imc-form .btn{width:100%;justify-content:center;margin-top:8px;}
+.imc-result{background:var(--ink);padding:48px;display:flex;flex-direction:column;justify-content:center;position:relative;}
+.imc-value{font-family:var(--f-d);font-size:80px;font-style:italic;color:var(--white);line-height:1;transition:.3s;}
+.imc-value .sub{font-family:var(--f-b);font-size:15.6px;font-style:normal;color:rgba(255,255,255,.4);display:block;margin-top:6px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+.imc-badge{display:inline-block;margin-top:18px;padding:7px 14px;border-radius:999px;background:var(--green);color:var(--white);font-size:14.4px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:.3s;}
+.imc-badge.warn{background:#d29b00;}
+.imc-badge.alert{background:#d23a3a;}
+.imc-note{margin-top:20px;font-size:16.2px;color:rgba(255,255,255,.45);max-width:340px;line-height:1.6;}
+
+/* ── STRIP ── */
+.strip{border-top:1px solid var(--ink-15);border-bottom:1px solid var(--ink-15);padding:32px 0;}
+.strip .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+.strip-label{font-size:13.2px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-60);}
+.strip-logos{display:flex;gap:32px;flex-wrap:wrap;opacity:.55;}
+.strip-logos span{font-family:var(--f-d);font-size:15px;font-style:italic;}
+
+/* ── CTA FINAL ── */
+.cta-final{background:var(--ink);color:var(--white);text-align:center;padding:100px 0;}
+.cta-final .tag{justify-content:center;color:rgba(255,255,255,.4);}
+.cta-final .tag::before{background:rgba(255,255,255,.3);}
+.cta-final .tag::after{content:"";display:inline-block;width:20px;height:1.5px;background:rgba(255,255,255,.3);}
+.cta-final h2{color:var(--white);margin:18px auto 16px;max-width:600px;}
+.cta-final h2 em{color:var(--green);}
+.cta-final .body-l{color:rgba(255,255,255,.5);margin:0 auto 36px;text-align:center;}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.green-rule{width:40px;height:2px;background:var(--green);margin:0 auto 32px;}
+
+/* ── FOOTER ── */
+footer{background:#0d0a1e;color:rgba(255,255,255,.55);padding:64px 0 28px;}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;margin-bottom:52px;}
+.foot-logo{font-family:var(--f-d);font-size:20px;font-style:italic;color:var(--white);margin-bottom:12px;}
+.foot-logo .g{color:var(--green);}
+footer p{font-size:16.8px;color:rgba(255,255,255,.38);max-width:280px;line-height:1.6;}
+.foot-col h5{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:16px;font-weight:700;}
+.foot-col a{display:block;font-size:16.8px;color:rgba(255,255,255,.6);margin-bottom:10px;transition:.15s;}
+.foot-col a:hover{color:var(--green);}
+.social-row{display:flex;gap:8px;margin-top:20px;}
+.social-row a{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;transition:.18s;}
+.social-row a:hover{border-color:var(--green);background:rgba(0,166,81,.15);}
+.social-row svg{width:15px;height:15px;fill:rgba(255,255,255,.7);}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14.4px;color:rgba(255,255,255,.3);}
+.foot-bottom a{color:rgba(255,255,255,.4);font-weight:600;transition:.15s;}
+.foot-bottom a:hover{color:var(--green);}
+
+/* ── BOTÃO WHATSAPP FLUTUANTE (novidade) ── */
+.wa-float{
+  position:fixed;right:22px;bottom:22px;z-index:200;
+  width:58px;height:58px;border-radius:50%;background:var(--green);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px -8px rgba(0,166,81,.55);
+  transition:.22s ease;
+}
+.wa-float:hover{transform:translateY(-3px) scale(1.05);background:var(--green-d);}
+.wa-float svg{width:27px;height:27px;fill:var(--white);}
+
+/* ── BOTÃO VOLTAR AO TOPO (novidade) ── */
+.top-btn{
+  position:fixed;right:22px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;
+  background:var(--ink);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transform:translateY(8px);transition:.25s ease;cursor:pointer;
+}
+.top-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
+.top-btn svg{width:15px;height:15px;stroke:var(--white);}
+
+/* ── MODAIS (Horários / Trabalhe Conosco) ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:300;background:rgba(13,10,30,.62);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:24px;
+}
+.modal-overlay.open{display:flex;animation:fadeSlide .22s ease;}
+.modal-box{
+  background:var(--white);border-radius:20px;width:100%;max-width:560px;
+  max-height:88vh;overflow-y:auto;position:relative;padding:44px;
+  box-shadow:0 40px 80px -20px rgba(20,16,43,.45);
+}
+.modal-box.wide{max-width:760px;}
+.modal-close{
+  position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;
+  border:1.5px solid var(--ink-15);background:none;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.18s;
+}
+.modal-close:hover{background:var(--ink);border-color:var(--ink);}
+.modal-close:hover svg{stroke:var(--white);}
+.modal-close svg{width:14px;height:14px;stroke:var(--ink);transition:.18s;}
+.modal-tag{margin-bottom:10px;}
+.modal-box h3{font-family:var(--f-d);font-size:30px;font-style:italic;margin-bottom:8px;line-height:1.1;}
+.modal-box .body-l{font-size:16.8px;max-width:none;margin-bottom:28px;}
+
+/* horários */
+.sched-table{width:100%;border-collapse:collapse;font-size:14.4px;}
+.sched-table th,.sched-table td{padding:11px 10px;text-align:center;border-bottom:1px solid var(--ink-15);}
+.sched-table th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-60);font-weight:700;}
+.sched-table td:first-child,.sched-table th:first-child{text-align:left;font-weight:600;}
+.sched-table tbody tr:hover{background:var(--paper);}
+.sched-note{margin-top:18px;font-size:13.8px;color:var(--ink-60);line-height:1.6;}
+
+/* trabalhe conosco form */
+.modal-box .field input,.modal-box .field select,.modal-box .field textarea{
+  width:100%;padding:13px 16px;border-radius:10px;border:1.5px solid var(--ink-15);
+  font-family:var(--f-b);font-size:16.2px;font-weight:500;background:var(--paper);color:var(--ink);
+  transition:.18s;
+}
+.modal-box .field textarea{resize:vertical;min-height:90px;}
+.modal-box .field input:focus,.modal-box .field select:focus,.modal-box .field textarea:focus{outline:none;border-color:var(--purple);}
+.form-success{display:none;text-align:center;padding:20px 0;}
+.form-success.show{display:block;}
+.form-success svg{width:46px;height:46px;stroke:var(--green);margin:0 auto 14px;}
+.form-success h4{font-family:var(--f-d);font-size:22px;font-style:italic;margin-bottom:8px;}
+.form-success p{color:var(--ink-60);font-size:15.6px;}
+
+@media(max-width:980px){
+  nav.main,.nav-actions .btn-outline{display:none;}
+  .burger{display:flex;}
+  .hero-grid{grid-template-columns:1fr;gap:40px;}
+  .activities-grid{grid-template-columns:repeat(2,1fr);}
+  .video-grid{grid-template-columns:repeat(2,1fr);}
+  .imc-box{grid-template-columns:1fr;}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:560px){
+  section{padding:60px 0;}
+  .activities-grid{grid-template-columns:1fr;}
+  .video-grid{grid-template-columns:1fr 1fr;}
+  .foot-grid{grid-template-columns:1fr;}
+  .hstat:last-child{padding-left:0;}
+  .wa-float{width:52px;height:52px;right:16px;bottom:16px;}
+  .top-btn{right:16px;bottom:78px;}
+  .modal-box{padding:30px 22px;}
+  .sched-table{font-size:12.6px;}
+  .sched-table th,.sched-table td{padding:8px 5px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="wrap nav-row">
+    <a href="#hero" class="logo">Razões do <span class="g">Corpo</span></a>
+
+    <nav class="main">
+      <a href="https://www.razoesdocorpo.com/academia/convenios.html" class="nav-link">Convênios</a>
+
+      <div style="position:relative;" class="has-mega">
+        <a href="#atividades" class="nav-link">Atividades <i class="caret"></i></a>
+        <div class="mega wide">
+          <a href="https://www.razoesdocorpo.com/atividades/fitness.html">Fitness</a>
+          <a href="https://www.razoesdocorpo.com/atividades/musculacao.html">Musculação</a>
+          <a href="https://www.razoesdocorpo.com/atividades/pilates.html">Pilates</a>
+          <a href="https://www.razoesdocorpo.com/atividades/piscina.html">Piscina</a>
+          <a href="https://www.razoesdocorpo.com/atividades/ritmos.html">Ritmos</a>
+          <a href="https://www.razoesdocorpo.com/atividades/artes-marciais.html">Artes Marciais</a>
+          <a href="https://www.razoesdocorpo.com/atividades/fisioterapia.html">Fisioterapia</a>
+          <a href="https://www.razoesdocorpo.com/atividades/rc-personal.html">RC Personal</a>
+          <a href="#" onclick="openModal('modalHorarios');return false;">Quadro de Horários</a>
+          <a href="#contato">Contato</a>
+        </div>
+      </div>
+
+      <a href="#galeria" class="nav-link">Galeria</a>
+      <a href="#imc" class="nav-link">IMC</a>
+    </nav>
+
+    <div class="nav-actions" id="navActions">
+      <a href="#" onclick="openModal('modalHorarios');return false;" class="btn btn-outline">Horários</a>
+      <a href="#contato" class="btn btn-green">Matricule-se</a>
+      <button class="burger" id="burgerBtn" aria-label="Abrir menu" aria-expanded="false">
+        <div class="burger-icon"><span></span><span></span><span></span></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- MENU MOBILE — antes ausente, agora funcional -->
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="https://www.razoesdocorpo.com/academia/convenios.html">Convênios</a>
+    <div class="m-group-title">Atividades</div>
+    <a href="https://www.razoesdocorpo.com/atividades/fitness.html">Fitness</a>
+    <a href="https://www.razoesdocorpo.com/atividades/musculacao.html">Musculação</a>
+    <a href="https://www.razoesdocorpo.com/atividades/pilates.html">Pilates</a>
+    <a href="https://www.razoesdocorpo.com/atividades/piscina.html">Piscina</a>
+    <a href="https://www.razoesdocorpo.com/atividades/ritmos.html">Ritmos</a>
+    <a href="https://www.razoesdocorpo.com/atividades/artes-marciais.html">Artes Marciais</a>
+    <a href="https://www.razoesdocorpo.com/atividades/fisioterapia.html">Fisioterapia</a>
+    <a href="https://www.razoesdocorpo.com/atividades/rc-personal.html">RC Personal</a>
+    <div class="m-group-title">Mais</div>
+    <a href="#galeria">Galeria</a>
+    <a href="#imc">Calcule seu IMC</a>
+    <a href="#" onclick="openModal('modalHorarios');return false;">Quadro de Horários</a>
+    <a href="#" onclick="openModal('modalTrabalhe');return false;">Trabalhe Conosco</a>
+    <a href="#contato" class="btn btn-green">Matricule-se</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="tag hero-eyebrow" style="color:rgba(255,255,255,.45);">
+        Vitória · ES — Mais de 30 anos mexendo com a cidade
+      </div>
+      <h1>O corpo muda.<br>A <em>razão</em> é sua.</h1>
+      <p class="body-l">Fitness, musculação, pilates, piscina, ritmos, artes marciais e fisioterapia — sob o mesmo teto, com acompanhamento de verdade.</p>
+      <div class="hero-cta">
+        <a href="#contato" class="btn btn-green">Conhecer uma unidade</a>
+        <a href="#atividades" class="btn btn-outline-w">Ver atividades</a>
+      </div>
+      <div class="hero-stats">
+        <svg class="hero-freq-line" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points="0,20 60,20 80,20 95,15 110,20 125,20 145,20 155,34 165,4 175,28 185,20 205,20 225,14 245,20 260,20
+                     320,20 380,20 400,20 415,15 430,20 445,20 465,20 475,34 485,4 495,28 505,20 525,20 545,14 565,20 580,20
+                     640,20 700,20 720,20 735,15 750,20 765,20 785,20 795,34 805,4 815,28 825,20 845,20 865,14 885,20 900,20
+                     1000,20" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        </svg>
+        <div class="hstat"><b id="cnt1">0</b><span>Modalidades</span></div>
+        <div class="hstat"><b id="cnt2">0</b><span>Anos de história</span></div>
+        <div class="hstat"><b>100%</b><span>Acompanhamento profissional</span></div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <span class="hcard-badge">RC Personal</span>
+      <h3>Treino sob medida, em qualquer unidade</h3>
+      <p>Avaliação física, plano individual e acompanhamento direto — para ir além da esteira.</p>
+      <div class="hcard-grid">
+        <div class="hcard-item"><div class="label">Convênios</div><div class="val">Empresas & planos parceiros</div></div>
+        <div class="hcard-item"><div class="label">Fisioterapia</div><div class="val">Reabilita e previne</div></div>
+        <div class="hcard-item"><div class="label">Piscina</div><div class="val">Hidro & natação</div></div>
+        <div class="hcard-item"><div class="label">Horários</div><div class="val">Manhã à noite, todo dia</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATIVIDADES -->
+<section id="atividades">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="tag" style="margin-bottom:14px;">O que mexe com você</div>
+        <h2>Um corpo, <em>várias</em><br>formas de cuidar dele.</h2>
+      </div>
+      <p class="body-l">Cada modalidade resolve um objetivo real — perder peso, ganhar força, recuperar movimento ou simplesmente gostar do processo.</p>
+    </div>
+    <div class="activities-grid reveal">
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/fitness.html"><div class="act-num">01</div><div class="act-name">Fitness</div><p class="act-desc">Aulas dinâmicas para queimar, fortalecer e nunca enjoar.</p></a>
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/musculacao.html"><div class="act-num">02</div><div class="act-name">Musculação</div><p class="act-desc">Pesos livres e máquinas com supervisão constante.</p></a>
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/pilates.html"><div class="act-num">03</div><div class="act-name">Pilates</div><p class="act-desc">Consciência corporal, postura e fortalecimento do centro.</p></a>
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/piscina.html"><div class="act-num">04</div><div class="act-name">Piscina</div><p class="act-desc">Hidroginástica e natação para todas as idades e níveis.</p></a>
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/ritmos.html"><div class="act-num">05</div><div class="act-name">Ritmos</div><p class="act-desc">Dança, energia e suor — cada aula rende resultado.</p></a>
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/artes-marciais.html"><div class="act-num">06</div><div class="act-name">Artes Marciais</div><p class="act-desc">Disciplina, defesa pessoal e condicionamento em um só treino.</p></a>
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/fisioterapia.html"><div class="act-num">07</div><div class="act-name">Fisioterapia</div><p class="act-desc">Recuperação, prevenção de lesões e cuidado clínico integrado.</p></a>
+      <a class="act-card" href="https://www.razoesdocorpo.com/atividades/rc-personal.html"><div class="act-num">08</div><div class="act-name">RC Personal</div><p class="act-desc">Acompanhamento individual com planejamento exclusivo.</p></a>
+    </div>
+  </div>
+</section>
+
+<!-- VÍDEOS -->
+<section class="video-band" id="galeria">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="tag" style="color:var(--green);margin-bottom:14px;">Galeria de vídeos</div>
+        <h2>Veja o <em>movimento</em><br>antes de sentir.</h2>
+      </div>
+      <p class="body-l">Aulas, estrutura e bastidores — para conhecer a academia antes mesmo de pisar nela.</p>
+    </div>
+    <div class="video-grid reveal">
+      <div class="video-card">
+        <div class="play-btn"><svg viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <span class="vc-label">Tour pela unidade</span>
+      </div>
+      <div class="video-card">
+        <div class="play-btn"><svg viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <span class="vc-label">Aula de Ritmos</span>
+      </div>
+      <div class="video-card">
+        <div class="play-btn"><svg viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <span class="vc-label">Musculação na prática</span>
+      </div>
+      <div class="video-card">
+        <div class="play-btn"><svg viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></div>
+        <span class="vc-label">Piscina & Hidro</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMC -->
+<section class="imc-section" id="imc">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="tag" style="margin-bottom:14px;">Ferramenta</div>
+        <h2>Qual é a sua <em>razão</em><br>de partida?</h2>
+      </div>
+      <p class="body-l">Calcule seu IMC em segundos. É só o ponto de partida — o resto, a gente constrói junto.</p>
+    </div>
+    <div class="imc-box reveal">
+      <div class="imc-form">
+        <h3>Calculadora de IMC</h3>
+        <p class="body-l" style="font-size:18px;">Preencha peso e altura para ver seu resultado na hora.</p>
+        <div class="field" id="fieldPeso">
+          <label for="peso">Peso (kg)</label>
+          <input type="number" id="peso" placeholder="Ex: 72" min="1" step="0.1" inputmode="decimal">
+          <span class="err-msg">Informe um peso válido.</span>
+        </div>
+        <div class="field" id="fieldAltura">
+          <label for="altura">Altura (cm)</label>
+          <input type="number" id="altura" placeholder="Ex: 170" min="1" step="0.1" inputmode="decimal">
+          <span class="err-msg">Informe uma altura válida.</span>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;" onclick="calcularIMC()">Calcular meu IMC</button>
+      </div>
+      <div class="imc-result">
+        <div class="imc-value" id="imcValor">—<span class="sub" id="imcSub">Seu índice de massa corporal</span></div>
+        <div class="imc-badge" id="imcClasse">Aguardando seus dados</div>
+        <p class="imc-note" id="imcNota">O IMC é só um número de partida. Nossa equipe avalia composição corporal, histórico e objetivos para montar um plano de verdade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP CONVÊNIOS -->
+<div class="strip">
+  <div class="wrap">
+    <span class="strip-label">Convênios & parceiros aceitos</span>
+    <div class="strip-logos">
+      <span>Plano A</span><span>Plano B</span><span>Plano C</span><span>Plano D</span><span>Plano E</span>
+    </div>
+    <a href="https://www.razoesdocorpo.com/academia/convenios.html" class="btn btn-outline">Ver todos os convênios</a>
+  </div>
+</div>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="contato">
+  <div class="wrap reveal">
+    <div class="tag" style="justify-content:center;color:rgba(255,255,255,.35);">Próximo passo</div>
+    <div class="green-rule" style="margin-top:16px;"></div>
+    <h2>Sua razão começa<br>numa <em>unidade perto de você.</em></h2>
+    <p class="body-l" style="margin:18px auto 36px;text-align:center;">Fale com a equipe, conheça a estrutura e monte seu plano. Sem enrolação, sem letra miúda.</p>
+    <div class="cta-btns">
+      <a href="tel:+5527322315372" class="btn btn-green">(27) 3223-1537</a>
+      <a href="#" onclick="openModal('modalTrabalhe');return false;" class="btn btn-outline-w">Trabalhe Conosco</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">Razões do <span class="g">Corpo</span></div>
+        <p>A academia que mexe com você. Várias unidades em Vitória/ES, um só padrão de cuidado.</p>
+        <div class="social-row">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3.1 0 4.1.1 1 .1 1.7.2 2.3.5.6.2 1.1.6 1.6 1.1.5.5.8.9 1.1 1.6.2.6.4 1.3.5 2.3.1 1 .1 1.4.1 4.1s0 3.1-.1 4.1c-.1 1-.2 1.7-.5 2.3-.2.6-.6 1.1-1.1 1.6-.5.5-.9.8-1.6 1.1-.6.2-1.3.4-2.3.5-1 .1-1.4.1-4.1.1s-3.1 0-4.1-.1c-1-.1-1.7-.2-2.3-.5-.6-.2-1.1-.6-1.6-1.1-.5-.5-.8-.9-1.1-1.6-.2-.6-.4-1.3-.5-2.3C2 15.1 2 14.7 2 12s0-3.1.1-4.1c.1-1 .2-1.7.5-2.3.2-.6.6-1.1 1.1-1.6.5-.5.9-.8 1.6-1.1.6-.2 1.3-.4 2.3-.5C8.9 2 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-8.4a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M21.6 7.2s-.2-1.5-.8-2.1c-.8-.8-1.7-.8-2.1-.9C15.9 4 12 4 12 4s-3.9 0-6.7.2c-.4 0-1.3.1-2.1.9-.6.6-.8 2.1-.8 2.1S2 9 2 10.7v1.6c0 1.7.2 3.5.2 3.5s.2 1.5.8 2.1c.8.8 1.9.8 2.4.9 1.7.2 7.6.2 7.6.2s3.9 0 6.7-.2c.4 0 1.3-.1 2.1-.9.6-.6.8-2.1.8-2.1s.2-1.7.2-3.5v-1.6c0-1.7-.2-3.5-.2-3.5zM9.9 14.6V9l5.4 2.8-5.4 2.8z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>A Academia</h5>
+        <a href="https://www.razoesdocorpo.com/academia/convenios.html">Convênios</a>
+        <a href="#" onclick="openModal('modalTrabalhe');return false;">Trabalhe Conosco</a>
+      </div>
+      <div class="foot-col">
+        <h5>Atividades</h5>
+        <a href="https://www.razoesdocorpo.com/atividades/fitness.html">Fitness</a>
+        <a href="https://www.razoesdocorpo.com/atividades/musculacao.html">Musculação</a>
+        <a href="https://www.razoesdocorpo.com/atividades/pilates.html">Pilates</a>
+        <a href="https://www.razoesdocorpo.com/atividades/piscina.html">Piscina</a>
+        <a href="https://www.razoesdocorpo.com/atividades/ritmos.html">Ritmos</a>
+      </div>
+      <div class="foot-col">
+        <h5>Mais</h5>
+        <a href="https://www.razoesdocorpo.com/atividades/artes-marciais.html">Artes Marciais</a>
+        <a href="https://www.razoesdocorpo.com/atividades/fisioterapia.html">Fisioterapia</a>
+        <a href="https://www.razoesdocorpo.com/atividades/rc-personal.html">RC Personal</a>
+        <a href="#" onclick="openModal('modalHorarios');return false;">Quadro de Horários</a>
+        <a href="#imc">Calcule seu IMC</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Av. Marechal Campos, 67, Vitória/ES · (27) 3223-1537 / 99757-1537 · © Academia Razões do Corpo. Todos os direitos reservados.</span>
+      <a href="#">Política de Privacidade</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLUTUANTE -->
+<a class="wa-float" href="https://wa.me/5527997571537" target="_blank" rel="noopener" aria-label="Fale pelo WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.1 4 4.2-1.1A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.2-3.5-.7-2.9-1.1-4.8-4-5-4.2-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.8.8.3.1.4.2.5.3.1.2.1.9-.1 1.5z"/></svg>
+</a>
+
+<!-- VOLTAR AO TOPO -->
+<button class="top-btn" id="topBtn" aria-label="Voltar ao topo">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- MODAL: HORÁRIOS -->
+<div class="modal-overlay" id="modalHorarios" onclick="if(event.target===this)closeModal('modalHorarios')">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="closeModal('modalHorarios')" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="tag modal-tag">Quadro de horários</div>
+    <h3>Tem horário pra <em style="font-style:italic;color:var(--green);">toda</em> rotina.</h3>
+    <p class="body-l">Confira os horários por modalidade. Podem variar por unidade — confirme com a recepção antes de ir.</p>
+    <div style="overflow-x:auto;">
+      <table class="sched-table">
+        <thead>
+          <tr><th>Modalidade</th><th>Seg–Sex</th><th>Sábado</th><th>Domingo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Musculação</td><td>06h–22h</td><td>08h–14h</td><td>Fechado</td></tr>
+          <tr><td>Fitness</td><td>06h30–21h</td><td>09h–12h</td><td>Fechado</td></tr>
+          <tr><td>Pilates</td><td>07h–20h</td><td>09h–12h</td><td>Fechado</td></tr>
+          <tr><td>Piscina</td><td>06h–21h</td><td>08h–13h</td><td>08h–12h</td></tr>
+          <tr><td>Ritmos</td><td>18h–21h</td><td>10h–12h</td><td>Fechado</td></tr>
+          <tr><td>Artes Marciais</td><td>17h–21h</td><td>09h–11h</td><td>Fechado</td></tr>
+          <tr><td>Fisioterapia</td><td>07h–19h</td><td>08h–12h</td><td>Fechado</td></tr>
+          <tr><td>RC Personal</td><td>06h–22h</td><td>08h–14h</td><td>Sob agenda</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sched-note">Horários de referência, sujeitos a alteração conforme a unidade. Para confirmar a grade da unidade mais próxima de você, fale com a recepção pelo WhatsApp.</p>
+  </div>
+</div>
+
+<!-- MODAL: TRABALHE CONOSCO -->
+<div class="modal-overlay" id="modalTrabalhe" onclick="if(event.target===this)closeModal('modalTrabalhe')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalTrabalhe')" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="tag modal-tag">Trabalhe conosco</div>
+    <h3>Quer fazer parte do <em style="font-style:italic;color:var(--green);">time</em>?</h3>
+    <p class="body-l">Deixe seus dados que nossa equipe entra em contato.</p>
+    <form id="formTrabalhe" onsubmit="return enviarTrabalhe(event)">
+      <div class="field">
+        <label for="tcNome">Nome completo</label>
+        <input type="text" id="tcNome" required placeholder="Seu nome">
+      </div>
+      <div class="field">
+        <label for="tcContato">Telefone ou e-mail</label>
+        <input type="text" id="tcContato" required placeholder="(27) 9 9999-9999">
+      </div>
+      <div class="field">
+        <label for="tcArea">Área de interesse</label>
+        <select id="tcArea">
+          <option>Recepção / Administrativo</option>
+          <option>Professor(a) — Fitness / Musculação</option>
+          <option>Professor(a) — Pilates</option>
+          <option>Professor(a) — Natação / Hidro</option>
+          <option>Professor(a) — Artes Marciais</option>
+          <option>Fisioterapia</option>
+          <option>RC Personal</option>
+          <option>Outra</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tcMsg">Mensagem (opcional)</label>
+        <textarea id="tcMsg" placeholder="Conte um pouco da sua experiência"></textarea>
+      </div>
+      <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;">Enviar candidatura</button>
+    </form>
+    <div class="form-success" id="tcSuccess">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      <h4>Recebemos seu contato!</h4>
+      <p>Nossa equipe vai analisar e retornar em breve. Obrigado pelo interesse.</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ── MENU MOBILE ── */
+const burgerBtn = document.getElementById('burgerBtn');
+const mobilePanel = document.getElementById('mobilePanel');
+const navActions = document.getElementById('navActions');
+burgerBtn.addEventListener('click', () => {
+  const isOpen = mobilePanel.classList.toggle('open');
+  navActions.classList.toggle('open', isOpen);
+  burgerBtn.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mobilePanel.classList.remove('open');
+  navActions.classList.remove('open');
+  burgerBtn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}));
+
+/* ── MEGA MENU NO TOQUE (tablet/mobile com hover ausente) ── */
+document.querySelectorAll('.has-mega > a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    if (window.matchMedia('(hover: none)').matches) {
+      e.preventDefault();
+      link.parentElement.classList.toggle('open');
+    }
+  });
+});
+
+/* ── REVEAL AO ROLAR ── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    }
+  });
+}, {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── CONTADORES ANIMADOS NO HERO ── */
+function animateCount(el, target, suffix){
+  let cur = 0;
+  const step = Math.max(1, Math.round(target/40));
+  const t = setInterval(()=>{
+    cur += step;
+    if(cur >= target){ cur = target; clearInterval(t); }
+    el.textContent = cur + suffix;
+  }, 30);
+}
+animateCount(document.getElementById('cnt1'), 8, '+');
+animateCount(document.getElementById('cnt2'), 30, '+');
+
+/* ── VOLTAR AO TOPO ── */
+const topBtn = document.getElementById('topBtn');
+window.addEventListener('scroll', () => {
+  topBtn.classList.toggle('show', window.scrollY > 600);
+});
+topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+/* ── MODAIS (Horários / Trabalhe Conosco) ── */
+function openModal(id){
+  const m = document.getElementById(id);
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  mobilePanel.classList.remove('open');
+  navActions.classList.remove('open');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+  }
+});
+function enviarTrabalhe(e){
+  e.preventDefault();
+  document.getElementById('formTrabalhe').style.display = 'none';
+  document.getElementById('tcSuccess').classList.add('show');
+  return false;
+}
+
+function calcularIMC(){
+  const pesoEl = document.getElementById('peso');
+  const alturaEl = document.getElementById('altura');
+  const peso = parseFloat(pesoEl.value);
+  const alturaCm = parseFloat(alturaEl.value);
+  const valorEl = document.getElementById('imcValor');
+  const classeEl = document.getElementById('imcClasse');
+  const notaEl = document.getElementById('imcNota');
+  const fieldPeso = document.getElementById('fieldPeso');
+  const fieldAltura = document.getElementById('fieldAltura');
+
+  fieldPeso.classList.toggle('error', !(peso > 0));
+  fieldAltura.classList.toggle('error', !(alturaCm > 0));
+
+  if(!(peso > 0) || !(alturaCm > 0)){
+    classeEl.textContent = "Preencha peso e altura corretamente";
+    classeEl.className = "imc-badge alert";
+    return;
+  }
+
+  const h = alturaCm / 100;
+  const imc = peso / (h * h);
+  const r = imc.toFixed(1);
+  valorEl.innerHTML = r + '<span class="sub" id="imcSub">Seu índice de massa corporal</span>';
+
+  let c, n, cls;
+  if(imc < 18.5){ c="Abaixo do peso"; n="Vamos te ajudar a ganhar massa com segurança — fale com nossa equipe de RC Personal."; cls="warn"; }
+  else if(imc < 25){ c="Peso adequado"; n="Você está na faixa ideal. Hora de manter o ritmo e evoluir performance."; cls=""; }
+  else if(imc < 30){ c="Sobrepeso"; n="Pequenos ajustes no treino já fazem diferença. Vamos montar seu plano?"; cls="warn"; }
+  else{ c="Obesidade"; n="Nossa equipe de fisioterapia e personal trainers monta um caminho seguro e progressivo para você."; cls="alert"; }
+
+  classeEl.textContent = c;
+  classeEl.className = "imc-badge " + cls;
+  notaEl.textContent = n;
+}
+</script>
+</body>
+</html>
