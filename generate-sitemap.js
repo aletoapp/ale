@@ -33,6 +33,7 @@ const IGNORE = [
   'build',
   'coverage',
   'atendimento', // excluído do sitemap
+  'propostas', // excluído do sitemap
 ];
 
 // Pastas de assets que NÃO devem ter suas URLs no sitemap
