@@ -233,78 +233,99 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <p class="byline"><span>by</span> Alexandre Torres</p>
 </div>
 
-<main id="conteudo-principal"><!-- ponto de ancoragem acessível --></main>
+<main id="conteudo-principal">
 
-<div class="modal-overlay" id="modal-sobre" role="dialog" aria-modal="true" aria-labelledby="modal-sobre-title">
-  <div class="modal-panel">
-    <header class="modal-header">
-      <span class="modal-title" id="modal-sobre-title">Alexandre Torres</span>
-      <button class="modal-close" id="modal-close-btn" type="button" aria-label="Fechar">Fechar</button>
-    </header>
-    <div class="modal-body">
-      <h2 class="sobre-lead">Construo ambientes digitais.<br>Não apenas <em>páginas.</em></h2>
-      <div class="sobre-block">
-        <p class="sobre-label">Posicionamento</p>
-        <p>Existem profissionais que entregam páginas. Existem os que entregam sistemas. E existem os que constroem <strong>ambientes capazes de influenciar percepção, comportamento e decisão.</strong></p>
-        <p>Pertenço à terceira categoria.</p>
-        <div class="sobre-quote"><p>Uma boa aplicação não precisa apenas funcionar. Ela precisa conduzir.</p></div>
+  <div class="modal-overlay" id="modal-sobre" role="dialog" aria-modal="true" aria-labelledby="modal-sobre-title" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <span class="modal-title" id="modal-sobre-title">Alexandre Torres</span>
+        <button class="modal-close" id="modal-close-btn" type="button" aria-label="Fechar">Fechar</button>
+      </header>
+      <div class="modal-body">
+        <h2 class="sobre-lead">Construo ambientes digitais.<br>Não apenas <em>páginas.</em></h2>
+        <div class="sobre-block">
+    <h3>Posicionamento &amp; Engenharia de Sistemas</h3>
+    <p>Existem profissionais que entregam páginas isoladas. Existem os que entregam sistemas genéricos. E existem os que projetam <strong>ecossistemas digitais, aplicativos e plataformas SaaS capazes de influenciar percepção, comportamento e decisão.</strong></p>
+    <p>Pertenço à terceira categoria.</p>
+    <div class="sobre-quote"><p>Uma aplicação premium ou software modular não precisa apenas funcionar de forma estável. Ela precisa conduzir o usuário com fluidez absoluta.</p></div>
+  </div>
+
+  <div class="sobre-block">
+    <h3>AT‑LAB: Engenharia de Software e Desenvolvimento de SaaS</h3>
+    <p>O <strong>AT-LAB</strong> é meu laboratório público de engenharia web e desenvolvimento de microsserviços (Micro SaaS). É o ambiente onde conceitos complexos de arquitetura de software, automações e bancos de dados viram produtos funcionais, interfaces mobile responsivas e ferramentas reais que operam no mundo real. Meu discurso técnico sobre otimização e escalabilidade de software sobrevive à prática.</p>
+  </div>
+
+  <div class="sobre-block">
+    <h3>Infraestrutura Leve, Aplicações Multiplataforma e Performance</h3>
+    <p>Prefiro arquitetar ambientes premium, aplicações móveis leves e sistemas robustos sem transformar o cliente em refém de infraestruturas inchadas, pesadas ou de custos de manutenção abusivos. Desenvolvo utilizando abordagens modernas de engenharia, otimizadas para a nuvem:</p>
+    <ul class="sobre-list">
+      <li><strong>Aplicações Híbridas &amp; PWAs:</strong> Aplicativos Android e iOS rápidos, instaláveis, com carregamento instantâneo e menor consumo de dados.</li>
+      <li><strong>Arquitetura de SaaS Escalável:</strong> Estruturas modulares prontas para crescer em usuários sem gargalos de banco de dados.</li>
+      <li><strong>Deploy Automatizado &amp; Serverless:</strong> GitHub Pages + Cloudflare Pages com distribuição Edge global (latência próxima de zero).</li>
+      <li><strong>Otimização de Assets:</strong> Imagens em formatos modernos (WebP/AVIF) e minificação rigorosa de código.</li>
+      <li><strong>Performance Nativa:</strong> Fontes locais pré-carregadas e eliminação completa de scripts que bloqueiam o render visual.</li>
+      <li><strong>SEO Semântico &amp; Indexação:</strong> Estruturação de dados avançada para que seu software ou landing page ganhe autoridade imediata no Google.</li>
+    </ul>
+  </div>
+        </div>
+        <div class="sobre-block">
+          <p class="sobre-label">Método</p>
+          <p>Atuo no cruzamento entre desenvolvimento web, experiência do usuário, posicionamento digital e engenharia de percepção. O foco está em criar estruturas capazes de <strong>transformar atenção em ação</strong> — com clareza, autoridade e intenção.</p>
+          <p>Cada projeto parte de uma pergunta central: como esta pessoa lê, decide, percebe valor — e o que faz com que ela aja sem sentir que foi pressionada?</p>
+        </div>
+        <div class="sobre-block">
+          <p class="sobre-label">Arquitetura de decisão</p>
+          <p>Uma landing page não é um panfleto online. É um ambiente cognitivo. O visitante chega com dúvidas, excesso de informação e resistência. O papel da engenharia é organizar a experiência de forma tão clara que a decisão se torne consequência natural.</p>
+          <p>Isso aparece em cada projeto — na tipografia, no contraste, no tempo de carregamento, na densidade de informação. <strong>Nada existe apenas porque ficou bonito.</strong></p>
+        </div>
+        <div class="sobre-block">
+          <p class="sobre-label">AT‑LAB</p>
+          <p>Meu laboratório público de aplicações e micro SaaS. Ali, conceitos viram produtos funcionais — ferramentas reais, interfaces que operam no mundo real. O discurso precisa sobreviver à realidade.</p>
+        </div>
+        <div class="sobre-block">
+          <p class="sobre-label">Infraestrutura</p>
+          <p>Prefiro construir ambientes premium sem transformar o cliente em refém de estruturas inchadas. Arquiteturas leves e modernas:</p>
+          <ul class="sobre-list">
+            <li>GitHub Pages + Cloudflare</li><li>Distribuição edge</li>
+            <li>Assets otimizados</li><li>Fontes locais</li>
+            <li>Design tokens</li><li>Temas dinâmicos</li>
+            <li>SEO semântico</li><li>Performance real</li>
+          </ul>
+        </div>
+        <div class="sobre-block">
+          <p class="sobre-label">O trabalho</p>
+          <p>Não atuo apenas como designer, desenvolvedor ou estrategista. O trabalho funciona na interseção entre todas essas áreas — comunicação, escrita, direção criativa, UX, branding, copy e experiência emocional do usuário.</p>
+          <p>Muitos negócios são excelentes no que fazem, mas comunicam mal. <strong>Meu trabalho traduz valor invisível em percepção concreta.</strong></p>
+          <div class="sobre-quote"><p>Tecnologia sem direção vira ruído.<br>Direção sem execução continua sendo apenas ideia.</p></div>
+        </div>
       </div>
-      <div class="sobre-block">
-        <p class="sobre-label">Método</p>
-        <p>Atuo no cruzamento entre desenvolvimento web, experiência do usuário, posicionamento digital e engenharia de percepção. O foco está em criar estruturas capazes de <strong>transformar atenção em ação</strong> — com clareza, autoridade e intenção.</p>
-        <p>Cada projeto parte de uma pergunta central: como esta pessoa lê, decide, percebe valor — e o que faz com que ela aja sem sentir que foi pressionada?</p>
-      </div>
-      <div class="sobre-block">
-        <p class="sobre-label">Arquitetura de decisão</p>
-        <p>Uma landing page não é um panfleto online. É um ambiente cognitivo. O visitante chega com dúvidas, excesso de informação e resistência. O papel da engenharia é organizar a experiência de forma tão clara que a decisão se torne consequência natural.</p>
-        <p>Isso aparece em cada projeto — na tipografia, no contraste, no tempo de carregamento, na densidade de informação. <strong>Nada existe apenas porque ficou bonito.</strong></p>
-      </div>
-      <div class="sobre-block">
-        <p class="sobre-label">AT‑LAB</p>
-        <p>Meu laboratório público de aplicações e micro SaaS. Ali, conceitos viram produtos funcionais — ferramentas reais, interfaces que operam no mundo real. O discurso precisa sobreviver à realidade.</p>
-      </div>
-      <div class="sobre-block">
-        <p class="sobre-label">Infraestrutura</p>
-        <p>Prefiro construir ambientes premium sem transformar o cliente em refém de estruturas inchadas. Arquiteturas leves e modernas:</p>
-        <ul class="sobre-list">
-          <li>GitHub Pages + Cloudflare</li><li>Distribuição edge</li>
-          <li>Assets otimizados</li><li>Fontes locais</li>
-          <li>Design tokens</li><li>Temas dinâmicos</li>
-          <li>SEO semântico</li><li>Performance real</li>
-        </ul>
-      </div>
-      <div class="sobre-block">
-        <p class="sobre-label">O trabalho</p>
-        <p>Não atuo apenas como designer, desenvolvedor ou estrategista. O trabalho funciona na interseção entre todas essas áreas — comunicação, escrita, direção criativa, UX, branding, copy e experiência emocional do usuário.</p>
-        <p>Muitos negócios são excelentes no que fazem, mas comunicam mal. <strong>Meu trabalho traduz valor invisível em percepção concreta.</strong></p>
-        <div class="sobre-quote"><p>Tecnologia sem direção vira ruído.<br>Direção sem execução continua sendo apenas ideia.</p></div>
+      <footer class="modal-footer">
+        <p class="modal-footer-text">Engenharia · Percepção · Decisão</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="vmodal-overlay" id="modal-video" role="dialog" aria-modal="true" aria-label="Vídeo de apresentação" hidden>
+    <div class="vmodal-inner">
+      <button class="vmodal-close" id="vmodal-close-btn" type="button" aria-label="Fechar vídeo">Fechar ✕</button>
+      <div class="vmodal-video-wrap">
+        <div class="vmodal-video-inner">
+          <video id="presentation-video" controls preload="none" playsinline>
+            <source src="https://alexandretorres.com.br/assets/img/aletor2.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
     </div>
-    <footer class="modal-footer">
-      <p class="modal-footer-text">Engenharia · Percepção · Decisão</p>
-    </footer>
   </div>
-</div>
 
-<div class="vmodal-overlay" id="modal-video" role="dialog" aria-modal="true" aria-label="Vídeo de apresentação">
-  <div class="vmodal-inner">
-    <button class="vmodal-close" id="vmodal-close-btn" type="button" aria-label="Fechar vídeo">Fechar ✕</button>
-    <div class="vmodal-video-wrap">
-      <div class="vmodal-video-inner">
-        <video id="presentation-video" controls preload="none" playsinline>
-          <source src="https://alexandretorres.com.br/assets/img/aletor2.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-</div>
+</main>
 
 <script>
 (function(){
   /* ── Modal Posicionamento ── */
   const o=document.getElementById('modal-sobre'),b=document.getElementById('btn-sobre'),c=document.getElementById('modal-close-btn');
-  function openSobre(){o.classList.add('open');document.body.style.overflow='hidden';c.focus()}
-  function closeSobre(){o.classList.remove('open');document.body.style.overflow='';b.focus()}
+  function openSobre(){o.hidden=false;o.classList.add('open');document.body.style.overflow='hidden';c.focus()}
+  function closeSobre(){o.classList.remove('open');document.body.style.overflow='';b.focus();o.hidden=true}
   b.addEventListener('click',openSobre);
   c.addEventListener('click',closeSobre);
   o.addEventListener('click',function(e){if(e.target===o)closeSobre()});
@@ -314,8 +335,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   const vBtn=document.getElementById('btn-video');
   const vVideo=document.getElementById('presentation-video');
   const vClose=document.getElementById('vmodal-close-btn');
-  function openVideo(){vOverlay.classList.add('open');document.body.style.overflow='hidden';vVideo.play();vClose.focus()}
-  function closeVideo(){vOverlay.classList.remove('open');document.body.style.overflow='';vVideo.pause();vVideo.currentTime=0;vBtn.focus()}
+  function openVideo(){vOverlay.hidden=false;vOverlay.classList.add('open');document.body.style.overflow='hidden';vVideo.play();vClose.focus()}
+  function closeVideo(){vOverlay.classList.remove('open');document.body.style.overflow='';vVideo.pause();vVideo.currentTime=0;vBtn.focus();vOverlay.hidden=true}
   vBtn.addEventListener('click',openVideo);
   vClose.addEventListener('click',closeVideo);
   vOverlay.addEventListener('click',function(e){if(e.target===vOverlay)closeVideo()});
