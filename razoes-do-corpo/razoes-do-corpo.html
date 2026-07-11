@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Razões do Corpo</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #202020;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* ---------- TELA INICIAL ---------- */
+  #landing {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2147483000 !important;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+
+  #landing.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  #bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: 900;
+    color: #2c2c2c;
+    letter-spacing: 2px;
+    line-height: 1;
+    white-space: nowrap;
+    font-size: 200px;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  #play-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .ripple {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+    opacity: 0;
+    animation: rippleAnim 2.4s ease-out infinite;
+  }
+
+  .ripple:nth-child(2) { animation-delay: 0.8s; }
+  .ripple:nth-child(3) { animation-delay: 1.6s; }
+
+  @keyframes rippleAnim {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+
+  #play-button {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f5d67a, #d4af37 60%, #b8912b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.45), 0 0 35px rgba(212, 175, 55, 0.15);
+    animation: pulseButton 2.4s ease-in-out infinite;
+    z-index: 3;
+  }
+
+  @keyframes pulseButton {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  #play-button::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-left: 28px solid #202020;
+    margin-left: 6px;
+  }
+
+  /* ---------- TELA DE VÍDEO ---------- */
+  #video-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh;
+    height: 100dvh;
+    background: #000;
+    display: none;
+    z-index: 2147483001 !important;
+  }
+
+  #video-container.active {
+    display: block;
+  }
+
+  #video {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    object-fit: cover;
+    background: #000;
+    display: block;
+  }
+
+  /* Botão de play/pause customizado sobre o vídeo */
+  #toggle-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    border: 2px solid #d4af37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 21;
+  }
+
+  #video-container.show-controls #toggle-play {
+    opacity: 1;
+  }
+
+  #toggle-play .icon-play {
+    width: 0;
+    height: 0;
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-left: 28px solid #d4af37;
+    margin-left: 6px;
+  }
+
+  #toggle-play .icon-pause {
+    display: none;
+    gap: 8px;
+  }
+
+  #toggle-play .icon-pause span {
+    display: block;
+    width: 8px;
+    height: 32px;
+    background: #d4af37;
+  }
+
+  #toggle-play.paused .icon-play { display: none; }
+  #toggle-play.paused .icon-pause { display: flex; }
+  #toggle-play:not(.paused) .icon-play { display: block; }
+  #toggle-play:not(.paused) .icon-pause { display: none; }
+
+  #progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    z-index: 22;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+  }
+
+  #video-container.show-controls #progress-bar {
+    opacity: 1;
+  }
+
+  #progress-track {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    overflow: visible;
+  }
+
+  #progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: #d4af37;
+    border-radius: 4px;
+  }
+
+  #progress-handle {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 12px;
+    height: 12px;
+    background: #d4af37;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.7);
+  }
+
+  /* ---------- BOTÃO WHATSAPP ---------- */
+  #whatsapp-btn {
+    position: fixed !important;
+    bottom: calc(30px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    border: 2px solid #d4af37;
+    border-radius: 50px;
+    background: transparent;
+    color: #d4af37;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    z-index: 2147483002 !important;
+    backdrop-filter: blur(2px);
+  }
+
+  #whatsapp-btn.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #whatsapp-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #d4af37;
+  }
+
+  @media (max-width: 600px) {
+    #play-wrapper, #play-button, .ripple { width: 80px; height: 80px; }
+    #play-button::after {
+      border-top: 14px solid transparent;
+      border-bottom: 14px solid transparent;
+      border-left: 22px solid #202020;
+      margin-left: 4px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- TELA INICIAL -->
+  <div id="landing">
+    <div id="bg-text">RAZÕES DO CORPO</div>
+    <div id="play-wrapper">
+      <div class="ripple"></div>
+      <div class="ripple"></div>
+      <div class="ripple"></div>
+      <div id="play-button"></div>
+    </div>
+  </div>
+
+  <!-- TELA DE VÍDEO -->
+  <div id="video-container">
+    <video id="video" src="https://aletoapp.github.io/rc/razoes-do-corpo.mp4" playsinline></video>
+    <div id="toggle-play" class="paused">
+      <div class="icon-play"></div>
+      <div class="icon-pause"><span></span><span></span></div>
+    </div>
+    <div id="progress-bar">
+      <div id="progress-track">
+        <div id="progress-fill"></div>
+        <div id="progress-handle"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÃO WHATSAPP -->
+  <a id="whatsapp-btn" href="https://wa.me/5527988267381" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.82 2.42a8.2 8.2 0 0 1 2.42 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.19-1.15l-.3-.17-3.14.82.84-3.06-.19-.32a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24M8.53 6.87c-.16 0-.43.06-.65.31s-.86.84-.86 2.05.88 2.38 1 2.54 1.72 2.76 4.24 3.76c2.1.84 2.53.67 2.98.63.45-.04 1.46-.6 1.66-1.18s.2-1.07.14-1.18-.23-.17-.48-.29-1.47-.72-1.7-.8-.4-.13-.57.13-.65.8-.8.97-.3.19-.55.06a6.9 6.9 0 0 1-2.03-1.25 7.6 7.6 0 0 1-1.4-1.74c-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43s.16-.25.24-.41.04-.31-.02-.43-.57-1.38-.79-1.89-.42-.43-.57-.44l-.49-.01Z"/></svg>
+    <span>55 27 98826-7381</span>
+  </a>
+
+  <script>
+    const landing = document.getElementById('landing');
+    const playWrapper = document.getElementById('play-wrapper');
+    const videoContainer = document.getElementById('video-container');
+    const video = document.getElementById('video');
+    const togglePlay = document.getElementById('toggle-play');
+    const whatsappBtn = document.getElementById('whatsapp-btn');
+
+    // Garante que os elementos fiquem realmente fixos na tela inteira,
+    // mesmo se este código for inserido dentro de uma página que use
+    // bibliotecas de "smooth scroll" (Locomotive Scroll, Lenis, GSAP
+    // ScrollSmoother etc.) que aplicam transform no <body> — isso quebra
+    // o position:fixed de qualquer elemento dentro do body. Por isso,
+    // movemos nosso bloco para fora do body, direto como filho do <html>.
+    document.documentElement.appendChild(landing);
+    document.documentElement.appendChild(videoContainer);
+    document.documentElement.appendChild(whatsappBtn);
+
+    let controlsTimeout;
+    const WHATSAPP_TIME = 4 * 60 + 2; // 4:02 em segundos
+
+    // Ajusta o texto de fundo para sempre ocupar ~90% da largura da tela, sem estourar
+    const bgText = document.getElementById('bg-text');
+    function fitBgText() {
+      bgText.style.transform = 'translate(-50%, -50%) scale(1)';
+      const targetWidth = window.innerWidth * 0.9;
+      const actualWidth = bgText.scrollWidth;
+      const scale = targetWidth / actualWidth;
+      bgText.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    }
+    window.addEventListener('load', fitBgText);
+    window.addEventListener('resize', fitBgText);
+
+    playWrapper.addEventListener('click', () => {
+      landing.classList.add('hidden');
+      videoContainer.classList.add('active');
+      video.play();
+      togglePlay.classList.remove('paused');
+      showControlsTemporarily();
+
+      // Aciona o fullscreen real do navegador (equivalente ao F11)
+      if (videoContainer.requestFullscreen) {
+        videoContainer.requestFullscreen().catch(() => {});
+      } else if (videoContainer.webkitRequestFullscreen) {
+        videoContainer.webkitRequestFullscreen();
+      } else if (videoContainer.msRequestFullscreen) {
+        videoContainer.msRequestFullscreen();
+      } else if (video.webkitEnterFullscreen) {
+        // fallback iOS Safari antigo (fullscreen nativo apenas do vídeo)
+        video.webkitEnterFullscreen();
+      }
+    });
+
+    function showControlsTemporarily() {
+      videoContainer.classList.add('show-controls');
+      clearTimeout(controlsTimeout);
+      controlsTimeout = setTimeout(() => {
+        if (!video.paused) {
+          videoContainer.classList.remove('show-controls');
+        }
+      }, 2000);
+    }
+
+    videoContainer.addEventListener('click', (e) => {
+      showControlsTemporarily();
+    });
+
+    togglePlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (video.paused) {
+        video.play();
+        togglePlay.classList.remove('paused');
+      } else {
+        video.pause();
+        togglePlay.classList.add('paused');
+      }
+      showControlsTemporarily();
+    });
+
+    function checkWhatsappTime() {
+      if (video.currentTime >= WHATSAPP_TIME) {
+        whatsappBtn.classList.add('visible');
+      }
+    }
+    video.addEventListener('timeupdate', checkWhatsappTime);
+    video.addEventListener('playing', checkWhatsappTime);
+    video.addEventListener('seeked', checkWhatsappTime);
+    setInterval(checkWhatsappTime, 500);
+
+    video.addEventListener('ended', () => {
+      togglePlay.classList.add('paused');
+      videoContainer.classList.add('show-controls');
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      } else if (document.webkitFullscreenElement) {
+        document.webkitExitFullscreen();
+      }
+    });
+
+    // ---------- BARRA DE PROGRESSO ----------
+    const progressBar = document.getElementById('progress-bar');
+    const progressTrack = document.getElementById('progress-track');
+    const progressFill = document.getElementById('progress-fill');
+    const progressHandle = document.getElementById('progress-handle');
+    let isSeeking = false;
+
+    function updateProgress() {
+      if (!video.duration || isSeeking) return;
+      const pct = (video.currentTime / video.duration) * 100;
+      progressFill.style.width = pct + '%';
+      progressHandle.style.left = pct + '%';
+    }
+    video.addEventListener('timeupdate', updateProgress);
+    video.addEventListener('loadedmetadata', updateProgress);
+
+    function seekFromEvent(clientX) {
+      const rect = progressTrack.getBoundingClientRect();
+      let pct = (clientX - rect.left) / rect.width;
+      pct = Math.min(1, Math.max(0, pct));
+      progressFill.style.width = (pct * 100) + '%';
+      progressHandle.style.left = (pct * 100) + '%';
+      if (video.duration) {
+        video.currentTime = pct * video.duration;
+      }
+    }
+
+    progressBar.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+      isSeeking = true;
+      seekFromEvent(e.clientX);
+      showControlsTemporarily();
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (isSeeking) seekFromEvent(e.clientX);
+    });
+    window.addEventListener('mouseup', () => { isSeeking = false; });
+
+    progressBar.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      isSeeking = true;
+      seekFromEvent(e.touches[0].clientX);
+      showControlsTemporarily();
+    }, { passive: true });
+    progressBar.addEventListener('touchmove', (e) => {
+      if (isSeeking) seekFromEvent(e.touches[0].clientX);
+    }, { passive: true });
+    window.addEventListener('touchend', () => { isSeeking = false; });
+  </script>
+
+</body>
+</html>
