@@ -189,8 +189,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .btn-primary{color:var(--gold);border-color:rgba(200,169,110,0.55)}
 .btn-primary::before{opacity:1}
 .btn-primary:hover{border-color:var(--gold)}
+.btn-whats{display:inline-flex;align-items:center;gap:8px}
+.btn-whats-icon{flex-shrink:0;color:rgba(200,169,110,0.99);opacity:.5;transition:color .25s ease}
+.btn-whats:hover .btn-whats-icon{color:var(--gold)}
 .epigraph{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);animation:fadeIn 0.8s ease 1.5s both;margin-top:44px}
-.byline{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);animation:fadeIn 0.8s ease 1.7s both;margin-top:10px}
+.byline{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);animation:fadeIn 0.8s ease 1.7s both;margin-top:10px; a:link, a:visited {
+        color: gray;
+        text-decoration: none;}
 .byline span{opacity:.4}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -225,12 +230,21 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </svg>
   </button>
   <nav class="nav-buttons" aria-label="Navegação principal">
-    <a href="atendimento/" class="btn btn-primary">iniciar projeto</a>
+    <a href="https://wa.me/5527988267381" target="_blank" rel="noopener" class="btn btn-primary btn-whats">
+      <svg class="btn-whats-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 21l1.65-4.95A9 9 0 1 1 8.3 19.5L3 21z"/>
+        <path d="M8.5 8.4c0-.45.45-.9.9-.9h.45c.27 0 .5.18.55.45l.55 1.45c.1.27 0 .55-.18.72l-.63.63c.45 1 1.27 1.82 2.27 2.27l.63-.63c.18-.18.45-.25.72-.18l1.45.55c.27.05.45.28.45.55v.45c0 .45-.45.9-.9.9-3 0-5.4-2.4-5.4-5.4z"/>
+      </svg>
+      iniciar projeto
+    </a>
     <a href="at-lab/"      class="btn">ver resultados</a>
     <button class="btn" id="btn-sobre" type="button" aria-haspopup="dialog">posicionamento</button>
   </nav>
   <p class="epigraph">Engenharia · Percepção · Decisão</p>
-  <p class="byline"><span>by</span> Alexandre Torres</p>
+  <p class="byline"><span>by</span> Alexandre Torres<br>
+  54.806.916/0001-62<br><a href="https://wa.me/5527988267381">27 98826-7381</a>
+  </p>
+  
 </div>
 
 <main id="conteudo-principal">
