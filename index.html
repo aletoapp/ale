@@ -209,6 +209,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <link rel="stylesheet" href="assets/css/modal.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="assets/css/modal.css"></noscript>
 
+<!-- Widget de acessibilidade CSS não-crítico: carregado de forma assíncrona -->
+<link rel="stylesheet" href="assets/css/a11y-widget.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="assets/css/a11y-widget.css"></noscript>
+
 </head>
 
 <body>
@@ -348,5 +352,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   });
 })();
 </script>
+
+<!-- Widget de acessibilidade — botão flutuante inferior direito -->
+<script src="assets/js/a11y-widget.js" defer></script>
 </body>
 </html>
