@@ -29,6 +29,7 @@ const IGNORE = [
   '.git',
   '.github',
   'vendor',
+  'privacidade',
   'dist',
   'build',
   'coverage',
