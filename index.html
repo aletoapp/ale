@@ -22,6 +22,10 @@ window.addEventListener('load',function(){
 <meta name="theme-color"  content="#080807">
 <meta name="referrer"     content="no-referrer-when-downgrade">
 
+<!-- ── PRECONNECT ───────────────────────────────────────────── -->
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
 <!-- ── PRELOAD CRITICAL FONTS ──────────────────────────────── -->
 <link rel="preload" href="assets/fonts/subset-PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/subset-DMMono-Regular.woff2"       as="font" type="font/woff2" crossorigin>
@@ -193,10 +197,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .btn-whats-icon{flex-shrink:0;color:rgba(200,169,110,0.99);opacity:.5;transition:color .25s ease}
 .btn-whats:hover .btn-whats-icon{color:var(--gold)}
 .epigraph{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);animation:fadeIn 0.8s ease 1.5s both;margin-top:44px}
-.byline{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);animation:fadeIn 0.8s ease 1.7s both;margin-top:10px; a:link, a:visited {
-        color: gray;
-        text-decoration: none;}
+.byline{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);animation:fadeIn 0.8s ease 1.7s both;margin-top:10px}
+.byline a:link,.byline a:visited{color:gray;text-decoration:none}
+.byline a:hover,.byline a:focus-visible{color:var(--gold)}
 .byline span{opacity:.4}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
