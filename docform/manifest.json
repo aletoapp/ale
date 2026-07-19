@@ -1,0 +1,54 @@
+{
+  "name": "DocForm — Formatação Profissional",
+  "short_name": "DocForm",
+  "description": "Transforme textos de IA em documentos profissionais e jurídicos prontos para impressão ou assinatura digital.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0d12",
+  "theme_color": "#0a0d12",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    {
+      "src": "assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/og.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "DocForm — Formatação de documentos profissionais"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Formatar Documento",
+      "short_name": "Formatar",
+      "description": "Cole texto de IA e gere um documento formatado",
+      "url": "./?page=formatar",
+      "icons": [{ "src": "assets/img/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Criar Currículo",
+      "short_name": "Currículo",
+      "description": "Monte seu currículo profissional 2026",
+      "url": "./?page=curriculo",
+      "icons": [{ "src": "assets/img/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

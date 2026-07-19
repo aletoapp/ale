@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0a0d12">
+  <link rel="manifest" href="manifest.json">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DocForm">
+  
+  <link rel="apple-touch-icon" href="assets/img/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="https://assets/img/icon-512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon.png">
+
+  <title>DocForm — Formatação Profissional de Documentos</title>
+  <meta name="description" content="Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.">
+  <meta name="author" content="DocForm">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://alexandretorres.com.br/docform/">
+
+  <!-- 
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://docform.app/">
+  <meta property="og:site_name" content="DocForm">
+  <meta property="og:title" content="DocForm — Documentos Profissionais a partir de IA">
+  <meta property="og:description" content="Cole textos do ChatGPT ou Gemini e gere documentos formatados em segundos.">
+  <meta property="og:image" content="assets/img/og.jpg">
+  <meta property="og:image:alt" content="DocForm — Formatação profissional de documentos com IA">
+  <meta property="og:locale" content="pt_BR">
+--> 
+  <!--
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DocForm — Formatação de Doc Profissional">
+  <meta name="twitter:image" content="assets/img/og.jpg">
+  <meta name="twitter:image" content="assets/img/og.jpg">
+-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
+  <!-- ═══ FONTS ══════════════════════════════════════════════════════ -->
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- ═══ STYLES ═════════════════════════════════════════════════════ -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- ═══ THIRD-PARTY SCRIPTS ═══════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+
+  <!-- ═══ APP SCRIPT ═════════════════════════════════════════════════ -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Offline indicator -->
+<div id="offline-bar" style="display:none;">
+  <span class="offline-dot"></span>
+  <span>Modo offline — recursos em cache</span>
+</div> 
+
+<!-- PWA Install Banner -->
+<div id="pwa-banner" style="display:none;" role="dialog" aria-label="Instalar DocForm">
+  <div class="pwa-icon">📲</div>
+  <div class="pwa-body">
+    <div class="pwa-title">Instalar DocForm</div>
+    <div class="pwa-desc">Use offline, sem internet, como app nativo.</div>
+    <div class="pwa-actions">
+      <button class="pwa-install" onclick="pwaInstall()">Instalar</button>
+      <button class="pwa-dismiss" onclick="pwaDismiss()">Agora não</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ HEADER ══════ -->
+<header>
+  <a class="logo" onclick="navigate('home')">
+    <div class="logo-mark">⚖</div>
+    <div>
+      <span class="logo-text">DocForm</span>
+      <span class="logo-sub">Formatação Profissional · 2026</span>
+    </div>
+  </a>
+  <div class="hdr-right">
+    <span class="badge" id="pwa-status-badge">v 1.0</span>
+  </div>
+</header>
+
+<!-- ══════ LAYOUT ══════ -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <span class="nav-section">Menu</span>
+    <div class="nav-item active" onclick="navigate('home',this)">
+      <span class="ni">🏠</span> Início
+    </div>
+    <div class="nav-sep"></div>
+    <span class="nav-section">Documentos</span>
+    <div class="nav-item" onclick="navigate('formatar',this)">
+      <span class="ni">✦</span> Formatar Texto IA
+    </div>
+    <div class="nav-item" onclick="navigate('curriculo',this)">
+      <span class="ni">📄</span> Currículo
+    </div>
+    <div class="nav-item" onclick="navigate('email',this)">
+      <span class="ni">📧</span> E-mail Formal
+    </div>
+    <div class="nav-sep"></div>
+    <span class="nav-section">Atalhos</span>
+    <div class="nav-item" onclick="quickPreset('aluguel-residencial')"><span class="ni">🏠</span> Aluguel Residencial</div>
+    <div class="nav-item" onclick="quickPreset('aluguel-comercial')"><span class="ni">🏢</span> Aluguel Comercial</div>
+    <div class="nav-item" onclick="quickPreset('prestacao-servicos')"><span class="ni">🤝</span> Prestação Serviços</div>
+    <div class="nav-item" onclick="quickPreset('trabalho-freelance')"><span class="ni">💼</span> Freelance</div>
+    <div class="nav-item" onclick="quickPreset('compra-venda')"><span class="ni">💰</span> Compra e Venda</div>
+    <div class="nav-item" onclick="quickPreset('nda')"><span class="ni">🔒</span> NDA Confidencial.</div>
+    <div class="nav-item" onclick="quickPreset('danos')"><span class="ni">⚠️</span> Cobrança Danos</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ══ HOME ══ -->
+    <div class="panel active" id="panel-home">
+      <div class="hero-title">Bem-vindo ao <span>DocForm</span></div>
+      <p class="hero-sub">Cole o texto gerado por IA e obtenha um documento <strong style="color:var(--text)">juridicamente formatado</strong>, profissional e pronto para impressão ou assinatura digital Gov.br.</p>
+      <div class="feat-grid">
+        <div class="feat-card" onclick="navigate('formatar')">
+          <div class="fc-icon">✦</div>
+          <div class="fc-title">Formatar Documento</div>
+          <div class="fc-desc">Cole qualquer texto de IA e aplique formatação jurídica em segundos.</div>
+        </div>
+        <div class="feat-card" onclick="navigate('curriculo')">
+          <div class="fc-icon">📄</div>
+          <div class="fc-title">Criar Currículo</div>
+          <div class="fc-desc">Formulário completo 2026. PDF só com o que foi preenchido.</div>
+        </div>
+        <div class="feat-card" onclick="navigate('email')">
+          <div class="fc-icon">📧</div>
+          <div class="fc-title">E-mail Formal</div>
+          <div class="fc-desc">Formate comunicados com padrão corporativo.</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px;">
+        <div class="card-title">⚡ Como funciona</div>
+        <div class="how-grid">
+          <div class="how-step"><div class="how-num">① Cole o texto</div><div class="how-text">Copie tudo do ChatGPT, Gemini ou qualquer IA generativa.</div></div>
+          <div class="how-step"><div class="how-num">② Escolha o tipo</div><div class="how-text">Selecione o preset ou deixe a detecção automática agir.</div></div>
+          <div class="how-step"><div class="how-num">③ Visualize</div><div class="how-text">Pré-visualização A4 real com margens e tipografia profissional.</div></div>
+          <div class="how-step"><div class="how-num">④ Exporte PDF</div><div class="how-text">PDF vetorial com margens jurídicas padrão OAB/Tribunais (3×2×2×2 cm) — fiel à prévia.</div></div>
+        </div>
+      </div>
+      <div class="card" style="border-color:rgba(0,102,204,0.25);background:rgba(0,102,204,0.05);">
+        <div class="card-title" style="color:#5fa8f5;">📱 Dica — Uso em Campo</div>
+        <p style="font-size:0.82rem;color:var(--text-2);line-height:1.6;">
+          Use o <strong style="color:var(--text)">DocForm</strong> e o app <strong style="color:var(--text)">Gov.br</strong> simultaneamente. Gere o PDF aqui, salve no dispositivo e abra no Gov.br para assinar digitalmente — tudo pelo celular.
+        </p>
+      </div>
+    </div>
+
+    <!-- ══ FORMATAR ══ -->
+    <div class="panel" id="panel-formatar">
+      <div class="page-header">
+        <div class="page-title">Formatar Documento</div>
+        <div class="page-desc">Cole o texto gerado por IA. O conteúdo não é alterado — apenas a formatação visual.</div>
+      </div>
+
+      <!-- Preset -->
+      <div class="card">
+        <div class="card-title">① Tipo de Documento</div>
+        <div class="detect-row">
+          <span class="detect-row-label">🤖 Detecção Automática</span>
+          <label class="ios-toggle">
+            <input type="checkbox" id="auto-detect-toggle" checked>
+            <span class="ios-slider"></span>
+          </label>
+        </div>
+        <div id="detect-banner-wrap" style="display:none;"></div>
+        <div class="presets-grid" id="presets-container">
+          <div class="preset-btn" data-preset="aluguel-residencial" onclick="selectPreset(this)"><span class="preset-icon">🏠</span>Aluguel Residencial</div>
+          <div class="preset-btn" data-preset="aluguel-comercial"   onclick="selectPreset(this)"><span class="preset-icon">🏢</span>Aluguel Comercial</div>
+          <div class="preset-btn" data-preset="aluguel-veiculo"     onclick="selectPreset(this)"><span class="preset-icon">🚗</span>Locação Veículo</div>
+          <div class="preset-btn" data-preset="prestacao-servicos"  onclick="selectPreset(this)"><span class="preset-icon">🤝</span>Prestação Serviços</div>
+          <div class="preset-btn" data-preset="trabalho-freelance"  onclick="selectPreset(this)"><span class="preset-icon">💼</span>Freelance</div>
+          <div class="preset-btn" data-preset="compra-venda"        onclick="selectPreset(this)"><span class="preset-icon">💰</span>Compra e Venda</div>
+          <div class="preset-btn" data-preset="parceria"            onclick="selectPreset(this)"><span class="preset-icon">🔗</span>Parceria Comercial</div>
+          <div class="preset-btn" data-preset="nda"                 onclick="selectPreset(this)"><span class="preset-icon">🔒</span>NDA Confidencial.</div>
+          <div class="preset-btn" data-preset="danos"               onclick="selectPreset(this)"><span class="preset-icon">⚠️</span>Cobrança Danos</div>
+          <div class="preset-btn" data-preset="emprestimo"          onclick="selectPreset(this)"><span class="preset-icon">💳</span>Empréstimo</div>
+          <div class="preset-btn" data-preset="trabalho"            onclick="selectPreset(this)"><span class="preset-icon">📋</span>Contrato Trabalho</div>
+          <div class="preset-btn" data-preset="generico"            onclick="selectPreset(this)"><span class="preset-icon">📝</span>Genérico</div>
+        </div>
+      </div>
+
+      <!-- Cabeçalho -->
+      <div class="card">
+        <div class="card-title">② Cabeçalho</div>
+        <div class="form-grid">
+          <div class="form-row">
+            <div class="fg"><label>Título do Documento</label><input type="text" id="doc-titulo" placeholder="CONTRATO DE LOCAÇÃO RESIDENCIAL"></div>
+            <div class="fg"><label>Número / Ref.</label><input type="text" id="doc-numero" placeholder="001/2026"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Cidade – Estado</label><input type="text" id="doc-cidade" placeholder="São Paulo – SP"></div>
+            <div class="fg"><label>Data de Elaboração</label><input type="date" id="doc-data"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Identidade Visual -->
+      <div class="card">
+        <div class="card-title">② Identidade Visual <span style="font-size:0.65rem;color:var(--text-3);font-weight:400;">(opcional)</span></div>
+        <div class="form-row" style="align-items:flex-start;">
+          <div class="fg">
+            <label>Logotipo (cabeçalho)</label>
+            <div class="logo-zone" id="logo-drop" onclick="document.getElementById('logo-file').click()">
+              <img id="logo-preview-img" style="display:none;">
+              <div id="logo-ph"><div class="logo-zone-icon">🖼</div><div class="logo-zone-text">PNG / JPG / SVG</div></div>
+            </div>
+            <input type="file" id="logo-file" accept="image/*" style="display:none;" onchange="loadLogo(this)">
+            <button class="btn btn-danger" id="logo-rm" style="display:none;margin-top:6px;width:100%;" onclick="removeLogo()">Remover logotipo</button>
+          </div>
+          <div class="fg">
+            <label>Marca d'água</label>
+            <div class="logo-zone" id="wm-drop" onclick="document.getElementById('wm-file').click()">
+              <img id="wm-preview-img" style="display:none;">
+              <div id="wm-ph"><div class="logo-zone-icon">💧</div><div class="logo-zone-text">PNG / JPG</div></div>
+            </div>
+            <input type="file" id="wm-file" accept="image/*" style="display:none;" onchange="loadWatermark(this)">
+            <button class="btn btn-danger" id="wm-rm" style="display:none;margin-top:6px;width:100%;" onclick="removeWatermark()">Remover marca d'água</button>
+            <div style="margin-top:10px;" id="wm-pos-row">
+              <label style="font-family:var(--font-mono);font-size:0.66rem;color:var(--text-2);letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:6px;">Posição</label>
+              <div class="wm-opts" id="wm-pos-btns">
+                <button class="wm-btn active" data-wm="center" onclick="selWmPos(this)"><span class="wm-icon">⊕</span>Centro</button>
+                <button class="wm-btn" data-wm="top-left" onclick="selWmPos(this)"><span class="wm-icon">↖</span>Topo esq.</button>
+                <button class="wm-btn" data-wm="top-right" onclick="selWmPos(this)"><span class="wm-icon">↗</span>Topo dir.</button>
+                <button class="wm-btn" data-wm="bottom-right" onclick="selWmPos(this)"><span class="wm-icon">↘</span>Rod. dir.</button>
+              </div>
+            </div>
+            <div style="margin-top:10px;display:flex;align-items:center;gap:10px;">
+              <input type="range" id="wm-opacity" min="3" max="35" value="12" style="flex:1;accent-color:var(--ink);background:none;border:none;padding:0;">
+              <span id="wm-opacity-val" style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-2);min-width:28px;">12%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Texto -->
+      <div class="card">
+        <div class="card-title">③ Texto do Contrato</div>
+        <textarea id="input-text" placeholder="Cole aqui o texto copiado do ChatGPT, Gemini ou qualquer IA...&#10;&#10;O DocForm NÃO altera o conteúdo escrito. Apenas aplica:&#10;• Hierarquia de títulos e cláusulas&#10;• Parágrafos justificados com recuo e espaçamento profissional&#10;• Espaço de assinatura com área Gov.br / ICP-Brasil&#10;• Numeração de páginas&#10;• PDF nativo vetorial — sem granulação nem distorção"></textarea>
+        <div class="textarea-meta">
+          <span class="char-count" id="char-count">0 caracteres</span>
+          <button class="btn btn-secondary" style="padding:5px 11px;font-size:0.76rem;" onclick="document.getElementById('input-text').value='';updateCount()">Limpar</button>
+        </div>
+      </div>
+
+      <!-- Opções -->
+      <div class="card">
+        <div class="card-title">④ Opções</div>
+        <div class="chips" id="format-options">
+          <button class="chip on" data-opt="numerarClausulas">Numerar Cláusulas</button>
+          <button class="chip on" data-opt="espacoAssinatura">Espaço de Assinatura</button>
+          <button class="chip on" data-opt="dataLocal">Data e Local</button>
+          <button class="chip on" data-opt="paginacao">Numeração de Páginas</button>
+          <button class="chip on" data-opt="rodape">Rodapé</button>
+          <button class="chip"    data-opt="govbr">Área Gov.br</button>
+          <button class="chip"    data-opt="testemunhas">Testemunhas</button>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label id="sign1-label">Parte A</label>
+            <input type="text" id="sign1-name" placeholder="Nome / Razão Social da Parte A">
+          </div>
+          <div class="fg">
+            <label id="sign2-label">Parte B</label>
+            <input type="text" id="sign2-name" placeholder="Nome / Razão Social da Parte B">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="formatarDocumento()">✦ Formatar &amp; Visualizar</button>
+
+      <!-- Preview -->
+      <div id="preview-section" style="display:none;margin-top:24px;">
+        <div class="preview-toolbar">
+          <div class="pt-left">
+            <div class="pt-title">Pré-visualização</div>
+            <div class="pt-meta" id="preview-info">—</div>
+          </div>
+          <div class="pt-actions">
+            <button class="btn btn-secondary" id="btn-edit-toggle" onclick="toggleEditPreview()" title="Editar texto na pré-visualização">✏️ Editar</button>
+            <button class="btn btn-secondary" id="btn-docx-contrato" onclick="exportarDOCX('contrato')">⬇ DOCX</button>
+            <button class="btn btn-primary" id="btn-pdf-contrato" onclick="exportarPDF('contrato')">⬇ PDF</button>
+          </div>
+        </div>
+        <div class="doc-frame">
+          <div class="doc-scale-wrapper" id="preview-pages-wrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CURRÍCULO ══ -->
+    <div class="panel" id="panel-curriculo">
+      <div class="page-header">
+        <div class="page-title">Currículo 2026</div>
+        <div class="page-desc">Preencha apenas o que for relevante. Campos vazios não aparecem no PDF.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">👤 Dados Pessoais</div>
+        <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+          <div>
+            <div class="photo-btn" onclick="document.getElementById('cv-photo-input').click()">
+              <img id="cv-photo-img" style="display:none;">
+              <div id="cv-photo-ph"><div class="photo-icon">📷</div><span style="font-size:0.63rem;">Foto</span></div>
+            </div>
+            <input type="file" id="cv-photo-input" accept="image/*" style="display:none;" onchange="loadPhoto(this)">
+          </div>
+          <div style="flex:1;min-width:210px;">
+            <div class="form-grid">
+              <div class="fg"><label>Nome Completo *</label><input type="text" id="cv-nome" placeholder="Seu nome completo"></div>
+              <div class="fg"><label>Cargo / Título Profissional</label><input type="text" id="cv-cargo" placeholder="Gerente Comercial Sênior"></div>
+              <div class="form-row">
+                <div class="fg"><label>Cidade / Estado</label><input type="text" id="cv-cidade" placeholder="São Paulo – SP"></div>
+                <div class="fg"><label>Nascimento</label><input type="date" id="cv-nascimento"></div>
+              </div>
+              <div class="form-row">
+                <div class="fg"><label>Estado Civil</label>
+                  <select id="cv-estado-civil"><option value="">Não informar</option><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>União Estável</option></select>
+                </div>
+                <div class="fg"><label>Disponibilidade</label>
+                  <select id="cv-disp"><option value="">Não informar</option><option>Imediata</option><option>15 dias</option><option>30 dias</option><option>A combinar</option></select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📞 Contato &amp; Redes</div>
+        <div class="form-grid">
+          <div class="form-row">
+            <div class="fg"><label>Telefone / WhatsApp</label><input type="tel" id="cv-tel" placeholder="(11) 99999-9999"></div>
+            <div class="fg"><label>E-mail</label><input type="email" id="cv-email" placeholder="seu@email.com"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>LinkedIn</label><input type="url" id="cv-linkedin" placeholder="linkedin.com/in/seuperfil"></div>
+            <div class="fg"><label>GitHub / GitLab</label><input type="url" id="cv-github" placeholder="github.com/seuperfil"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Site / Portfólio</label><input type="url" id="cv-site" placeholder="meusite.com.br"></div>
+            <div class="fg"><label>Instagram</label><input type="url" id="cv-instagram" placeholder="@seuperfil"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Informações Adicionais</div>
+        <div class="form-row">
+          <div class="fg"><label>PCD</label><select id="cv-pcd"><option value="">Não informar</option><option>Sim</option><option>Não</option></select></div>
+          <div class="fg"><label>Pretensão Salarial</label><input type="text" id="cv-salario" placeholder="R$ 6.000,00 / A combinar"></div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+          <div class="fg"><label>CNH</label><select id="cv-cnh"><option value="">Não possui</option><option>A</option><option>B</option><option>AB</option><option>C</option><option>D</option><option>E</option></select></div>
+          <div class="fg"><label>Veículo Próprio</label><select id="cv-veiculo"><option value="">Não informar</option><option>Sim</option><option>Não</option></select></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✍ Resumo Profissional</div>
+        <textarea id="cv-resumo" rows="4" placeholder="Breve descrição da sua trajetória, especialidades e diferenciais..."></textarea>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💼 Experiência Profissional</div>
+        <div id="cv-exp-container"></div>
+        <button class="btn btn-secondary" style="margin-top:4px;" onclick="addExp()">+ Adicionar Experiência</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎓 Formação Acadêmica</div>
+        <div id="cv-edu-container"></div>
+        <button class="btn btn-secondary" style="margin-top:4px;" onclick="addEdu()">+ Adicionar Formação</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🏆 Cursos &amp; Certificações</div>
+        <div id="cv-curso-container"></div>
+        <button class="btn btn-secondary" style="margin-top:4px;" onclick="addCurso()">+ Adicionar Curso</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔧 Habilidades Técnicas</div>
+        <div class="tags-wrap">
+          <div id="skills-wrap" style="display:contents;"></div>
+          <input type="text" id="skills-input" class="tags-input" placeholder="Digite e pressione Enter...">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🌍 Idiomas</div>
+        <div id="cv-idioma-container"></div>
+        <button class="btn btn-secondary" style="margin-top:4px;" onclick="addIdioma()">+ Adicionar Idioma</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">➕ Informações Extras</div>
+        <div class="form-grid">
+          <div class="fg"><label>Trabalho Voluntário</label><textarea id="cv-voluntario" rows="2" placeholder="Descreva atividades voluntárias relevantes..."></textarea></div>
+          <div class="fg"><label>Prêmios &amp; Reconhecimentos</label><textarea id="cv-premios" rows="2" placeholder="Prêmios, reconhecimentos profissionais..."></textarea></div>
+          <div class="fg"><label>Publicações / Projetos</label><textarea id="cv-publicacoes" rows="2" placeholder="Artigos, projetos open source, portfólio..."></textarea></div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="gerarCV()">📄 Gerar Currículo</button>
+
+      <div id="cv-preview-section" style="display:none;margin-top:24px;">
+        <div class="preview-toolbar">
+          <div class="pt-left">
+            <div class="pt-title">Currículo Gerado</div>
+            <div class="pt-meta">Confira antes de exportar</div>
+          </div>
+          <div class="pt-actions">
+            <button class="btn btn-secondary" id="btn-docx-cv" onclick="exportarDOCX('cv')">⬇ DOCX</button>
+            <button class="btn btn-primary" id="btn-pdf-cv" onclick="exportarPDF('cv')">⬇ PDF</button>
+          </div>
+        </div>
+        <div class="doc-frame">
+          <div id="cv-preview" style="width:794px;min-height:1123px;padding:75px 75px 90px 75px;background:#fff;box-sizing:border-box;margin:0 auto;">
+            <div id="cv-doc-inner" class="cv-doc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ EMAIL ══ -->
+    <div class="panel" id="panel-email">
+      <div class="page-header">
+        <div class="page-title">E-mail Formal</div>
+        <div class="page-desc">Formate comunicados e notificações com padrão corporativo.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📧 Dados do E-mail</div>
+        <div class="form-grid">
+          <div class="fg"><label>Assunto</label><input type="text" id="em-assunto" placeholder="Notificação de Rescisão Contratual"></div>
+          <div class="form-row">
+            <div class="fg"><label>De (nome / cargo)</label><input type="text" id="em-de" placeholder="João Silva – Departamento Jurídico"></div>
+            <div class="fg"><label>Para (destinatário)</label><input type="text" id="em-para" placeholder="Empresa XYZ Ltda."></div>
+          </div>
+          <div class="fg"><label>Data / Local</label><input type="text" id="em-local" placeholder="São Paulo, 29 de março de 2026"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✍ Corpo do E-mail</div>
+        <textarea id="em-corpo" rows="8" placeholder="Cole ou escreva o corpo do e-mail aqui..."></textarea>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🖊 Assinatura</div>
+        <textarea id="em-assinatura" rows="3" placeholder="Nome, Cargo, Empresa, Telefone, E-mail&#10;Separe por vírgula para quebrar linhas"></textarea>
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="formatarEmail()">📧 Formatar E-mail</button>
+
+      <div id="email-preview-section" style="display:none;margin-top:24px;">
+        <div class="preview-toolbar">
+          <div class="pt-left">
+            <div class="pt-title">E-mail Formatado</div>
+          </div>
+          <div class="pt-actions">
+            <button class="btn btn-secondary" id="btn-docx-email" onclick="exportarDOCX('email')">⬇ DOCX</button>
+            <button class="btn btn-primary" id="btn-pdf-email" onclick="exportarPDF('email')">⬇ PDF</button>
+          </div>
+        </div>
+        <div class="doc-frame">
+          <div id="email-preview" class="email-doc" style="width:794px;min-height:600px;padding:75px 75px 90px 113px;background:#fff;box-sizing:border-box;margin:0 auto;"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- BOTTOM NAV mobile -->
+<nav class="bottom-nav">
+  <div class="bn-item active" id="bn-home" onclick="navigate('home',null,'bn-home')">
+    <span class="bn-icon">🏠</span><span class="bn-label">Início</span>
+  </div>
+  <div class="bn-item" id="bn-formatar" onclick="navigate('formatar',null,'bn-formatar')">
+    <span class="bn-icon">✦</span><span class="bn-label">Formatar</span>
+  </div>
+  <div class="bn-item" id="bn-curriculo" onclick="navigate('curriculo',null,'bn-curriculo')">
+    <span class="bn-icon">📄</span><span class="bn-label">Currículo</span>
+  </div>
+  <div class="bn-item" id="bn-email" onclick="navigate('email',null,'bn-email')">
+    <span class="bn-icon">📧</span><span class="bn-label">E-mail</span>
+  </div>
+</nav>
+
+<!-- ═══ APP SCRIPT ══════════════════════════════════════════════════ -->
+<script src="script.js"></script>
+
+<!-- ═══ PWA — Service Worker + Install Prompt ══════════════════════ -->
+<script>
+/* ── Service Worker Registration ── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(reg => {
+        console.log('[DocForm SW] Registrado:', reg.scope);
+
+        /* Detecta nova versão disponível */
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              showToast('🔄 Nova versão disponível — recarregue para atualizar', 'ok');
+            }
+          });
+        });
+      })
+      .catch(err => console.warn('[DocForm SW] Erro:', err));
+  });
+}
+
+/* ── Deep-link via ?page= (shortcuts do manifest) ── */
+(function handleShortcut() {
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get('page');
+  if (page && ['formatar','curriculo','email'].includes(page)) {
+    window.addEventListener('DOMContentLoaded', () => navigate(page));
+  }
+})();
+
+/* ── Offline / Online indicator ── */
+function updateOnlineStatus() {
+  const bar = document.getElementById('offline-bar');
+  if (!bar) return;
+  if (!navigator.onLine) {
+    bar.style.display = 'flex';
+  } else {
+    bar.style.display = 'none';
+  }
+}
+window.addEventListener('online',  updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+window.addEventListener('load',    updateOnlineStatus);
+
+/* ── PWA Install Prompt ── */
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  /* Só mostra se o usuário não dismissou antes nesta sessão */
+  if (!sessionStorage.getItem('pwa-dismissed')) {
+    document.getElementById('pwa-banner').style.display = 'flex';
+  }
+});
+
+function pwaInstall() {
+  if (!deferredPrompt) return;
+  document.getElementById('pwa-banner').style.display = 'none';
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(choice => {
+    if (choice.outcome === 'accepted') {
+      showToast('✅ DocForm instalado com sucesso!', 'ok');
+      const badge = document.getElementById('pwa-status-badge');
+      if (badge) { badge.textContent = '📲 App'; }
+    }
+    deferredPrompt = null;
+  });
+}
+
+function pwaDismiss() {
+  document.getElementById('pwa-banner').style.display = 'none';
+  sessionStorage.setItem('pwa-dismissed', '1');
+}
+
+/* Marca no badge quando rodando como PWA standalone */
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true) {
+    const badge = document.getElementById('pwa-status-badge');
+    if (badge) { badge.textContent = '📲 App'; badge.title = 'Rodando como app instalado'; }
+  }
+});
+
+window.matchMedia('(display-mode: standalone)').addEventListener('change', e => {
+  const badge = document.getElementById('pwa-status-badge');
+  if (!badge) return;
+  badge.textContent = e.matches ? '📲 App' : 'v 1.0';
+});
+</script>
+  
+</body>
+</html>
