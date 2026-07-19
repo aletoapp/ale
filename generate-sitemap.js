@@ -32,6 +32,9 @@ const IGNORE = [
   'dist',
   'build',
   'coverage',
+  'bike',
+  'ilist',
+  'razoes-do-corpo',
   'atendimento', // excluído do sitemap
   'propostas', // excluído do sitemap
 ];
