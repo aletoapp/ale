@@ -5,14 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Google Tag Manager — adiado para não bloquear LCP/FCP -->
 <script>
-window.dataLayer=window.dataLayer||[];
-window.addEventListener('load',function(){
-  var f=document.getElementsByTagName('script')[0],j=document.createElement('script');
-  j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id=GTM-WWHT6VJF';
-  f.parentNode.insertBefore(j,f);
-},{once:true,passive:true});
+(function(){
+  var loaded=false;
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments)}
+  window.gtag=gtag;
+  window.loadGA=loadGA;
+  function loadGA(cb){
+    if(loaded){cb&&cb();return}
+    loaded=true;
+    var s=document.createElement('script');
+    s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9';
+    document.head.appendChild(s);
+    gtag('js',new Date());
+    gtag('config','G-6N2WJ5YKW9');
+    events.forEach(function(e){window.removeEventListener(e,loadGA)});
+    clearTimeout(fallback);
+    cb&&cb();
+  }
+  var events=['scroll','mousemove','touchstart','keydown'];
+  events.forEach(function(e){window.addEventListener(e,loadGA,{passive:true,once:true})});
+  var fallback=setTimeout(loadGA,4000);
+  window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('.btn-whats').forEach(function(el){
+      el.addEventListener('click',function(){loadGA(function(){gtag('event','whatsapp_click')})});
+    });
+  });
+})();
 </script>
-<!-- End Google Tag Manager -->
+<!-- Google tag (GA4) direto, sem container GTM — carrega só na 1ª interação
+     ou em 4s, e registra o clique no WhatsApp como evento de conversão. -->
 <!-- ── SEO PRIMARY ──────────────────────────────────────────── -->
 <title>Alexandre Torres | Desenvolvedor Web & Web Designer Premium</title>
 <meta name="description" content="Criação de sites de alto padrão, landing pages de alta conversão e aplicações web. Web design premium e engenharia de software para posicionamento digital.">
@@ -324,7 +346,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 (function(){
   /* ── Modal Posicionamento ── */
   const o=document.getElementById('modal-sobre'),b=document.getElementById('btn-sobre'),c=document.getElementById('modal-close-btn');
-  function openSobre(){o.hidden=false;o.classList.add('open');document.body.style.overflow='hidden';c.focus()}
+  function openSobre(){o.hidden=false;o.classList.add('open');document.body.style.overflow='hidden';c.focus();if(window.loadGA)loadGA(function(){gtag('event','posicionamento_open')})}
   function closeSobre(){o.classList.remove('open');document.body.style.overflow='';b.focus();o.hidden=true}
   b.addEventListener('click',openSobre);
   c.addEventListener('click',closeSobre);
