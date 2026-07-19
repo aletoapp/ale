@@ -1,12 +1,11 @@
 /* ════════════════════════════════════════════════════════
-   a11y-widget.js — Painel de acessibilidade AT·Lab
+   a11y-widget.js — Painel de acessibilidade (FAB)
    ────────────────────────────────────────────────────────
-   • Botão vive em .nav-right — NÃO é FAB flutuante
-   • Apenas 2 idiomas: PT / EN
-   • Não duplica tema nem tamanho de fonte (já estão na nav)
-   • Sem body.style.overflow — não bloqueia scroll da página
-   • Sem backdrop-filter — mudanças visíveis ao vivo
-   • tabindex="-1" nos inputs para evitar scroll ao footer
+   • Botão flutuante fixo, canto inferior direito
+   • Cores herdadas do design system (--gold / --bg / --ink)
+   • Não modal — página continua utilizável com o painel aberto
+   • Sem body.style.overflow — mudanças visíveis ao vivo
+   • tabindex="-1" nos inputs; o track (role=switch) é o focável
    ════════════════════════════════════════════════════════ */
 
 (function () {
@@ -14,16 +13,16 @@
 
   /* ── HTML do painel ──────────────────────────────────── */
 
-  function buildHTML() {
+  function buildPanel() {
     const panel = document.createElement('div');
     panel.id = 'a11yPanel';
     panel.className = 'a11y-panel';
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-modal', 'false');   /* não modal — página continua acessível */
+    panel.setAttribute('aria-modal', 'false');
     panel.setAttribute('aria-label', 'Ajustes de acessibilidade');
+    panel.hidden = true;
 
     panel.innerHTML = `
-      <!-- Header -->
       <div class="a11y-hd">
         <div class="a11y-hd-left">
           <div class="a11y-hd-icon" aria-hidden="true">
@@ -33,21 +32,19 @@
             </svg>
           </div>
           <div class="a11y-hd-text">
-            <span class="a11y-hd-title">Acessibilidade AT·Lab</span>
+            <span class="a11y-hd-title">Acessibilidade</span>
             <span class="a11y-hd-sub">Ajustes de leitura · WCAG 2.1</span>
           </div>
         </div>
-        <button class="a11y-close" id="a11yClose" aria-label="Fechar painel de acessibilidade">
+        <button class="a11y-close" id="a11yClose" type="button" aria-label="Fechar painel de acessibilidade">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M1 1l12 12M13 1L1 13"/>
           </svg>
         </button>
       </div>
 
-      <!-- Body -->
       <div class="a11y-body">
 
-        <!-- Visão -->
         <div class="a11y-sec">
           <div class="a11y-sec-label">Visão</div>
 
@@ -107,7 +104,6 @@
           </div>
         </div>
 
-        <!-- Leitura -->
         <div class="a11y-sec">
           <div class="a11y-sec-label">Leitura</div>
 
@@ -139,41 +135,23 @@
               <span class="a11y-row-desc">Kerning e word-spacing</span>
             </div>
             <div class="a11y-stepper" role="group" aria-label="Espaçamento de texto">
-              <button class="a11y-step-btn" id="spDec" aria-label="Reduzir espaçamento">−</button>
+              <button class="a11y-step-btn" id="spDec" type="button" aria-label="Reduzir espaçamento">−</button>
               <span  class="a11y-step-val"  id="spVal" aria-live="polite">Normal</span>
-              <button class="a11y-step-btn" id="spInc" aria-label="Aumentar espaçamento">+</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Idioma — apenas PT e EN -->
-        <div class="a11y-sec">
-          <div class="a11y-sec-label">Idioma</div>
-          <div class="a11y-row">
-            <div class="a11y-row-info">
-              <span class="a11y-row-name">Idioma do site</span>
-              <span class="a11y-row-desc">Altera todo o conteúdo</span>
-            </div>
-            <div class="a11y-grp" role="group" aria-label="Selecionar idioma">
-              <button class="a11y-grp-btn active" id="langPT" aria-pressed="true"  lang="pt">PT</button>
-              <button class="a11y-grp-btn"        id="langEN" aria-pressed="false" lang="en">EN</button>
+              <button class="a11y-step-btn" id="spInc" type="button" aria-label="Aumentar espaçamento">+</button>
             </div>
           </div>
         </div>
 
       </div><!-- /a11y-body -->
 
-      <!-- Footer -->
       <div class="a11y-ft">
-        <button class="a11y-reset" id="a11yReset">
+        <button class="a11y-reset" id="a11yReset" type="button">
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M1 6a5 5 0 1 0 1.5-3.5L1 1v3h3"/>
           </svg>
           Restaurar padrões
         </button>
       </div>
-
-      <!-- Guia de leitura (elemento separado, fora do painel) -->
     `;
 
     return panel;
@@ -197,71 +175,77 @@
   }
 
 
-  /* ── Botão na nav (.nav-right) ───────────────────── */
+  /* ── FAB (botão flutuante + rótulo vertical) ──────── */
 
-  function buildNavBtn() {
-    const btn = document.createElement('button');
-    btn.id = 'a11yNavBtn';
-    btn.className = 'a11y-nav-btn';
-    btn.setAttribute('aria-controls', 'a11yPanel');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-label', 'Abrir painel de acessibilidade');
-    btn.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="5" r="1.5"/>
-        <path d="M5 8h14M8 8v4l-2 4m6-8v4l2 4m-4-4h4"/>
-      </svg>
-      <span class="a11y-nav-label">Acessibilidade</span>
+  function buildFab() {
+    const wrap = document.createElement('div');
+    wrap.className = 'a11y-fab-wrap';
+
+    wrap.innerHTML = `
+      <span class="a11y-fab-label">Acessibilidade</span>
+      <button class="a11y-fab-btn" id="a11yNavBtn" type="button"
+        aria-haspopup="dialog" aria-controls="a11yPanel" aria-expanded="false"
+        aria-label="Abrir painel de acessibilidade">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="5" r="1.5"/>
+          <path d="M5 8h14M8 8v4l-2 4m6-8v4l2 4m-4-4h4"/>
+        </svg>
+      </button>
     `;
-    return btn;
+
+    return wrap;
   }
 
 
   /* ── Lógica principal ────────────────────────────── */
 
   function init() {
-    /* 1 — Insere o painel no body */
-    const panel = buildHTML();
+    /* 1 — Painel */
+    const panel = buildPanel();
     document.body.appendChild(panel);
 
     /* 2 — Guia de leitura */
     buildReadingGuide();
 
-    /* 3 — Botão na nav */
-    const navRight = document.querySelector('.nav-right');
-    if (navRight) {
-      const navBtn = buildNavBtn();
-      /* Insere antes do theme-toggle (último filho típico) */
-      navRight.insertBefore(navBtn, navRight.firstChild);
-      wireToggle(navBtn, panel);
-    }
+    /* 3 — FAB */
+    const fabWrap = buildFab();
+    document.body.appendChild(fabWrap);
+    const fabBtn = document.getElementById('a11yNavBtn');
+    wireToggle(fabBtn, panel);
 
     /* 4 — Fecha */
     document.getElementById('a11yClose').addEventListener('click', () => closePanel(panel));
 
-    /* 5 — Fecha ao pressionar Escape */
+    /* 5 — Escape fecha o painel */
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && panel.classList.contains('open')) closePanel(panel);
     });
 
-    /* 6 — Features */
+    /* 6 — Clique fora fecha o painel */
+    document.addEventListener('click', function (e) {
+      if (!panel.classList.contains('open')) return;
+      if (panel.contains(e.target) || fabBtn.contains(e.target)) return;
+      closePanel(panel);
+    });
+
+    /* 7 — Features */
     wireFeatures(panel);
 
-    /* 7 — Reset */
+    /* 8 — Reset */
     document.getElementById('a11yReset').addEventListener('click', () => resetAll(panel));
 
-    /* 8 — Recupera estado salvo */
+    /* 9 — Recupera estado salvo */
     restoreState(panel);
 
-    /* 9 — Live region para leitores de tela (font-control já usa fontLiveRegion) */
-    let liveA11y = document.getElementById('a11yLiveRegion');
-    if (!liveA11y) {
-      liveA11y = document.createElement('div');
-      liveA11y.id = 'a11yLiveRegion';
-      liveA11y.setAttribute('aria-live', 'polite');
-      liveA11y.setAttribute('aria-atomic', 'true');
-      liveA11y.className = 'sr-only';
-      document.body.appendChild(liveA11y);
+    /* 10 — Live region para leitores de tela */
+    let live = document.getElementById('a11yLiveRegion');
+    if (!live) {
+      live = document.createElement('div');
+      live.id = 'a11yLiveRegion';
+      live.setAttribute('aria-live', 'polite');
+      live.setAttribute('aria-atomic', 'true');
+      live.className = 'sr-only';
+      document.body.appendChild(live);
     }
   }
 
@@ -269,7 +253,8 @@
   /* ── Abrir / fechar ──────────────────────────────── */
 
   function wireToggle(btn, panel) {
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
       const isOpen = panel.classList.contains('open');
       if (isOpen) {
         closePanel(panel);
@@ -280,15 +265,16 @@
   }
 
   function openPanel(panel) {
+    panel.hidden = false;
+    /* força reflow para a transição de entrada funcionar */
+    void panel.offsetHeight;
     panel.classList.add('open');
-    /* NÃO trava o scroll — usuário precisa ver as mudanças ao vivo */
     const btn = document.getElementById('a11yNavBtn');
-    if (btn) btn.setAttribute('aria-expanded', 'true');
-    /* Foco no botão fechar */
+    if (btn) { btn.setAttribute('aria-expanded', 'true'); btn.classList.add('is-open'); }
     setTimeout(() => {
       const closeBtn = document.getElementById('a11yClose');
       if (closeBtn) closeBtn.focus();
-    }, 420);
+    }, 300);
   }
 
   function closePanel(panel) {
@@ -296,19 +282,19 @@
     const btn = document.getElementById('a11yNavBtn');
     if (btn) {
       btn.setAttribute('aria-expanded', 'false');
+      btn.classList.remove('is-open');
       btn.focus();
     }
+    setTimeout(() => { panel.hidden = true; }, 300);
   }
 
 
   /* ── Features ────────────────────────────────────── */
 
   function wireFeatures(panel) {
-    /* Helpers */
     function sw(id, bodyClass, storageKey) {
       const input = document.getElementById(id);
       if (!input) return;
-      /* O track (role=switch) é o elemento focável */
       const track = input.nextElementSibling;
 
       function apply(checked) {
@@ -318,10 +304,7 @@
         save(storageKey, checked);
       }
 
-      /* Clique no track (label delega para aqui via pointer) */
       track.addEventListener('click', () => apply(!input.checked));
-
-      /* Teclado no track */
       track.addEventListener('keydown', function (e) {
         if (e.key === ' ' || e.key === 'Enter') {
           e.preventDefault();
@@ -332,15 +315,13 @@
       return apply;
     }
 
-    sw('swContrast',  'a11y-contrast',  'a11y-contrast');
-    sw('swGray',      'a11y-gray',      'a11y-gray');
-    sw('swLinks',     'a11y-links',     'a11y-links');
-    sw('swDyslexia',  'a11y-dyslexia',  'a11y-dyslexia');
-    sw('swFreeze',    'a11y-freeze',    'a11y-freeze');
-    sw('swCursor',    'a11y-cursor',    'a11y-cursor');
-
-    /* Guia de leitura */
-    sw('swGuide', 'a11y-guide-on', 'a11y-guide');
+    sw('swContrast', 'a11y-contrast', 'a11y-contrast');
+    sw('swGray',     'a11y-gray',     'a11y-gray');
+    sw('swLinks',    'a11y-links',    'a11y-links');
+    sw('swDyslexia', 'a11y-dyslexia', 'a11y-dyslexia');
+    sw('swFreeze',   'a11y-freeze',   'a11y-freeze');
+    sw('swCursor',   'a11y-cursor',   'a11y-cursor');
+    sw('swGuide',    'a11y-guide-on', 'a11y-guide');
 
     /* Espaçamento — stepper */
     const SP_STEPS = ['Normal', 'Médio', 'Amplo'];
@@ -363,27 +344,6 @@
     spDec.addEventListener('click', () => { if (spIdx > 0) applySpacing(--spIdx); });
     spInc.addEventListener('click', () => { if (spIdx < SP_STEPS.length - 1) applySpacing(++spIdx); });
     applySpacing(spIdx);
-
-    /* Idioma — apenas PT / EN */
-    const langPT = document.getElementById('langPT');
-    const langEN = document.getElementById('langEN');
-
-    function setLang(lang) {
-      document.documentElement.setAttribute('lang', lang);
-      /* Sincroniza com o lang-switcher da nav, se existir */
-      document.querySelectorAll('.lang-btn').forEach(function (btn) {
-        const active = btn.dataset.lang === lang || btn.textContent.trim().toLowerCase() === lang.toLowerCase();
-        btn.classList.toggle('active', active);
-      });
-      langPT.classList.toggle('active', lang === 'pt');
-      langEN.classList.toggle('active', lang === 'en');
-      langPT.setAttribute('aria-pressed', String(lang === 'pt'));
-      langEN.setAttribute('aria-pressed', String(lang === 'en'));
-      save('a11y-lang', lang);
-    }
-
-    langPT.addEventListener('click', () => setLang('pt'));
-    langEN.addEventListener('click', () => setLang('en'));
   }
 
 
@@ -400,24 +360,24 @@
     } catch (_) { return null; }
   }
 
-  function restoreState(panel) {
+  function restoreState() {
     const toggleMap = {
-      'a11y-contrast':  'swContrast',
-      'a11y-gray':      'swGray',
-      'a11y-links':     'swLinks',
-      'a11y-dyslexia':  'swDyslexia',
-      'a11y-freeze':    'swFreeze',
-      'a11y-cursor':    'swCursor',
-      'a11y-guide':     'swGuide',
+      'a11y-contrast': 'swContrast',
+      'a11y-gray':     'swGray',
+      'a11y-links':    'swLinks',
+      'a11y-dyslexia': 'swDyslexia',
+      'a11y-freeze':   'swFreeze',
+      'a11y-cursor':   'swCursor',
+      'a11y-guide':    'swGuide',
     };
     const classMap = {
-      'a11y-contrast':  'a11y-contrast',
-      'a11y-gray':      'a11y-gray',
-      'a11y-links':     'a11y-links',
-      'a11y-dyslexia':  'a11y-dyslexia',
-      'a11y-freeze':    'a11y-freeze',
-      'a11y-cursor':    'a11y-cursor',
-      'a11y-guide':     'a11y-guide-on',
+      'a11y-contrast': 'a11y-contrast',
+      'a11y-gray':     'a11y-gray',
+      'a11y-links':    'a11y-links',
+      'a11y-dyslexia': 'a11y-dyslexia',
+      'a11y-freeze':   'a11y-freeze',
+      'a11y-cursor':   'a11y-cursor',
+      'a11y-guide':    'a11y-guide-on',
     };
 
     Object.keys(toggleMap).forEach(function (key) {
@@ -433,9 +393,8 @@
       }
     });
 
-    /* Espaçamento */
     const SP_STEPS   = ['Normal', 'Médio', 'Amplo'];
-    const SP_CLASSES  = ['', 'a11y-sp2', 'a11y-sp3'];
+    const SP_CLASSES = ['', 'a11y-sp2', 'a11y-sp3'];
     const savedSp = load('a11y-spacing');
     if (typeof savedSp === 'number' && savedSp > 0 && savedSp < SP_STEPS.length) {
       SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
@@ -447,25 +406,13 @@
       if (spDec) spDec.disabled = savedSp === 0;
       if (spInc) spInc.disabled = savedSp === SP_STEPS.length - 1;
     }
-
-    /* Idioma */
-    const savedLang = load('a11y-lang');
-    if (savedLang === 'en') {
-      document.documentElement.setAttribute('lang', 'en');
-      const langPT = document.getElementById('langPT');
-      const langEN = document.getElementById('langEN');
-      if (langPT) { langPT.classList.remove('active'); langPT.setAttribute('aria-pressed', 'false'); }
-      if (langEN) { langEN.classList.add('active');    langEN.setAttribute('aria-pressed', 'true');  }
-    }
   }
 
-  function resetAll(panel) {
-    /* Remove classes do body */
+  function resetAll() {
     ['a11y-contrast','a11y-gray','a11y-links','a11y-dyslexia',
      'a11y-freeze','a11y-cursor','a11y-guide-on',
-     'a11y-sp1','a11y-sp2','a11y-sp3'].forEach(c => document.body.classList.remove(c));
+     'a11y-sp2','a11y-sp3'].forEach(c => document.body.classList.remove(c));
 
-    /* Reseta inputs */
     ['swContrast','swGray','swLinks','swDyslexia','swFreeze','swCursor','swGuide'].forEach(function (id) {
       const input = document.getElementById(id);
       if (!input) return;
@@ -474,7 +421,6 @@
       if (track) track.setAttribute('aria-checked', 'false');
     });
 
-    /* Espaçamento */
     const spVal = document.getElementById('spVal');
     const spDec = document.getElementById('spDec');
     const spInc = document.getElementById('spInc');
@@ -482,20 +428,11 @@
     if (spDec) spDec.disabled = true;
     if (spInc) spInc.disabled = false;
 
-    /* Idioma → PT */
-    document.documentElement.setAttribute('lang', 'pt');
-    const langPT = document.getElementById('langPT');
-    const langEN = document.getElementById('langEN');
-    if (langPT) { langPT.classList.add('active');    langPT.setAttribute('aria-pressed', 'true');  }
-    if (langEN) { langEN.classList.remove('active'); langEN.setAttribute('aria-pressed', 'false'); }
-
-    /* Limpa storage */
     ['a11y-contrast','a11y-gray','a11y-links','a11y-dyslexia',
-     'a11y-freeze','a11y-cursor','a11y-guide','a11y-spacing','a11y-lang'].forEach(function (k) {
+     'a11y-freeze','a11y-cursor','a11y-guide','a11y-spacing'].forEach(function (k) {
       try { localStorage.removeItem(k); } catch (_) {}
     });
 
-    /* Feedback */
     const live = document.getElementById('a11yLiveRegion');
     if (live) live.textContent = 'Configurações de acessibilidade restauradas.';
   }
