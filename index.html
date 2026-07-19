@@ -203,15 +203,86 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @media(max-width:600px){.stage{padding:40px 24px}.tagline{font-size:11px;letter-spacing:.18em}.nav-buttons{gap:12px}.btn{font-size:10px;padding:11px 18px}}
 .modal-overlay{display:none}
 .modal-overlay.open{display:flex}
+
+/* ══════════════════════════════════════════════════════
+   A11Y-WIDGET — Botão flutuante de acessibilidade
+   Usa os tokens já definidos em :root acima.
+══════════════════════════════════════════════════════ */
+.a11y-fab-wrap{position:fixed;right:20px;bottom:24px;z-index:9997;display:flex;flex-direction:column;align-items:center;gap:14px}
+.a11y-fab-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;user-select:none;pointer-events:none}
+.a11y-fab-btn{position:relative;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;border:1px solid rgba(200,169,110,.35);background:var(--modal-bg);color:var(--gold);cursor:pointer;padding:0;box-shadow:0 0 0 1px rgba(200,169,110,.06),0 6px 20px rgba(0,0,0,.5);transition:border-color .25s ease,background .25s ease,transform .25s ease}
+.a11y-fab-btn:hover,.a11y-fab-btn.is-open{border-color:var(--gold);background:var(--gold-dim);transform:translateY(-2px)}
+.a11y-fab-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.a11y-fab-btn svg{width:24px;height:24px}
+
+.a11y-panel{position:fixed;right:20px;bottom:92px;width:340px;max-width:calc(100vw - 40px);max-height:min(600px,calc(100vh - 130px));background:var(--modal-bg);border:1px solid var(--border);border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.55),0 0 0 1px rgba(200,169,110,.06);z-index:9998;display:flex;flex-direction:column;text-align:left;opacity:0;visibility:hidden;transform:translateY(12px) scale(.98);transform-origin:bottom right;transition:opacity .28s cubic-bezier(.22,1,.36,1),transform .28s cubic-bezier(.22,1,.36,1),visibility 0s linear .28s}
+.a11y-panel.open{opacity:1;visibility:visible;transform:translateY(0) scale(1);transition:opacity .28s cubic-bezier(.22,1,.36,1),transform .28s cubic-bezier(.22,1,.36,1),visibility 0s linear 0s}
+
+.a11y-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border-soft);background:var(--surface)}
+.a11y-hd-left{display:flex;align-items:center;gap:12px}
+.a11y-hd-icon{width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.a11y-hd-icon svg{width:16px;height:16px}
+.a11y-hd-text{display:flex;flex-direction:column;gap:2px}
+.a11y-hd-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.a11y-hd-sub{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.05em;color:var(--ink-3)}
+.a11y-close{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border);color:var(--ink-3);cursor:pointer;flex-shrink:0;transition:color .2s ease,border-color .2s ease}
+.a11y-close:hover{color:var(--gold);border-color:var(--gold)}
+.a11y-close:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.a11y-body{padding:4px 18px 8px;overflow-y:auto}
+.a11y-sec{padding:14px 0;border-bottom:1px solid var(--border-soft)}
+.a11y-sec:last-child{border-bottom:none}
+.a11y-sec-label{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.a11y-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0}
+.a11y-row-info{display:flex;flex-direction:column;gap:2px}
+.a11y-row-name{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink)}
+.a11y-row-desc{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink-3)}
+
+.a11y-sw{position:relative;display:inline-flex;flex-shrink:0}
+.a11y-sw input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.a11y-sw-track{width:38px;height:22px;border-radius:11px;border:1px solid var(--border);background:rgba(255,255,255,.04);position:relative;cursor:pointer;display:block;transition:border-color .2s ease,background .2s ease}
+.a11y-sw-track::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--ink-3);transition:transform .22s cubic-bezier(.22,1,.36,1),background .22s ease}
+.a11y-sw-track[aria-checked="true"]{border-color:var(--gold);background:var(--gold-dim)}
+.a11y-sw-track[aria-checked="true"]::after{transform:translateX(16px);background:var(--gold)}
+.a11y-sw-track:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.a11y-stepper{display:flex;align-items:center;gap:8px}
+.a11y-step-btn{width:24px;height:24px;border:1px solid var(--border);background:transparent;color:var(--ink-2);font-family:'DM Mono',monospace;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s ease,color .2s ease}
+.a11y-step-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.a11y-step-btn:disabled{opacity:.3;cursor:not-allowed}
+.a11y-step-val{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-2);min-width:48px;text-align:center}
+
+.a11y-ft{padding:12px 18px 16px;border-top:1px solid var(--border-soft)}
+.a11y-reset{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:transparent;border:1px solid var(--border);padding:10px;cursor:pointer;transition:color .2s ease,border-color .2s ease}
+.a11y-reset:hover{color:var(--gold);border-color:var(--gold)}
+.a11y-reset:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.a11y-reading-guide{position:fixed;left:0;width:100%;height:0;border-top:2px solid var(--gold);box-shadow:0 0 12px rgba(200,169,110,.5);pointer-events:none;z-index:9996;display:none}
+body.a11y-guide-on .a11y-reading-guide{display:block}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+body.a11y-contrast:not(.a11y-gray){filter:contrast(1.4) brightness(1.06)}
+body.a11y-gray:not(.a11y-contrast){filter:grayscale(1)}
+body.a11y-contrast.a11y-gray{filter:grayscale(1) contrast(1.4) brightness(1.06)}
+body.a11y-links a:not(.a11y-panel a){text-decoration:underline!important;text-underline-offset:3px;color:var(--gold)!important}
+body.a11y-dyslexia,body.a11y-dyslexia *{font-family:'Comic Sans MS','Comic Sans',Verdana,sans-serif!important;letter-spacing:.03em!important;word-spacing:.12em!important;line-height:1.8!important}
+body.a11y-freeze *,body.a11y-freeze *::before,body.a11y-freeze *::after{animation-play-state:paused!important;transition:none!important}
+body.a11y-cursor,body.a11y-cursor *{cursor:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2236%22 height=%2236%22 viewBox=%220 0 32 32%22><path d=%22M4 2 L4 28 L11 21 L15 29 L19 27 L15 19 L24 19 Z%22 fill=%22%23c8a96e%22 stroke=%22%23080807%22 stroke-width=%221.5%22/></svg>') 4 4,auto!important}
+body.a11y-sp2{letter-spacing:.02em}
+body.a11y-sp2 p,body.a11y-sp2 li{word-spacing:.12em;line-height:1.85}
+body.a11y-sp3{letter-spacing:.04em}
+body.a11y-sp3 p,body.a11y-sp3 li{word-spacing:.22em;line-height:2.05}
+
+@media(max-width:480px){.a11y-fab-wrap{right:14px;bottom:18px}.a11y-fab-label{display:none}.a11y-panel{right:12px;left:12px;width:auto;bottom:84px}}
+@media(prefers-reduced-motion:reduce){.a11y-fab-btn,.a11y-panel,.a11y-sw-track::after{transition:none}}
+@media(forced-colors:active){.a11y-fab-btn,.a11y-panel{forced-color-adjust:none;border:2px solid ButtonText}}
+@media print{.a11y-fab-wrap,.a11y-panel{display:none!important}}
 </style>
 
 <!-- Modal CSS não-crítico: carregado de forma assíncrona -->
 <link rel="stylesheet" href="assets/css/modal.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="assets/css/modal.css"></noscript>
-
-<!-- Widget de acessibilidade CSS não-crítico: carregado de forma assíncrona -->
-<link rel="stylesheet" href="assets/css/a11y-widget.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="assets/css/a11y-widget.css"></noscript>
 
 </head>
 
@@ -354,6 +425,395 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </script>
 
 <!-- Widget de acessibilidade — botão flutuante inferior direito -->
-<script src="assets/js/a11y-widget.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  function buildPanel() {
+    const panel = document.createElement('div');
+    panel.id = 'a11yPanel';
+    panel.className = 'a11y-panel';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'false');
+    panel.setAttribute('aria-label', 'Ajustes de acessibilidade');
+    panel.hidden = true;
+
+    panel.innerHTML = `
+      <div class="a11y-hd">
+        <div class="a11y-hd-left">
+          <div class="a11y-hd-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="5" r="1.5"/>
+              <path d="M5 8h14M8 8v4l-2 4m6-8v4l2 4m-4-4h4"/>
+            </svg>
+          </div>
+          <div class="a11y-hd-text">
+            <span class="a11y-hd-title">Acessibilidade</span>
+            <span class="a11y-hd-sub">Ajustes de leitura · WCAG 2.1</span>
+          </div>
+        </div>
+        <button class="a11y-close" id="a11yClose" type="button" aria-label="Fechar painel de acessibilidade">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M1 1l12 12M13 1L1 13"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="a11y-body">
+
+        <div class="a11y-sec">
+          <div class="a11y-sec-label">Visão</div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Alto contraste</span>
+              <span class="a11y-row-desc">Aumenta diferença tonal</span>
+            </div>
+            <label class="a11y-sw" aria-label="Alto contraste">
+              <input type="checkbox" id="swContrast" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Alto contraste"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Escala de cinza</span>
+              <span class="a11y-row-desc">Remove cores da interface</span>
+            </div>
+            <label class="a11y-sw" aria-label="Escala de cinza">
+              <input type="checkbox" id="swGray" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Escala de cinza"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Destacar links</span>
+              <span class="a11y-row-desc">Sublinha e realça âncoras</span>
+            </div>
+            <label class="a11y-sw" aria-label="Destacar links">
+              <input type="checkbox" id="swLinks" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Destacar links"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Guia de leitura</span>
+              <span class="a11y-row-desc">Linha que segue o cursor</span>
+            </div>
+            <label class="a11y-sw" aria-label="Guia de leitura">
+              <input type="checkbox" id="swGuide" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Guia de leitura"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Cursor ampliado</span>
+              <span class="a11y-row-desc">Ponteiro maior e mais visível</span>
+            </div>
+            <label class="a11y-sw" aria-label="Cursor ampliado">
+              <input type="checkbox" id="swCursor" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Cursor ampliado"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="a11y-sec">
+          <div class="a11y-sec-label">Leitura</div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Fonte para dislexia</span>
+              <span class="a11y-row-desc">Espaçamento e ritmo generosos</span>
+            </div>
+            <label class="a11y-sw" aria-label="Fonte para dislexia">
+              <input type="checkbox" id="swDyslexia" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Fonte para dislexia"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Pausar animações</span>
+              <span class="a11y-row-desc">Congela todas as transições</span>
+            </div>
+            <label class="a11y-sw" aria-label="Pausar animações">
+              <input type="checkbox" id="swFreeze" tabindex="-1">
+              <span class="a11y-sw-track" role="switch" aria-checked="false" tabindex="0" aria-label="Pausar animações"></span>
+            </label>
+          </div>
+
+          <div class="a11y-row">
+            <div class="a11y-row-info">
+              <span class="a11y-row-name">Espaçamento</span>
+              <span class="a11y-row-desc">Kerning e word-spacing</span>
+            </div>
+            <div class="a11y-stepper" role="group" aria-label="Espaçamento de texto">
+              <button class="a11y-step-btn" id="spDec" type="button" aria-label="Reduzir espaçamento">−</button>
+              <span  class="a11y-step-val"  id="spVal" aria-live="polite">Normal</span>
+              <button class="a11y-step-btn" id="spInc" type="button" aria-label="Aumentar espaçamento">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="a11y-ft">
+        <button class="a11y-reset" id="a11yReset" type="button">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 6a5 5 0 1 0 1.5-3.5L1 1v3h3"/>
+          </svg>
+          Restaurar padrões
+        </button>
+      </div>
+    `;
+
+    return panel;
+  }
+
+  function buildReadingGuide() {
+    const guide = document.createElement('div');
+    guide.className = 'a11y-reading-guide';
+    guide.id = 'a11yReadingGuide';
+    guide.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(guide);
+
+    document.addEventListener('mousemove', function (e) {
+      if (document.body.classList.contains('a11y-guide-on')) {
+        guide.style.top = e.clientY + 'px';
+      }
+    }, { passive: true });
+  }
+
+  function buildFab() {
+    const wrap = document.createElement('div');
+    wrap.className = 'a11y-fab-wrap';
+
+    wrap.innerHTML = `
+      <span class="a11y-fab-label">Acessibilidade</span>
+      <button class="a11y-fab-btn" id="a11yNavBtn" type="button"
+        aria-haspopup="dialog" aria-controls="a11yPanel" aria-expanded="false"
+        aria-label="Abrir painel de acessibilidade">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="5" r="1.5"/>
+          <path d="M5 8h14M8 8v4l-2 4m6-8v4l2 4m-4-4h4"/>
+        </svg>
+      </button>
+    `;
+
+    return wrap;
+  }
+
+  function init() {
+    const panel = buildPanel();
+    document.body.appendChild(panel);
+
+    buildReadingGuide();
+
+    const fabWrap = buildFab();
+    document.body.appendChild(fabWrap);
+    const fabBtn = document.getElementById('a11yNavBtn');
+    wireToggle(fabBtn, panel);
+
+    document.getElementById('a11yClose').addEventListener('click', () => closePanel(panel));
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('open')) closePanel(panel);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!panel.classList.contains('open')) return;
+      if (panel.contains(e.target) || fabBtn.contains(e.target)) return;
+      closePanel(panel);
+    });
+
+    wireFeatures(panel);
+
+    document.getElementById('a11yReset').addEventListener('click', () => resetAll());
+
+    restoreState();
+
+    let live = document.getElementById('a11yLiveRegion');
+    if (!live) {
+      live = document.createElement('div');
+      live.id = 'a11yLiveRegion';
+      live.setAttribute('aria-live', 'polite');
+      live.setAttribute('aria-atomic', 'true');
+      live.className = 'sr-only';
+      document.body.appendChild(live);
+    }
+  }
+
+  function wireToggle(btn, panel) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const isOpen = panel.classList.contains('open');
+      if (isOpen) { closePanel(panel); } else { openPanel(panel); }
+    });
+  }
+
+  function openPanel(panel) {
+    panel.hidden = false;
+    void panel.offsetHeight;
+    panel.classList.add('open');
+    const btn = document.getElementById('a11yNavBtn');
+    if (btn) { btn.setAttribute('aria-expanded', 'true'); btn.classList.add('is-open'); }
+    setTimeout(() => {
+      const closeBtn = document.getElementById('a11yClose');
+      if (closeBtn) closeBtn.focus();
+    }, 300);
+  }
+
+  function closePanel(panel) {
+    panel.classList.remove('open');
+    const btn = document.getElementById('a11yNavBtn');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.classList.remove('is-open');
+      btn.focus();
+    }
+    setTimeout(() => { panel.hidden = true; }, 300);
+  }
+
+  function wireFeatures() {
+    function sw(id, bodyClass, storageKey) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      const track = input.nextElementSibling;
+
+      function apply(checked) {
+        input.checked = checked;
+        track.setAttribute('aria-checked', String(checked));
+        document.body.classList.toggle(bodyClass, checked);
+        save(storageKey, checked);
+      }
+
+      track.addEventListener('click', () => apply(!input.checked));
+      track.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); apply(!input.checked); }
+      });
+
+      return apply;
+    }
+
+    sw('swContrast', 'a11y-contrast', 'a11y-contrast');
+    sw('swGray',     'a11y-gray',     'a11y-gray');
+    sw('swLinks',    'a11y-links',    'a11y-links');
+    sw('swDyslexia', 'a11y-dyslexia', 'a11y-dyslexia');
+    sw('swFreeze',   'a11y-freeze',   'a11y-freeze');
+    sw('swCursor',   'a11y-cursor',   'a11y-cursor');
+    sw('swGuide',    'a11y-guide-on', 'a11y-guide');
+
+    const SP_STEPS = ['Normal', 'Médio', 'Amplo'];
+    const SP_CLASSES = ['', 'a11y-sp2', 'a11y-sp3'];
+    let spIdx = 0;
+
+    const spVal = document.getElementById('spVal');
+    const spDec = document.getElementById('spDec');
+    const spInc = document.getElementById('spInc');
+
+    function applySpacing(idx) {
+      SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
+      if (SP_CLASSES[idx]) document.body.classList.add(SP_CLASSES[idx]);
+      spVal.textContent = SP_STEPS[idx];
+      spDec.disabled = idx === 0;
+      spInc.disabled = idx === SP_STEPS.length - 1;
+      save('a11y-spacing', idx);
+    }
+
+    spDec.addEventListener('click', () => { if (spIdx > 0) applySpacing(--spIdx); });
+    spInc.addEventListener('click', () => { if (spIdx < SP_STEPS.length - 1) applySpacing(++spIdx); });
+    applySpacing(spIdx);
+  }
+
+  function save(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) {}
+  }
+
+  function load(key) {
+    try {
+      const v = localStorage.getItem(key);
+      return v !== null ? JSON.parse(v) : null;
+    } catch (_) { return null; }
+  }
+
+  function restoreState() {
+    const toggleMap = {
+      'a11y-contrast': 'swContrast', 'a11y-gray': 'swGray', 'a11y-links': 'swLinks',
+      'a11y-dyslexia': 'swDyslexia', 'a11y-freeze': 'swFreeze', 'a11y-cursor': 'swCursor',
+      'a11y-guide': 'swGuide',
+    };
+    const classMap = {
+      'a11y-contrast': 'a11y-contrast', 'a11y-gray': 'a11y-gray', 'a11y-links': 'a11y-links',
+      'a11y-dyslexia': 'a11y-dyslexia', 'a11y-freeze': 'a11y-freeze', 'a11y-cursor': 'a11y-cursor',
+      'a11y-guide': 'a11y-guide-on',
+    };
+
+    Object.keys(toggleMap).forEach(function (key) {
+      const val = load(key);
+      if (val === true) {
+        const input = document.getElementById(toggleMap[key]);
+        if (input) {
+          input.checked = true;
+          const track = input.nextElementSibling;
+          if (track) track.setAttribute('aria-checked', 'true');
+          document.body.classList.add(classMap[key]);
+        }
+      }
+    });
+
+    const SP_STEPS   = ['Normal', 'Médio', 'Amplo'];
+    const SP_CLASSES = ['', 'a11y-sp2', 'a11y-sp3'];
+    const savedSp = load('a11y-spacing');
+    if (typeof savedSp === 'number' && savedSp > 0 && savedSp < SP_STEPS.length) {
+      SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
+      if (SP_CLASSES[savedSp]) document.body.classList.add(SP_CLASSES[savedSp]);
+      const spVal = document.getElementById('spVal');
+      const spDec = document.getElementById('spDec');
+      const spInc = document.getElementById('spInc');
+      if (spVal) spVal.textContent = SP_STEPS[savedSp];
+      if (spDec) spDec.disabled = savedSp === 0;
+      if (spInc) spInc.disabled = savedSp === SP_STEPS.length - 1;
+    }
+  }
+
+  function resetAll() {
+    ['a11y-contrast','a11y-gray','a11y-links','a11y-dyslexia',
+     'a11y-freeze','a11y-cursor','a11y-guide-on','a11y-sp2','a11y-sp3'
+    ].forEach(c => document.body.classList.remove(c));
+
+    ['swContrast','swGray','swLinks','swDyslexia','swFreeze','swCursor','swGuide'].forEach(function (id) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      input.checked = false;
+      const track = input.nextElementSibling;
+      if (track) track.setAttribute('aria-checked', 'false');
+    });
+
+    const spVal = document.getElementById('spVal');
+    const spDec = document.getElementById('spDec');
+    const spInc = document.getElementById('spInc');
+    if (spVal) spVal.textContent = 'Normal';
+    if (spDec) spDec.disabled = true;
+    if (spInc) spInc.disabled = false;
+
+    ['a11y-contrast','a11y-gray','a11y-links','a11y-dyslexia',
+     'a11y-freeze','a11y-cursor','a11y-guide','a11y-spacing'
+    ].forEach(function (k) { try { localStorage.removeItem(k); } catch (_) {} });
+
+    const live = document.getElementById('a11yLiveRegion');
+    if (live) live.textContent = 'Configurações de acessibilidade restauradas.';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+}());
+</script>
 </body>
 </html>
