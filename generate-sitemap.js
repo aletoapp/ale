@@ -166,11 +166,14 @@ function fileToUrl(filePath) {
 
 /**
  * Define a prioridade SEO da URL:
- * Raiz (/) = 1.0, subpáginas = 0.8
+ * Raiz (/) = 1.0, at-lab = 0.9, índice do blog = 0.9,
+ * posts individuais do blog = 0.7, demais subpáginas = 0.8
  */
 function getPriority(url) {
   if (url === BASE_URL + '/') return '1.0';
   if (url === BASE_URL + '/at-lab/') return '0.9';
+  if (url === BASE_URL + '/blog/') return '0.9';
+  if (url.startsWith(BASE_URL + '/blog/')) return '0.7';
   return '0.8';
 }
 
