@@ -1,1 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="no-js"><script>document.documentElement.classList.replace('no-js','js-anim');</script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Landing Page de Elite — Alexandre Torres</title>
+<meta name="description" content="O motor estratégico e os prompts que estrategistas de elite usam para diagnosticar um negócio e produzir landing pages que vendem, com IA. R$97,00.">
+<meta property="og:title" content="Dossiê da Conversão — Sistema de Landing Page de Elite">
+<meta property="og:description" content="Diagnóstico + prompt mestre + método de produção. Do briefing ao deploy.">
+<meta property="og:type" content="product">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Lazy-load da fonte: não bloqueia o primeiro paint. O texto renderiza com a fonte de sistema
+     e troca suavemente (display=swap) assim que a folha de estilo termina de carregar. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"></noscript>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :focus-visible { outline: 2px solid var(--stamp-teal); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; } }
 
+  :root {
+    --paper: #E4D6AF;
+    --paper-2: #D9C793;
+    --paper-3: #CBB87C;
+    --ink: #211B10;
+    --ink-soft: #4A3F2A;
+    --ink-faint: #7A6B49;
+    --stamp-red: #A5322A;
+    --stamp-teal: #1F4D42;
+    --tape: #B79F66;
+    --line: rgba(33,27,16,0.2);
+    --line-soft: rgba(33,27,16,0.1);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    /* fixed accent bands — deliberately NOT themed by classified mode */
+    --band-dark-bg: #15120B;
+    --band-dark-ink: #EBDFBD;
+    --band-dark-soft: #C4B48A;
+    --band-tape-bg: #B79F66;
+    --band-tape-ink: #211B10;
+    --band-teal-bg: #1F4D42;
+    --band-teal-ink: #EBDFBD;
+  }
+
+  [data-mode="classified"] {
+    --paper: #15120B;
+    --paper-2: #1E190F;
+    --paper-3: #292110;
+    --ink: #EBDFBD;
+    --ink-soft: #C4B48A;
+    --ink-faint: #8A7A54;
+    --stamp-red: #C6493B;
+    --stamp-teal: #3A8A75;
+    --tape: #6E5D38;
+    --line: rgba(235,223,189,0.16);
+    --line-soft: rgba(235,223,189,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.65;
+    min-height: 100vh;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(var(--ink) 0.5px, transparent 0.5px);
+    background-size: 3px 3px;
+    opacity: 0.035;
+    z-index: 0;
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; position: relative; z-index: 1; }
+  .wrap.tight-top { padding-top: 0; }
+  .wrap.tight-bottom { padding-bottom: 0; }
+
+  .folder-strip {
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px; margin-bottom: 2.4rem;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .case-no { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.12em; color: var(--ink-faint); text-transform: uppercase; }
+  .mode-btn {
+    background: transparent; border: 1px solid var(--ink); color: var(--ink);
+    font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 7px 14px; cursor: pointer; transition: background 0.2s, color 0.2s;
+  }
+  .mode-btn:hover { background: var(--ink); color: var(--paper); }
+
+  .perf {
+    border: none; height: 0; margin: 2.8rem 0;
+    border-top: 2px dashed var(--tape);
+    position: relative;
+  }
+  .perf::before, .perf::after {
+    content: ''; position: absolute; top: -6px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--paper); border: 1px solid var(--line);
+  }
+  .perf::before { left: -6px; }
+  .perf::after { right: -6px; }
+
+  /* torn paper transition between full-bleed bands */
+  .torn { height: 18px; width: 100%; background-repeat: repeat-x; background-size: 26px 18px; background-position: 0 0, 13px 0; }
+
+  .btn-primary {
+    font-family: var(--font-mono); font-size: 14.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--stamp-red); color: var(--paper); border: none; padding: 15px 26px; cursor: pointer;
+    transition: transform 0.15s ease; text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { transform: rotate(-1deg) scale(1.02); }
+  .btn-primary.on-dark { background: var(--band-dark-ink); color: var(--band-dark-bg); }
+  .btn-primary.on-teal { background: var(--band-teal-ink); color: var(--band-teal-bg); }
+
+  .btn-secondary {
+    font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: transparent; color: var(--ink); border: 1px solid var(--ink); padding: 11px 21px; cursor: pointer;
+    transition: background 0.15s, color 0.15s; text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); }
+
+  .exhibit-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--stamp-teal); color: var(--stamp-teal); padding: 4px 10px;
+  }
+
+  .redact-box {
+    display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono);
+    font-size: 15px; color: var(--ink-soft); cursor: pointer; user-select: none; flex-wrap: wrap;
+  }
+  .redact-bar {
+    background: var(--ink); color: var(--ink); padding: 2px 10px; letter-spacing: 0.05em;
+    transition: background 0.25s, color 0.25s;
+  }
+  .redact-box.open .redact-bar { background: var(--stamp-teal); color: var(--paper); }
+  .redact-hint { font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .stamp {
+    display: inline-block; font-family: var(--font-mono); font-weight: 600;
+    font-size: 15.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--stamp-red); border: 3px solid var(--stamp-red); border-radius: 4px;
+    padding: 7px 14px; transform: rotate(-6deg);
+    mix-blend-mode: multiply; position: relative;
+  }
+  [data-mode="classified"] .stamp { mix-blend-mode: normal; }
+  .stamp::after { content: ''; position: absolute; inset: 3px; border: 1px solid var(--stamp-red); border-radius: 2px; }
+  .stamp.teal { color: var(--stamp-teal); border-color: var(--stamp-teal); transform: rotate(4deg); }
+  .stamp.teal::after { border-color: var(--stamp-teal); }
+  .stamp.on-teal-band { color: var(--band-teal-ink); border-color: var(--band-teal-ink); mix-blend-mode: normal; }
+  .stamp.on-teal-band::after { border-color: var(--band-teal-ink); }
+
+  .washi {
+    position: absolute; top: -11px; left: 40px; width: 74px; height: 22px;
+    background: rgba(183,159,102,0.6); transform: rotate(-4deg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  }
+
+  .dossier-card {
+    background: var(--paper-2); border: 1px solid var(--line); padding: 2.6rem 2.2rem;
+    position: relative; overflow: visible; margin-bottom: 0;
+  }
+  .dossier-card .tab-flag {
+    position: absolute; top: 0; right: 24px; background: var(--stamp-red); color: var(--paper);
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 10px 4px;
+  }
+  .dossier-eyebrow { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.14em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 14px; }
+  .dossier-headline {
+    font-family: var(--font-display); font-style: italic; font-weight: 600;
+    font-size: clamp(1.8rem, 4.6vw, 2.8rem); line-height: 1.14; max-width: 22ch; margin-bottom: 18px;
+  }
+  .dossier-headline em { font-style: normal; color: var(--stamp-red); }
+  .dossier-body { font-size: 17.5px; color: var(--ink-soft); max-width: 60ch; margin-bottom: 16px; }
+  .dossier-footer { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 22px; }
+
+  .quote-row { display: flex; flex-direction: column; gap: 12px; margin: 1.4rem 0; }
+  blockquote.frase-modelo {
+    font-family: var(--font-display); font-style: italic; font-size: 1.05rem;
+    color: var(--ink); border-left: 3px solid var(--tape); padding-left: 1rem; max-width: 50ch;
+  }
+
+  /* 9-block diagnostic grid */
+  .block-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1.6rem 0; }
+  .block-chip {
+    border: 1px solid var(--line); background: var(--paper); padding: 12px 10px;
+    font-family: var(--font-mono); font-size: 13.5px; text-align: center; color: var(--ink-soft);
+  }
+  .block-chip span { display: block; font-size: 17px; color: var(--stamp-red); margin-bottom: 4px; font-weight: 600; }
+  @media (max-width: 520px) { .block-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  /* qualify grid */
+  .qualify-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin-top: 1.6rem; }
+  .qualify-col h3 { font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .qualify-col.yes h3 { color: var(--stamp-teal); }
+  .qualify-col.no h3 { color: var(--stamp-red); }
+  .qualify-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .qualify-col li { font-size: 16.5px; color: var(--ink-soft); padding-left: 20px; position: relative; }
+  .qualify-col.yes li::before { content: '✓'; position: absolute; left: 0; color: var(--stamp-teal); font-weight: 600; }
+  .qualify-col.no li::before { content: '×'; position: absolute; left: 0; color: var(--stamp-red); font-weight: 600; }
+  @media (max-width: 560px) { .qualify-grid { grid-template-columns: 1fr; } }
+
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-item:first-child { border-top: 1px solid var(--line); }
+  .faq-item summary {
+    font-family: var(--font-mono); font-size: 15.5px; letter-spacing: 0.02em;
+    padding: 16px 4px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 12px;
+    color: var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after { content: '+'; font-family: var(--font-mono); color: var(--stamp-red); flex-shrink: 0; }
+  .faq-item[open] summary::after { content: '–'; }
+  .faq-item .faq-a { font-size: 16.5px; color: var(--ink-soft); padding: 0 4px 18px; max-width: 58ch; }
+
+  .price-block { text-align: left; margin: 1.6rem 0; }
+  .price-now { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 8vw, 3.8rem); line-height: 1; }
+  .price-now sup { font-size: 0.4em; top: -1.2em; }
+  .price-note { font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); letter-spacing: 0.04em; margin-top: 6px; }
+  .price-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin: 1.4rem 0 1.6rem; }
+  .price-list li { font-size: 16.5px; color: var(--ink-soft); padding-left: 22px; position: relative; }
+  .price-list li::before { content: '✓'; position: absolute; left: 0; color: var(--stamp-teal); font-weight: 600; }
+
+  footer.notes {
+    margin-top: 3rem; padding-top: 1.6rem; border-top: 1px solid var(--line);
+    font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); line-height: 1.8;
+  }
+  footer.notes b { color: var(--ink-soft); }
+
+  /* ── FULL-BLEED BANDS — where the color/texture variety lives ── */
+  .band { width: 100%; padding: 3.6rem 1.5rem; position: relative; z-index: 1; }
+  .band-inner { max-width: 900px; margin: 0 auto; }
+
+  .band-dark { background: var(--band-dark-bg); color: var(--band-dark-ink); }
+  .band-dark .dossier-eyebrow { color: var(--band-dark-soft); }
+  .band-dark .dossier-headline { color: var(--band-dark-ink); }
+  .band-dark .dossier-headline em { color: #D97F6E; }
+  .band-dark .dossier-body { color: var(--band-dark-soft); }
+
+  .diff-table { display: flex; flex-direction: column; margin-top: 1.8rem; border-top: 1px solid rgba(235,223,189,0.18); }
+  .diff-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(235,223,189,0.12); }
+  .diff-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .diff-row .col-a .diff-label { color: #D97F6E; }
+  .diff-row .col-b .diff-label { color: #5FB89F; }
+  .diff-row p { font-size: 16px; line-height: 1.5; color: var(--band-dark-soft); }
+  @media (max-width: 560px) { .diff-row { grid-template-columns: 1fr; gap: 8px; } }
+
+  .band-tape { background: var(--band-tape-bg); color: var(--band-tape-ink); }
+  .band-tape .dossier-eyebrow { color: rgba(33,27,16,0.6); }
+
+  .envelope-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 18px; margin-top: 2rem; }
+  .envelope-card {
+    background: #F2E9D2; border: 1px solid rgba(33,27,16,0.15); padding: 20px 18px 18px;
+    position: relative; box-shadow: 0 3px 8px rgba(33,27,16,0.12);
+  }
+  .envelope-card:nth-child(odd) { transform: rotate(-1.2deg); }
+  .envelope-card:nth-child(even) { transform: rotate(1deg); }
+  .envelope-card .doc-num { font-family: var(--font-mono); font-size: 10px; color: var(--stamp-red); }
+  .envelope-card .doc-name { font-family: var(--font-display); font-weight: 600; font-size: 1rem; margin: 6px 0 6px; }
+  .envelope-card .doc-desc { font-size: 15px; color: #4A3F2A; line-height: 1.5; }
+  @media (max-width: 560px) { .envelope-grid { grid-template-columns: 1fr; } .envelope-card:nth-child(odd), .envelope-card:nth-child(even) { transform: none; } }
+
+  .band-teal { background: var(--band-teal-bg); color: var(--band-teal-ink); }
+  .band-teal .dossier-eyebrow { color: rgba(235,223,189,0.65); }
+  .band-teal .dossier-headline { color: var(--band-teal-ink); }
+  .band-teal .dossier-headline em { color: #F0C87A; }
+  .band-teal .dossier-body { color: rgba(235,223,189,0.82); }
+  .trust-row { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 1.8rem; align-items: flex-start; }
+  .trust-col { flex: 1; min-width: 220px; }
+  .trust-col h4 { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; color: #F0C87A; }
+  .trust-col p { font-size: 16px; color: rgba(235,223,189,0.82); line-height: 1.6; }
+
+  section { margin-bottom: 0; }
+  .sec-gap { margin-bottom: 2.8rem; }
+
+  .sticky-cta {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: var(--ink); color: var(--paper); padding: 12px 16px;
+    align-items: center; justify-content: space-between; gap: 12px;
+    font-family: var(--font-mono); border-top: 1px solid var(--line);
+  }
+  .sticky-cta .sc-price { font-size: 16.5px; font-weight: 600; }
+  .sticky-cta .btn-primary { padding: 10px 16px; font-size: 13px; }
+  @media (max-width: 640px) {
+    .sticky-cta { display: flex; }
+    body { padding-bottom: 64px; }
+  }
+
+  /* ── ANIMAÇÕES DE ENTRADA (reveal-on-scroll) ──
+     Sem JS (.no-js), tudo fica visível — progressive enhancement.
+     Com JS (.js-anim), os elementos .reveal entram suavemente quando cruzam o viewport,
+     em vez de tudo animar de uma vez no carregamento (isso é o ganho de "velocidade" percebida). */
+  html.js-anim .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    transition-delay: var(--reveal-delay, 0s);
+    will-change: opacity, transform;
+  }
+  html.js-anim .reveal.is-visible { opacity: 1; transform: none; }
+
+  /* atraso escalonado automático dentro dos grids */
+  .block-grid .block-chip:nth-child(1) { --reveal-delay: 0.04s; }
+  .block-grid .block-chip:nth-child(2) { --reveal-delay: 0.14s; }
+  .block-grid .block-chip:nth-child(3) { --reveal-delay: 0.24s; }
+  .block-grid .block-chip:nth-child(4) { --reveal-delay: 0.34s; }
+  .block-grid .block-chip:nth-child(5) { --reveal-delay: 0.44s; }
+  .block-grid .block-chip:nth-child(6) { --reveal-delay: 0.54s; }
+  .block-grid .block-chip:nth-child(7) { --reveal-delay: 0.64s; }
+  .block-grid .block-chip:nth-child(8) { --reveal-delay: 0.74s; }
+  .block-grid .block-chip:nth-child(9) { --reveal-delay: 0.84s; }
+
+  .envelope-grid .envelope-card:nth-child(1) { --reveal-delay: 0.04s; }
+  .envelope-grid .envelope-card:nth-child(2) { --reveal-delay: 0.16s; }
+  .envelope-grid .envelope-card:nth-child(3) { --reveal-delay: 0.28s; }
+  .envelope-grid .envelope-card:nth-child(4) { --reveal-delay: 0.40s; }
+  .envelope-grid .envelope-card:nth-child(5) { --reveal-delay: 0.52s; }
+  .envelope-grid .envelope-card:nth-child(6) { --reveal-delay: 0.64s; }
+
+  .qualify-col:nth-child(1) { --reveal-delay: 0.04s; }
+  .qualify-col:nth-child(2) { --reveal-delay: 0.24s; }
+
+  .diff-table .diff-row:nth-child(1) { --reveal-delay: 0.04s; }
+  .diff-table .diff-row:nth-child(2) { --reveal-delay: 0.2s; }
+  .diff-table .diff-row:nth-child(3) { --reveal-delay: 0.36s; }
+
+  .trust-row .trust-col:nth-child(1) { --reveal-delay: 0.04s; }
+  .trust-row .trust-col:nth-child(2) { --reveal-delay: 0.24s; }
+
+  .faq-item:nth-child(1) { --reveal-delay: 0.04s; }
+  .faq-item:nth-child(2) { --reveal-delay: 0.12s; }
+  .faq-item:nth-child(3) { --reveal-delay: 0.20s; }
+  .faq-item:nth-child(4) { --reveal-delay: 0.28s; }
+  .faq-item:nth-child(5) { --reveal-delay: 0.36s; }
+
+  /* ── CARDS ANIMADOS — mini gráfico explicativo ──
+     Cada block-chip e envelope-card ganha uma barrinha de progresso na base que
+     "preenche" ao entrar em cena, reforçando visualmente a ideia de bloco/etapa concluída. */
+  .block-chip, .envelope-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .block-chip:hover, .envelope-card:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(33,27,16,0.12); }
+  .envelope-card:nth-child(odd):hover { transform: translateY(-3px) rotate(-1.2deg); }
+  .envelope-card:nth-child(even):hover { transform: translateY(-3px) rotate(1deg); }
+
+  .block-chip { position: relative; overflow: hidden; padding-bottom: 16px; }
+  .block-chip::after {
+    content: ''; position: absolute; left: 0; bottom: 0; height: 3px; width: 0%;
+    background: var(--stamp-teal); transition: width 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s;
+  }
+  html.js-anim .block-chip.is-visible::after { width: 100%; }
+  html.no-js .block-chip::after, html:not(.js-anim) .block-chip::after { width: 100%; }
+
+  .envelope-card { border-left: 3px solid transparent; transition: transform 0.25s ease, box-shadow 0.25s ease, border-left-color 0.6s ease 0.1s; }
+  html.js-anim .envelope-card.is-visible { border-left-color: var(--stamp-teal); }
+  html.no-js .envelope-card, html:not(.js-anim) .envelope-card { border-left-color: var(--stamp-teal); }
+
+  @media (max-width: 560px) {
+    html.js-anim .reveal { transform: translateY(14px); }
+  }
+</style>
+</head>
+<body data-mode="aberto">
+
+<div class="wrap tight-bottom">
+  <div class="folder-strip">
+    <span class="case-no">Caso Nº 0147-LP · Sistema de Landing Page de Elite</span>
+    <button class="mode-btn" onclick="toggleMode()" id="modeBtn">Ver modo confidencial</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="sec-gap" id="hero">
+    <div class="dossier-card reveal">
+      <div class="washi"></div>
+      <span class="tab-flag">Exhibit 01</span>
+      <div class="dossier-eyebrow">Diagnóstico + prompt mestre + método de produção</div>
+      <div class="dossier-headline">A página não convence. <em>Ela remove obstáculos.</em></div>
+      <p class="dossier-body">Você não precisa de mais um pacote de prompt bonito. Precisa parar de escrever headline pra "um cliente qualquer" e começar a construir cada página sobre evidência real do negócio — do diagnóstico ao deploy, sem depender de talento raro pra escrever bem.</p>
+      <div class="dossier-footer">
+        <a class="btn-primary" href="#comprar">Quero o sistema completo — R$97,00</a>
+        <span class="stamp" style="font-size:12px; padding:6px 12px;">toolpack profissional</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- O PROBLEMA -->
+  <section class="sec-gap" id="problema">
+    <div class="dossier-card reveal">
+      <span class="tab-flag">Exhibit 02</span>
+      <div class="dossier-eyebrow">A cena</div>
+      <div class="dossier-headline">A LP fica pronta. O cliente aprova. <em>A conversão não sobe.</em></div>
+      <p class="dossier-body">Você entrega no prazo. O design está bonito, a copy soa profissional, o cliente aprova em cinco minutos. Duas semanas depois, com tráfego rodando, a taxa de conversão continua a mesma de sempre — e ninguém sabe dizer por quê, porque nenhuma decisão daquela página nasceu de uma pergunta real feita ao cliente.</p>
+      <p class="dossier-body">O problema nunca foi o design. Foi pular direto pra ele.</p>
+      <div class="redact-box" onclick="this.classList.toggle('open')">
+        <span>Blocos de investigação antes da primeira linha de copy:</span>
+        <span class="redact-bar">9 blocos</span>
+        <span class="redact-hint">clique para revelar</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="torn" style="background-image: linear-gradient(135deg, var(--paper) 25%, transparent 25.5%), linear-gradient(45deg, var(--paper) 25%, transparent 25.5%); background-color: var(--band-dark-bg);"></div>
+
+<!-- REGISTRO CONFIDENCIAL — dark band -->
+<div class="band band-dark reveal">
+  <div class="band-inner">
+    <span class="exhibit-tag" style="border-color:var(--band-dark-soft); color:var(--band-dark-soft);">Exhibit 03 · Registro confidencial</span>
+    <div class="dossier-headline" style="margin-top:16px;">Marketeiro pensa em mensagem. <em>Estrategista pensa em estado mental.</em></div>
+    <p class="dossier-body">O especialista comum conhece o cliente. O estrategista habita a mente dele — não pergunta "o que meu cliente quer ouvir", pergunta "em que estado emocional ele chega nesta página, e em que estado precisa estar para agir".</p>
+    <div class="diff-table">
+      <div class="diff-row reveal">
+        <div class="col-a"><div class="diff-label">Marketeiro</div><p>Usa personas genéricas e conta a história da empresa.</p></div>
+        <div class="col-b"><div class="diff-label">Estrategista</div><p>Constrói a jornada emocional do cliente — a empresa entra como guia, nunca como protagonista.</p></div>
+      </div>
+      <div class="diff-row reveal">
+        <div class="col-a"><div class="diff-label">Marketeiro</div><p>Organiza informação na página e espera que o visitante decida.</p></div>
+        <div class="col-b"><div class="diff-label">Estrategista</div><p>Projeta o caminho de menor resistência até a ação, removendo cada micro-decisão antes que ela precise ser tomada.</p></div>
+      </div>
+      <div class="diff-row reveal">
+        <div class="col-a"><div class="diff-label">Marketeiro</div><p>Pede confiança com adjetivo próprio: "somos os melhores".</p></div>
+        <div class="col-b"><div class="diff-label">Estrategista</div><p>Constrói confiança com especificidade clínica: um número verificável no lugar do elogio.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="torn" style="background-image: linear-gradient(135deg, var(--band-dark-bg) 25%, transparent 25.5%), linear-gradient(45deg, var(--band-dark-bg) 25%, transparent 25.5%); background-color: var(--paper);"></div>
+
+<div class="wrap tight-top">
+  <!-- O MÉTODO -->
+  <section class="sec-gap" id="metodo" style="margin-top:2.8rem;">
+    <div class="dossier-card reveal">
+      <span class="tab-flag">Exhibit 04</span>
+      <div class="dossier-eyebrow">O motor</div>
+      <div class="dossier-headline">Nove blocos. <em>Nenhum por suposição.</em></div>
+      <p class="dossier-body">É essa investigação — não talento pra escrever bonito — que o Motor Estratégico automatiza dentro do sistema: um bloco de cada vez, e nenhum avança sem o anterior sustentado por evidência.</p>
+      <div class="block-grid">
+        <div class="block-chip reveal"><span>01</span>Modelo de Negócio</div>
+        <div class="block-chip reveal"><span>02</span>Mercado</div>
+        <div class="block-chip reveal"><span>03</span>Posicionamento</div>
+        <div class="block-chip reveal"><span>04</span>Cliente</div>
+        <div class="block-chip reveal"><span>05</span>Jornada</div>
+        <div class="block-chip reveal"><span>06</span>Oferta</div>
+        <div class="block-chip reveal"><span>07</span>Confiança</div>
+        <div class="block-chip reveal"><span>08</span>Barreiras</div>
+        <div class="block-chip reveal"><span>09</span>Estratégia</div>
+      </div>
+      <div class="quote-row">
+        <blockquote class="frase-modelo">"Ainda não possuo evidências suficientes para definir o posicionamento."</blockquote>
+        <blockquote class="frase-modelo">"O diferencial apresentado ainda é genérico e não pode ser usado como vantagem competitiva."</blockquote>
+      </div>
+      <p class="dossier-body" style="margin-top:0.2rem">Frases que o próprio sistema te ensina a usar diante do cliente — em vez de preencher a lacuna com achismo.</p>
+    </div>
+  </section>
+</div>
+
+<div class="torn" style="background-image: linear-gradient(135deg, var(--paper) 25%, transparent 25.5%), linear-gradient(45deg, var(--paper) 25%, transparent 25.5%); background-color: var(--band-tape-bg);"></div>
+
+<!-- CONTEÚDO DO ENVELOPE — tape band -->
+<div class="band band-tape reveal">
+  <div class="band-inner">
+    <span class="exhibit-tag" style="border-color:#211B10; color:#211B10;">Exhibit 05 · Conteúdo do envelope</span>
+    <div class="dossier-headline" style="margin-top:16px; color:#211B10;">Seis peças. <em style="color:#A5322A;">Um processo só.</em></div>
+    <p class="dossier-body" style="color:#3A311F; max-width:60ch;">Nenhum documento sozinho entrega uma landing page de elite — é a ordem de uso que faz o sistema funcionar. Você recebe os seis, mais o manual que mostra por onde começar.</p>
+    <div class="envelope-grid">
+      <div class="envelope-card reveal"><span class="doc-num">00</span><div class="doc-name">Manual de Aplicação</div><div class="doc-desc">A ordem exata de uso — o que ler primeiro, o que pular sob prazo apertado.</div></div>
+      <div class="envelope-card reveal"><span class="doc-num">01</span><div class="doc-name">Framework Cognitivo</div><div class="doc-desc">O Motor Estratégico — prompt mestre com os 9 blocos de diagnóstico.</div></div>
+      <div class="envelope-card reveal"><span class="doc-num">02</span><div class="doc-name">Kit de Nichos</div><div class="doc-desc">ICP, objeções, paleta e pré-prompts prontos por segmento.</div></div>
+      <div class="envelope-card reveal"><span class="doc-num">03</span><div class="doc-name">Etapas de Criação</div><div class="doc-desc">As 10 etapas de pensamento por trás de uma LP de elite.</div></div>
+      <div class="envelope-card reveal"><span class="doc-num">04</span><div class="doc-name">Roteiro de Produção</div><div class="doc-desc">As 6 fases do briefing ao deploy.</div></div>
+      <div class="envelope-card reveal"><span class="doc-num">05</span><div class="doc-name">Biblioteca de Recursos</div><div class="doc-desc">Checklist de SEO, prompts premium e o manifesto do estrategista.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="torn" style="background-image: linear-gradient(135deg, var(--band-tape-bg) 25%, transparent 25.5%), linear-gradient(45deg, var(--band-tape-bg) 25%, transparent 25.5%); background-color: var(--paper);"></div>
+
+<div class="wrap tight-top">
+  <!-- PARA QUEM É -->
+  <section class="sec-gap" id="publico" style="margin-top:2.8rem;">
+    <div class="dossier-card reveal">
+      <span class="tab-flag">Exhibit 06</span>
+      <div class="dossier-eyebrow">Antes de continuar</div>
+      <div class="dossier-headline">Isto é pra você <em>se</em> — e não é, se não.</div>
+      <div class="qualify-grid">
+        <div class="qualify-col yes reveal">
+          <h3>É pra você se</h3>
+          <ul>
+            <li>Você cria landing pages e usa (ou quer usar) IA no processo</li>
+            <li>Está disposto a investigar o negócio do cliente antes de escrever</li>
+            <li>Quer um método repetível por cliente, não sorte a cada projeto</li>
+          </ul>
+        </div>
+        <div class="qualify-col no reveal">
+          <h3>Não é pra você se</h3>
+          <ul>
+            <li>Você procura só "mais um pacote de prompt" pra copiar sem entender o cliente</li>
+            <li>Não pretende de fato aplicar o diagnóstico antes de escrever</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec-gap" id="faq">
+    <div class="dossier-card reveal">
+      <span class="tab-flag">Exhibit 07</span>
+      <div class="dossier-eyebrow">Perguntas</div>
+      <div class="dossier-headline">O que perguntam <em>antes de abrir o caso.</em></div>
+      <div>
+        <details class="faq-item reveal">
+          <summary>Já testei prompt pronto antes e não funcionou. Por que este seria diferente?</summary>
+          <div class="faq-a">Porque a maioria dos prompts prontos pula direto pra copy. Aqui o prompt mestre força a investigação em 9 blocos antes de qualquer texto — o problema que você teve provavelmente foi escrever sem diagnóstico, não falta de um prompt melhor.</div>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Não tenho tempo pra um processo grande. Dá pra aplicar rápido mesmo assim?</summary>
+          <div class="faq-a">O Manual de Aplicação existe exatamente pra isso — ele mostra o que ler primeiro e o que pular quando o prazo aperta, sem te obrigar a passar pelos 9 blocos inteiros toda vez.</div>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Preciso saber programar?</summary>
+          <div class="faq-a">Não. O sistema é diagnóstico e prompts — você conduz a investigação e gera a página com Claude ou GPT, sem exigir código.</div>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Funciona com Claude ou só com GPT?</summary>
+          <div class="faq-a">Funciona com qualquer IA de chat capaz de seguir uma instrução longa e manter contexto — o prompt mestre foi desenhado pra isso, sem travar em um fornecedor.</div>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Tem garantia?</summary>
+          <div class="faq-a">Sim — 7 dias, reembolso direto e sem burocracia, se o sistema não fizer sentido pra sua forma de trabalhar.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="torn" style="background-image: linear-gradient(135deg, var(--paper) 25%, transparent 25.5%), linear-gradient(45deg, var(--paper) 25%, transparent 25.5%); background-color: var(--band-teal-bg);"></div>
+
+<!-- ENGENHARIA DE CONFIANÇA — teal band -->
+<div class="band band-teal reveal">
+  <div class="band-inner">
+    <span class="exhibit-tag" style="border-color:rgba(235,223,189,0.5); color:rgba(235,223,189,0.85);">Exhibit 08 · Engenharia de confiança</span>
+    <div class="dossier-headline" style="margin-top:16px;">Confiança não se pede. <em>Se constrói.</em></div>
+    <div class="trust-row">
+      <div class="trust-col reveal">
+        <h4>Quem monta o caso</h4>
+        <p>Alexandre Torres, web designer e desenvolvedor. Aplica o mesmo método de diagnóstico nas próprias páginas antes de empacotar qualquer coisa pra venda — o sistema não é teoria isolada, é o processo real de produção.</p>
+      </div>
+      <div class="trust-col reveal">
+        <h4>A garantia</h4>
+        <p>7 dias corridos a partir da compra. Se não fizer sentido pra sua forma de trabalhar, o reembolso é direto — sem formulário, sem justificativa exigida.</p>
+      </div>
+    </div>
+    <div style="margin-top:1.8rem;"><span class="stamp on-teal-band">Aprovado</span></div>
+  </div>
+</div>
+
+<div class="torn" style="background-image: linear-gradient(135deg, var(--band-teal-bg) 25%, transparent 25.5%), linear-gradient(45deg, var(--band-teal-bg) 25%, transparent 25.5%); background-color: var(--paper);"></div>
+
+<div class="wrap tight-top">
+  <!-- OFERTA -->
+  <section class="sec-gap" id="comprar" style="margin-top:2.8rem;">
+    <div class="dossier-card reveal">
+      <span class="tab-flag">Exhibit 09</span>
+      <div class="dossier-eyebrow">O veredito</div>
+      <div class="dossier-headline">Abra o sistema completo <em>agora.</em></div>
+      <div class="price-block">
+        <div class="price-now">R$97<sup>,00</sup></div>
+        <div class="price-note">pagamento único · acesso imediato · sistema/toolpack profissional — quem entra agora leva as atualizações futuras nesse valor</div>
+      </div>
+      <ul class="price-list">
+        <li>Os 6 documentos do sistema completo</li>
+        <li>Prompt mestre do Motor Estratégico (9 blocos)</li>
+        <li>Kit de Nichos com pré-prompts prontos</li>
+        <li>Acesso às atualizações do sistema</li>
+        <li>Garantia incondicional de 7 dias</li>
+      </ul>
+      <div class="dossier-footer">
+        <a class="btn-primary" href="#">Quero o sistema completo — R$97,00</a>
+        <span class="stamp teal">Garantia 7 dias</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="notes">
+    <p><b>Produto digital:</b> entrega 100% online, sem envio físico. Acesso liberado automaticamente após a confirmação do pagamento.</p>
+    <p style="margin-top:6px"><b>Pagamento:</b> processado por plataforma de terceiros. Cartão, Pix e boleto, conforme disponibilidade da plataforma.</p>
+    <p style="margin-top:6px">© Alexandre Torres · Sistema de Landing Page de Elite</p>
+    <p style="margin-top:10px"><b>Suporte:</b> <a href="mailto:aletor.app@gmail.com" style="color:var(--ink-soft)">aletor.app@gmail.com</a> · <a href="https://alexandretorres.com.br/" target="_blank" rel="noopener" style="color:var(--ink-soft)">alexandretorres.com.br</a> · <a href="https://www.instagram.com/aletordev" target="_blank" rel="noopener" style="color:var(--ink-soft)">@aletordev</a></p>
+  </footer>
+</div>
+
+<div class="sticky-cta">
+  <span class="sc-price">R$97,00</span>
+  <a class="btn-primary" href="#comprar">Quero o sistema</a>
+</div>
+
+<script>
+function toggleMode() {
+  const body = document.body;
+  const isClassified = body.getAttribute('data-mode') === 'classified';
+  body.setAttribute('data-mode', isClassified ? 'aberto' : 'classified');
+  document.getElementById('modeBtn').textContent = isClassified ? 'Ver modo confidencial' : 'Ver modo aberto';
+}
+
+// Reveal-on-scroll: as animações só são calculadas quando o elemento está prestes a
+// entrar na tela (lazy), nunca todas de uma vez no carregamento — isso mantém a
+// abertura da página leve mesmo com muitos elementos animados.
+(function () {
+  var targets = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !targets.length) {
+    targets.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
