@@ -2,7 +2,7 @@
 // Arquivo: sw.js
 // Colocar em: alexandretorres.com.br/admin/sw.js (mesma pasta do admin.html)
 
-const CACHE_VERSION = 'protocolo-admin-v2';
+const CACHE_VERSION = 'protocolo-admin-v3';
 const SHELL = [
   '/admin/admin.html',
   '/admin/manifest.json',
