@@ -722,6 +722,27 @@
   // ── Estado ───────────────────────────────────────────────────────────────────
   let secret          = '';
   let filtroStatus    = '';
+
+  // ── Exclusão persistente (client-side) ──────────────────────────────────────────
+  // Enquanto o backend não tiver uma rota real de DELETE, guardamos aqui os
+  // protocolos excluídos para que eles não "voltem" no próximo carregamento/poll,
+  // mesmo que a API (ou o modo demo) continue devolvendo o registro antigo.
+  const CHAVE_EXCLUIDOS = 'protocolo_admin_excluidos_v1';
+  let protocolosExcluidos = new Set();
+  try {
+    protocolosExcluidos = new Set(JSON.parse(localStorage.getItem(CHAVE_EXCLUIDOS) || '[]'));
+  } catch { protocolosExcluidos = new Set(); }
+
+  function persistirExcluidos() {
+    try { localStorage.setItem(CHAVE_EXCLUIDOS, JSON.stringify([...protocolosExcluidos])); } catch {}
+  }
+  function marcarExcluido(protocolo) {
+    protocolosExcluidos.add(String(protocolo));
+    persistirExcluidos();
+  }
+  function filtrarExcluidos(lista) {
+    return (lista || []).filter(c => !protocolosExcluidos.has(String(c.protocolo)));
+  }
   let buscaDebounce   = null;
   let protocoloAtivo  = null;
   let chamadoAtivoObj = null;
@@ -1065,12 +1086,14 @@
         headers: { 'Authorization': `Bearer ${secret}` }
       });
       const data = await res.json();
-      renderLista(data.chamados || []);
-      atualizarBadge(data.chamados || []);
+      const chamados = filtrarExcluidos(data.chamados || []);
+      renderLista(chamados);
+      atualizarBadge(chamados);
     } catch {
       // Demo: dados fictícios
-      renderLista(dadosDemo());
-      atualizarBadge(dadosDemo());
+      const chamados = filtrarExcluidos(dadosDemo());
+      renderLista(chamados);
+      atualizarBadge(chamados);
     }
   }
 
@@ -1347,6 +1370,9 @@
         } catch {
           // Sem backend/offline: segue removendo localmente (modo demo)
         }
+        // Marca como excluído localmente para nunca mais reaparecer neste navegador,
+        // mesmo que a API (ou o modo demo) continue devolvendo o registro antigo.
+        marcarExcluido(protocolo);
         document.querySelector(`.chamado-item[data-protocolo="${protocolo}"]`)?.remove();
         if (protocoloAtivo === protocolo) {
           protocoloAtivo = null;
@@ -1391,24 +1417,50 @@
         const dias   = parseInt(overlay.querySelector('#limpeza-dias').value, 10) || 90;
         const status = overlay.querySelector('#limpeza-status').value;
 
+        // 1) Tenta a exclusão real no backend, se a rota existir
         const params = new URLSearchParams({ dias: String(dias) });
         if (status) params.set('status', status);
-
-        let excluidos = null;
         try {
-          const res = await fetch(`${API}/api/admin/chamados/antigos?${params}`, {
+          await fetch(`${API}/api/admin/chamados/antigos?${params}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${secret}` }
           });
-          if (!res.ok) throw new Error('falha na limpeza');
-          const data = await res.json().catch(() => ({}));
-          excluidos = data.excluidos ?? null;
         } catch {
-          // Sem backend/offline
+          // Sem backend/offline: segue para a exclusão local abaixo
         }
-        toast(excluidos !== null
-          ? `${excluidos} chamado${excluidos === 1 ? '' : 's'} excluído${excluidos === 1 ? '' : 's'} definitivamente.`
-          : 'Solicitação enviada. Atualizando lista…');
+
+        // 2) Busca a lista completa (sem filtro) pra avaliar os critérios de idade/status
+        let todos = [];
+        try {
+          const res  = await fetch(`${API}/api/admin/chamados`, {
+            headers: { 'Authorization': `Bearer ${secret}` }
+          });
+          const data = await res.json();
+          todos = data.chamados || [];
+        } catch {
+          todos = dadosDemo();
+        }
+
+        // 3) Marca como excluído (local, persistente) tudo que bate o critério —
+        //    assim nunca mais reaparece neste navegador, com ou sem backend real.
+        const agora = Date.now();
+        const combinam = todos.filter(c => {
+          const idadeDias = (agora - new Date(c.atualizado_em).getTime()) / 86400000;
+          if (idadeDias < dias) return false;
+          if (status && c.status !== status) return false;
+          return true;
+        });
+        combinam.forEach(c => marcarExcluido(c.protocolo));
+
+        if (protocoloAtivo && combinam.some(c => c.protocolo === protocoloAtivo)) {
+          protocoloAtivo = null;
+          chatAtivo.style.display = 'none';
+          chatVazio.style.display = 'flex';
+        }
+
+        toast(combinam.length
+          ? `${combinam.length} chamado${combinam.length === 1 ? '' : 's'} excluído${combinam.length === 1 ? '' : 's'} definitivamente.`
+          : 'Nenhum chamado encontrado com esses critérios.');
         carregarLista();
       }
     });
