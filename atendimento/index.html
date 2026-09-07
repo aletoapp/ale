@@ -370,6 +370,54 @@
     .btn-enviar:hover { opacity: .85; }
     .btn-enviar svg { width: 18px; height: 18px; }
 
+    /* ── Anexos ────────────────────────────────────────────────── */
+    .input-toolbar {
+      display: flex; align-items: center; gap: 6px;
+      padding: 0 20px 8px;
+      background: var(--surface);
+    }
+    .btn-anexo {
+      display: flex; align-items: center; gap: 5px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .04em;
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      border-radius: 5px; padding: 4px 8px; cursor: pointer;
+      transition: color .15s, border-color .15s;
+    }
+    .btn-anexo:hover { color: var(--text); border-color: #444; }
+    .btn-anexo svg { width: 11px; height: 11px; }
+
+    .anexos-pendentes {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 0 20px 8px;
+      background: var(--surface);
+    }
+    .anexo-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+      padding: 5px 8px; font-size: 11px; color: var(--muted); max-width: 220px;
+    }
+    .anexo-chip .ac-nome { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .anexo-chip .ac-remover {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      display: flex; align-items: center; padding: 0; line-height: 0;
+    }
+    .anexo-chip .ac-remover:hover { color: #ff6b6b; }
+    .anexo-chip.ac-carregando { opacity: .6; }
+
+    /* Anexos dentro dos balões de mensagem */
+    .balao-anexos { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+    .balao-anexos:first-child { margin-top: 0; }
+    .balao-anexo-img { display: block; max-width: 200px; max-height: 200px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
+    .balao-anexo-arquivo, .balao-anexo-link {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(0,0,0,.2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 10px; font-size: 12px;
+      color: inherit; text-decoration: none; max-width: 220px;
+    }
+    .balao-anexo-arquivo:hover, .balao-anexo-link:hover { border-color: #444; }
+    .balao-anexo-arquivo svg, .balao-anexo-link svg { width: 13px; height: 13px; flex-shrink: 0; opacity: .7; }
+    .balao-anexo-nome { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
     .dica-atalho {
       font-size: 11px;
       color: var(--muted);
@@ -578,6 +626,17 @@
       <!-- Mensagens injetadas via JS -->
     </div>
 
+    <div class="input-toolbar">
+      <button class="btn-anexo" id="btn-anexo-arquivo" type="button" title="Anexar PDF ou foto">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9.5 2.3 3.9 7.9a2.3 2.3 0 0 0 3.2 3.2l5.1-5.1a1.5 1.5 0 0 0-2.1-2.1L4.9 9.1"/>
+        </svg>
+        Anexar
+      </button>
+      <input type="file" id="input-anexo-arquivo" accept="application/pdf,image/jpeg,image/png,image/webp,image/gif" multiple style="display:none">
+    </div>
+    <div class="anexos-pendentes" id="anexos-pendentes" style="display:none;"></div>
+
     <div class="chat-input-area">
       <textarea
         id="campo-mensagem"
@@ -646,6 +705,10 @@
   const chatMensagens  = document.getElementById('chat-mensagens');
   const campoMsg       = document.getElementById('campo-mensagem');
   const btnEnviar      = document.getElementById('btn-enviar');
+  const btnAnexoArquivo   = document.getElementById('btn-anexo-arquivo');
+  const inputAnexo        = document.getElementById('input-anexo-arquivo');
+  const anexosPendentesEl = document.getElementById('anexos-pendentes');
+  let anexosPendentes = []; // itens: {tipo:'pdf'|'imagem', nome, url, tamanho}
 
   // ── Máscara de telefone ──────────────────────────────────────────────────────
   campoTel.addEventListener('input', () => {
@@ -761,7 +824,7 @@
         renderMarcadorData(dataStr);
         ultimaData = dataStr;
       }
-      renderBalao(m.remetente, m.conteudo, d);
+      renderBalao(m.remetente, m.conteudo, d, m.anexos);
     });
 
     scrollChat();
@@ -784,7 +847,7 @@
   }
 
   // ── Renderiza balão ──────────────────────────────────────────────────────────
-  function renderBalao(remetente, conteudo, data) {
+  function renderBalao(remetente, conteudo, data, anexos) {
     const wrap = document.createElement('div');
     const hora  = data instanceof Date
       ? data.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' })
@@ -792,13 +855,103 @@
 
     const quem = remetente === 'cliente' ? 'Você' : 'Suporte';
     wrap.className = `balao balao-${remetente}`;
+    const textoHtml = conteudo ? `<div class="balao-conteudo">${escapeHtml(conteudo)}</div>` : '';
     wrap.innerHTML = `
-      <div class="balao-conteudo">${escapeHtml(conteudo)}</div>
+      ${textoHtml}${renderBalaoAnexos(anexos)}
       <div class="balao-meta">${quem} · ${hora}</div>
     `;
     chatMensagens.appendChild(wrap);
     return wrap;
   }
+
+  // ── Anexos dentro dos balões ─────────────────────────────────────────────────
+  function renderBalaoAnexos(anexos) {
+    if (!anexos || !anexos.length) return '';
+    const itens = anexos.map(a => {
+      const href = escapeHtml((a.url || '').startsWith('http') ? a.url : `${API}${a.url}`);
+      if (a.tipo === 'imagem') {
+        return `<a href="${href}" target="_blank" rel="noopener"><img class="balao-anexo-img" src="${href}" alt="${escapeHtml(a.nome||'')}"></a>`;
+      }
+      if (a.tipo === 'pdf') {
+        return `<a class="balao-anexo-arquivo" href="${href}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5h6l3 3v8a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5z"/><path d="M9 1.5V4a1 1 0 0 0 1 1h2.5"/></svg>
+          <span class="balao-anexo-nome">${escapeHtml(a.nome || 'arquivo.pdf')}</span>
+        </a>`;
+      }
+      // link
+      const urlEsc = escapeHtml(a.url || '');
+      return `<a class="balao-anexo-link" href="${urlEsc}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 8.2 8.2 5.8m-3.6.4L3 7.8a1.9 1.9 0 0 0 2.7 2.7l1.6-1.6M8.3 6.1l1.6-1.6a1.9 1.9 0 1 0-2.7-2.7L5.6 3.4"/></svg>
+        <span class="balao-anexo-nome">${escapeHtml(a.nome || a.url)}</span>
+      </a>`;
+    }).join('');
+    return `<div class="balao-anexos">${itens}</div>`;
+  }
+
+  // ── Anexos: seleção, upload e chips pendentes ───────────────────────────────
+  const TIPOS_ANEXO_ACEITOS = {
+    'application/pdf': 'pdf',
+    'image/jpeg': 'imagem', 'image/jpg': 'imagem', 'image/png': 'imagem',
+    'image/webp': 'imagem', 'image/gif': 'imagem',
+  };
+  const TAMANHO_MAX_ANEXO = 15 * 1024 * 1024; // 15MB
+
+  function renderAnexosPendentes() {
+    if (!anexosPendentes.length) {
+      anexosPendentesEl.style.display = 'none';
+      anexosPendentesEl.innerHTML = '';
+      return;
+    }
+    anexosPendentesEl.style.display = 'flex';
+    anexosPendentesEl.innerHTML = anexosPendentes.map((a, i) => `
+      <span class="anexo-chip${a._carregando ? ' ac-carregando' : ''}">
+        <span class="ac-nome">${a._carregando ? 'Enviando…' : escapeHtml(a.nome)}</span>
+        <button class="ac-remover" data-i="${i}" title="Remover" ${a._carregando ? 'disabled' : ''}>✕</button>
+      </span>
+    `).join('');
+  }
+
+  anexosPendentesEl.addEventListener('click', e => {
+    const btn = e.target.closest('.ac-remover');
+    if (!btn) return;
+    anexosPendentes.splice(Number(btn.dataset.i), 1);
+    renderAnexosPendentes();
+  });
+
+  btnAnexoArquivo.addEventListener('click', () => {
+    if (!sessao.protocolo) return;
+    inputAnexo.click();
+  });
+
+  inputAnexo.addEventListener('change', async () => {
+    const arquivos = [...inputAnexo.files];
+    inputAnexo.value = '';
+    for (const arquivo of arquivos) {
+      const tipo = TIPOS_ANEXO_ACEITOS[arquivo.type];
+      if (!tipo) { console.warn(`"${arquivo.name}" não é PDF nem imagem — não foi anexado.`); continue; }
+      if (arquivo.size > TAMANHO_MAX_ANEXO) { console.warn(`"${arquivo.name}" passa de 15MB — não foi anexado.`); continue; }
+
+      const placeholder = { tipo, nome: arquivo.name, url: null, tamanho: arquivo.size, _carregando: true };
+      anexosPendentes.push(placeholder);
+      renderAnexosPendentes();
+
+      try {
+        const fd = new FormData();
+        fd.append('arquivo', arquivo);
+        fd.append('protocolo', sessao.protocolo);
+        fd.append('telefone', sessao.telefone);
+        const res = await fetch(`${API}/api/anexo/upload`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.erro || 'falha no upload');
+        Object.assign(placeholder, { tipo: data.tipo, nome: data.nome, url: data.url, tamanho: data.tamanho, _carregando: false });
+      } catch {
+        const idx = anexosPendentes.indexOf(placeholder);
+        if (idx !== -1) anexosPendentes.splice(idx, 1);
+        alert(`Erro ao enviar "${arquivo.name}". Tente novamente.`);
+      }
+      renderAnexosPendentes();
+    }
+  });
 
   function renderMarcadorData(dataStr) {
     const el = document.createElement('div');
@@ -812,14 +965,20 @@
 
   async function enviarMensagem() {
     const texto = campoMsg.value.trim();
-    if (!texto) return;
+    if (anexosPendentes.some(a => a._carregando)) { alert('Aguarde o anexo terminar de enviar.'); return; }
+    if (!texto && anexosPendentes.length === 0) return;
+
+    const anexosParaEnviar = anexosPendentes.map(({ tipo, nome, url, tamanho }) => ({ tipo, nome, url, tamanho }));
 
     campoMsg.value = '';
     campoMsg.style.height = 'auto';
 
     const agora = new Date();
-    renderBalao('cliente', texto, agora);
+    renderBalao('cliente', texto, agora, anexosParaEnviar);
     scrollChat();
+
+    anexosPendentes = [];
+    renderAnexosPendentes();
 
     // Mostra banner de notificações após a 1ª mensagem
     if (!primeiraMsgEnviada) {
@@ -835,6 +994,7 @@
           protocolo: sessao.protocolo,
           telefone:  sessao.telefone,
           conteudo:  texto,
+          anexos:    anexosParaEnviar,
         }),
       });
       if (!res.ok) console.error('Erro ao enviar mensagem');
@@ -897,7 +1057,7 @@
       const d = new Date(m.criado_em);
       const dataStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
       if (dataStr !== pollData) { renderMarcadorData(dataStr); pollData = dataStr; }
-      renderBalao(m.remetente, m.conteudo, d);
+      renderBalao(m.remetente, m.conteudo, d, m.anexos);
     });
 
     const naBase = chatMensagens.scrollTop + chatMensagens.clientHeight >= chatMensagens.scrollHeight - 40;
