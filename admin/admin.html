@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin · Chat-Protocolo</title>
+
+  <!-- ── PWA ────────────────────────────────────────────────────── -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#080808">
+  <meta name="color-scheme" content="dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Protocolo Admin">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -422,6 +434,54 @@
     #btn-notif.ativo    { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-dim); }
     #btn-notif.negado   { background: none; color: var(--red); border-color: var(--red); opacity: .6; cursor: not-allowed; }
 
+    #btn-instalar {
+      display: none; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      background: var(--accent); color: #000; font-weight: 600;
+      border: none; border-radius: 5px;
+      padding: 5px 10px 5px 8px; cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+    #btn-instalar svg { width: 12px; height: 12px; }
+    #btn-instalar:hover  { opacity: .85; }
+    #btn-instalar:active { transform: scale(.96); }
+    #btn-instalar.mostrar { display: inline-flex; }
+
+    /* ── Popup lateral de nova mensagem (fica até o admin fechar) ────── */
+    #alerta-lateral {
+      position: fixed; top: 58px; right: 16px; z-index: 90;
+      width: 300px;
+      background: var(--panel);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 0 3px var(--accent-dim);
+      padding: 14px 14px 12px;
+      display: none;
+      animation: alertaEntra .25s cubic-bezier(.2,.8,.3,1.2);
+    }
+    #alerta-lateral.mostrar { display: block; }
+    #alerta-lateral.piscar  { animation: alertaPisca 1s ease-in-out infinite; }
+    @keyframes alertaEntra { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+    @keyframes alertaPisca {
+      0%, 100% { box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 0 3px var(--accent-dim); }
+      50%      { box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 0 3px var(--accent); }
+    }
+    .alerta-topo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .alerta-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; box-shadow: 0 0 0 3px var(--accent-dim); }
+    .alerta-titulo { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; flex: 1; }
+    .alerta-fechar { background:none; border:none; color: var(--muted); cursor:pointer; font-size: 15px; line-height: 1; padding: 2px 4px; }
+    .alerta-fechar:hover { color: var(--text); }
+    .alerta-corpo { font-size: 13px; color: var(--text); margin-bottom: 4px; line-height: 1.45; }
+    .alerta-corpo strong { color: #fff; }
+    .alerta-preview { font-size: 12px; color: var(--muted2); margin-bottom: 12px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .alerta-btn {
+      width: 100%; padding: 8px; font-family: var(--mono); font-size: 11px; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      background: var(--accent); color: #000; border: none; border-radius: 6px; cursor: pointer;
+      transition: opacity .2s;
+    }
+    .alerta-btn:hover { opacity: .85; }
+
     /* ── Responsive ────────────────────────────────────────────── */
     @media (max-width: 700px) {
       :root { --sidebar-w: 100vw; }
@@ -453,6 +513,18 @@
   </div>
 </div>
 
+<!-- Popup lateral · nova mensagem (fica na tela até o admin fechar) -->
+<div id="alerta-lateral">
+  <div class="alerta-topo">
+    <span class="alerta-dot"></span>
+    <span class="alerta-titulo">Nova mensagem</span>
+    <button class="alerta-fechar" id="alerta-fechar" title="Dispensar">✕</button>
+  </div>
+  <div class="alerta-corpo">Protocolo <strong id="alerta-protocolo">—</strong></div>
+  <div class="alerta-preview" id="alerta-preview"></div>
+  <button class="alerta-btn" id="alerta-abrir">Abrir atendimento</button>
+</div>
+
 <!-- ═════════════════ APP ═════════════════ -->
 <div id="app">
 
@@ -473,6 +545,12 @@
           <path d="M7 1a4 4 0 014 4c0 3 1 4 1 4H2s1-1 1-4a4 4 0 014-4zM5.5 9S5.5 11 7 11s1.5-2 1.5-2"/>
         </svg>
         <span id="btn-notif-label">Notificações</span>
+      </button>
+      <button id="btn-instalar" title="Instalar como aplicativo">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 1v8M4 6l3 3 3-3M2 11v1.5a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V11"/>
+        </svg>
+        Instalar app
       </button>
       <button class="btn-logout" id="btn-logout">Sair</button>
     </div>
@@ -629,6 +707,7 @@
 
   const btnNotif      = document.getElementById('btn-notif');
   const btnNotifLabel = document.getElementById('btn-notif-label');
+  const btnInstalar   = document.getElementById('btn-instalar');
 
   function urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -721,11 +800,85 @@
     setTimeout(() => btnNotif.style.outline = '', 2000);
   });
 
+  // ── Instalar como app (PWA) ─────────────────────────────────────────────────────
+  let promptInstalacao = null;
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    promptInstalacao = e;
+    btnInstalar.classList.add('mostrar');
+  });
+
+  btnInstalar.addEventListener('click', async () => {
+    if (!promptInstalacao) return;
+    btnInstalar.disabled = true;
+    promptInstalacao.prompt();
+    const { outcome } = await promptInstalacao.userChoice;
+    if (outcome === 'accepted') btnInstalar.classList.remove('mostrar');
+    promptInstalacao = null;
+    btnInstalar.disabled = false;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    btnInstalar.classList.remove('mostrar');
+    toast('🎉 App instalado! Para abrir sozinho com o Windows: edge://apps (ou chrome://apps) → ⋯ no ícone do Protocolo Admin → "Iniciar automaticamente".');
+  });
+
+  // ── Popup lateral · nova mensagem (fica na tela até você fechar) ───────────────
+  const alertaLateral   = document.getElementById('alerta-lateral');
+  const alertaProtocolo = document.getElementById('alerta-protocolo');
+  const alertaPreview   = document.getElementById('alerta-preview');
+  const tituloOriginal  = document.title;
+
+  function mostrarAlertaLateral({ protocolo, preview }) {
+    alertaProtocolo.textContent = protocolo || '—';
+    alertaPreview.textContent   = preview || '';
+    alertaLateral.classList.add('mostrar', 'piscar');
+    document.title = '🔔 Nova mensagem · Chat-Protocolo';
+    setTimeout(() => alertaLateral.classList.remove('piscar'), 3000); // para de piscar, mas continua visível
+  }
+
+  function fecharAlertaLateral() {
+    alertaLateral.classList.remove('mostrar', 'piscar');
+    document.title = tituloOriginal;
+  }
+
+  document.getElementById('alerta-fechar').addEventListener('click', fecharAlertaLateral);
+  document.getElementById('alerta-abrir').addEventListener('click', () => {
+    const protocolo = alertaProtocolo.textContent;
+    fecharAlertaLateral();
+    if (protocolo && protocolo !== '—') abrirChamado(protocolo);
+  });
+
+  // Mensagens do Service Worker: push em tempo real + clique na notificação do SO
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', event => {
+      const msg = event.data;
+      if (!msg) return;
+      if (msg.tipo === 'nova-mensagem-push') {
+        mostrarAlertaLateral({ protocolo: msg.protocolo, preview: msg.preview });
+        carregarLista();
+      }
+      if (msg.tipo === 'abrir-protocolo' && msg.protocolo) {
+        fecharAlertaLateral();
+        abrirChamado(msg.protocolo);
+      }
+    });
+  }
+
+  // Zera o badge do ícone quando você volta a olhar para o painel
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    navigator.serviceWorker?.controller?.postMessage('zerar-badge');
+    if (!alertaLateral.classList.contains('mostrar')) document.title = tituloOriginal;
+  });
+
   // Verifica estado ao carregar (após login)
   function iniciarApp() {
     carregarLista();
     verificarEstadoNotificacoes();
     iniciarPollingAdmin();
+    navigator.serviceWorker?.controller?.postMessage('zerar-badge');
   }
 
   // ── Polling Admin ─────────────────────────────────────────────────────────────
