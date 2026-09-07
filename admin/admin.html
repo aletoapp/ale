@@ -849,11 +849,9 @@
       sessionStorage.setItem('admin_secret', s);
       loginOverlay.style.display = 'none';
       iniciarApp();
-    } catch {
-      // modo demo offline
-      secret = s;
-      loginOverlay.style.display = 'none';
-      iniciarApp();
+    } catch (err) {
+      console.error('Falha ao conectar no Worker:', err);
+      loginErro.textContent = 'Não foi possível conectar ao servidor. Verifique a URL da API e sua conexão.';
     } finally {
       loginBtn.disabled = false; loginBtn.textContent = 'Entrar no painel →';
     }
@@ -1151,15 +1149,16 @@
       const res  = await fetch(`${API}/api/admin/chamados?${params}`, {
         headers: { 'Authorization': `Bearer ${secret}` }
       });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const chamados = filtrarExcluidos(data.chamados || []);
       renderLista(chamados);
       atualizarBadge(chamados);
-    } catch {
-      // Demo: dados fictícios
-      const chamados = filtrarExcluidos(dadosDemo());
-      renderLista(chamados);
-      atualizarBadge(chamados);
+    } catch (err) {
+      console.error('Falha ao carregar chamados:', err);
+      toast('Não foi possível carregar os chamados. Verifique a conexão com o servidor.');
+      renderLista([]);
+      atualizarBadge([]);
     }
   }
 
