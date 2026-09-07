@@ -1341,7 +1341,7 @@
     'image/jpeg': 'imagem', 'image/jpg': 'imagem', 'image/png': 'imagem',
     'image/webp': 'imagem', 'image/gif': 'imagem',
   };
-  const TAMANHO_MAX_ANEXO = 15 * 1024 * 1024; // 15MB
+  const TAMANHO_MAX_ANEXO = 1.5 * 1024 * 1024; // 1.5MB (mesmo teto do Worker/D1)
 
   function renderAnexosPendentes() {
     if (!anexosPendentes.length) {
@@ -1376,7 +1376,7 @@
     for (const arquivo of arquivos) {
       const tipo = TIPOS_ANEXO_ACEITOS[arquivo.type];
       if (!tipo) { toast(`"${arquivo.name}" não é PDF nem imagem — não foi anexado.`); continue; }
-      if (arquivo.size > TAMANHO_MAX_ANEXO) { toast(`"${arquivo.name}" passa de 15MB — não foi anexado.`); continue; }
+      if (arquivo.size > TAMANHO_MAX_ANEXO) { toast(`"${arquivo.name}" passa de 1,5MB — não foi anexado.`); continue; }
 
       const placeholder = { tipo, nome: arquivo.name, url: null, tamanho: arquivo.size, _carregando: true };
       anexosPendentes.push(placeholder);
