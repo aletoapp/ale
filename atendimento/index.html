@@ -517,6 +517,9 @@
       to { opacity: 0; transform: translateY(6px); }
     }
 
+    .balao-falha { border: 1px solid #ff6b6b !important; }
+    .balao-falha-nota { font-size: 11px; color: #ff6b6b; margin-top: 4px; }
+
     /* Anexos dentro dos balões de mensagem */
     .balao-anexos { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
     .balao-anexos:first-child { margin-top: 0; }
@@ -922,23 +925,8 @@
       abrirChat(data);
 
     } catch (err) {
-      // DEMO MODE: simula resposta local quando não há worker conectado
-      console.warn('Worker não conectado — modo demonstração.', err);
-      const proto = `${new Date().getFullYear()}-${String(Math.floor(Math.random()*9000)+1000)}`;
-      sessao.telefone  = tel;
-      sessao.protocolo = proto;
-      sessao.chamadoId = 1;
-      sessao.nomeCli   = campoNome.value.trim() || 'Visitante';
-      abrirChat({
-        cliente: { nome: sessao.nomeCli },
-        chamado: { protocolo: proto, status: 'aberto' },
-        mensagens: [{
-          remetente: 'suporte',
-          conteudo:  `Olá, ${sessao.nomeCli}! Protocolo #${proto} aberto. Como posso ajudar?`,
-          criado_em: new Date().toISOString(),
-        }],
-        novo: true,
-      });
+      console.error('Falha ao conectar no Worker:', err);
+      erroEntrada.textContent = 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.';
 
     } finally {
       btnEntrar.disabled = false;
@@ -1255,7 +1243,7 @@
     campoMsg.style.height = 'auto';
 
     const agora = new Date();
-    renderBalao('cliente', texto, agora, anexosParaEnviar);
+    const balao = renderBalao('cliente', texto, agora, anexosParaEnviar);
     scrollChat();
 
     anexosPendentes = [];
@@ -1278,11 +1266,27 @@
           anexos:    anexosParaEnviar,
         }),
       });
-      if (!res.ok) console.error('Erro ao enviar mensagem');
-      else poll();
-    } catch {
-      // modo demo: silencia erro
+      if (!res.ok) {
+        let erro = 'Erro ao enviar mensagem.';
+        try { erro = (await res.json()).erro || erro; } catch {}
+        marcarBalaoComoFalho(balao, erro);
+      } else {
+        poll();
+      }
+    } catch (err) {
+      console.error('Falha ao enviar mensagem:', err);
+      marcarBalaoComoFalho(balao, 'Não foi possível conectar ao servidor.');
     }
+  }
+
+  function marcarBalaoComoFalho(balao, motivo) {
+    if (!balao) { toast(motivo); return; }
+    balao.classList.add('balao-falha');
+    const nota = document.createElement('div');
+    nota.className = 'balao-falha-nota';
+    nota.textContent = `⚠ Não enviada — ${motivo}`;
+    balao.appendChild(nota);
+    toast('Sua mensagem não foi enviada. Verifique sua conexão.');
   }
 
   // ── Scroll automático ────────────────────────────────────────────────────────
