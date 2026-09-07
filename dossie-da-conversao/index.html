@@ -3,11 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema de Landing Page de Elite — Alexandre Torres</title>
+<title>Dossiê da Conversão — Sistema de Landing Page de Elite | Alexandre Torres</title>
 <meta name="description" content="O motor estratégico e os prompts que estrategistas de elite usam para diagnosticar um negócio e produzir landing pages que vendem, com IA. R$97,00.">
-<meta property="og:title" content="Dossiê da Conversão — Sistema de Landing Page de Elite">
-<meta property="og:description" content="Diagnóstico + prompt mestre + método de produção. Do briefing ao deploy.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Alexandre Torres">
+<link rel="canonical" href="https://alexandretorres.com.br/dossie-da-conversao">
+<meta name="theme-color" content="#211B10">
+
+<!-- Favicons (embutidos como data URI, sem arquivos externos) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2230%22%20fill%3D%22%23A5322A%22%20stroke%3D%22%23211B10%22%20stroke-width%3D%222%22/%3E%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22%23E4D6AF%22%20stroke-width%3D%221.2%22%20stroke-dasharray%3D%222.4%202.4%22%20opacity%3D%220.55%22/%3E%20%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20font-family%3D%22Georgia%2C%20%27Times%20New%20Roman%27%2C%20serif%22%20font-weight%3D%22700%22%20font-size%3D%2230%22%20fill%3D%22%23E4D6AF%22%20text-anchor%3D%22middle%22%3ED%3C/text%3E%20%3C/svg%3E%20">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAwUExURf///yAaDykcETgeE1YkGo0tJaUyKqxFOW4oH7FSRL1xXcB7ZdKoieTWr8aKcd3EobPQEZUAAAABdFJOUwBA5thmAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAPYAAAD2ABenhFjQAAAAd0SU1FB+oJBw0fNuH0wNgAAADrSURBVDjLjVPbtoUgCExF8d7//+0RvKR5Wu7poVYzMoBwXSuEuL4hFTCU/I8VCrQ2DK1BbYEkVBbLQxp4RVGWfjuinUHSWLXwdNyZASzfWq38RFerSSGt2UA2tuUhgN3fKCFBdIOdnk2gJeADw+OjAM6gtcf4mFIM+b4z9jS0rA6tAp+SL9HuFHsI9oDhWgUm11dNkwWIQxDqK/YzUItcIwxBOVgKJcFHBMeCo8WaZJiTbI04ljka5ahR/mkUzY1cWp0Zvl98a8MPl3W87uPAnEduH1r34p+xRx78fezH4uDX4pxX77y8X+v/B01QExSgis9kAAAAAElFTkSuQmCC">
+<link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAqUExURf///0ghFlkkGo8wJ6U2LXkqIbtuWs6dgcF8ZrVcTN/Lpq1JPNe1lMWGbhSG+DkAAAABdFJOUwBA5thmAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAPYAAAD2ABenhFjQAAAAd0SU1FB+oJBw0fNuH0wNgAAABZSURBVBjTZY9LEoAgDEPpBykK97+uROgoNru8maRNSo+ImdIrFlUVYfdZl/LPL8L6EVLIH8XMAGT0A9SzXq2D0EwMoKXNTAAh4qXdS+PZ8Fh8HeNkG7fNvwHLlQNh2uKZsQAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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">
+
+<!-- Open Graph / Facebook, LinkedIn, WhatsApp -->
 <meta property="og:type" content="product">
+<meta property="og:url" content="https://alexandretorres.com.br/dossie-da-conversao">
+<meta property="og:site_name" content="Alexandre Torres">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Dossiê da Conversão — Sistema de Landing Page de Elite">
+<meta property="og:description" content="Diagnóstico + prompt mestre + método de produção. Do briefing ao deploy. Pagamento único de R$97,00.">
+<meta property="og:image" content="https://alexandretorres.com.br/dossie-da-conversao/og.jpg">
+<meta property="og:image:secure_url" content="https://alexandretorres.com.br/dossie-da-conversao/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dossiê da Conversão — sistema de landing page de elite, R$97,00">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dossiê da Conversão — Sistema de Landing Page de Elite">
+<meta name="twitter:description" content="Diagnóstico + prompt mestre + método de produção. Do briefing ao deploy.">
+<meta name="twitter:image" content="https://alexandretorres.com.br/dossie-da-conversao/og.jpg">
+<meta name="twitter:image:alt" content="Dossiê da Conversão — sistema de landing page de elite, R$97,00">
+<meta name="twitter:creator" content="@aletordev">
+<meta name="twitter:site" content="@aletordev">
+
+<!-- Schema.org — Product + Offer -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Dossiê da Conversão — Sistema de Landing Page de Elite",
+  "description": "O motor estratégico e os prompts que estrategistas de elite usam para diagnosticar um negócio e produzir landing pages que vendem, com IA. Inclui manual de aplicação, framework cognitivo (prompt mestre em 9 blocos), kit de nichos, etapas de criação, roteiro de produção e biblioteca de recursos bônus.",
+  "image": "https://alexandretorres.com.br/dossie-da-conversao/og.jpg",
+  "url": "https://alexandretorres.com.br/dossie-da-conversao",
+  "brand": {
+    "@type": "Person",
+    "name": "Alexandre Torres"
+  },
+  "category": "Toolpack digital / Sistema de criação de landing pages",
+  "offers": {
+    "@type": "Offer",
+    "url": "https://alexandretorres.com.br/dossie-da-conversao",
+    "priceCurrency": "BRL",
+    "price": "97.00",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Person",
+      "name": "Alexandre Torres"
+    }
+  }
+}
+</script>
+
+<!-- Schema.org — FAQPage (mesmas perguntas da seção #faq) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Já testei prompt pronto antes e não funcionou. Por que este seria diferente?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Porque a maioria dos prompts prontos pula direto pra copy. Aqui o prompt mestre força a investigação em 9 blocos antes de qualquer texto — o problema que você teve provavelmente foi escrever sem diagnóstico, não falta de um prompt melhor."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Não tenho tempo pra um processo grande. Dá pra aplicar rápido mesmo assim?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "O Manual de Aplicação existe exatamente pra isso — ele mostra o que ler primeiro e o que pular quando o prazo aperta, sem te obrigar a passar pelos 9 blocos inteiros toda vez."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Preciso saber programar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Não. O sistema é diagnóstico e prompts — você conduz a investigação e gera a página com Claude ou GPT, sem exigir código."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Funciona com Claude ou só com GPT?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Funciona com qualquer IA de chat capaz de seguir uma instrução longa e manter contexto — o prompt mestre foi desenhado pra isso, sem travar em um fornecedor."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Tem garantia?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim — 7 dias, reembolso direto e sem burocracia, se o sistema não fizer sentido pra sua forma de trabalhar."
+      }
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Lazy-load da fonte: não bloqueia o primeiro paint. O texto renderiza com a fonte de sistema
@@ -585,7 +696,7 @@
         <li>Garantia incondicional de 7 dias</li>
       </ul>
       <div class="dossier-footer">
-        <a class="btn-primary" href="#">Quero o sistema completo — R$97,00</a>
+        <a class="btn-primary" href="https://pay.hotmart.com/V107498215T?off=mp3u25cf" target="_blank" rel="noopener">Quero o sistema completo — R$97,00</a>
         <span class="stamp teal">Garantia 7 dias</span>
       </div>
     </div>
@@ -601,7 +712,7 @@
 
 <div class="sticky-cta">
   <span class="sc-price">R$97,00</span>
-  <a class="btn-primary" href="#comprar">Quero o sistema</a>
+  <a class="btn-primary" href="https://pay.hotmart.com/V107498215T?off=mp3u25cf" target="_blank" rel="noopener">Quero o sistema</a>
 </div>
 
 <script>
