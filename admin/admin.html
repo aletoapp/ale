@@ -19,7 +19,7 @@
     --danger:#ff6b6b; --danger-dim:#3a1414;
   }
   html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden;}
-  button{font-family:inherit;}
+  button{font-family:inherit;color:inherit;}
   ::-webkit-scrollbar{width:5px;height:5px;}
   ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
 
@@ -104,11 +104,10 @@
   .item-chamado:hover{background:var(--surface);}
   .item-chamado.selecionado{background:var(--surface-2);border-color:var(--border);}
   .item-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
-  .item-nome{font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .item-nome{font-size:13.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .item-hora{font-family:var(--mono);font-size:10px;color:var(--muted);flex-shrink:0;}
-  .item-meio{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;}
+  .item-meio{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
   .item-protocolo{font-family:var(--mono);font-size:10.5px;color:var(--muted);}
-  .item-telefone{font-family:var(--mono);font-size:10.5px;color:var(--muted);}
   .pill{font-size:9.5px;font-family:var(--mono);padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;}
   .pill.aberto{background:#1a2a00;color:var(--accent);}
   .pill.respondido{background:#1a1a30;color:#7c8fff;}
@@ -678,7 +677,6 @@
           <div class="item-meio">
             <span class="pill ${c.status}">${c.status}</span>
             <span class="item-protocolo">#${escapeHtml(c.protocolo)}</span>
-            ${c.cliente_telefone ? `<span class="item-telefone">${escapeHtml(formatarTelefone(c.cliente_telefone))}</span>` : ''}
             ${naoLido ? '<span class="ponto-nao-lido"></span>' : ''}
           </div>
           <div class="item-preview">${preview}</div>
