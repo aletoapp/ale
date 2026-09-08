@@ -106,8 +106,9 @@
   .item-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
   .item-nome{font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .item-hora{font-family:var(--mono);font-size:10px;color:var(--muted);flex-shrink:0;}
-  .item-meio{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+  .item-meio{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;}
   .item-protocolo{font-family:var(--mono);font-size:10.5px;color:var(--muted);}
+  .item-telefone{font-family:var(--mono);font-size:10.5px;color:var(--muted);}
   .pill{font-size:9.5px;font-family:var(--mono);padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;}
   .pill.aberto{background:#1a2a00;color:var(--accent);}
   .pill.respondido{background:#1a1a30;color:#7c8fff;}
@@ -131,16 +132,22 @@
 
   .detalhe-header{
     padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--border);
-    display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-shrink:0;
+    display:flex;flex-direction:column;gap:10px;flex-shrink:0;
   }
+  .detalhe-header-topo{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
   .btn-voltar{display:none;background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;margin-right:4px;}
   .btn-voltar svg{width:18px;height:18px;}
   .detalhe-header-esq{display:flex;align-items:flex-start;gap:4px;min-width:0;}
   .detalhe-info{min-width:0;}
   .detalhe-nome{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .detalhe-contato{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .detalhe-protocolo{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:3px;}
   .detalhe-acoes{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .detalhe-contatos{display:flex;flex-wrap:wrap;gap:6px 16px;}
+  .detalhe-contato-item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text);}
+  .detalhe-contato-item svg{width:13px;height:13px;color:var(--muted);flex-shrink:0;}
+  .detalhe-contato-item a{color:inherit;text-decoration:none;}
+  .detalhe-contato-item a:hover{color:var(--accent);}
+  .detalhe-contato-vazio{font-size:12.5px;color:var(--muted);font-style:italic;}
   select#select-status{
     font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:7px 10px;
     width:auto;cursor:pointer;
@@ -236,7 +243,6 @@
     .coluna-detalhe.ativa{transform:translateX(0);}
     .painel-corpo.detalhe-aberto .coluna-lista{display:none;}
     .btn-voltar{display:flex;align-items:center;}
-    .detalhe-contato{max-width:160px;}
   }
 </style>
 </head>
@@ -324,26 +330,28 @@
 
       <div id="detalhe-conteudo" style="display:none;flex:1;flex-direction:column;min-height:0;">
         <div class="detalhe-header">
-          <div class="detalhe-header-esq">
-            <button class="btn-voltar" id="btn-voltar">
-              <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3 5 9l6 6"/></svg>
-            </button>
-            <div class="detalhe-info">
-              <div class="detalhe-nome" id="detalhe-nome">—</div>
-              <div class="detalhe-contato" id="detalhe-contato">—</div>
-              <div class="detalhe-protocolo" id="detalhe-protocolo">#----</div>
+          <div class="detalhe-header-topo">
+            <div class="detalhe-header-esq">
+              <button class="btn-voltar" id="btn-voltar">
+                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3 5 9l6 6"/></svg>
+              </button>
+              <div class="detalhe-info">
+                <div class="detalhe-nome" id="detalhe-nome">—</div>
+                <div class="detalhe-protocolo" id="detalhe-protocolo">#----</div>
+              </div>
+            </div>
+            <div class="detalhe-acoes">
+              <select id="select-status">
+                <option value="aberto">Aberto</option>
+                <option value="respondido">Respondido</option>
+                <option value="fechado">Fechado</option>
+              </select>
+              <button class="icon-btn btn-excluir" id="btn-excluir-chamado" title="Excluir chamado">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M12.5 4.5 12 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1l-.5-8.5"/></svg>
+              </button>
             </div>
           </div>
-          <div class="detalhe-acoes">
-            <select id="select-status">
-              <option value="aberto">Aberto</option>
-              <option value="respondido">Respondido</option>
-              <option value="fechado">Fechado</option>
-            </select>
-            <button class="icon-btn btn-excluir" id="btn-excluir-chamado" title="Excluir chamado">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M12.5 4.5 12 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1l-.5-8.5"/></svg>
-            </button>
-          </div>
+          <div class="detalhe-contatos" id="detalhe-contatos"></div>
         </div>
 
         <div class="detalhe-mensagens" id="detalhe-mensagens"></div>
@@ -446,7 +454,7 @@
   const detalheVazio     = document.getElementById('detalhe-vazio');
   const detalheConteudo  = document.getElementById('detalhe-conteudo');
   const detalheNome      = document.getElementById('detalhe-nome');
-  const detalheContato   = document.getElementById('detalhe-contato');
+  const detalheContatos  = document.getElementById('detalhe-contatos');
   const detalheProtocolo = document.getElementById('detalhe-protocolo');
   const detalheMensagens = document.getElementById('detalhe-mensagens');
   const selectStatus     = document.getElementById('select-status');
@@ -508,6 +516,37 @@
     const d = new Date(iso.includes('Z') || iso.includes('+') ? iso : iso + 'Z');
     if (isNaN(d)) return '';
     return d.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function formatarTelefone(tel){
+    const d = String(tel || '').replace(/\D/g, '');
+    if (!d) return '';
+    if (d.length === 11) return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+    if (d.length === 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+    if (d.length > 11) return `+${d.slice(0,d.length-10)} (${d.slice(-10,-8)}) ${d.slice(-8,-4)}-${d.slice(-4)}`;
+    return d;
+  }
+
+  function renderContatos(ch){
+    const itens = [];
+    if (ch.telefone) {
+      const digitos = String(ch.telefone).replace(/\D/g, '');
+      itens.push(`
+        <span class="detalhe-contato-item">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2.5h2.2l1 3-1.4 1a7 7 0 0 0 3.7 3.7l1-1.4 3 1V12A1.2 1.2 0 0 1 11.3 13.2 10 10 0 0 1 2 3.7 1.2 1.2 0 0 1 3 2.5z"/></svg>
+          <a href="https://wa.me/55${digitos}" target="_blank" rel="noopener">${escapeHtml(formatarTelefone(ch.telefone))}</a>
+        </span>
+      `);
+    }
+    if (ch.email) {
+      itens.push(`
+        <span class="detalhe-contato-item">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 3.5h11v7h-11z"/><path d="m1.5 3.5 5.5 4 5.5-4"/></svg>
+          <a href="mailto:${escapeHtml(ch.email)}">${escapeHtml(ch.email)}</a>
+        </span>
+      `);
+    }
+    detalheContatos.innerHTML = itens.length ? itens.join('') : '<span class="detalhe-contato-vazio">Sem telefone ou e-mail cadastrado</span>';
   }
 
   function dataLabel(iso){
@@ -639,6 +678,7 @@
           <div class="item-meio">
             <span class="pill ${c.status}">${c.status}</span>
             <span class="item-protocolo">#${escapeHtml(c.protocolo)}</span>
+            ${c.cliente_telefone ? `<span class="item-telefone">${escapeHtml(formatarTelefone(c.cliente_telefone))}</span>` : ''}
             ${naoLido ? '<span class="ponto-nao-lido"></span>' : ''}
           </div>
           <div class="item-preview">${preview}</div>
@@ -698,7 +738,7 @@
 
       const ch = data.chamado;
       detalheNome.textContent = ch.nome || 'Sem nome';
-      detalheContato.textContent = `${ch.email || ''}${ch.email && ch.telefone ? ' · ' : ''}${ch.telefone || ''}`;
+      renderContatos(ch);
       detalheProtocolo.textContent = `#${ch.protocolo} · atualizado ${horaCompleta(ch.atualizado_em)}`;
       selectStatus.value = ch.status;
 
