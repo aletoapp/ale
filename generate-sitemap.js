@@ -35,7 +35,6 @@ const IGNORE = [
   'coverage',
   'bike',  
   'razoes-do-corpo',
-  'atendimento', // excluído do sitemap
   'propostas', // excluído do sitemap
 ];
 
