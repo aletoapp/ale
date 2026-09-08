@@ -1,1348 +1,868 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin · Chat-Protocolo</title>
-
-  <!-- ── PWA ────────────────────────────────────────────────────── -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#080808">
-  <meta name="color-scheme" content="dark">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Protocolo Admin">
-  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:          #080808;
-      --panel:       #0f0f0f;
-      --surface:     #161616;
-      --border:      #222;
-      --border-hi:   #333;
-      --text:        #e2e2e2;
-      --muted:       #555;
-      --muted2:      #777;
-      --accent:      #c8ff00;
-      --accent-dim:  #1e2a00;
-      --red:         #ff4444;
-      --blue:        #4488ff;
-      --blue-dim:    #0a1530;
-      --radius:      8px;
-      --mono:        'IBM Plex Mono', monospace;
-      --sans:        'IBM Plex Sans', sans-serif;
-      --sidebar-w:   340px;
-    }
-
-    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow: hidden; }
-
-    /* ── Login overlay ─────────────────────────────────────────── */
-    #login-overlay {
-      position: fixed; inset: 0; z-index: 100;
-      background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      animation: fadeIn .3s ease;
-    }
-
-    .login-box {
-      width: 360px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 40px 32px;
-    }
-
-    .login-logo {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 32px;
-    }
-
-    .login-icon {
-      width: 36px; height: 36px; background: var(--accent); border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .login-icon svg { width: 20px; height: 20px; }
-
-    .login-title { font-family: var(--mono); font-size: 13px; color: var(--muted2); letter-spacing: .06em; text-transform: uppercase; }
-
-    .login-box h2 { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
-    .login-box p  { color: var(--muted2); font-size: 13px; margin-bottom: 28px; }
-
-    .login-input {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 14px;
-      padding: 12px 14px;
-      outline: none;
-      letter-spacing: .04em;
-      transition: border-color .2s;
-      margin-bottom: 12px;
-    }
-    .login-input:focus { border-color: var(--accent); }
-
-    .login-btn {
-      width: 100%; padding: 12px;
-      background: var(--accent); color: #000;
-      font-family: var(--mono); font-size: 12px; font-weight: 600;
-      letter-spacing: .08em; text-transform: uppercase;
-      border: none; border-radius: var(--radius); cursor: pointer;
-      transition: opacity .2s;
-    }
-    .login-btn:hover { opacity: .85; }
-
-    .login-erro { font-size: 12px; color: var(--red); margin-top: 10px; min-height: 16px; text-align: center; }
-
-    /* ── App layout ────────────────────────────────────────────── */
-    #app {
-      display: grid;
-      grid-template-columns: var(--sidebar-w) 1fr;
-      grid-template-rows: 48px 1fr;
-      height: 100vh;
-    }
-
-    /* ── Topbar ────────────────────────────────────────────────── */
-    .topbar {
-      grid-column: 1 / -1;
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 20px;
-      flex-shrink: 0;
-    }
-
-    .topbar-left { display: flex; align-items: center; gap: 10px; }
-
-    .topbar-icon {
-      width: 26px; height: 26px; background: var(--accent); border-radius: 5px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .topbar-icon svg { width: 14px; height: 14px; }
-
-    .topbar-nome { font-family: var(--mono); font-size: 12px; color: var(--muted2); letter-spacing: .06em; text-transform: uppercase; }
-
-    .topbar-right { display: flex; align-items: center; gap: 16px; }
-
-    #badge-abertos {
-      font-family: var(--mono); font-size: 11px;
-      background: var(--accent-dim); color: var(--accent);
-      padding: 3px 9px; border-radius: 20px;
-    }
-
-    .btn-logout {
-      font-family: var(--mono); font-size: 11px; color: var(--muted);
-      background: none; border: 1px solid var(--border); border-radius: 5px;
-      padding: 4px 10px; cursor: pointer; letter-spacing: .04em;
-      transition: color .2s, border-color .2s;
-    }
-    .btn-logout:hover { color: var(--text); border-color: var(--border-hi); }
-
-    /* ── Sidebar ───────────────────────────────────────────────── */
-    .sidebar {
-      background: var(--panel);
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      overflow: hidden;
-    }
-
-    .sidebar-filters {
-      padding: 12px;
-      border-bottom: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .search-wrap { position: relative; }
-
-    .search-wrap svg {
-      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-      width: 14px; height: 14px; color: var(--muted);
-    }
-
-    #busca {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 13px;
-      padding: 8px 10px 8px 32px;
-      outline: none;
-      transition: border-color .2s;
-    }
-    #busca:focus { border-color: var(--accent); }
-    #busca::placeholder { color: var(--muted); }
-
-    .filtros-status {
-      display: flex; gap: 4px;
-    }
-
-    .filtro-btn {
-      flex: 1; font-family: var(--mono); font-size: 10px;
-      letter-spacing: .05em; text-transform: uppercase;
-      padding: 5px 4px;
-      background: transparent; border: 1px solid var(--border);
-      border-radius: 5px; color: var(--muted); cursor: pointer;
-      transition: all .2s;
-    }
-    .filtro-btn:hover { color: var(--text); border-color: var(--border-hi); }
-    .filtro-btn.ativo { background: var(--surface); color: var(--text); border-color: var(--border-hi); }
-    .filtro-btn[data-s="aberto"].ativo      { color: var(--accent); border-color: var(--accent-dim); background: var(--accent-dim); }
-    .filtro-btn[data-s="respondido"].ativo  { color: var(--blue); border-color: var(--blue-dim); background: var(--blue-dim); }
-    .filtro-btn[data-s="fechado"].ativo     { color: var(--muted2); }
-
-    .lista-chamados {
-      flex: 1; overflow-y: auto;
-    }
-    .lista-chamados::-webkit-scrollbar { width: 3px; }
-    .lista-chamados::-webkit-scrollbar-thumb { background: var(--border); }
-
-    .chamado-item {
-      padding: 13px 14px;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background .15s;
-      position: relative;
-    }
-    .chamado-item:hover { background: var(--surface); }
-    .chamado-item.ativo { background: var(--surface); border-left: 2px solid var(--accent); }
-
-    .ci-topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
-
-    .ci-nome { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
-
-    .ci-proto { font-family: var(--mono); font-size: 10px; color: var(--muted2); }
-
-    .ci-msg { font-size: 12px; color: var(--muted2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; }
-
-    .ci-bottom { display: flex; align-items: center; justify-content: space-between; }
-
-    .ci-tempo { font-family: var(--mono); font-size: 10px; color: var(--muted); }
-
-    .status-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-    }
-    .status-dot.aberto     { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
-    .status-dot.respondido { background: var(--blue); }
-    .status-dot.fechado    { background: var(--muted); }
-
-    /* Excluir item (aparece no hover do card, na lista lateral) */
-    .ci-excluir {
-      position: absolute; top: 10px; right: 12px;
-      width: 20px; height: 20px;
-      display: flex; align-items: center; justify-content: center;
-      background: transparent; border: none; border-radius: 5px;
-      color: var(--muted); cursor: pointer;
-      opacity: 0; transition: opacity .15s, color .15s, background .15s;
-    }
-    .chamado-item:hover .ci-excluir { opacity: 1; }
-    .ci-excluir:hover { color: var(--red); background: #200808; }
-    .ci-excluir svg { width: 12px; height: 12px; pointer-events: none; }
-    /* protocolo some quando o X aparece, pra não sobrepor */
-    .chamado-item:hover .ci-proto { opacity: 0; }
-
-    /* Botão de excluir no cabeçalho do chat (perigo) */
-    .btn-icon.btn-perigo:hover { color: var(--red); border-color: #4a1616; background: #200808; }
-
-    /* Link "limpar antigos" no rodapé dos filtros */
-    .btn-limpar-antigos {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .04em;
-      background: none; border: none; color: var(--muted); cursor: pointer;
-      text-align: left; padding: 2px 1px; align-self: flex-start;
-      text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border-hi);
-      transition: color .15s;
-    }
-    .btn-limpar-antigos:hover { color: var(--red); }
-
-    /* ── Modal de confirmação (exclusão definitiva) ───────────────── */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 300;
-      background: rgba(0,0,0,.6);
-      display: flex; align-items: center; justify-content: center;
-      animation: fadeIn .15s ease;
-    }
-    .modal-box {
-      width: 380px; max-width: calc(100vw - 32px);
-      background: var(--panel);
-      border: 1px solid var(--border-hi);
-      border-radius: 12px;
-      padding: 24px;
-    }
-    .modal-title {
-      font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 8px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .modal-title svg { width: 16px; height: 16px; color: var(--red); flex-shrink: 0; }
-    .modal-desc { font-size: 13px; color: var(--muted2); line-height: 1.5; margin-bottom: 16px; }
-    .modal-label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted2); margin-bottom: 5px; margin-top: 12px; }
-    .modal-input {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 13px;
-      padding: 9px 11px;
-      outline: none;
-      transition: border-color .2s;
-    }
-    .modal-input:focus { border-color: var(--accent); }
-    select.modal-input { cursor: pointer; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
-    .btn-secundario, .btn-perigo-solido {
-      font-family: var(--mono); font-size: 11px; font-weight: 600;
-      letter-spacing: .05em; text-transform: uppercase;
-      padding: 9px 16px; border-radius: var(--radius); cursor: pointer;
-      border: 1px solid var(--border); transition: opacity .2s, background .2s, color .2s;
-    }
-    .btn-secundario { background: transparent; color: var(--muted2); }
-    .btn-secundario:hover { color: var(--text); border-color: var(--border-hi); }
-    .btn-perigo-solido { background: var(--red); color: #000; border-color: var(--red); }
-    .btn-perigo-solido:hover { opacity: .85; }
-    .btn-perigo-solido:disabled { background: var(--surface); color: var(--muted); border-color: var(--border); opacity: .6; cursor: not-allowed; }
-
-    .empty-list {
-      padding: 40px 20px; text-align: center;
-      color: var(--muted); font-size: 13px;
-    }
-
-    .loading-lista {
-      padding: 20px; display: flex; justify-content: center;
-    }
-
-    /* ── Painel direito: chat ──────────────────────────────────── */
-    .painel-chat {
-      display: flex; flex-direction: column; overflow: hidden;
-      background: var(--bg);
-    }
-
-    .chat-vazio {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      color: var(--muted); gap: 12px;
-      animation: fadeIn .3s ease;
-    }
-    .chat-vazio svg { width: 48px; height: 48px; opacity: .2; }
-    .chat-vazio p { font-size: 13px; }
-
-    /* Cabeçalho do chamado aberto */
-    .chat-header {
-      padding: 14px 20px;
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
-    }
-
-    .ch-left { display: flex; flex-direction: column; gap: 2px; }
-
-    .ch-proto { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--accent); }
-
-    .ch-cliente { font-size: 12px; color: var(--muted2); }
-    .ch-cliente strong { color: var(--text); }
-
-    .ch-right { display: flex; align-items: center; gap: 8px; }
-
-    .status-select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: 5px 8px;
-      outline: none;
-      cursor: pointer;
-      letter-spacing: .04em;
-    }
-    .status-select:focus { border-color: var(--accent); }
-
-    .btn-icon {
-      width: 32px; height: 32px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 6px; color: var(--muted2);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: all .2s;
-    }
-    .btn-icon:hover { color: var(--text); border-color: var(--border-hi); }
-    .btn-icon svg { width: 14px; height: 14px; }
-
-    /* Área de mensagens */
-    .chat-msgs {
-      flex: 1; overflow-y: auto; padding: 20px;
-      display: flex; flex-direction: column; gap: 10px;
-      scroll-behavior: smooth;
-    }
-    .chat-msgs::-webkit-scrollbar { width: 4px; }
-    .chat-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-    .balao {
-      max-width: 68%; padding: 10px 14px;
-      border-radius: 14px; font-size: 13px; line-height: 1.55;
-      word-break: break-word;
-      animation: fadeUp .2s ease both;
-    }
-    .balao-suporte {
-      background: var(--surface); border: 1px solid var(--border);
-      border-bottom-left-radius: 4px; align-self: flex-start;
-    }
-    .balao-cliente {
-      background: #101a00; border: 1px solid #1e2e00;
-      border-bottom-right-radius: 4px; align-self: flex-end;
-    }
-    .balao-meta { font-size: 10px; color: var(--muted); margin-top: 4px; font-family: var(--mono); }
-    .balao-suporte .balao-meta { text-align: left; }
-    .balao-cliente .balao-meta { text-align: right; }
-
-    .marcador-data {
-      align-self: center; font-size: 10px; font-family: var(--mono);
-      color: var(--muted); background: var(--panel);
-      border: 1px solid var(--border); padding: 2px 10px;
-      border-radius: 20px; margin: 4px 0;
-    }
-
-    /* Área de resposta */
-    .reply-area {
-      padding: 14px 20px;
-      background: var(--panel);
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .reply-toolbar {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .reply-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
-
-    .reply-toolbar-acoes { display: flex; gap: 6px; }
-    .btn-anexo {
-      display: flex; align-items: center; gap: 5px;
-      font-family: var(--mono); font-size: 10px; letter-spacing: .04em;
-      background: transparent; border: 1px solid var(--border); color: var(--muted2);
-      border-radius: 5px; padding: 4px 8px; cursor: pointer;
-      transition: color .15s, border-color .15s;
-    }
-    .btn-anexo:hover { color: var(--text); border-color: var(--border-hi); }
-    .btn-anexo svg { width: 11px; height: 11px; }
-
-    .anexos-pendentes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-    .anexo-chip {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
-      padding: 5px 8px; font-size: 11px; color: var(--muted2); max-width: 220px;
-    }
-    .anexo-chip .ac-nome { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .anexo-chip .ac-remover {
-      background: none; border: none; color: var(--muted); cursor: pointer;
-      display: flex; align-items: center; padding: 0; line-height: 0;
-    }
-    .anexo-chip .ac-remover:hover { color: var(--red); }
-    .anexo-chip.ac-carregando { opacity: .6; }
-
-    /* Anexos dentro dos balões de mensagem */
-    .balao-anexos { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-    .balao-anexos:first-child { margin-top: 0; }
-    .balao-anexo-img { display: block; max-width: 220px; max-height: 220px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
-    .balao-anexo-arquivo, .balao-anexo-link {
-      display: flex; align-items: center; gap: 7px;
-      background: rgba(0,0,0,.2); border: 1px solid var(--border);
-      border-radius: 6px; padding: 6px 10px; font-size: 12px;
-      color: inherit; text-decoration: none; max-width: 240px;
-    }
-    .balao-anexo-arquivo:hover, .balao-anexo-link:hover { border-color: var(--border-hi); }
-    .balao-anexo-arquivo svg, .balao-anexo-link svg { width: 13px; height: 13px; flex-shrink: 0; opacity: .7; }
-    .balao-anexo-nome { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    #resposta-textarea {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 13px;
-      padding: 11px 14px;
-      resize: none;
-      outline: none;
-      min-height: 72px;
-      max-height: 200px;
-      line-height: 1.55;
-      transition: border-color .2s;
-    }
-    #resposta-textarea:focus { border-color: var(--accent); }
-    #resposta-textarea::placeholder { color: var(--muted); }
-
-    .reply-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: 10px;
-    }
-
-    .reply-dica { font-family: var(--mono); font-size: 10px; color: var(--muted); }
-
-    .btn-enviar-resposta {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--accent); color: #000;
-      font-family: var(--mono); font-size: 11px; font-weight: 600;
-      letter-spacing: .06em; text-transform: uppercase;
-      border: none; border-radius: var(--radius);
-      padding: 9px 18px; cursor: pointer;
-      transition: opacity .2s, transform .1s;
-    }
-    .btn-enviar-resposta:hover { opacity: .85; }
-    .btn-enviar-resposta:active { transform: scale(.97); }
-    .btn-enviar-resposta:disabled { opacity: .4; cursor: not-allowed; }
-    .btn-enviar-resposta svg { width: 13px; height: 13px; }
-
-    .toast {
-      position: fixed; bottom: 24px; right: 24px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      color: var(--text); font-size: 13px;
-      padding: 12px 18px; border-radius: var(--radius);
-      font-family: var(--mono);
-      opacity: 0; transform: translateY(10px);
-      transition: opacity .3s, transform .3s;
-      pointer-events: none; z-index: 50;
-    }
-    .toast.show { opacity: 1; transform: translateY(0); }
-
-    /* ── Animações ─────────────────────────────────────────────── */
-    @keyframes fadeIn  { from { opacity: 0 } to { opacity: 1 } }
-    @keyframes fadeUp  { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
-
-    /* ── Spinner ───────────────────────────────────────────────── */
-    .spin {
-      width: 18px; height: 18px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg) } }
-
-    /* ── Botão de Notificações ─────────────────────────────────── */
-    #btn-notif {
-      font-family: var(--mono); font-size: 11px;
-      letter-spacing: .04em;
-      padding: 4px 10px; border-radius: 5px; cursor: pointer;
-      border: 1px solid var(--border);
-      transition: all .2s;
-      display: flex; align-items: center; gap: 5px;
-    }
-    #btn-notif.inativo  { background: none; color: var(--muted); }
-    #btn-notif.inativo:hover { color: var(--text); border-color: var(--border-hi); }
-    #btn-notif.ativo    { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-dim); }
-    #btn-notif.negado   { background: none; color: var(--red); border-color: var(--red); opacity: .6; cursor: not-allowed; }
-
-    #btn-instalar {
-      display: none; align-items: center; gap: 6px;
-      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
-      background: var(--accent); color: #000; font-weight: 600;
-      border: none; border-radius: 5px;
-      padding: 5px 10px 5px 8px; cursor: pointer;
-      transition: opacity .2s, transform .15s;
-    }
-    #btn-instalar svg { width: 12px; height: 12px; }
-    #btn-instalar:hover  { opacity: .85; }
-    #btn-instalar:active { transform: scale(.96); }
-    #btn-instalar.mostrar { display: inline-flex; }
-
-    /* ── Popup lateral de nova mensagem (fica até o admin fechar) ────── */
-    #alerta-lateral {
-      position: fixed; top: 58px; right: 16px; z-index: 90;
-      width: 300px;
-      background: var(--panel);
-      border: 1px solid var(--accent);
-      border-radius: 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 0 3px var(--accent-dim);
-      padding: 14px 14px 12px;
-      display: none;
-      animation: alertaEntra .25s cubic-bezier(.2,.8,.3,1.2);
-    }
-    #alerta-lateral.mostrar { display: block; }
-    #alerta-lateral.piscar  { animation: alertaPisca 1s ease-in-out infinite; }
-    @keyframes alertaEntra { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
-    @keyframes alertaPisca {
-      0%, 100% { box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 0 3px var(--accent-dim); }
-      50%      { box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 0 3px var(--accent); }
-    }
-    .alerta-topo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .alerta-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; box-shadow: 0 0 0 3px var(--accent-dim); }
-    .alerta-titulo { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; flex: 1; }
-    .alerta-fechar { background:none; border:none; color: var(--muted); cursor:pointer; font-size: 15px; line-height: 1; padding: 2px 4px; }
-    .alerta-fechar:hover { color: var(--text); }
-    .alerta-corpo { font-size: 13px; color: var(--text); margin-bottom: 4px; line-height: 1.45; }
-    .alerta-corpo strong { color: #fff; }
-    .alerta-preview { font-size: 12px; color: var(--muted2); margin-bottom: 12px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    .alerta-btn {
-      width: 100%; padding: 8px; font-family: var(--mono); font-size: 11px; font-weight: 600;
-      letter-spacing: .05em; text-transform: uppercase;
-      background: var(--accent); color: #000; border: none; border-radius: 6px; cursor: pointer;
-      transition: opacity .2s;
-    }
-    .alerta-btn:hover { opacity: .85; }
-
-    /* ── Responsive ────────────────────────────────────────────── */
-    @media (max-width: 700px) {
-      :root { --sidebar-w: 100vw; }
-      #app { grid-template-columns: 1fr; }
-      .painel-chat { display: none; }
-      .painel-chat.mobile-ativo { display: flex; position: fixed; inset: 48px 0 0 0; z-index: 10; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel · Chat-Protocolo Admin</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#080808">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#0d0d0d; --surface:#161616; --surface-2:#1c1c1c; --border:#2a2a2a;
+    --text:#e8e8e8; --muted:#666; --accent:#c8ff00; --accent-dim:#8aad00;
+    --bubble-eu:#1e2a00; --bubble-sup:#1a1a1a; --radius:10px;
+    --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+    --danger:#ff6b6b; --danger-dim:#3a1414;
+  }
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden;}
+  button{font-family:inherit;}
+  ::-webkit-scrollbar{width:5px;height:5px;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* ── Login ─────────────────────────────────────────────── */
+  #tela-login{
+    height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  .login-box{width:100%;max-width:360px;animation:fadeUp .35s ease both;}
+  .logo-linha{display:flex;align-items:center;gap:10px;margin-bottom:32px;}
+  .logo-icon{width:32px;height:32px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .logo-icon svg{width:18px;height:18px;}
+  .logo-nome{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  .login-box h1{font-size:22px;font-weight:500;margin-bottom:6px;}
+  .login-box p{color:var(--muted);font-size:13px;margin-bottom:26px;}
+  label{display:block;font-size:12px;font-family:var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
+  input[type="password"],input[type="text"],input[type="number"],input[type="search"],textarea,select{
+    width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    color:var(--text);font-family:var(--sans);font-size:15px;padding:12px 14px;outline:none;transition:border-color .2s;
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--accent);}
+  .btn-primary{
+    width:100%;margin-top:14px;padding:13px;background:var(--accent);color:#000;font-family:var(--mono);
+    font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border:none;border-radius:var(--radius);
+    cursor:pointer;transition:opacity .2s,transform .1s;
+  }
+  .btn-primary:hover{opacity:.88;}
+  .btn-primary:active{transform:scale(.98);}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+  .msg-erro{margin-top:12px;font-size:13px;color:var(--danger);text-align:center;min-height:16px;}
+
+  /* ── Painel ────────────────────────────────────────────── */
+  #tela-painel{display:none;height:100vh;flex-direction:column;}
+  #tela-painel.ativo{display:flex;}
+
+  .topbar{
+    flex-shrink:0;height:58px;display:flex;align-items:center;gap:16px;
+    padding:0 18px;background:var(--surface);border-bottom:1px solid var(--border);
+  }
+  .topbar .logo-linha{margin-bottom:0;}
+  .topbar-sep{flex:1;}
+  .icon-btn{
+    display:flex;align-items:center;justify-content:center;width:34px;height:34px;
+    background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;cursor:pointer;
+    transition:color .15s,border-color .15s,background .15s;position:relative;flex-shrink:0;
+  }
+  .icon-btn:hover{color:var(--text);border-color:#444;}
+  .icon-btn svg{width:16px;height:16px;}
+  .badge-contador{
+    position:absolute;top:-5px;right:-5px;background:var(--accent);color:#000;font-family:var(--mono);
+    font-size:10px;font-weight:600;min-width:16px;height:16px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 3px;
+  }
+
+  .painel-corpo{flex:1;display:flex;min-height:0;}
+
+  /* ── Coluna de lista ───────────────────────────────────── */
+  .coluna-lista{width:340px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid var(--border);background:var(--bg);min-width:0;}
+  .lista-topo{padding:14px 14px 0;flex-shrink:0;}
+  .busca-wrap{position:relative;margin-bottom:10px;}
+  .busca-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--muted);}
+  #campo-busca{padding-left:32px;font-size:13px;padding-top:9px;padding-bottom:9px;}
+
+  .tabs-status{display:flex;gap:4px;padding-bottom:12px;}
+  .tab-status{
+    flex:1;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:var(--mono);
+    font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;padding:7px 4px;border-radius:7px;cursor:pointer;
+    transition:color .15s,border-color .15s,background .15s;white-space:nowrap;
+  }
+  .tab-status.ativa{color:#000;background:var(--accent);border-color:var(--accent);font-weight:500;}
+  .tab-status:not(.ativa):hover{color:var(--text);border-color:#444;}
+
+  .lista-chamados{flex:1;overflow-y:auto;padding:0 8px 12px;}
+  .lista-vazia{color:var(--muted);font-size:13px;text-align:center;padding:40px 16px;}
+  .lista-carregando{color:var(--muted);font-size:12px;text-align:center;padding:20px;font-family:var(--mono);}
+
+  .item-chamado{
+    display:block;width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:var(--radius);
+    padding:11px 10px;margin-bottom:2px;cursor:pointer;transition:background .12s,border-color .12s;
+  }
+  .item-chamado:hover{background:var(--surface);}
+  .item-chamado.selecionado{background:var(--surface-2);border-color:var(--border);}
+  .item-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
+  .item-nome{font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .item-hora{font-family:var(--mono);font-size:10px;color:var(--muted);flex-shrink:0;}
+  .item-meio{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+  .item-protocolo{font-family:var(--mono);font-size:10.5px;color:var(--muted);}
+  .pill{font-size:9.5px;font-family:var(--mono);padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;}
+  .pill.aberto{background:#1a2a00;color:var(--accent);}
+  .pill.respondido{background:#1a1a30;color:#7c8fff;}
+  .pill.fechado{background:#2a1a1a;color:#ff7c7c;}
+  .item-preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .item-chamado.nao-lido .item-nome{color:var(--accent);}
+  .item-chamado.nao-lido .item-preview{color:var(--text);}
+  .ponto-nao-lido{width:7px;height:7px;background:var(--accent);border-radius:50%;flex-shrink:0;}
+
+  .lista-rodape{padding:10px 14px;border-top:1px solid var(--border);flex-shrink:0;}
+  .link-discreto{
+    background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:11px;cursor:pointer;
+    text-decoration:underline;text-underline-offset:2px;
+  }
+  .link-discreto:hover{color:var(--text);}
+
+  /* ── Coluna de detalhe ─────────────────────────────────── */
+  .coluna-detalhe{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg);}
+  .detalhe-vazio{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);font-size:13px;text-align:center;padding:20px;}
+  .detalhe-vazio svg{width:38px;height:38px;opacity:.3;}
+
+  .detalhe-header{
+    padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--border);
+    display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-shrink:0;
+  }
+  .btn-voltar{display:none;background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;margin-right:4px;}
+  .btn-voltar svg{width:18px;height:18px;}
+  .detalhe-header-esq{display:flex;align-items:flex-start;gap:4px;min-width:0;}
+  .detalhe-info{min-width:0;}
+  .detalhe-nome{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .detalhe-contato{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .detalhe-protocolo{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:3px;}
+  .detalhe-acoes{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  select#select-status{
+    font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:7px 10px;
+    width:auto;cursor:pointer;
+  }
+  .btn-excluir{color:var(--danger);}
+  .btn-excluir:hover{border-color:var(--danger);background:var(--danger-dim);}
+
+  .detalhe-mensagens{flex:1;overflow-y:auto;padding:22px 20px;display:flex;flex-direction:column;gap:12px;}
+  .detalhe-carregando{color:var(--muted);font-size:12px;text-align:center;padding:30px;font-family:var(--mono);}
+
+  .balao{max-width:70%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.55;word-break:break-word;animation:fadeUp .2s ease both;}
+  .balao-cliente{background:var(--bubble-sup);border:1px solid var(--border);border-bottom-left-radius:4px;align-self:flex-start;}
+  .balao-suporte{background:var(--bubble-eu);border:1px solid #2e3d00;border-bottom-right-radius:4px;align-self:flex-end;text-align:right;}
+  .balao-meta{font-size:10px;color:var(--muted);margin-top:4px;font-family:var(--mono);}
+  .balao-cliente .balao-meta{text-align:left;}
+  .balao-suporte .balao-meta{text-align:right;}
+  .marcador-data{align-self:center;font-size:11px;font-family:var(--mono);color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:3px 12px;border-radius:20px;margin:6px 0;}
+
+  .balao-anexos{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+  .balao-anexos:first-child{margin-top:0;}
+  .balao-anexo-img{display:block;max-width:220px;max-height:220px;border-radius:8px;border:1px solid var(--border);cursor:pointer;}
+  .balao-anexo-arquivo,.balao-anexo-link{
+    display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.2);border:1px solid var(--border);
+    border-radius:6px;padding:6px 10px;font-size:12px;color:inherit;text-decoration:none;max-width:230px;
+  }
+  .balao-anexo-arquivo:hover,.balao-anexo-link:hover{border-color:#444;}
+  .balao-anexo-arquivo svg,.balao-anexo-link svg{width:13px;height:13px;flex-shrink:0;opacity:.7;}
+  .balao-anexo-nome{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+  .input-toolbar{display:flex;align-items:center;gap:6px;padding:10px 20px 0;background:var(--surface);flex-shrink:0;}
+  .btn-anexo{
+    display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;letter-spacing:.04em;
+    background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:4px 8px;cursor:pointer;
+    transition:color .15s,border-color .15s;
+  }
+  .btn-anexo:hover{color:var(--text);border-color:#444;}
+  .btn-anexo svg{width:11px;height:11px;}
+  .btn-anexo:disabled{opacity:.4;cursor:not-allowed;}
+
+  .anexos-pendentes{display:flex;flex-wrap:wrap;gap:6px;padding:8px 20px 0;background:var(--surface);}
+  .anexo-chip{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;color:var(--muted);max-width:220px;}
+  .anexo-chip .ac-nome{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .anexo-chip .ac-remover{background:none;border:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;padding:0;line-height:0;}
+  .anexo-chip .ac-remover:hover{color:var(--danger);}
+  .anexo-chip.ac-carregando{opacity:.6;}
+
+  .detalhe-input-area{padding:12px 20px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;}
+  #campo-resposta{
+    flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);
+    font-family:var(--sans);font-size:14px;padding:11px 14px;resize:none;outline:none;min-height:44px;max-height:130px;line-height:1.5;transition:border-color .2s;
+  }
+  #campo-resposta:focus{border-color:var(--accent);}
+  .btn-enviar{width:44px;height:44px;background:var(--accent);border:none;border-radius:var(--radius);color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s;}
+  .btn-enviar:hover{opacity:.85;}
+  .btn-enviar:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-enviar svg{width:18px;height:18px;}
+
+  /* ── Modal genérico ────────────────────────────────────── */
+  .modal-fundo{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-fundo.visivel{display:flex;}
+  .modal-caixa{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;animation:fadeUp .2s ease both;}
+  .modal-caixa h2{font-size:16px;font-weight:500;margin-bottom:6px;}
+  .modal-caixa p{color:var(--muted);font-size:13px;margin-bottom:16px;}
+  .modal-caixa .form-grupo{margin-bottom:14px;}
+  .modal-acoes{display:flex;gap:8px;margin-top:4px;}
+  .modal-acoes button{flex:1;margin-top:0;}
+  .btn-secundario{
+    background:transparent;border:1px solid var(--border);color:var(--text);border-radius:var(--radius);
+    padding:12px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:border-color .15s;
+  }
+  .btn-secundario:hover{border-color:#444;}
+  .btn-perigo{background:var(--danger);color:#1a0000;}
+  .modal-erro{font-size:12px;color:var(--danger);margin-top:8px;min-height:14px;}
+
+  /* ── Toast ─────────────────────────────────────────────── */
+  #toast{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--accent);
+    color:var(--text);font-size:13px;padding:11px 18px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.5);
+    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:100;max-width:90vw;
+  }
+  #toast.visivel{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;}
+
+  /* ── Responsivo ────────────────────────────────────────── */
+  @media (max-width:820px){
+    .coluna-lista{width:100%;border-right:none;}
+    .coluna-detalhe{position:fixed;inset:58px 0 0 0;background:var(--bg);transform:translateX(100%);transition:transform .25s ease;z-index:10;}
+    .coluna-detalhe.ativa{transform:translateX(0);}
+    .painel-corpo.detalhe-aberto .coluna-lista{display:none;}
+    .btn-voltar{display:flex;align-items:center;}
+    .detalhe-contato{max-width:160px;}
+  }
+</style>
 </head>
 <body>
 
-<!-- ═════════════════ LOGIN ═════════════════ -->
-<div id="login-overlay">
+<!-- ═══════════ TELA DE LOGIN ═══════════ -->
+<div id="tela-login">
   <div class="login-box">
-    <div class="login-logo">
-      <div class="login-icon">
-        <svg viewBox="0 0 20 20" fill="none">
-          <rect x="3" y="9" width="14" height="9" rx="2" stroke="#000" stroke-width="1.6"/>
-          <path d="M7 9V6a3 3 0 016 0v3" stroke="#000" stroke-width="1.6" stroke-linecap="round"/>
+    <div class="logo-linha">
+      <div class="logo-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 3h14v10H2zM6 13v2M12 13v2M6 15h6" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <span class="login-title">Chat · Protocolo Admin</span>
+      <span class="logo-nome">Chat · Protocolo</span>
     </div>
-    <h2>Acesso restrito</h2>
-    <p>Digite a chave de administrador para continuar.</p>
-    <input type="password" id="login-secret" class="login-input" placeholder="••••••••••••" autocomplete="current-password">
-    <button class="login-btn" id="login-btn">Entrar no painel →</button>
-    <p class="login-erro" id="login-erro"></p>
+    <h1>Painel administrativo</h1>
+    <p>Informe a senha de acesso para gerenciar os atendimentos.</p>
+    <form id="form-login" novalidate>
+      <div class="form-grupo">
+        <label for="campo-senha">Senha de administrador</label>
+        <input type="password" id="campo-senha" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-primary" id="btn-login">Entrar</button>
+      <p class="msg-erro" id="erro-login"></p>
+    </form>
   </div>
 </div>
 
-<!-- Popup lateral · nova mensagem (fica na tela até o admin fechar) -->
-<div id="alerta-lateral">
-  <div class="alerta-topo">
-    <span class="alerta-dot"></span>
-    <span class="alerta-titulo">Nova mensagem</span>
-    <button class="alerta-fechar" id="alerta-fechar" title="Dispensar">✕</button>
+<!-- ═══════════ PAINEL ═══════════ -->
+<div id="tela-painel">
+
+  <div class="topbar">
+    <div class="logo-linha">
+      <div class="logo-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 3h14v10H2zM6 13v2M12 13v2M6 15h6" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="logo-nome">Admin</span>
+    </div>
+    <div class="topbar-sep"></div>
+    <button class="icon-btn" id="btn-sino" title="Ativar notificações">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5c-2 0-3.2 1.5-3.2 3.7v2.1c0 .6-.2 1.2-.6 1.7l-.9 1.2c-.4.5 0 1.2.6 1.2h8.2c.6 0 1-.7.6-1.2l-.9-1.2c-.4-.5-.6-1.1-.6-1.7V5.2C11.2 3 10 1.5 8 1.5z"/><path d="M6.3 13.5a1.7 1.7 0 0 0 3.4 0"/></svg>
+      <span class="badge-contador" id="badge-nao-lidos" style="display:none;">0</span>
+    </button>
+    <button class="icon-btn" id="btn-atualizar" title="Atualizar agora">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13.7 8A5.7 5.7 0 1 1 12 4"/><path d="M13.7 2.5V6h-3.5"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-sair" title="Sair">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14H3.3A1.3 1.3 0 0 1 2 12.7V3.3A1.3 1.3 0 0 1 3.3 2H6"/><path d="M10.7 11.3 14 8l-3.3-3.3M14 8H6"/></svg>
+    </button>
   </div>
-  <div class="alerta-corpo">Protocolo <strong id="alerta-protocolo">—</strong></div>
-  <div class="alerta-preview" id="alerta-preview"></div>
-  <button class="alerta-btn" id="alerta-abrir">Abrir atendimento</button>
-</div>
 
-<!-- ═════════════════ APP ═════════════════ -->
-<div id="app">
+  <div class="painel-corpo" id="painel-corpo">
 
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <div class="topbar-icon">
-        <svg viewBox="0 0 14 14" fill="none">
-          <path d="M1 2h12v9H1zM5 11v1.5M9 11v1.5M5 12.5h4" stroke="#000" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <span class="topbar-nome">Painel Admin</span>
-    </div>
-    <div class="topbar-right">
-      <span id="badge-abertos">— abertos</span>
-      <button id="btn-notif" class="inativo" title="Ativar notificações push">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="width:13px;height:13px">
-          <path d="M7 1a4 4 0 014 4c0 3 1 4 1 4H2s1-1 1-4a4 4 0 014-4zM5.5 9S5.5 11 7 11s1.5-2 1.5-2"/>
-        </svg>
-        <span id="btn-notif-label">Notificações</span>
-      </button>
-      <button id="btn-instalar" title="Instalar como aplicativo">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7 1v8M4 6l3 3 3-3M2 11v1.5a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V11"/>
-        </svg>
-        Instalar app
-      </button>
-      <button class="btn-logout" id="btn-logout">Sair</button>
-    </div>
-  </header>
-
-  <!-- Sidebar: lista de chamados -->
-  <aside class="sidebar">
-    <div class="sidebar-filters">
-      <div class="search-wrap">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4">
-          <circle cx="6" cy="6" r="4"/><path d="M10 10l2.5 2.5" stroke-linecap="round"/>
-        </svg>
-        <input type="text" id="busca" placeholder="Buscar cliente ou protocolo…">
-      </div>
-      <div class="filtros-status">
-        <button class="filtro-btn ativo" data-s="">Todos</button>
-        <button class="filtro-btn" data-s="aberto">Aberto</button>
-        <button class="filtro-btn" data-s="respondido">Respondido</button>
-        <button class="filtro-btn" data-s="fechado">Fechado</button>
-      </div>
-      <button class="btn-limpar-antigos" id="btn-limpar-antigos">🗑 Excluir chamados antigos…</button>
-    </div>
-    <div class="lista-chamados" id="lista-chamados">
-      <div class="loading-lista"><div class="spin"></div></div>
-    </div>
-  </aside>
-
-  <!-- Painel direito: chat -->
-  <section class="painel-chat" id="painel-chat">
-    <div class="chat-vazio" id="chat-vazio">
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M8 8h32v28H8zM16 8v28M24 36l-4 8h16l-4-8"/>
-      </svg>
-      <p>Selecione um chamado para visualizar a conversa</p>
-    </div>
-
-    <!-- Conteúdo do chamado — escondido até seleção -->
-    <div id="chat-ativo" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
-      <div class="chat-header">
-        <div class="ch-left">
-          <span class="ch-proto" id="h-proto">#----</span>
-          <span class="ch-cliente" id="h-cliente">—</span>
+    <!-- Coluna: lista de chamados -->
+    <div class="coluna-lista">
+      <div class="lista-topo">
+        <div class="busca-wrap">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="6" cy="6" r="4.5"/><path d="m12.5 12.5-3-3" stroke-linecap="round"/></svg>
+          <input type="search" id="campo-busca" placeholder="Buscar por nome ou protocolo…">
         </div>
-        <div class="ch-right">
-          <select class="status-select" id="status-select">
-            <option value="aberto">● Aberto</option>
-            <option value="respondido">● Respondido</option>
-            <option value="fechado">● Fechado</option>
-          </select>
-          <button class="btn-icon" id="btn-reload" title="Atualizar">
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-              <path d="M1 7a6 6 0 106-6 6 6 0 00-4.5 2L1 5"/>
-              <path d="M1 2v3h3"/>
-            </svg>
-          </button>
-          <button class="btn-icon btn-perigo" id="btn-excluir-anexos" title="Remover apenas os anexos (mantém as mensagens)">
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9.5 2.3 3.9 7.9a2.3 2.3 0 0 0 3.2 3.2l5.1-5.1a1.5 1.5 0 0 0-2.1-2.1L4.9 9.1"/>
-              <path d="M1.5 1.5l11 11" stroke="var(--red)"/>
-            </svg>
-          </button>
-          <button class="btn-icon btn-perigo" id="btn-excluir-chamado" title="Excluir definitivamente">
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 4h10M5.3 4V2.6a.6.6 0 01.6-.6h2.2a.6.6 0 01.6.6V4m1.4 0-.5 8.1a1 1 0 01-1 .9H4.4a1 1 0 01-1-.9L2.9 4"/>
-              <path d="M5.7 6.3v4.2M8.3 6.3v4.2"/>
-            </svg>
-          </button>
+        <div class="tabs-status" id="tabs-status">
+          <button class="tab-status ativa" data-status="">Todos</button>
+          <button class="tab-status" data-status="aberto">Aberto</button>
+          <button class="tab-status" data-status="respondido">Respondido</button>
+          <button class="tab-status" data-status="fechado">Fechado</button>
         </div>
       </div>
+      <div class="lista-chamados" id="lista-chamados">
+        <div class="lista-carregando">Carregando…</div>
+      </div>
+      <div class="lista-rodape">
+        <button class="link-discreto" id="btn-abrir-limpeza">Excluir chamados antigos…</button>
+      </div>
+    </div>
 
-      <div class="chat-msgs" id="chat-msgs"></div>
+    <!-- Coluna: detalhe do chamado -->
+    <div class="coluna-detalhe" id="coluna-detalhe">
+      <div class="detalhe-vazio" id="detalhe-vazio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 4h16v12H7l-3 3z"/></svg>
+        <span>Selecione um chamado para ver a conversa</span>
+      </div>
 
-      <div class="reply-area">
-        <div class="reply-toolbar">
-          <span class="reply-label">Sua resposta</span>
-          <div class="reply-toolbar-acoes">
-            <button class="btn-anexo" id="btn-anexo-arquivo" type="button" title="Anexar PDF ou foto">
-              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9.5 2.3 3.9 7.9a2.3 2.3 0 0 0 3.2 3.2l5.1-5.1a1.5 1.5 0 0 0-2.1-2.1L4.9 9.1"/>
-              </svg>
-              Anexar
+      <div id="detalhe-conteudo" style="display:none;flex:1;flex-direction:column;min-height:0;">
+        <div class="detalhe-header">
+          <div class="detalhe-header-esq">
+            <button class="btn-voltar" id="btn-voltar">
+              <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3 5 9l6 6"/></svg>
             </button>
-            <button class="btn-anexo" id="btn-anexo-link" type="button" title="Anexar um link">
-              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5.8 8.2 8.2 5.8m-3.6.4L3 7.8a1.9 1.9 0 0 0 2.7 2.7l1.6-1.6M8.3 6.1l1.6-1.6a1.9 1.9 0 1 0-2.7-2.7L5.6 3.4"/>
-              </svg>
-              Link
+            <div class="detalhe-info">
+              <div class="detalhe-nome" id="detalhe-nome">—</div>
+              <div class="detalhe-contato" id="detalhe-contato">—</div>
+              <div class="detalhe-protocolo" id="detalhe-protocolo">#----</div>
+            </div>
+          </div>
+          <div class="detalhe-acoes">
+            <select id="select-status">
+              <option value="aberto">Aberto</option>
+              <option value="respondido">Respondido</option>
+              <option value="fechado">Fechado</option>
+            </select>
+            <button class="icon-btn btn-excluir" id="btn-excluir-chamado" title="Excluir chamado">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M12.5 4.5 12 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1l-.5-8.5"/></svg>
             </button>
-            <input type="file" id="input-anexo-arquivo" accept="application/pdf,image/jpeg,image/png,image/webp,image/gif" multiple style="display:none">
           </div>
         </div>
+
+        <div class="detalhe-mensagens" id="detalhe-mensagens"></div>
+
+        <div class="input-toolbar">
+          <button class="btn-anexo" id="btn-anexo-arquivo" type="button" title="Anexar PDF ou foto">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.3 3.9 7.9a2.3 2.3 0 0 0 3.2 3.2l5.1-5.1a1.5 1.5 0 0 0-2.1-2.1L4.9 9.1"/></svg>
+            Anexar
+          </button>
+          <input type="file" id="input-anexo-arquivo" accept="application/pdf,image/jpeg,image/png,image/webp,image/gif" multiple style="display:none">
+        </div>
         <div class="anexos-pendentes" id="anexos-pendentes" style="display:none;"></div>
-        <textarea id="resposta-textarea" placeholder="Escreva sua resposta ao cliente…"></textarea>
-        <div class="reply-footer">
-          <span class="reply-dica">Ctrl + Enter para enviar · E-mail disparado automaticamente</span>
-          <button class="btn-enviar-resposta" id="btn-enviar-resposta">
-            <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 6.5h11M7 2l5 4.5-5 4.5"/>
-            </svg>
-            Enviar resposta
+
+        <div class="detalhe-input-area">
+          <textarea id="campo-resposta" placeholder="Responder ao cliente… (Ctrl+Enter para enviar)" rows="1"></textarea>
+          <button class="btn-enviar" id="btn-responder" title="Enviar (Ctrl+Enter)">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 9h14M9 3l6 6-6 6" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
       </div>
     </div>
-  </section>
 
-</div><!-- #app -->
+  </div>
+</div>
 
-<div class="toast" id="toast"></div>
+<!-- ═══════════ MODAL: excluir antigos ═══════════ -->
+<div class="modal-fundo" id="modal-limpeza">
+  <div class="modal-caixa">
+    <h2>Excluir chamados antigos</h2>
+    <p>Remove definitivamente (mensagens e anexos inclusos) chamados sem atualização há mais de X dias.</p>
+    <div class="form-grupo">
+      <label for="campo-dias">Dias sem atualização</label>
+      <input type="number" id="campo-dias" value="90" min="1">
+    </div>
+    <div class="form-grupo">
+      <label for="campo-status-limpeza">Status (opcional)</label>
+      <select id="campo-status-limpeza">
+        <option value="">Qualquer status</option>
+        <option value="aberto">Aberto</option>
+        <option value="respondido">Respondido</option>
+        <option value="fechado">Fechado</option>
+      </select>
+    </div>
+    <p class="modal-erro" id="erro-limpeza"></p>
+    <div class="modal-acoes">
+      <button class="btn-secundario" id="btn-cancelar-limpeza">Cancelar</button>
+      <button class="btn-secundario btn-perigo" id="btn-confirmar-limpeza">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: confirmar exclusão de 1 chamado ═══════════ -->
+<div class="modal-fundo" id="modal-excluir">
+  <div class="modal-caixa">
+    <h2>Excluir este chamado?</h2>
+    <p>Essa ação remove o chamado, todas as mensagens e anexos permanentemente. Não pode ser desfeita.</p>
+    <div class="modal-acoes">
+      <button class="btn-secundario" id="btn-cancelar-excluir">Cancelar</button>
+      <button class="btn-secundario btn-perigo" id="btn-confirmar-excluir">Excluir definitivamente</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
-  // ── Config ───────────────────────────────────────────────────────────────────
+(function(){
+  'use strict';
+
   const API = 'https://lively-waterfall-f6fa.aletor-app.workers.dev';
-
-  // ── Estado ───────────────────────────────────────────────────────────────────
-  let secret          = '';
-  let filtroStatus    = '';
-
-  // ── Exclusão persistente (client-side) ──────────────────────────────────────────
-  // Enquanto o backend não tiver uma rota real de DELETE, guardamos aqui os
-  // protocolos excluídos para que eles não "voltem" no próximo carregamento/poll,
-  // mesmo que a API (ou o modo demo) continue devolvendo o registro antigo.
-  const CHAVE_EXCLUIDOS = 'protocolo_admin_excluidos_v1';
-  let protocolosExcluidos = new Set();
-  try {
-    protocolosExcluidos = new Set(JSON.parse(localStorage.getItem(CHAVE_EXCLUIDOS) || '[]'));
-  } catch { protocolosExcluidos = new Set(); }
-
-  function persistirExcluidos() {
-    try { localStorage.setItem(CHAVE_EXCLUIDOS, JSON.stringify([...protocolosExcluidos])); } catch {}
-  }
-  function marcarExcluido(protocolo) {
-    protocolosExcluidos.add(String(protocolo));
-    persistirExcluidos();
-  }
-  function filtrarExcluidos(lista) {
-    return (lista || []).filter(c => !protocolosExcluidos.has(String(c.protocolo)));
-  }
-  let buscaDebounce   = null;
-  let protocoloAtivo  = null;
-  let chamadoAtivoObj = null;
-  let anexosPendentes = []; // itens: {tipo:'pdf'|'imagem', nome, url, tamanho} ou {tipo:'link', nome, url}
-
-  // ── DOM ──────────────────────────────────────────────────────────────────────
-  const loginOverlay  = document.getElementById('login-overlay');
-  const loginSecret   = document.getElementById('login-secret');
-  const loginBtn      = document.getElementById('login-btn');
-  const loginErro     = document.getElementById('login-erro');
-  const listaChamados = document.getElementById('lista-chamados');
-  const badgeAbertos  = document.getElementById('badge-abertos');
-  const chatVazio     = document.getElementById('chat-vazio');
-  const chatAtivo     = document.getElementById('chat-ativo');
-  const hProto        = document.getElementById('h-proto');
-  const hCliente      = document.getElementById('h-cliente');
-  const statusSelect  = document.getElementById('status-select');
-  const chatMsgs      = document.getElementById('chat-msgs');
-  const respostaTA    = document.getElementById('resposta-textarea');
-  const btnEnviar     = document.getElementById('btn-enviar-resposta');
-  const btnReload     = document.getElementById('btn-reload');
-  const busca         = document.getElementById('busca');
-  const btnAnexoArquivo = document.getElementById('btn-anexo-arquivo');
-  const btnAnexoLink    = document.getElementById('btn-anexo-link');
-  const inputAnexo      = document.getElementById('input-anexo-arquivo');
-  const anexosPendentesEl = document.getElementById('anexos-pendentes');
-
-  // ── Login ────────────────────────────────────────────────────────────────────
-  loginSecret.addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin(); });
-  loginBtn.addEventListener('click', fazerLogin);
-
-  async function fazerLogin() {
-    const s = loginSecret.value.trim();
-    if (!s) { loginErro.textContent = 'Digite a chave de administrador.'; return; }
-    loginBtn.disabled = true; loginBtn.textContent = 'Verificando…';
-    loginErro.textContent = '';
-    try {
-      const res = await fetch(`${API}/api/admin/chamados?limite=1`, {
-        headers: { 'Authorization': `Bearer ${s}` }
-      });
-      if (res.status === 401) { loginErro.textContent = 'Chave incorreta.'; return; }
-      secret = s;
-      sessionStorage.setItem('admin_secret', s);
-      loginOverlay.style.display = 'none';
-      iniciarApp();
-    } catch (err) {
-      console.error('Falha ao conectar no Worker:', err);
-      loginErro.textContent = 'Não foi possível conectar ao servidor. Verifique a URL da API e sua conexão.';
-    } finally {
-      loginBtn.disabled = false; loginBtn.textContent = 'Entrar no painel →';
-    }
-  }
-
-  // Restaura sessão
-  const savedSecret = sessionStorage.getItem('admin_secret');
-  if (savedSecret) {
-    secret = savedSecret;
-    loginOverlay.style.display = 'none';
-    iniciarApp();
-  }
-
-  document.getElementById('btn-logout').addEventListener('click', () => {
-    sessionStorage.removeItem('admin_secret');
-    location.reload();
-  });
-
-  // ── Push Notifications ───────────────────────────────────────────────────────
   const VAPID_PUBLIC_KEY = 'BPE9YWXI37YJU_vaQlAX_a6dKA0eQwqcrv1QrryVae-iSqJEEsZeK8wuWgcr4OKa62mdfwF_ok1IDHlLCXC4aSg';
 
-  const btnNotif      = document.getElementById('btn-notif');
-  const btnNotifLabel = document.getElementById('btn-notif-label');
-  const btnInstalar   = document.getElementById('btn-instalar');
+  let TOKEN = sessionStorage.getItem('admin_token') || '';
+  let chamados = [];
+  let filtroStatus = '';
+  let buscaQ = '';
+  let buscaTimer = null;
+  let chamadoAtual = null;      // protocolo selecionado
+  let mensagensAtuais = [];
+  let anexosPendentes = [];
+  let pollListaTimer = null;
+  let pollDetalheTimer = null;
+  let notifAtivada = false;
 
-  function urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-    const raw     = atob(base64);
-    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  // ── Elementos ──────────────────────────────────────────────
+  const telaLogin   = document.getElementById('tela-login');
+  const telaPainel  = document.getElementById('tela-painel');
+  const formLogin   = document.getElementById('form-login');
+  const campoSenha  = document.getElementById('campo-senha');
+  const btnLogin    = document.getElementById('btn-login');
+  const erroLogin   = document.getElementById('erro-login');
+
+  const campoBusca      = document.getElementById('campo-busca');
+  const tabsStatus       = document.getElementById('tabs-status');
+  const listaChamadosEl  = document.getElementById('lista-chamados');
+  const badgeNaoLidos     = document.getElementById('badge-nao-lidos');
+
+  const painelCorpo      = document.getElementById('painel-corpo');
+  const colunaDetalhe    = document.getElementById('coluna-detalhe');
+  const detalheVazio     = document.getElementById('detalhe-vazio');
+  const detalheConteudo  = document.getElementById('detalhe-conteudo');
+  const detalheNome      = document.getElementById('detalhe-nome');
+  const detalheContato   = document.getElementById('detalhe-contato');
+  const detalheProtocolo = document.getElementById('detalhe-protocolo');
+  const detalheMensagens = document.getElementById('detalhe-mensagens');
+  const selectStatus     = document.getElementById('select-status');
+  const btnExcluirChamado= document.getElementById('btn-excluir-chamado');
+  const btnVoltar        = document.getElementById('btn-voltar');
+
+  const campoResposta    = document.getElementById('campo-resposta');
+  const btnResponder      = document.getElementById('btn-responder');
+  const btnAnexoArquivo   = document.getElementById('btn-anexo-arquivo');
+  const inputAnexo        = document.getElementById('input-anexo-arquivo');
+  const anexosPendentesEl = document.getElementById('anexos-pendentes');
+
+  const btnSair       = document.getElementById('btn-sair');
+  const btnAtualizar  = document.getElementById('btn-atualizar');
+  const btnSino       = document.getElementById('btn-sino');
+
+  const modalLimpeza      = document.getElementById('modal-limpeza');
+  const btnAbrirLimpeza   = document.getElementById('btn-abrir-limpeza');
+  const btnCancelarLimpeza= document.getElementById('btn-cancelar-limpeza');
+  const btnConfirmarLimpeza=document.getElementById('btn-confirmar-limpeza');
+  const campoDias          = document.getElementById('campo-dias');
+  const campoStatusLimpeza = document.getElementById('campo-status-limpeza');
+  const erroLimpeza        = document.getElementById('erro-limpeza');
+
+  const modalExcluir       = document.getElementById('modal-excluir');
+  const btnCancelarExcluir = document.getElementById('btn-cancelar-excluir');
+  const btnConfirmarExcluir= document.getElementById('btn-confirmar-excluir');
+
+  const toastEl = document.getElementById('toast');
+
+  // ── Utilitários ────────────────────────────────────────────
+  function escapeHtml(t){
+    return String(t == null ? '' : t)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#x27;').replace(/\n/g,'<br>');
   }
 
-  async function verificarEstadoNotificacoes() {
-    if (!('Notification' in window) || !('serviceWorker' in navigator)) {
-      btnNotif.classList.replace('inativo', 'negado');
-      btnNotifLabel.textContent = 'Não suportado';
-      btnNotif.disabled = true;
-      return;
-    }
-    const perm = Notification.permission;
-    if (perm === 'granted') {
-      const reg = await navigator.serviceWorker.getRegistration('/admin/sw.js');
-      if (reg) {
-        const sub = await reg.pushManager.getSubscription();
-        if (sub) {
-          btnNotif.classList.replace('inativo', 'ativo');
-          btnNotifLabel.textContent = 'Notificações ativas';
-          return;
-        }
-      }
-    }
-    if (perm === 'denied') {
-      btnNotif.classList.replace('inativo', 'negado');
-      btnNotifLabel.textContent = 'Bloqueado pelo navegador';
-      btnNotif.disabled = true;
-    }
+  function toast(msg, tipoErro){
+    toastEl.textContent = msg;
+    toastEl.style.borderLeftColor = tipoErro ? 'var(--danger)' : 'var(--accent)';
+    toastEl.classList.add('visivel');
+    clearTimeout(toastEl._t);
+    toastEl._t = setTimeout(() => toastEl.classList.remove('visivel'), 3200);
   }
 
-  async function ativarNotificacoes() {
-    if (btnNotif.classList.contains('ativo')) {
-      toast('Notificações já estão ativas!');
-      return;
-    }
-    btnNotif.disabled = true;
-    btnNotifLabel.textContent = 'Ativando…';
+  function horaCurta(iso){
+    if (!iso) return '';
+    const d = new Date(iso.includes('Z') || iso.includes('+') ? iso : iso + 'Z');
+    if (isNaN(d)) return '';
+    const hoje = new Date();
+    const mesmodia = d.toDateString() === hoje.toDateString();
+    return mesmodia
+      ? d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' })
+      : d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' });
+  }
 
+  function horaCompleta(iso){
+    if (!iso) return '';
+    const d = new Date(iso.includes('Z') || iso.includes('+') ? iso : iso + 'Z');
+    if (isNaN(d)) return '';
+    return d.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function dataLabel(iso){
+    if (!iso) return '';
+    const d = new Date(iso.includes('Z') || iso.includes('+') ? iso : iso + 'Z');
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+  }
+
+  // ── Chamada autenticada à API ──────────────────────────────
+  async function apiFetch(path, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({}, opts.headers, { Authorization: `Bearer ${TOKEN}` });
+    let res;
     try {
-      const perm = await Notification.requestPermission();
-      if (perm !== 'granted') {
-        btnNotif.classList.replace('inativo', 'negado');
-        btnNotifLabel.textContent = 'Bloqueado';
-        btnNotif.disabled = false;
-        return;
-      }
-
-      const reg = await navigator.serviceWorker.register('/admin/sw.js', { scope: '/admin/' });
-      await navigator.serviceWorker.ready;
-
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-      });
-
-      await fetch(`${API}/api/push/subscribe`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${secret}`
-        },
-        body: JSON.stringify(sub)
-      });
-
-      btnNotif.classList.replace('inativo', 'ativo');
-      btnNotifLabel.textContent = 'Notificações ativas';
-      toast('🔔 Notificações ativadas! Você será avisado mesmo com a aba fechada.');
+      res = await fetch(`${API}${path}`, opts);
     } catch (err) {
-      console.error('Erro ao ativar notificações:', err);
-      btnNotifLabel.textContent = 'Notificações';
-      toast('Erro ao ativar notificações. Tente novamente.');
-    } finally {
-      btnNotif.disabled = false;
+      throw new Error('Falha de conexão com o servidor.');
     }
+    if (res.status === 401) {
+      fazerLogout();
+      throw new Error('Sessão expirada. Entre novamente.');
+    }
+    return res;
   }
 
-  btnNotif.addEventListener('click', ativarNotificacoes);
-
-  // Avisa ao tentar fechar a aba se notificações não estiverem ativas
-  window.addEventListener('beforeunload', e => {
-    if (btnNotif.classList.contains('ativo')) return;
+  // ── Login / logout ─────────────────────────────────────────
+  formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
-    e.returnValue = '';
-    // Pisca o botão de notificações para chamar atenção
-    btnNotif.style.outline = '2px solid var(--accent)';
-    setTimeout(() => btnNotif.style.outline = '', 2000);
-  });
-
-  // ── Instalar como app (PWA) ─────────────────────────────────────────────────────
-  let promptInstalacao = null;
-
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    promptInstalacao = e;
-    btnInstalar.classList.add('mostrar');
-  });
-
-  btnInstalar.addEventListener('click', async () => {
-    if (!promptInstalacao) return;
-    btnInstalar.disabled = true;
-    promptInstalacao.prompt();
-    const { outcome } = await promptInstalacao.userChoice;
-    if (outcome === 'accepted') btnInstalar.classList.remove('mostrar');
-    promptInstalacao = null;
-    btnInstalar.disabled = false;
-  });
-
-  window.addEventListener('appinstalled', () => {
-    btnInstalar.classList.remove('mostrar');
-    toast('🎉 App instalado! Para abrir sozinho com o Windows: edge://apps (ou chrome://apps) → ⋯ no ícone do Protocolo Admin → "Iniciar automaticamente".');
-  });
-
-  // ── Popup lateral · nova mensagem (fica na tela até você fechar) ───────────────
-  const alertaLateral   = document.getElementById('alerta-lateral');
-  const alertaProtocolo = document.getElementById('alerta-protocolo');
-  const alertaPreview   = document.getElementById('alerta-preview');
-  const tituloOriginal  = document.title;
-
-  function mostrarAlertaLateral({ protocolo, preview }) {
-    alertaProtocolo.textContent = protocolo || '—';
-    alertaPreview.textContent   = preview || '';
-    alertaLateral.classList.add('mostrar', 'piscar');
-    document.title = '🔔 Nova mensagem · Chat-Protocolo';
-    setTimeout(() => alertaLateral.classList.remove('piscar'), 3000); // para de piscar, mas continua visível
-  }
-
-  function fecharAlertaLateral() {
-    alertaLateral.classList.remove('mostrar', 'piscar');
-    document.title = tituloOriginal;
-  }
-
-  document.getElementById('alerta-fechar').addEventListener('click', fecharAlertaLateral);
-  document.getElementById('alerta-abrir').addEventListener('click', () => {
-    const protocolo = alertaProtocolo.textContent;
-    fecharAlertaLateral();
-    if (protocolo && protocolo !== '—') abrirChamado(protocolo);
-  });
-
-  // Mensagens do Service Worker: push em tempo real + clique na notificação do SO
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.addEventListener('message', event => {
-      const msg = event.data;
-      if (!msg) return;
-      if (msg.tipo === 'nova-mensagem-push') {
-        mostrarAlertaLateral({ protocolo: msg.protocolo, preview: msg.preview });
-        carregarLista();
-      }
-      if (msg.tipo === 'abrir-protocolo' && msg.protocolo) {
-        fecharAlertaLateral();
-        abrirChamado(msg.protocolo);
-      }
-    });
-  }
-
-  // Zera o badge do ícone quando você volta a olhar para o painel
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState !== 'visible') return;
-    navigator.serviceWorker?.controller?.postMessage('zerar-badge');
-    if (!alertaLateral.classList.contains('mostrar')) document.title = tituloOriginal;
-  });
-
-  // Verifica estado ao carregar (após login)
-  function iniciarApp() {
-    carregarLista();
-    verificarEstadoNotificacoes();
-    iniciarPollingAdmin();
-    navigator.serviceWorker?.controller?.postMessage('zerar-badge');
-  }
-
-  // ── Polling Admin ─────────────────────────────────────────────────────────────
-  let pollingListaTimer   = null;
-  let pollingChatTimer    = null;
-  let ultimoIdAdminVisto  = 0;
-  let ultimaDataAdminPoll = '';
-  let estaDigitando       = false;  // true apenas enquanto há texto não enviado no textarea
-
-  function iniciarPollingAdmin() {
-    // Sidebar: atualiza lista a cada 5s
-    if (pollingListaTimer) clearInterval(pollingListaTimer);
-    pollingListaTimer = setInterval(carregarLista, 5000);
-
-    // Chat: inicia polling de mensagens a cada 3s
-    if (pollingChatTimer) clearInterval(pollingChatTimer);
-    pollingChatTimer = setInterval(verificarMsgsNovasAdmin, 3000);
-  }
-
-  async function verificarMsgsNovasAdmin() {
-    if (!protocoloAtivo || !secret) return;
-    // Não injeta balões enquanto o admin está ativamente digitando
-    if (estaDigitando) return;
+    const senha = campoSenha.value.trim();
+    if (!senha) return;
+    erroLogin.textContent = '';
+    btnLogin.disabled = true;
+    btnLogin.textContent = 'Entrando…';
     try {
-      const res = await fetch(`${API}/api/admin/chamado/${protocoloAtivo}`, {
-        headers: { 'Authorization': `Bearer ${secret}` }
+      const res = await fetch(`${API}/api/admin/chamados?pagina=1`, {
+        headers: { Authorization: `Bearer ${senha}` }
       });
-      if (!res.ok) return;
-      const data = await res.json();
-      if (!data.mensagens) return;
-
-      // Atualiza status no select sem perder foco
-      if (data.chamado?.status && statusSelect.value !== data.chamado.status) {
-        statusSelect.value = data.chamado.status;
-        chamadoAtivoObj = data.chamado;
-      }
-
-      const totalApi = data.mensagens.length;
-      if (totalApi <= ultimoIdAdminVisto) return;
-
-      const novas = data.mensagens.slice(ultimoIdAdminVisto);
-      ultimoIdAdminVisto = totalApi;
-
-      const estavaNaBase = chatMsgs.scrollTop + chatMsgs.clientHeight >= chatMsgs.scrollHeight - 40;
-
-      novas.forEach(m => {
-        if (m.remetente === 'suporte') return; // já enviamos nós mesmos
-
-        const d = new Date(m.criado_em);
-        const dataStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-        if (dataStr !== ultimaDataAdminPoll) {
-          const sep = document.createElement('div');
-          sep.className = 'marcador-data';
-          sep.textContent = dataStr;
-          chatMsgs.appendChild(sep);
-          ultimaDataAdminPoll = dataStr;
-        }
-        const b = document.createElement('div');
-        b.className = `balao balao-${m.remetente}`;
-        const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        b.innerHTML = `<div>${escBr(m.conteudo)}</div><div class="balao-meta">Cliente · ${hora}</div>`;
-        chatMsgs.appendChild(b);
-      });
-
-      const novasCliente = novas.filter(m => m.remetente === 'cliente');
-      if (novasCliente.length) {
-        if (estavaNaBase) chatMsgs.scrollTop = chatMsgs.scrollHeight;
-        // Atualiza item na sidebar para refletir nova msg sem reload completo
-        carregarLista();
+      if (res.status === 401) {
+        erroLogin.textContent = 'Senha incorreta.';
+      } else if (!res.ok) {
+        erroLogin.textContent = 'Não foi possível conectar ao servidor.';
+      } else {
+        TOKEN = senha;
+        sessionStorage.setItem('admin_token', TOKEN);
+        entrarNoPainel();
       }
     } catch {
-      // silencia erros de rede
+      erroLogin.textContent = 'Não foi possível conectar ao servidor.';
+    } finally {
+      btnLogin.disabled = false;
+      btnLogin.textContent = 'Entrar';
     }
+  });
+
+  function fazerLogout(){
+    TOKEN = '';
+    sessionStorage.removeItem('admin_token');
+    clearInterval(pollListaTimer);
+    clearInterval(pollDetalheTimer);
+    telaPainel.classList.remove('ativo');
+    telaLogin.style.display = 'flex';
+    campoSenha.value = '';
+    chamadoAtual = null;
+  }
+  btnSair.addEventListener('click', fazerLogout);
+
+  function entrarNoPainel(){
+    telaLogin.style.display = 'none';
+    telaPainel.classList.add('ativo');
+    carregarChamados();
+    clearInterval(pollListaTimer);
+    pollListaTimer = setInterval(carregarChamados, 8000);
   }
 
-
-
-  // ── Filtros ───────────────────────────────────────────────────────────────────
-  document.querySelectorAll('.filtro-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
-      btn.classList.add('ativo');
-      filtroStatus = btn.dataset.s;
-      carregarLista();
-    });
+  // ── Lista de chamados ──────────────────────────────────────
+  tabsStatus.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-status');
+    if (!btn) return;
+    tabsStatus.querySelectorAll('.tab-status').forEach(b => b.classList.remove('ativa'));
+    btn.classList.add('ativa');
+    filtroStatus = btn.dataset.status;
+    carregarChamados();
   });
 
-  busca.addEventListener('input', () => {
-    clearTimeout(buscaDebounce);
-    buscaDebounce = setTimeout(carregarLista, 380);
+  campoBusca.addEventListener('input', () => {
+    clearTimeout(buscaTimer);
+    buscaTimer = setTimeout(() => {
+      buscaQ = campoBusca.value.trim();
+      carregarChamados();
+    }, 350);
   });
 
-  // ── Carregar lista ────────────────────────────────────────────────────────────
-  async function carregarLista() {
-    const params = new URLSearchParams();
-    if (filtroStatus) params.set('status', filtroStatus);
-    if (busca.value.trim()) params.set('q', busca.value.trim());
-
+  async function carregarChamados(silencioso){
+    if (!silencioso && !chamados.length) {
+      listaChamadosEl.innerHTML = '<div class="lista-carregando">Carregando…</div>';
+    }
     try {
-      const res  = await fetch(`${API}/api/admin/chamados?${params}`, {
-        headers: { 'Authorization': `Bearer ${secret}` }
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const params = new URLSearchParams();
+      if (filtroStatus) params.set('status', filtroStatus);
+      if (buscaQ) params.set('q', buscaQ);
+      params.set('pagina', '1');
+      const res = await apiFetch(`/api/admin/chamados?${params.toString()}`);
       const data = await res.json();
-      const chamados = filtrarExcluidos(data.chamados || []);
-      renderLista(chamados);
-      atualizarBadge(chamados);
+      if (!res.ok) throw new Error(data.erro || 'Erro ao carregar chamados');
+      chamados = data.chamados || [];
+      renderLista();
+      atualizarBadge();
     } catch (err) {
-      console.error('Falha ao carregar chamados:', err);
-      toast('Não foi possível carregar os chamados. Verifique a conexão com o servidor.');
-      renderLista([]);
-      atualizarBadge([]);
+      if (!silencioso) listaChamadosEl.innerHTML = `<div class="lista-vazia">${escapeHtml(err.message)}</div>`;
     }
   }
 
-  function atualizarBadge(chamados) {
-    const abertos = chamados.filter(c => c.status === 'aberto').length;
-    badgeAbertos.textContent = `${abertos} aberto${abertos !== 1 ? 's' : ''}`;
-  }
-
-  function renderLista(chamados) {
+  function renderLista(){
     if (!chamados.length) {
-      listaChamados.innerHTML = '<div class="empty-list">Nenhum chamado encontrado.</div>';
+      listaChamadosEl.innerHTML = '<div class="lista-vazia">Nenhum chamado encontrado.</div>';
       return;
     }
-
-    // Preserva scroll e evita piscada: diff item a item
-    const scrollAntes = listaChamados.scrollTop;
-    const protocolosNovos = chamados.map(c => c.protocolo);
-
-    // Remove itens que sumiram
-    listaChamados.querySelectorAll('.chamado-item').forEach(el => {
-      if (!protocolosNovos.includes(el.dataset.protocolo)) el.remove();
-    });
-
-    // Remove "empty-list" se existir
-    const empty = listaChamados.querySelector('.empty-list');
-    if (empty) empty.remove();
-
-    chamados.forEach((c, i) => {
-      const tempo   = formatarTempo(c.atualizado_em);
-      const prefixo = c.ultima_remetente === 'cliente' ? '\u21a9 ' : '';
-      const ativo   = protocoloAtivo === c.protocolo ? ' ativo' : '';
-
-      const novoHTML = `
-        <div class="ci-topo">
-          <span class="ci-nome">${esc(c.cliente_nome)}</span>
-          <span class="ci-proto">#${c.protocolo}</span>
-        </div>
-        <div class="ci-msg">${prefixo}${esc(c.ultima_msg || '\u2026')}</div>
-        <div class="ci-bottom">
-          <span class="ci-tempo">${tempo}</span>
-          <span class="status-dot ${c.status}" title="${c.status}"></span>
-        </div>
-        <button class="ci-excluir" data-protocolo="${c.protocolo}" title="Excluir definitivamente">
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-            <path d="M2 2l10 10M12 2L2 12"/>
-          </svg>
+    listaChamadosEl.innerHTML = chamados.map(c => {
+      const naoLido = c.status === 'aberto' && c.ultima_remetente === 'cliente';
+      const preview = c.ultima_msg ? escapeHtml(c.ultima_msg).replace(/<br>/g,' ') : '(sem mensagens)';
+      const selecionado = chamadoAtual === c.protocolo;
+      return `
+        <button class="item-chamado${selecionado ? ' selecionado' : ''}${naoLido ? ' nao-lido' : ''}" data-protocolo="${escapeHtml(c.protocolo)}">
+          <div class="item-topo">
+            <span class="item-nome">${escapeHtml(c.cliente_nome || 'Sem nome')}</span>
+            <span class="item-hora">${horaCurta(c.atualizado_em)}</span>
+          </div>
+          <div class="item-meio">
+            <span class="pill ${c.status}">${c.status}</span>
+            <span class="item-protocolo">#${escapeHtml(c.protocolo)}</span>
+            ${naoLido ? '<span class="ponto-nao-lido"></span>' : ''}
+          </div>
+          <div class="item-preview">${preview}</div>
         </button>
       `;
-
-      let el = listaChamados.querySelector(`.chamado-item[data-protocolo="${c.protocolo}"]`);
-      if (el) {
-        // Atualiza só o que mudou
-        el.className = `chamado-item${ativo}`;
-        if (el.innerHTML.trim() !== novoHTML.trim()) el.innerHTML = novoHTML;
-      } else {
-        // Item novo: cria e insere na posição correta
-        el = document.createElement('div');
-        el.className = `chamado-item${ativo}`;
-        el.dataset.protocolo = c.protocolo;
-        el.innerHTML = novoHTML;
-        const ref = listaChamados.children[i];
-        ref ? listaChamados.insertBefore(el, ref) : listaChamados.appendChild(el);
-      }
-
-      // Garante listener de click no elemento (novo ou existente)
-      if (!el._clickBound) {
-        el.addEventListener('click', () => abrirChamado(c.protocolo));
-        el._clickBound = true;
-      }
-    });
-
-    listaChamados.scrollTop = scrollAntes;
+    }).join('');
   }
 
-  // ── Abrir chamado ─────────────────────────────────────────────────────────────
-  async function abrirChamado(protocolo) {
-    protocoloAtivo = protocolo;
+  listaChamadosEl.addEventListener('click', (e) => {
+    const item = e.target.closest('.item-chamado');
+    if (!item) return;
+    abrirChamado(item.dataset.protocolo);
+  });
 
-    // Marca ativo na lista
-    document.querySelectorAll('.chamado-item').forEach(el => {
-      el.classList.toggle('ativo', el.dataset.protocolo === protocolo);
-    });
-
-    chatVazio.style.display  = 'none';
-    chatAtivo.style.display  = 'flex';
-
-    hProto.textContent    = `#${protocolo}`;
-    hCliente.textContent  = '…';
-    chatMsgs.innerHTML    = '<div class="loading-lista"><div class="spin"></div></div>';
-
-    try {
-      const res  = await fetch(`${API}/api/admin/chamado/${protocolo}`, {
-        headers: { 'Authorization': `Bearer ${secret}` }
-      });
-      const data = await res.json();
-      renderChatDetalhe(data);
-    } catch {
-      // Demo
-      renderChatDetalhe(detalheDemo(protocolo));
+  function atualizarBadge(){
+    const n = chamados.filter(c => c.status === 'aberto' && c.ultima_remetente === 'cliente').length;
+    if (n > 0) {
+      badgeNaoLidos.textContent = n > 99 ? '99+' : n;
+      badgeNaoLidos.style.display = 'flex';
+    } else {
+      badgeNaoLidos.style.display = 'none';
     }
   }
 
-  function renderChatDetalhe({ chamado, mensagens }) {
-    chamadoAtivoObj = chamado;
+  btnAtualizar.addEventListener('click', () => {
+    carregarChamados();
+    if (chamadoAtual) carregarDetalhe(chamadoAtual, true);
+    toast('Atualizado.');
+  });
 
-    hProto.textContent   = `#${chamado.protocolo}`;
-    hCliente.innerHTML   = `<strong>${esc(chamado.nome)}</strong> · ${esc(chamado.email)} · ${esc(chamado.telefone)}`;
-    statusSelect.value   = chamado.status;
-
-    chatMsgs.innerHTML = '';
-    let ultimaData = '';
-    mensagens.forEach(m => {
-      const d = new Date(m.criado_em);
-      const dataStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-      if (dataStr !== ultimaData) {
-        const sep = document.createElement('div');
-        sep.className = 'marcador-data';
-        sep.textContent = dataStr;
-        chatMsgs.appendChild(sep);
-        ultimaData = dataStr;
-      }
-      const b = document.createElement('div');
-      b.className = `balao balao-${m.remetente}`;
-      const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      const quem = m.remetente === 'suporte' ? 'Você (suporte)' : 'Cliente';
-      const textoHtml = m.conteudo ? `<div>${escBr(m.conteudo)}</div>` : '';
-      b.innerHTML = `${textoHtml}${renderBalaoAnexos(m.anexos)}<div class="balao-meta">${quem} · ${hora}</div>`;
-      chatMsgs.appendChild(b);
-    });
-    chatMsgs.scrollTop = chatMsgs.scrollHeight;
-
-    // Cursor = total de mensagens já renderizadas (independe de haver campo id)
-    ultimoIdAdminVisto  = mensagens.length;
-    ultimaDataAdminPoll = ultimaData;
-
-    respostaTA.value = '';
+  // ── Detalhe do chamado ──────────────────────────────────────
+  async function abrirChamado(protocolo){
+    chamadoAtual = protocolo;
     anexosPendentes = [];
     renderAnexosPendentes();
-    respostaTA.focus();
+    campoResposta.value = '';
+
+    detalheVazio.style.display = 'none';
+    detalheConteudo.style.display = 'flex';
+    detalheMensagens.innerHTML = '<div class="detalhe-carregando">Carregando conversa…</div>';
+    colunaDetalhe.classList.add('ativa');
+    painelCorpo.classList.add('detalhe-aberto');
+
+    renderLista();
+    await carregarDetalhe(protocolo);
+
+    clearInterval(pollDetalheTimer);
+    pollDetalheTimer = setInterval(() => carregarDetalhe(protocolo, true), 4000);
   }
 
-  // ── Alterar status ────────────────────────────────────────────────────────────
-  statusSelect.addEventListener('change', async () => {
-    if (!protocoloAtivo) return;
-    const novoStatus = statusSelect.value;
+  async function carregarDetalhe(protocolo, silencioso){
     try {
-      await fetch(`${API}/api/admin/status`, {
+      const res = await apiFetch(`/api/admin/chamado/${encodeURIComponent(protocolo)}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.erro || 'Erro ao carregar chamado');
+      if (chamadoAtual !== protocolo) return; // usuário já trocou de conversa
+
+      const ch = data.chamado;
+      detalheNome.textContent = ch.nome || 'Sem nome';
+      detalheContato.textContent = `${ch.email || ''}${ch.email && ch.telefone ? ' · ' : ''}${ch.telefone || ''}`;
+      detalheProtocolo.textContent = `#${ch.protocolo} · atualizado ${horaCompleta(ch.atualizado_em)}`;
+      selectStatus.value = ch.status;
+
+      const novasMensagens = data.mensagens || [];
+      const mudou = JSON.stringify(novasMensagens) !== JSON.stringify(mensagensAtuais);
+      if (mudou) {
+        mensagensAtuais = novasMensagens;
+        renderMensagens(novasMensagens);
+      }
+    } catch (err) {
+      if (!silencioso) detalheMensagens.innerHTML = `<div class="lista-vazia">${escapeHtml(err.message)}</div>`;
+    }
+  }
+
+  function renderMensagens(mensagens){
+    if (!mensagens.length) {
+      detalheMensagens.innerHTML = '<div class="lista-vazia">Nenhuma mensagem ainda.</div>';
+      return;
+    }
+    const estavaNaBase = detalheMensagens.scrollTop + detalheMensagens.clientHeight >= detalheMensagens.scrollHeight - 60;
+    let ultimaData = '';
+    const partes = [];
+    mensagens.forEach(m => {
+      const dLabel = dataLabel(m.criado_em);
+      if (dLabel && dLabel !== ultimaData) {
+        ultimaData = dLabel;
+        partes.push(`<div class="marcador-data">${escapeHtml(dLabel)}</div>`);
+      }
+      const quem = m.remetente === 'cliente' ? 'Cliente' : 'Você';
+      const hora = horaCurta(m.criado_em);
+      const textoHtml = m.conteudo ? `<div>${escapeHtml(m.conteudo)}</div>` : '';
+      partes.push(`
+        <div class="balao balao-${m.remetente}">
+          ${textoHtml}${renderBalaoAnexos(m.anexos)}
+          <div class="balao-meta">${quem} · ${hora}</div>
+        </div>
+      `);
+    });
+    detalheMensagens.innerHTML = partes.join('');
+    if (estavaNaBase) {
+      requestAnimationFrame(() => { detalheMensagens.scrollTop = detalheMensagens.scrollHeight; });
+    }
+  }
+
+  function renderBalaoAnexos(anexos){
+    if (!anexos || !anexos.length) return '';
+    const itens = anexos.map(a => {
+      const href = escapeHtml((a.url || '').startsWith('http') ? a.url : `${API}${a.url}`);
+      if (a.tipo === 'imagem') {
+        return `<a href="${href}" target="_blank" rel="noopener"><img class="balao-anexo-img" src="${href}" alt="${escapeHtml(a.nome||'')}"></a>`;
+      }
+      if (a.tipo === 'pdf') {
+        return `<a class="balao-anexo-arquivo" href="${href}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5h6l3 3v8a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5z"/><path d="M9 1.5V4a1 1 0 0 0 1 1h2.5"/></svg>
+          <span class="balao-anexo-nome">${escapeHtml(a.nome || 'arquivo.pdf')}</span>
+        </a>`;
+      }
+      const urlEsc = escapeHtml(a.url || '');
+      return `<a class="balao-anexo-link" href="${urlEsc}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 8.2 8.2 5.8m-3.6.4L3 7.8a1.9 1.9 0 0 0 2.7 2.7l1.6-1.6M8.3 6.1l1.6-1.6a1.9 1.9 0 1 0-2.7-2.7L5.6 3.4"/></svg>
+        <span class="balao-anexo-nome">${escapeHtml(a.nome || a.url)}</span>
+      </a>`;
+    }).join('');
+    return `<div class="balao-anexos">${itens}</div>`;
+  }
+
+  btnVoltar.addEventListener('click', () => {
+    colunaDetalhe.classList.remove('ativa');
+    painelCorpo.classList.remove('detalhe-aberto');
+    clearInterval(pollDetalheTimer);
+    chamadoAtual = null;
+    renderLista();
+  });
+
+  // ── Trocar status ─────────────────────────────────────────
+  selectStatus.addEventListener('change', async () => {
+    if (!chamadoAtual) return;
+    const novoStatus = selectStatus.value;
+    try {
+      const res = await apiFetch('/api/admin/status', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${secret}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ protocolo: protocoloAtivo, status: novoStatus }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ protocolo: chamadoAtual, status: novoStatus })
       });
-    } catch {}
-    toast(`Status alterado para "${novoStatus}"`);
-    carregarLista();
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.erro || 'Erro ao alterar status');
+      toast(`Status alterado para "${novoStatus}".`);
+      carregarChamados(true);
+    } catch (err) {
+      toast(err.message, true);
+    }
   });
 
-  // ── Reload ────────────────────────────────────────────────────────────────────
-  btnReload.addEventListener('click', () => {
-    if (protocoloAtivo) abrirChamado(protocoloAtivo);
-    carregarLista();
+  // ── Excluir chamado ──────────────────────────────────────────
+  btnExcluirChamado.addEventListener('click', () => {
+    if (!chamadoAtual) return;
+    modalExcluir.classList.add('visivel');
+  });
+  btnCancelarExcluir.addEventListener('click', () => modalExcluir.classList.remove('visivel'));
+
+  btnConfirmarExcluir.addEventListener('click', async () => {
+    if (!chamadoAtual) return;
+    btnConfirmarExcluir.disabled = true;
+    btnConfirmarExcluir.textContent = 'Excluindo…';
+    try {
+      const res = await apiFetch(`/api/admin/chamado/${encodeURIComponent(chamadoAtual)}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.erro || 'Erro ao excluir');
+      modalExcluir.classList.remove('visivel');
+      toast('Chamado excluído.');
+      detalheConteudo.style.display = 'none';
+      detalheVazio.style.display = 'flex';
+      colunaDetalhe.classList.remove('ativa');
+      painelCorpo.classList.remove('detalhe-aberto');
+      clearInterval(pollDetalheTimer);
+      chamadoAtual = null;
+      carregarChamados();
+    } catch (err) {
+      toast(err.message, true);
+    } finally {
+      btnConfirmarExcluir.disabled = false;
+      btnConfirmarExcluir.textContent = 'Excluir definitivamente';
+    }
   });
 
-  // ── Enviar resposta ───────────────────────────────────────────────────────────
-  respostaTA.addEventListener('keydown', e => { if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault(); enviarResposta(); } });
-  btnEnviar.addEventListener('click', enviarResposta);
-
-  // Controla flag estaDigitando — protege o polling de injetar balões durante digitação
-  // mas volta a false imediatamente quando o campo esvazia (ex: após envio)
-  respostaTA.addEventListener('input', () => {
-    estaDigitando = respostaTA.value.length > 0;
+  // ── Excluir chamados antigos (em massa) ──────────────────────
+  btnAbrirLimpeza.addEventListener('click', () => {
+    erroLimpeza.textContent = '';
+    modalLimpeza.classList.add('visivel');
   });
-  // Suporte a IME (teclados asiáticos, autocomplete móvel)
-  respostaTA.addEventListener('compositionstart', () => { estaDigitando = true; });
-  respostaTA.addEventListener('compositionend',   () => { estaDigitando = respostaTA.value.length > 0; });
+  btnCancelarLimpeza.addEventListener('click', () => modalLimpeza.classList.remove('visivel'));
 
-  // ── Anexos: arquivo (PDF/foto) e link ───────────────────────────────────────────
+  btnConfirmarLimpeza.addEventListener('click', async () => {
+    const dias = parseInt(campoDias.value, 10) || 90;
+    const status = campoStatusLimpeza.value;
+    btnConfirmarLimpeza.disabled = true;
+    btnConfirmarLimpeza.textContent = 'Excluindo…';
+    erroLimpeza.textContent = '';
+    try {
+      const params = new URLSearchParams({ dias: String(dias) });
+      if (status) params.set('status', status);
+      const res = await apiFetch(`/api/admin/chamados/antigos?${params.toString()}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.erro || 'Erro ao excluir');
+      modalLimpeza.classList.remove('visivel');
+      toast(`${data.excluidos} chamado(s) excluído(s).`);
+      carregarChamados();
+    } catch (err) {
+      erroLimpeza.textContent = err.message;
+    } finally {
+      btnConfirmarLimpeza.disabled = false;
+      btnConfirmarLimpeza.textContent = 'Excluir';
+    }
+  });
+
+  // ── Anexos na resposta ────────────────────────────────────────
   const TIPOS_ANEXO_ACEITOS = {
     'application/pdf': 'pdf',
     'image/jpeg': 'imagem', 'image/jpg': 'imagem', 'image/png': 'imagem',
     'image/webp': 'imagem', 'image/gif': 'imagem',
   };
-  const TAMANHO_MAX_ANEXO = 1.5 * 1024 * 1024; // 1.5MB (mesmo teto do Worker/D1)
+  const TAMANHO_MAX_ANEXO = 1.5 * 1024 * 1024; // limite real é validado no worker (1.5MB)
 
-  function renderAnexosPendentes() {
+  function renderAnexosPendentes(){
     if (!anexosPendentes.length) {
       anexosPendentesEl.style.display = 'none';
       anexosPendentesEl.innerHTML = '';
@@ -1351,13 +871,13 @@
     anexosPendentesEl.style.display = 'flex';
     anexosPendentesEl.innerHTML = anexosPendentes.map((a, i) => `
       <span class="anexo-chip${a._carregando ? ' ac-carregando' : ''}">
-        <span class="ac-nome">${a._carregando ? 'Enviando…' : esc(a.nome)}</span>
+        <span class="ac-nome">${a._carregando ? 'Enviando…' : escapeHtml(a.nome)}</span>
         <button class="ac-remover" data-i="${i}" title="Remover" ${a._carregando ? 'disabled' : ''}>✕</button>
       </span>
     `).join('');
   }
 
-  anexosPendentesEl.addEventListener('click', e => {
+  anexosPendentesEl.addEventListener('click', (e) => {
     const btn = e.target.closest('.ac-remover');
     if (!btn) return;
     anexosPendentes.splice(Number(btn.dataset.i), 1);
@@ -1365,7 +885,7 @@
   });
 
   btnAnexoArquivo.addEventListener('click', () => {
-    if (!protocoloAtivo) return;
+    if (!chamadoAtual) return;
     inputAnexo.click();
   });
 
@@ -1374,8 +894,8 @@
     inputAnexo.value = '';
     for (const arquivo of arquivos) {
       const tipo = TIPOS_ANEXO_ACEITOS[arquivo.type];
-      if (!tipo) { toast(`"${arquivo.name}" não é PDF nem imagem — não foi anexado.`); continue; }
-      if (arquivo.size > TAMANHO_MAX_ANEXO) { toast(`"${arquivo.name}" passa de 1,5MB — não foi anexado.`); continue; }
+      if (!tipo) { toast(`"${arquivo.name}" não é PDF nem imagem — não foi anexado.`, true); continue; }
+      if (arquivo.size > TAMANHO_MAX_ANEXO) { toast(`"${arquivo.name}" passa de 1,5MB — não foi anexado.`, true); continue; }
 
       const placeholder = { tipo, nome: arquivo.name, url: null, tamanho: arquivo.size, _carregando: true };
       anexosPendentes.push(placeholder);
@@ -1384,335 +904,111 @@
       try {
         const fd = new FormData();
         fd.append('arquivo', arquivo);
-        fd.append('protocolo', protocoloAtivo);
-        const res = await fetch(`${API}/api/admin/upload`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${secret}` },
-          body: fd,
-        });
+        fd.append('protocolo', chamadoAtual);
+        const res = await apiFetch('/api/admin/upload', { method: 'POST', body: fd });
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.erro || 'falha no upload');
         Object.assign(placeholder, { tipo: data.tipo, nome: data.nome, url: data.url, tamanho: data.tamanho, _carregando: false });
-      } catch {
+      } catch (err) {
         const idx = anexosPendentes.indexOf(placeholder);
         if (idx !== -1) anexosPendentes.splice(idx, 1);
-        toast(`Erro ao enviar "${arquivo.name}". Tente novamente.`);
+        toast(`Erro ao enviar "${arquivo.name}": ${err.message}`, true);
       }
       renderAnexosPendentes();
     }
   });
 
-  btnAnexoLink.addEventListener('click', () => {
-    if (!protocoloAtivo) return;
-    const url = prompt('Cole o link que deseja anexar:');
-    if (!url) return;
-    let urlValida;
-    try { urlValida = new URL(url); } catch { toast('Link inválido.'); return; }
-    if (!['http:', 'https:'].includes(urlValida.protocol)) { toast('O link precisa começar com http:// ou https://'); return; }
-    anexosPendentes.push({ tipo: 'link', nome: url, url });
-    renderAnexosPendentes();
+  // ── Enviar resposta ────────────────────────────────────────
+  campoResposta.addEventListener('input', () => {
+    campoResposta.style.height = 'auto';
+    campoResposta.style.height = Math.min(campoResposta.scrollHeight, 130) + 'px';
   });
+  campoResposta.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); enviarResposta(); }
+  });
+  btnResponder.addEventListener('click', enviarResposta);
 
-  async function enviarResposta() {
-    const texto = respostaTA.value.trim();
-    if (!protocoloAtivo) return;
-    if (anexosPendentes.some(a => a._carregando)) { toast('Aguarde o anexo terminar de enviar.'); return; }
+  async function enviarResposta(){
+    if (!chamadoAtual) return;
+    const texto = campoResposta.value.trim();
+    if (anexosPendentes.some(a => a._carregando)) { toast('Aguarde o anexo terminar de enviar.', true); return; }
     if (!texto && anexosPendentes.length === 0) return;
 
     const anexosParaEnviar = anexosPendentes.map(({ tipo, nome, url, tamanho }) => ({ tipo, nome, url, tamanho }));
-    btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando…';
+
+    btnResponder.disabled = true;
+    campoResposta.value = '';
+    campoResposta.style.height = 'auto';
+    anexosPendentes = [];
+    renderAnexosPendentes();
 
     try {
-      const res = await fetch(`${API}/api/admin/responder`, {
+      const res = await apiFetch('/api/admin/responder', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${secret}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ protocolo: protocoloAtivo, conteudo: texto, anexos: anexosParaEnviar }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ protocolo: chamadoAtual, conteudo: texto, anexos: anexosParaEnviar })
       });
-      if (!res.ok) { toast('Erro ao enviar. Tente novamente.'); return; }
-      anexosPendentes = [];
-      renderAnexosPendentes();
-      toast('Resposta enviada! E-mail disparado ao cliente.');
-      abrirChamado(protocoloAtivo);
-      carregarLista();
-    } catch {
-      // Demo
-      toast('(Demo) Resposta simulada.');
-      respostaTA.value = '';
-      anexosPendentes = [];
-      renderAnexosPendentes();
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.erro || 'Erro ao enviar resposta');
+      await carregarDetalhe(chamadoAtual, true);
+      carregarChamados(true);
+    } catch (err) {
+      toast(err.message, true);
+      campoResposta.value = texto; // devolve o texto pro admin não perder
     } finally {
-      // Zera flag e dispara polling imediatamente — não espera o próximo ciclo de 3s
-      estaDigitando = false;
-      verificarMsgsNovasAdmin();
-      btnEnviar.disabled = false;
-      btnEnviar.innerHTML = `
-        <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px">
-          <path d="M1 6.5h11M7 2l5 4.5-5 4.5"/>
-        </svg> Enviar resposta`;
+      btnResponder.disabled = false;
     }
   }
 
-  // ── Modal de confirmação genérico ───────────────────────────────────────────────
-  function abrirModal({ titulo, descricao, corpoExtraHTML = '', textoConfirmar = 'Excluir definitivamente', exigirDigitar = null, onConfirmar }) {
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    overlay.innerHTML = `
-      <div class="modal-box">
-        <div class="modal-title">
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 4h10M5.3 4V2.6a.6.6 0 01.6-.6h2.2a.6.6 0 01.6.6V4m1.4 0-.5 8.1a1 1 0 01-1 .9H4.4a1 1 0 01-1-.9L2.9 4"/>
-            <path d="M5.7 6.3v4.2M8.3 6.3v4.2"/>
-          </svg>
-          ${titulo}
-        </div>
-        <p class="modal-desc">${descricao}</p>
-        ${corpoExtraHTML}
-        ${exigirDigitar ? `<label class="modal-label">Digite "${exigirDigitar}" para confirmar</label><input type="text" class="modal-input" id="modal-input-confirma" autocomplete="off">` : ''}
-        <div class="modal-actions">
-          <button class="btn-secundario" id="modal-cancelar">Cancelar</button>
-          <button class="btn-perigo-solido" id="modal-confirmar" ${exigirDigitar ? 'disabled' : ''}>${textoConfirmar}</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
+  // ── Push notifications (admin) ────────────────────────────────
+  function urlBase64ToUint8Array(b64){
+    const pad = '='.repeat((4 - b64.length % 4) % 4);
+    const raw = atob((b64 + pad).replace(/-/g,'+').replace(/_/g,'/'));
+    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  }
 
-    const fechar = () => overlay.remove();
-    const btnConfirmar = overlay.querySelector('#modal-confirmar');
-
-    if (exigirDigitar) {
-      const input = overlay.querySelector('#modal-input-confirma');
-      input.addEventListener('input', () => {
-        btnConfirmar.disabled = input.value.trim().toUpperCase() !== exigirDigitar.toUpperCase();
+  btnSino.addEventListener('click', async () => {
+    if (notifAtivada) { toast('Notificações já estão ativas.'); return; }
+    if (!('Notification' in window)) { toast('Este navegador não suporta notificações.', true); return; }
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') { toast('Permissão de notificação negada.', true); return; }
+      const reg = await navigator.serviceWorker.register('sw.js', { scope: '/admin/' });
+      await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
       });
-      setTimeout(() => input.focus(), 30);
+      await apiFetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...JSON.parse(JSON.stringify(sub)), tipo: 'admin' })
+      });
+      notifAtivada = true;
+      toast('Notificações ativadas.');
+    } catch (err) {
+      toast('Erro ao ativar notificações: ' + err.message, true);
     }
-
-    overlay.querySelector('#modal-cancelar').addEventListener('click', fechar);
-    overlay.addEventListener('click', e => { if (e.target === overlay) fechar(); });
-    document.addEventListener('keydown', function escKey(e) {
-      if (e.key === 'Escape') { fechar(); document.removeEventListener('keydown', escKey); }
-    });
-
-    btnConfirmar.addEventListener('click', async () => {
-      const textoOriginal = btnConfirmar.textContent;
-      btnConfirmar.disabled = true; btnConfirmar.textContent = 'Excluindo…';
-      try {
-        await onConfirmar(overlay);
-        fechar();
-      } catch (err) {
-        btnConfirmar.disabled = false; btnConfirmar.textContent = textoOriginal;
-        toast('Erro ao excluir. Tente novamente.');
-      }
-    });
-
-    return overlay;
-  }
-
-  // ── Excluir um chamado definitivamente ──────────────────────────────────────────
-  function excluirChamado(protocolo) {
-    if (!protocolo) return;
-    abrirModal({
-      titulo: 'Excluir chamado',
-      descricao: `Isso apaga para sempre o chamado <strong style="color:var(--text)">#${esc(protocolo)}</strong> e todo o histórico de mensagens. Essa ação não pode ser desfeita.`,
-      textoConfirmar: 'Excluir definitivamente',
-      onConfirmar: async () => {
-        try {
-          const res = await fetch(`${API}/api/admin/chamado/${protocolo}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${secret}` }
-          });
-          if (!res.ok && res.status !== 404) throw new Error('falha ao excluir');
-        } catch {
-          // Sem backend/offline: segue removendo localmente (modo demo)
-        }
-        // Marca como excluído localmente para nunca mais reaparecer neste navegador,
-        // mesmo que a API (ou o modo demo) continue devolvendo o registro antigo.
-        marcarExcluido(protocolo);
-        document.querySelector(`.chamado-item[data-protocolo="${protocolo}"]`)?.remove();
-        if (protocoloAtivo === protocolo) {
-          protocoloAtivo = null;
-          chatAtivo.style.display = 'none';
-          chatVazio.style.display = 'flex';
-        }
-        toast(`Chamado #${protocolo} excluído definitivamente.`);
-        carregarLista();
-      }
-    });
-  }
-
-  document.getElementById('btn-excluir-chamado').addEventListener('click', () => excluirChamado(protocoloAtivo));
-
-  // ── Excluir SOMENTE os anexos de um chamado (mantém as mensagens de texto) ──
-  function excluirAnexosDoChamado(protocolo) {
-    if (!protocolo) return;
-    abrirModal({
-      titulo: 'Remover anexos',
-      descricao: `Remove definitivamente todos os arquivos anexados ao chamado <strong style="color:var(--text)">#${esc(protocolo)}</strong> (do armazenamento e das mensagens). O texto das mensagens é mantido. Essa ação não pode ser desfeita.`,
-      textoConfirmar: 'Remover anexos',
-      onConfirmar: async () => {
-        const res = await fetch(`${API}/api/admin/chamado/${protocolo}/anexos`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${secret}` }
-        });
-        if (!res.ok) throw new Error('falha ao remover anexos');
-        const data = await res.json().catch(() => ({}));
-        toast(`Anexos removidos${data.anexos_excluidos != null ? ` (${data.anexos_excluidos})` : ''}.`);
-        if (protocoloAtivo === protocolo) abrirChamado(protocolo);
-      }
-    });
-  }
-
-  document.getElementById('btn-excluir-anexos').addEventListener('click', () => excluirAnexosDoChamado(protocoloAtivo));
-
-  // Delegação de clique para o "x" que aparece no hover de cada item da lista
-  listaChamados.addEventListener('click', e => {
-    const btn = e.target.closest('.ci-excluir');
-    if (!btn) return;
-    e.stopPropagation();
-    excluirChamado(btn.dataset.protocolo);
   });
 
-  // ── Excluir chamados antigos em massa ───────────────────────────────────────────
-  document.getElementById('btn-limpar-antigos').addEventListener('click', () => {
-    abrirModal({
-      titulo: 'Excluir chamados antigos',
-      descricao: 'Apaga definitivamente todos os chamados que baterem os critérios abaixo, junto com as mensagens. Não pode ser desfeito.',
-      corpoExtraHTML: `
-        <label class="modal-label">Mais antigos que (dias)</label>
-        <input type="number" class="modal-input" id="limpeza-dias" value="90" min="1" style="margin-bottom:4px;">
-        <label class="modal-label">Status</label>
-        <select class="modal-input" id="limpeza-status">
-          <option value="fechado" selected>Apenas fechados</option>
-          <option value="respondido">Apenas respondidos</option>
-          <option value="aberto">Apenas abertos</option>
-          <option value="">Qualquer status</option>
-        </select>
-      `,
-      textoConfirmar: 'Excluir definitivamente',
-      exigirDigitar: 'EXCLUIR',
-      onConfirmar: async (overlay) => {
-        const dias   = parseInt(overlay.querySelector('#limpeza-dias').value, 10) || 90;
-        const status = overlay.querySelector('#limpeza-status').value;
-
-        // 1) Tenta a exclusão real no backend, se a rota existir
-        const params = new URLSearchParams({ dias: String(dias) });
-        if (status) params.set('status', status);
-        try {
-          await fetch(`${API}/api/admin/chamados/antigos?${params}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${secret}` }
-          });
-        } catch {
-          // Sem backend/offline: segue para a exclusão local abaixo
+  // Recebe avisos do service worker (push chegou com a página aberta)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && (event.data.tipo === 'nova-mensagem-push' || event.data.tipo === 'abrir-protocolo')) {
+        carregarChamados(true);
+        if (event.data.protocolo && event.data.tipo === 'abrir-protocolo') {
+          abrirChamado(event.data.protocolo);
         }
-
-        // 2) Busca a lista completa (sem filtro) pra avaliar os critérios de idade/status
-        let todos = [];
-        try {
-          const res  = await fetch(`${API}/api/admin/chamados`, {
-            headers: { 'Authorization': `Bearer ${secret}` }
-          });
-          const data = await res.json();
-          todos = data.chamados || [];
-        } catch {
-          todos = dadosDemo();
-        }
-
-        // 3) Marca como excluído (local, persistente) tudo que bate o critério —
-        //    assim nunca mais reaparece neste navegador, com ou sem backend real.
-        const agora = Date.now();
-        const combinam = todos.filter(c => {
-          const idadeDias = (agora - new Date(c.atualizado_em).getTime()) / 86400000;
-          if (idadeDias < dias) return false;
-          if (status && c.status !== status) return false;
-          return true;
-        });
-        combinam.forEach(c => marcarExcluido(c.protocolo));
-
-        if (protocoloAtivo && combinam.some(c => c.protocolo === protocoloAtivo)) {
-          protocoloAtivo = null;
-          chatAtivo.style.display = 'none';
-          chatVazio.style.display = 'flex';
-        }
-
-        toast(combinam.length
-          ? `${combinam.length} chamado${combinam.length === 1 ? '' : 's'} excluído${combinam.length === 1 ? '' : 's'} definitivamente.`
-          : 'Nenhum chamado encontrado com esses critérios.');
-        carregarLista();
       }
     });
-  });
-
-  // ── Toast ─────────────────────────────────────────────────────────────────────
-  function toast(msg) {
-    const el = document.getElementById('toast');
-    el.textContent = msg; el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 3200);
+    navigator.serviceWorker.register('sw.js', { scope: '/admin/' }).catch(() => {});
   }
 
-  // ── Utilitários ───────────────────────────────────────────────────────────────
-  function esc(t='') {
-    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // ── Início ─────────────────────────────────────────────────
+  if (TOKEN) {
+    entrarNoPainel();
   }
-  function escBr(t='') { return esc(t).replace(/\n/g,'<br>'); }
-
-  function renderBalaoAnexos(anexos) {
-    if (!anexos || !anexos.length) return '';
-    const itens = anexos.map(a => {
-      const href = esc((a.url || '').startsWith('http') ? a.url : `${API}${a.url}`);
-      if (a.tipo === 'imagem') {
-        return `<a href="${href}" target="_blank" rel="noopener"><img class="balao-anexo-img" src="${href}" alt="${esc(a.nome||'')}"></a>`;
-      }
-      if (a.tipo === 'pdf') {
-        return `<a class="balao-anexo-arquivo" href="${href}" target="_blank" rel="noopener">
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5h6l3 3v8a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5z"/><path d="M9 1.5V4a1 1 0 0 0 1 1h2.5"/></svg>
-          <span class="balao-anexo-nome">${esc(a.nome || 'arquivo.pdf')}</span>
-        </a>`;
-      }
-      // link
-      return `<a class="balao-anexo-link" href="${esc(a.url)}" target="_blank" rel="noopener">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 8.2 8.2 5.8m-3.6.4L3 7.8a1.9 1.9 0 0 0 2.7 2.7l1.6-1.6M8.3 6.1l1.6-1.6a1.9 1.9 0 1 0-2.7-2.7L5.6 3.4"/></svg>
-        <span class="balao-anexo-nome">${esc(a.nome || a.url)}</span>
-      </a>`;
-    }).join('');
-    return `<div class="balao-anexos">${itens}</div>`;
-  }
-
-  function formatarTempo(ts) {
-    if (!ts) return '—';
-    const d   = new Date(ts);
-    const ago = Date.now() - d.getTime();
-    const min = Math.floor(ago / 60000);
-    if (min < 1)   return 'agora';
-    if (min < 60)  return `${min}min`;
-    const h = Math.floor(min / 60);
-    if (h < 24)    return `${h}h`;
-    const dias = Math.floor(h / 24);
-    if (dias < 7)  return `${dias}d`;
-    return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short' });
-  }
-
-  // ── Dados demo (offline) ──────────────────────────────────────────────────────
-  function dadosDemo() {
-    return [
-      { protocolo:'2026-0003', cliente_nome:'Maria Souza',  status:'aberto',     atualizado_em: new Date(Date.now()-300000).toISOString(),  ultima_msg:'Boa tarde! Queria saber sobre os prazos do projeto.',  ultima_remetente:'cliente' },
-      { protocolo:'2026-0002', cliente_nome:'João Ferreira',status:'respondido',  atualizado_em: new Date(Date.now()-3600000).toISOString(), ultima_msg:'Obrigado pelo retorno, entendido!',                    ultima_remetente:'cliente' },
-      { protocolo:'2026-0001', cliente_nome:'Ana Ribeiro',  status:'fechado',     atualizado_em: new Date(Date.now()-86400000).toISOString(),ultima_msg:'Perfeito, muito obrigada pela atenção.',               ultima_remetente:'cliente' },
-    ];
-  }
-
-  function detalheDemo(protocolo) {
-    const nomes = { '2026-0003': 'Maria Souza', '2026-0002': 'João Ferreira', '2026-0001': 'Ana Ribeiro' };
-    const emails = { '2026-0003': 'maria@email.com', '2026-0002': 'joao@email.com', '2026-0001': 'ana@email.com' };
-    const status = { '2026-0003': 'aberto', '2026-0002': 'respondido', '2026-0001': 'fechado' };
-    return {
-      chamado: { protocolo, nome: nomes[protocolo]||'Cliente', email: emails[protocolo]||'—', telefone:'11999999999', status: status[protocolo]||'aberto' },
-      mensagens: [
-        { remetente:'suporte', conteudo:`Olá! Protocolo #${protocolo} aberto. Como posso ajudar?`, criado_em: new Date(Date.now()-7200000).toISOString() },
-        { remetente:'cliente', conteudo:'Boa tarde! Queria saber sobre os prazos do projeto.', criado_em: new Date(Date.now()-300000).toISOString() },
-      ]
-    };
-  }
+})();
 </script>
 </body>
 </html>
