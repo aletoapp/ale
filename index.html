@@ -150,52 +150,6 @@
           "datePublished": "2023-05-01"
         }
       ]
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://alexandretorres.com.br/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Você atende só Serra-ES?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Não. Atendo presencialmente toda a Grande Vitória — Serra, Vitória, Vila Velha, Cariacica, Viana, Guarapari e Fundão — e remotamente qualquer lugar do Brasil." }
-        },
-        {
-          "@type": "Question",
-          "name": "Quanto custa um site ou landing page?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Varia com o escopo. Landing pages de alta conversão seguem processo e prazo definidos; sistemas maiores seguem o modelo AT-LAB: adesão única para setup e infraestrutura, mais uma assinatura mensal para manutenção e operação contínua. Sprints de evolução são orçados sob demanda." }
-        },
-        {
-          "@type": "Question",
-          "name": "Quanto tempo demora a entrega?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Landing pages: até 15 dias, com revisão de performance incluída no 30º dia. Sistemas maiores seguem deploy progressivo — o ambiente fica visível em produção desde o primeiro commit, não só na entrega final." }
-        },
-        {
-          "@type": "Question",
-          "name": "Qual a diferença entre landing page, site institucional e sistema?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Landing page é arquitetura de decisão: cada elemento existe para conduzir uma ação específica. Site institucional apresenta e posiciona. Sistema (SaaS, aplicativo, plataforma) vai além: automatiza processos e escala com o negócio." }
-        },
-        {
-          "@type": "Question",
-          "name": "O que acontece depois que o projeto fica pronto? Tem suporte?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim. O modelo AT-LAB inclui assinatura mensal com manutenção, infraestrutura ativa e suporte técnico contínuo. Você não compra \"um site\" — compra capacidade contínua de evolução." }
-        },
-        {
-          "@type": "Question",
-          "name": "O código e o site são meus, ou fico dependente de você?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Propriedade total do código, zero lock-in. Sem CMS proprietário, sem dependência de plataforma — portabilidade completa garantida." }
-        },
-        {
-          "@type": "Question",
-          "name": "Preciso pagar hospedagem separadamente?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Não. A arquitetura é serverless/edge (GitHub Pages + Cloudflare), com custo de infraestrutura zero incluso no serviço." }
-        },
-        {
-          "@type": "Question",
-          "name": "Como funciona o primeiro contato?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Diagnóstico técnico gratuito, sem compromisso, com resposta em até 24h pelo WhatsApp." }
-        }
-      ]
     }
   ]
 }
@@ -297,18 +251,121 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @media(max-width:600px){.stage{padding:40px 24px}.tagline{font-size:11px;letter-spacing:.18em}.nav-buttons{gap:12px}.btn{font-size:10px;padding:11px 18px}}
-.modal-overlay{display:none}
-.modal-overlay.open{display:flex}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-</style>
 
-<!-- Modal CSS não-crítico: carregado de forma assíncrona -->
-<link rel="stylesheet" href="assets/css/modal.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="assets/css/modal.css"></noscript>
+/* ── HEADER: HAMBÚRGUER CENTRALIZADO NO TOPO ─────────────────── */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:1001;display:flex;justify-content:center;padding:20px 0}
+.hamburger{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(8,8,7,0.55);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:50%;cursor:pointer;padding:0;transition:border-color .25s ease,background .25s ease}
+.hamburger:hover{border-color:var(--gold)}
+.hamburger-box{position:relative;width:15px;height:10px}
+.hamburger-line{position:absolute;left:0;width:100%;height:1px;background:var(--ink);transition:transform .3s ease,opacity .3s ease,top .3s ease}
+.hamburger-line:nth-child(1){top:0}
+.hamburger-line:nth-child(2){top:50%;transform:translateY(-50%)}
+.hamburger-line:nth-child(3){top:100%;transform:translateY(-100%)}
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(1){top:50%;transform:translateY(-50%) rotate(45deg)}
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(2){opacity:0}
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(3){top:50%;transform:translateY(-50%) rotate(-45deg)}
+
+/* ── MENU: LAYOUT EDITORIAL EM DUAS COLUNAS ──────────────────── */
+.nav-scrim{position:fixed;inset:0;background:rgba(8,8,7,0.75);backdrop-filter:blur(3px);z-index:998;opacity:0;transition:opacity .35s ease}
+.nav-scrim[hidden]{display:none}
+.site-nav{position:fixed;inset:0;z-index:999;background:var(--modal-bg);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s linear .35s;padding:100px 60px 48px;overflow-y:auto}
+.site-nav[hidden]{display:none}
+.site-nav.open{opacity:1;visibility:visible;transition:opacity .35s ease}
+.nav-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);position:absolute;top:34px;left:60px}
+.nav-grid{display:flex;justify-content:space-between;gap:80px;flex:1;flex-wrap:wrap}
+.nav-list{list-style:none;display:flex;flex-direction:column;min-width:260px}
+.nav-item{border-top:1px solid var(--border-soft);padding:16px 0;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.nav-item:last-child{border-bottom:1px solid var(--border-soft)}
+.site-nav.open .nav-item{opacity:1;transform:translateY(0)}
+.site-nav.open .nav-item:nth-child(1){transition-delay:.06s}
+.site-nav.open .nav-item:nth-child(2){transition-delay:.11s}
+.site-nav.open .nav-item:nth-child(3){transition-delay:.16s}
+.site-nav.open .nav-item:nth-child(4){transition-delay:.21s}
+.site-nav.open .nav-item:nth-child(5){transition-delay:.26s}
+.nav-link,.nav-toggle{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,3.6vw,38px);color:var(--ink);text-decoration:none;background:none;border:none;cursor:pointer;display:flex;align-items:center;width:100%;text-align:left;transition:color .3s ease,transform .3s ease}
+.nav-link:hover,.nav-toggle:hover,.nav-toggle[aria-expanded="true"]{color:var(--gold);transform:translateX(6px)}
+.dropdown-menu{list-style:none;display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.dropdown-menu:not([hidden]){grid-template-rows:1fr}
+.dropdown-menu>*{overflow:hidden}
+.dropdown-menu ul{display:flex;flex-direction:column;gap:10px;padding:14px 0 4px 4px}
+.dropdown-menu a{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .2s ease,transform .2s ease;display:inline-block}
+.dropdown-menu a:hover{color:var(--gold);transform:translateX(4px)}
+.nav-aside{display:flex;flex-direction:column;justify-content:flex-end;gap:28px;min-width:220px;opacity:0;transition:opacity .5s ease .3s}
+.site-nav.open .nav-aside{opacity:1}
+.nav-aside-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+.nav-aside-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.nav-aside-list a{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--ink-2);text-decoration:none;transition:color .2s ease}
+.nav-aside-list a:hover{color:var(--gold)}
+.nav-footer{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border-top:1px solid var(--border-soft);padding-top:24px;margin-top:40px;opacity:0;transition:opacity .5s ease .35s}
+.site-nav.open .nav-footer{opacity:1}
+@media(max-width:760px){.site-nav{padding:88px 28px 32px}.nav-grid{gap:40px}.nav-list{min-width:0}.nav-aside{align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.site-nav,.nav-scrim,.hamburger-line,.nav-item,.nav-aside,.nav-footer,.dropdown-menu{transition:none!important}}
+</style>
 
 </head>
 
 <body>
+
+<header class="site-header">
+  <button class="hamburger" id="menu-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menu">
+    <span class="hamburger-box">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </span>
+  </button>
+</header>
+
+<div class="nav-scrim" id="nav-scrim" hidden></div>
+
+<nav class="site-nav" id="site-nav" aria-label="Navegação Principal" hidden>
+  <span class="nav-kicker">Menu</span>
+  <div class="nav-grid">
+    <ul class="nav-list">
+      <li class="nav-item has-dropdown">
+        <button class="nav-link nav-toggle" id="sol-toggle" type="button" aria-expanded="false" aria-controls="sol-menu">Soluções</button>
+        <div class="dropdown-menu" id="sol-menu" hidden>
+          <ul>
+            <li><a href="/dossie-da-conversao/">Dossiê da Conversão</a></li>
+            <li><a href="/docform/">DocForm</a></li>
+            <li><a href="/ilist/">iList</a></li>
+            <li><a href="/voicelab/">VoiceLab</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item"><a href="/at-lab/" class="nav-link">AT Lab</a></li>
+      <li class="nav-item"><a href="/conceito/" class="nav-link">Conceito</a></li>
+      <li class="nav-item"><a href="/posicionamento/" class="nav-link">Posicionamento</a></li>
+      <li class="nav-item"><a href="/faq/" class="nav-link">FAQ</a></li>
+    </ul>
+    <div class="nav-aside">
+      <div>
+        <p class="nav-aside-label">Contato</p>
+        <ul class="nav-aside-list">
+          <li><a href="https://linkedin.com/in/alexandretorres" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://instagram.com/alexandretorres" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://github.com/alexandretorres" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <a href="https://alexandretorres.com.br/atendimento/" target="_blank" rel="noopener" class="btn btn-primary btn-whats">
+        <svg class="btn-whats-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 13v-1.5a8 8 0 0 1 16 0V13"/>
+          <rect x="3" y="13" width="4.2" height="6.2" rx="1.4"/>
+          <rect x="16.8" y="13" width="4.2" height="6.2" rx="1.4"/>
+          <path d="M20.8 19.2v.8a3 3 0 0 1-3 3h-2.6"/>
+        </svg>
+        iniciar projeto
+      </a>
+    </div>
+  </div>
+  <div class="nav-footer">
+    <a href="/" class="brand-logo" aria-label="Alexandre Torres - Home">
+      <img src="assets/img/logo-alexandre-torres-web.webp" alt="Alexandre Torres" width="140" height="32">
+    </a>
+    <p class="epigraph" style="margin:0">Engenharia · Percepção · Decisão</p>
+  </div>
+</nav>
 
 <div class="stage">
   <h1 class="sr-only">Alexandre Torres — Programador e Web Designer na Grande Vitória-ES</h1>
@@ -327,7 +384,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <polygon points="6,4 20,12 6,20" fill="currentColor"/>
     </svg>
   </button>
-  <nav class="nav-buttons" aria-label="Navegação principal">
+  <nav class="nav-buttons" aria-label="Ação principal">
     <a href="https://alexandretorres.com.br/atendimento/" target="_blank" rel="noopener" class="btn btn-primary btn-whats">
       <svg class="btn-whats-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M4 13v-1.5a8 8 0 0 1 16 0V13"/>
@@ -337,8 +394,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </svg>
       iniciar projeto
     </a>
-    <a href="at-lab/"      class="btn">ver resultados</a>
-    <button class="btn" id="btn-sobre" type="button" aria-haspopup="dialog">posicionamento</button>
+    <a href="/at-lab/"      class="btn">ver resultados</a>
+    <a href="/posicionamento/" class="btn">posicionamento</a>
+    <a href="/faq/"         class="btn">faq</a>
   </nav>
   <p class="epigraph">Engenharia · Percepção · Decisão</p>
   <p class="byline"><span>by</span> Alexandre Torres<br>
@@ -348,89 +406,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <main id="conteudo-principal">
-
-  <div class="modal-overlay" id="modal-sobre" role="dialog" aria-modal="true" aria-labelledby="modal-sobre-title" hidden>
-    <div class="modal-panel">
-      <header class="modal-header">
-        <span class="modal-title" id="modal-sobre-title">Alexandre Torres</span>
-        <button class="modal-close" id="modal-close-btn" type="button" aria-label="Fechar">Fechar</button>
-      </header>
-      <div class="modal-body">
-        <h2 class="sobre-lead">Construo ambientes digitais.<br>Não apenas <em>páginas.</em></h2>
-        <div class="sobre-block">
-    <h3>Posicionamento &amp; Engenharia de Sistemas</h3>
-    <p>Existem profissionais que entregam páginas isoladas. Existem os que entregam sistemas genéricos. E existem os que projetam <strong>ecossistemas digitais, aplicativos e plataformas SaaS capazes de influenciar percepção, comportamento e decisão.</strong></p>
-    <p>Pertenço à terceira categoria.</p>
-    <div class="sobre-quote"><p>Uma aplicação premium ou software modular não precisa apenas funcionar de forma estável. Ela precisa conduzir o usuário com fluidez absoluta.</p></div>
-  </div>
-
-  <div class="sobre-block">
-    <h3>AT‑LAB: Engenharia de Software e Desenvolvimento de SaaS</h3>
-    <p>O <strong>AT-LAB</strong> é meu laboratório público de engenharia web e desenvolvimento de microsserviços (Micro SaaS). É o ambiente onde conceitos complexos de arquitetura de software, automações e bancos de dados viram produtos funcionais, interfaces mobile responsivas e ferramentas reais que operam no mundo real. Meu discurso técnico sobre otimização e escalabilidade de software sobrevive à prática.</p>
-  </div>
-
-  <div class="sobre-block">
-    <h3>Infraestrutura Leve, Aplicações Multiplataforma e Performance</h3>
-    <p>Prefiro arquitetar ambientes premium, aplicações móveis leves e sistemas robustos sem transformar o cliente em refém de infraestruturas inchadas, pesadas ou de custos de manutenção abusivos. Desenvolvo utilizando abordagens modernas de engenharia, otimizadas para a nuvem:</p>
-    <ul class="sobre-list">
-      <li><strong>Aplicações Híbridas &amp; PWAs:</strong> Aplicativos Android e iOS rápidos, instaláveis, com carregamento instantâneo e menor consumo de dados.</li>
-      <li><strong>Arquitetura de SaaS Escalável:</strong> Estruturas modulares prontas para crescer em usuários sem gargalos de banco de dados.</li>
-      <li><strong>Deploy Automatizado &amp; Serverless:</strong> GitHub Pages + Cloudflare Pages com distribuição Edge global (latência próxima de zero).</li>
-      <li><strong>Otimização de Assets:</strong> Imagens em formatos modernos (WebP/AVIF) e minificação rigorosa de código.</li>
-      <li><strong>Performance Nativa:</strong> Fontes locais pré-carregadas e eliminação completa de scripts que bloqueiam o render visual.</li>
-      <li><strong>SEO Semântico &amp; Indexação:</strong> Estruturação de dados avançada para que seu software ou landing page ganhe autoridade imediata no Google.</li>
-    </ul>
-  </div>
-        <div class="sobre-block">
-          <p class="sobre-label">Método</p>
-          <p>Atuo no cruzamento entre desenvolvimento web, experiência do usuário, posicionamento digital e engenharia de percepção. O foco está em criar estruturas capazes de <strong>transformar atenção em ação</strong> — com clareza, autoridade e intenção.</p>
-          <p>Cada projeto parte de uma pergunta central: como esta pessoa lê, decide, percebe valor — e o que faz com que ela aja sem sentir que foi pressionada?</p>
-        </div>
-        <div class="sobre-block">
-          <p class="sobre-label">Arquitetura de decisão</p>
-          <p>Uma landing page não é um panfleto online. É um ambiente cognitivo. O visitante chega com dúvidas, excesso de informação e resistência. O papel da engenharia é organizar a experiência de forma tão clara que a decisão se torne consequência natural.</p>
-          <p>Isso aparece em cada projeto — na tipografia, no contraste, no tempo de carregamento, na densidade de informação. <strong>Nada existe apenas porque ficou bonito.</strong></p>
-        </div>
-        <div class="sobre-block">
-          <p class="sobre-label">O trabalho</p>
-          <p>Não atuo apenas como designer, desenvolvedor ou estrategista. O trabalho funciona na interseção entre todas essas áreas — comunicação, escrita, direção criativa, UX, branding, copy e experiência emocional do usuário.</p>
-          <p>Muitos negócios são excelentes no que fazem, mas comunicam mal. <strong>Meu trabalho traduz valor invisível em percepção concreta.</strong></p>
-          <div class="sobre-quote"><p>Tecnologia sem direção vira ruído.<br>Direção sem execução continua sendo apenas ideia.</p></div>
-        </div>
-
-        <div class="sobre-block" id="faq">
-          <h3>Perguntas frequentes</h3>
-
-          <p class="sobre-label">Você atende só Serra-ES?</p>
-          <p>Não. Atendo presencialmente toda a Grande Vitória — Serra, Vitória, Vila Velha, Cariacica, Viana, Guarapari e Fundão — e remotamente qualquer lugar do Brasil.</p>
-
-          <p class="sobre-label">Quanto custa um site ou landing page?</p>
-          <p>Varia com o escopo. Landing pages de alta conversão seguem processo e prazo definidos; sistemas maiores seguem o modelo AT-LAB: adesão única para setup e infraestrutura, mais uma assinatura mensal para manutenção e operação contínua. Sprints de evolução são orçados sob demanda.</p>
-
-          <p class="sobre-label">Quanto tempo demora a entrega?</p>
-          <p>Landing pages: até 15 dias, com revisão de performance incluída no 30º dia. Sistemas maiores seguem deploy progressivo — o ambiente fica visível em produção desde o primeiro commit, não só na entrega final.</p>
-
-          <p class="sobre-label">Qual a diferença entre landing page, site institucional e sistema?</p>
-          <p>Landing page é arquitetura de decisão: cada elemento existe para conduzir uma ação específica. Site institucional apresenta e posiciona. Sistema (SaaS, aplicativo, plataforma) vai além: automatiza processos e escala com o negócio.</p>
-
-          <p class="sobre-label">O que acontece depois que o projeto fica pronto? Tem suporte?</p>
-          <p>Sim. O modelo AT-LAB inclui assinatura mensal com manutenção, infraestrutura ativa e suporte técnico contínuo. Você não compra "um site" — compra capacidade contínua de evolução.</p>
-
-          <p class="sobre-label">O código e o site são meus, ou fico dependente de você?</p>
-          <p>Propriedade total do código, zero lock-in. Sem CMS proprietário, sem dependência de plataforma — portabilidade completa garantida.</p>
-
-          <p class="sobre-label">Preciso pagar hospedagem separadamente?</p>
-          <p>Não. A arquitetura é serverless/edge (GitHub Pages + Cloudflare), com custo de infraestrutura zero incluso no serviço.</p>
-
-          <p class="sobre-label">Como funciona o primeiro contato?</p>
-          <p>Diagnóstico técnico gratuito, sem compromisso, com resposta em até 24h pelo WhatsApp.</p>
-        </div>
-      </div>
-      <footer class="modal-footer">
-        <p class="modal-footer-text">Engenharia · Percepção · Decisão</p>
-      </footer>
-    </div>
-  </div>
 
   <div class="vmodal-overlay" id="modal-video" role="dialog" aria-modal="true" aria-label="Vídeo de apresentação" hidden>
     <div class="vmodal-inner">
@@ -449,13 +424,39 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <script>
 (function(){
-  /* ── Modal Posicionamento ── */
-  const o=document.getElementById('modal-sobre'),b=document.getElementById('btn-sobre'),c=document.getElementById('modal-close-btn');
-  function openSobre(){o.hidden=false;o.classList.add('open');document.body.style.overflow='hidden';c.focus();if(window.loadGA)loadGA(function(){gtag('event','posicionamento_open')})}
-  function closeSobre(){o.classList.remove('open');document.body.style.overflow='';b.focus();o.hidden=true}
-  b.addEventListener('click',openSobre);
-  c.addEventListener('click',closeSobre);
-  o.addEventListener('click',function(e){if(e.target===o)closeSobre()});
+  /* ── Menu hamburguer ── */
+  const toggle=document.getElementById('menu-toggle');
+  const nav=document.getElementById('site-nav');
+  const scrim=document.getElementById('nav-scrim');
+  const firstLink=nav.querySelector('.nav-link,.nav-toggle');
+  const solToggle=document.getElementById('sol-toggle');
+  const solMenu=document.getElementById('sol-menu');
+
+  function openMenu(){
+    nav.hidden=false;scrim.hidden=false;
+    requestAnimationFrame(function(){nav.classList.add('open');scrim.style.opacity='1'});
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Fechar menu');
+    document.body.style.overflow='hidden';
+    firstLink.focus();
+  }
+  function closeMenu(){
+    nav.classList.remove('open');scrim.style.opacity='0';
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Abrir menu');
+    document.body.style.overflow='';
+    toggle.focus();
+    setTimeout(function(){nav.hidden=true;scrim.hidden=true},350);
+  }
+  toggle.addEventListener('click',function(){
+    toggle.getAttribute('aria-expanded')==='true'?closeMenu():openMenu();
+  });
+  scrim.addEventListener('click',closeMenu);
+  solToggle.addEventListener('click',function(){
+    const isOpen=solToggle.getAttribute('aria-expanded')==='true';
+    solToggle.setAttribute('aria-expanded',String(!isOpen));
+    solMenu.hidden=isOpen;
+  });
 
   /* ── Modal Vídeo ── */
   const vOverlay=document.getElementById('modal-video');
@@ -468,10 +469,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   vClose.addEventListener('click',closeVideo);
   vOverlay.addEventListener('click',function(e){if(e.target===vOverlay)closeVideo()});
 
-  /* ── Escape fecha qualquer modal aberta ── */
+  /* ── Escape fecha o que estiver aberto ── */
   document.addEventListener('keydown',function(e){
     if(e.key!=='Escape')return;
-    if(o.classList.contains('open'))closeSobre();
+    if(toggle.getAttribute('aria-expanded')==='true')closeMenu();
     if(vOverlay.classList.contains('open'))closeVideo();
   });
 })();
