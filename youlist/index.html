@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#060B14">
 
-  <title>iList — Ambiente de Foco Sem Distrações</title>
-  <meta name="description" content="iList é um ambiente de foco. Sem algoritmo. Sem distrações. Sem interferência. Você escolhe o que entra — e termina o que começa.">
+  <title>YouList — Ambiente de Foco Sem Distrações</title>
+  <meta name="description" content="YouList é um ambiente de foco. Sem algoritmo. Sem distrações. Sem interferência. Você escolhe o que entra — e termina o que começa.">
   <meta name="author" content="Alexandre Torres">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://alexandretorres.com.br/ilist/">
+  <link rel="canonical" href="https://alexandretorres.com.br/youlist/">
   <link rel="manifest" href="manifest.json">
 
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://alexandretorres.com.br/ilist/">
-  <meta property="og:site_name" content="iList">
-  <meta property="og:title" content="iList — Você lista. O show é por nossa conta.">
+  <meta property="og:url" content="https://alexandretorres.com.br/youlist/">
+  <meta property="og:site_name" content="YouList">
+  <meta property="og:title" content="YouList — Você lista. O show é por nossa conta.">
   <meta property="og:description" content="Um ambiente onde nada compete pela sua atenção. Sem algoritmo. Sem distrações. Só foco real.">
   <meta property="og:image" content="https://alexandretorres.com.br/assets/img/ilist-og.jpg">
   <meta property="og:image:width" content="1200">
@@ -32,13 +32,42 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "iList",
-    "applicationCategory": "ProductivityApplication",
-    "operatingSystem": "Web",
-    "url": "https://alexandretorres.com.br/ilist/",
-    "author": { "@type": "Person", "name": "Alexandre Torres" },
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://alexandretorres.com.br/youlist/#software",
+        "name": "YouList",
+        "url": "https://alexandretorres.com.br/youlist/",
+        "description": "YouList é um ambiente de foco. Sem algoritmo. Sem distrações. Sem interferência. Você escolhe o que entra — e termina o que começa.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "pt-BR",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "author": { "@id": "https://alexandretorres.com.br/#person" },
+        "isPartOf": { "@id": "https://alexandretorres.com.br/at-lab#service" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://alexandretorres.com.br/youlist/#webpage",
+        "url": "https://alexandretorres.com.br/youlist/",
+        "name": "YouList — Ambiente de Foco Sem Distrações",
+        "description": "YouList é um ambiente de foco. Sem algoritmo. Sem distrações. Sem interferência. Você escolhe o que entra — e termina o que começa.",
+        "inLanguage": "pt-BR",
+        "isPartOf": { "@id": "https://alexandretorres.com.br/#website" },
+        "about": { "@id": "https://alexandretorres.com.br/youlist/#software" },
+        "breadcrumb": { "@id": "https://alexandretorres.com.br/youlist/#breadcrumb" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://alexandretorres.com.br/youlist/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://alexandretorres.com.br/" },
+          { "@type": "ListItem", "position": 2, "name": "AT-LAB", "item": "https://alexandretorres.com.br/at-lab/" },
+          { "@type": "ListItem", "position": 3, "name": "YouList", "item": "https://alexandretorres.com.br/youlist/" }
+        ]
+      }
+    ]
   }
   </script>
 </head>
@@ -1751,7 +1780,7 @@
 
   <p class="hero-sub-headline">
     Foi o ambiente que te impede de terminar.<br>
-    iList remove isso — e só isso.
+    YouList remove isso — e só isso.
   </p>
 
   <div class="hero-actions">
@@ -1870,7 +1899,7 @@
       <div class="section-label">O que é</div>
       <h2 class="section-title">Um ambiente,<br>não um player.</h2>
       <p class="section-sub">
-        iList não é mais um reprodutor de vídeos.<br>
+        YouList não é mais um reprodutor de vídeos.<br>
         É o espaço onde você decide o que entra — e nada mais.<br>
         <span style="font-size:13px;">Uma decisão de <a href="https://alexandretorres.com.br" target="_blank" style="color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(255,153,0,0.3);">design intencional</a>, não acidental.</span>
       </p>
@@ -1930,7 +1959,7 @@
       <div class="prob-resolution">
         Isso não é falta de disciplina.<br>
         É arquitetura de distração.<br>
-        iList remove a arquitetura.<br>
+        YouList remove a arquitetura.<br>
         <span style="font-size:12px;color:var(--muted2);font-family:var(--mono);display:block;margin-top:10px;">Entenda melhor a filosofia por trás disso no <a href="https://instagram.com/aletordev" target="_blank" style="color:var(--accent);text-decoration:none;">perfil do desenvolvedor</a>.</span>
       </div>
     </div>
@@ -2073,7 +2102,7 @@
       <div class="anim-card" style="transition-delay:0.2s">
         <div class="acard-label">🔍 Input unificado</div>
         <div class="acard-title">Um campo. Zero configuração.</div>
-        <p class="acard-desc">Cole qualquer coisa. O iList identifica o tipo e age imediatamente.</p>
+        <p class="acard-desc">Cole qualquer coisa. O YouList identifica o tipo e age imediatamente.</p>
         <div class="demo-input-wrap">
           <div class="demo-input-row">
             <span class="demo-input-icon">🔗</span>
@@ -2237,7 +2266,7 @@
   <div class="open-inner">
     <div class="open-text reveal">
       <div class="section-label">Projeto aberto</div>
-      <h2 class="section-title">iList não tenta<br>te prender.</h2>
+      <h2 class="section-title">YouList não tenta<br>te prender.</h2>
 
       <p>É um projeto aberto — para quem estuda, constrói ou precisa de foco real. Sem plano pago, sem anúncio, sem cadastro.</p>
 
@@ -2339,7 +2368,7 @@
   </p>
   <div class="cta-btns reveal" style="transition-delay:0.24s">
     <a href="https://startup-ldt.com.br/ilist/" target="_blank" class="btn-primary" style="font-size:16px;padding:17px 36px;">
-      ▶ Abrir iList agora
+      ▶ Abrir YouList agora
     </a>
     <a href="https://github.com/aletoapp/ilist" target="_blank" class="btn-ghost">
       Ver código →
@@ -2355,11 +2384,11 @@
   <div class="footer-bar" style="position:absolute;top:0;left:0;right:0;margin:0;"></div>
   <div class="footer-brand">
     <div class="footer-logo">i<span>list</span></div>
-    <p class="footer-tagline">iList não tenta te prender.<br>Só remove o que estava te prendendo.</p>
+    <p class="footer-tagline">YouList não tenta te prender.<br>Só remove o que estava te prendendo.</p>
   </div>
   <div class="footer-right">
-    <div>© 2026 iList &nbsp;·&nbsp; <a href="https://alexandretorres.com.br" target="_blank">Alexandre Torres</a></div>
-    <div style="margin-top:4px;"><a href="https://instagram.com/aletor.app" target="_blank">@a</a> &nbsp;·&nbsp; iList v2.0 &nbsp;·&nbsp; <a href="https://github.com/aletoapp" target="_blank">GitHub →</a></div>
+    <div>© 2026 YouList &nbsp;·&nbsp; <a href="https://alexandretorres.com.br" target="_blank">Alexandre Torres</a></div>
+    <div style="margin-top:4px;"><a href="https://instagram.com/aletor.app" target="_blank">@a</a> &nbsp;·&nbsp; YouList v2.0 &nbsp;·&nbsp; <a href="https://github.com/aletoapp" target="_blank">GitHub →</a></div>
   </div>
 </footer>
 
