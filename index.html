@@ -1,1428 +1,1014 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0d12">
+<!-- charset e viewport SEMPRE antes de qualquer script — requisito de Best Practices -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="DocForm">
-  <link rel="apple-touch-icon" href="assets/img/icon-192.png">
-
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/img/icon-512.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon.png">
-
-  <title>DocForm — Formatação Profissional de Documentos</title>
-  <meta name="description" content="Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.">
-  <meta name="author" content="Alexandre Torres">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://alexandretorres.com.br/docform/">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://alexandretorres.com.br/docform/#software",
-        "name": "DocForm",
-        "url": "https://alexandretorres.com.br/docform/",
-        "applicationUrl": "https://alexandretorres.com.br/docform/app.html",
-        "description": "Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web Browser",
-        "inLanguage": "pt-BR",
-        "isAccessibleForFree": true,
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-        "author": { "@id": "https://alexandretorres.com.br/#person" },
-        "isPartOf": { "@id": "https://alexandretorres.com.br/at-lab#service" }
-      },
-      {
-        "@type": "WebPage",
-        "@id": "https://alexandretorres.com.br/docform/#webpage",
-        "url": "https://alexandretorres.com.br/docform/",
-        "name": "DocForm — Formatação Profissional de Documentos",
-        "description": "Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.",
-        "inLanguage": "pt-BR",
-        "isPartOf": { "@id": "https://alexandretorres.com.br/#website" },
-        "about": { "@id": "https://alexandretorres.com.br/docform/#software" },
-        "breadcrumb": { "@id": "https://alexandretorres.com.br/docform/#breadcrumb" }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://alexandretorres.com.br/docform/#breadcrumb",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://alexandretorres.com.br/" },
-          { "@type": "ListItem", "position": 2, "name": "AT-LAB", "item": "https://alexandretorres.com.br/at-lab/" },
-          { "@type": "ListItem", "position": 3, "name": "DocForm", "item": "https://alexandretorres.com.br/docform/" }
-        ]
-      }
-    ]
+<!-- Google Tag Manager / GA4 — Carregamento Otimizado -->
+<script>
+(function(){
+  var loaded=false;
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments)}
+  window.gtag=gtag;
+  window.loadGA=loadGA;
+  function loadGA(cb){
+    if(loaded){cb&&cb();return}
+    loaded=true;
+    var s=document.createElement('script');
+    s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9';
+    document.head.appendChild(s);
+    gtag('js',new Date());
+    gtag('config','G-6N2WJ5YKW9');
+    events.forEach(function(e){window.removeEventListener(e,loadGA)});
+    clearTimeout(fallback);
+    cb&&cb();
   }
-  </script>
+  var events=['scroll','mousemove','touchstart','keydown'];
+  events.forEach(function(e){window.addEventListener(e,loadGA,{passive:true,once:true})});
+  var fallback=setTimeout(loadGA,2500);
+  window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('.btn-whats').forEach(function(el){
+      el.addEventListener('click',function(){
+        loadGA(function(){gtag('event','whatsapp_click')});
+      });
+    });
+  });
+})();
+</script>
 
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://alexandretorres.com.br/docform/">
-  <meta property="og:site_name" content="DocForm">
-  <meta property="og:title" content="DocForm — Documentos Profissionais a partir de IA">
-  <meta property="og:description" content="Cole textos do ChatGPT ou Gemini e gere documentos formatados em segundos.">
-  <meta property="og:image" content="https:assets/img/og.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:locale" content="pt_BR">
+<!-- SEO PRIMARY -->
+<title>Programador e Web Designer na Grande Vitória-ES | Alexandre Torres</title>
+<meta name="description" content="Programador e desenvolvedor web na Grande Vitória (Serra, Vitória, Vila Velha, Cariacica) e atendimento remoto em todo o Brasil. Criação de sites, landing pages de alta conversão, web design premium e sistemas sob medida.">
+<meta name="author" content="Alexandre Torres">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://alexandretorres.com.br/">
+<meta name="theme-color" content="#080807">
+<meta name="referrer" content="no-referrer-when-downgrade">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="DocForm — Formatação de Documento Profissional">
-  <meta name="twitter:image" content="assets/img/og.jpg">
+<!-- PRELOAD CRITICAL FONTS & LOGO -->
+<link rel="preload" href="/assets/fonts/subset-PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/subset-DMMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/img/logo-alexandre-torres-web.webp" as="image" fetchpriority="high">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <script src="assets/js/script.js" defer></script>
+<!-- FAVICONS -->
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon-ouro.svg">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-ouro-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-ouro-32x32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/img/favicon-ouro-64x64.png">
+<link rel="icon" type="image/png" sizes="128x128" href="/assets/img/favicon-ouro-128x128.png">
+<link rel="icon" type="image/png" sizes="256x256" href="/assets/img/favicon-ouro-256x256.png">
+<link rel="apple-touch-icon" type="image/png" sizes="512x512" href="/assets/img/favicon-ouro-512x512.png">
+
+<!-- OPEN GRAPH -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alexandretorres.com.br/">
+<meta property="og:title" content="Alexandre Torres — Programador & Web Designer na Grande Vitória-ES">
+<meta property="og:description" content="Programador e desenvolvedor web na Grande Vitória (Serra, Vitória, Vila Velha, Cariacica) e atendimento remoto no Brasil todo. Sites, landing pages e sistemas que transformam atenção em decisão.">
+<meta property="og:image" content="https://alexandretorres.com.br/assets/img/og.jpg">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Alexandre Torres">
+
+<!-- TWITTER CARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Alexandre Torres — Programador & Web Designer na Grande Vitória-ES">
+<meta name="twitter:description" content="Programador e desenvolvedor web na Grande Vitória (Serra, Vitória, Vila Velha, Cariacica) e atendimento remoto no Brasil todo. Sites, landing pages e sistemas que transformam atenção em decisão.">
+<meta name="twitter:image" content="https://alexandretorres.com.br/assets/img/og.jpg">
+
+<!-- JSON-LD STRUCTURED DATA -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://alexandretorres.com.br/#person",
+      "name": "Alexandre Torres",
+      "url": "https://alexandretorres.com.br",
+      "inLanguage": "pt-BR",
+      "jobTitle": "Programador, Desenvolvedor Web e Web Designer",
+      "description": "Programador e desenvolvedor web na Grande Vitória-ES, especialista em engenharia web, arquitetura de conversão e comunicação estratégica digital. Atende presencialmente toda a Grande Vitória e remotamente em todo o Brasil.",
+      "knowsAbout": ["Programação","Desenvolvimento Web","Web Design","Software Development","UX Strategy","Conversion Architecture","Digital Positioning","Criação de Sites","SEO Local"],
+      "homeLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Serra",
+          "addressRegion": "ES",
+          "addressCountry": "BR"
+        }
+      },
+      "sameAs": [
+        "https://alexandretorres.com.br",
+        "https://share.google/XCn1VkUwDXK7Kj0Db",
+        "https://github.com/alexandretorres",
+        "https://www.linkedin.com/in/aletordev",
+        "https://www.instagram.com/aletordev",
+        "https://www.youtube.com/@aletordev"
+      ]
+    },
+    {
+      "@type": ["ProfessionalService","LocalBusiness"],
+      "@id": "https://alexandretorres.com.br/#service",
+      "name": "Alexandre Torres — Programador & Web Designer",
+      "url": "https://alexandretorres.com.br",
+      "image": "https://alexandretorres.com.br/assets/img/og.jpg",
+      "isPartOf": { "@id": "https://alexandretorres.com.br/#website" },
+      "inLanguage": "pt-BR",
+      "priceRange": "$$$",
+      "description": "Programador e desenvolvedor web na Grande Vitória-ES e atendimento remoto em todo o Brasil: criação de sites, landing pages, web design premium e engenharia de software.",
+      "provider": {"@id": "https://alexandretorres.com.br/#person"},
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Serra",
+        "addressRegion": "ES",
+        "addressCountry": "BR"
+      },
+      "areaServed": [
+        {"@type":"City","name":"Serra"},
+        {"@type":"City","name":"Vitória"},
+        {"@type":"City","name":"Vila Velha"},
+        {"@type":"City","name":"Cariacica"},
+        {"@type":"City","name":"Viana"},
+        {"@type":"City","name":"Guarapari"},
+        {"@type":"City","name":"Fundão"},
+        {"@type":"State","name":"Espírito Santo"},
+        {"@type":"Country","name":"Brasil"}
+      ],
+      "sameAs": [
+        "https://share.google/XCn1VkUwDXK7Kj0Db",
+        "https://github.com/alexandretorres",
+        "https://www.linkedin.com/in/aletordev",
+        "https://www.instagram.com/aletordev",
+        "https://www.youtube.com/@aletordev"
+      ],
+      "availableChannel": {
+        "@type":"ServiceChannel",
+        "serviceUrl":"https://alexandretorres.com.br/atendimento/"
+      },
+      "review": [
+        {
+          "@type":"Review",
+          "author":{"@type":"Person","name":"Elson Costa"},
+          "reviewBody":"Sou Elson Costa, servidor federal. Utilizo o DyList Pro e indico o web design alexandretorres.com.br",
+          "reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},
+          "inLanguage":"pt-BR",
+          "url":"https://www.youtube.com/shorts/4zdPr3ByZTY"
+        },
+        {
+          "@type":"Review",
+          "author":{"@type":"Person","name":"Jonatas Costa"},
+          "reviewBody":"Excelente profissional!",
+          "reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},
+          "inLanguage":"pt-BR",
+          "datePublished":"2023-05-01"
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://alexandretorres.com.br/#website",
+      "url": "https://alexandretorres.com.br/",
+      "name": "Alexandre Torres",
+      "description": "Programador e desenvolvedor web na Grande Vitória-ES: criação de sites, landing pages de alta conversão, web design premium e sistemas sob medida.",
+      "inLanguage": "pt-BR",
+      "publisher": { "@id": "https://alexandretorres.com.br/#person" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://alexandretorres.com.br/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://alexandretorres.com.br/#webpage",
+      "url": "https://alexandretorres.com.br/",
+      "name": "Programador e Web Designer na Grande Vitória-ES | Alexandre Torres",
+      "description": "Programador e desenvolvedor web na Grande Vitória (Serra, Vitória, Vila Velha, Cariacica) e atendimento remoto em todo o Brasil. Criação de sites, landing pages de alta conversão, web design premium e sistemas sob medida.",
+      "inLanguage": "pt-BR",
+      "isPartOf": { "@id": "https://alexandretorres.com.br/#website" },
+      "about": { "@id": "https://alexandretorres.com.br/#person" },
+      "breadcrumb": { "@id": "https://alexandretorres.com.br/#breadcrumb" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://alexandretorres.com.br/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://alexandretorres.com.br/" }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- CSS crítico (root, reset, base, layout) — carregado de forma síncrona para evitar FOUC/CLS -->
+<link rel="stylesheet" href="/assets/css/01-root.css">
+<link rel="stylesheet" href="/assets/css/02-reset.css">
+<link rel="stylesheet" href="/assets/css/03-base.css">
+<link rel="stylesheet" href="/assets/css/04-layout.css">
+
+<!-- CSS secundário — carregado de forma assíncrona (não bloqueia o first paint) -->
+<link rel="preload" href="/assets/css/05-components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="/assets/css/06-sections.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="/assets/css/07-utilities.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="/assets/css/08-responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="/assets/css/09-accessibility.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="/assets/css/10-a11y-widget.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link rel="stylesheet" href="/assets/css/05-components.css">
+  <link rel="stylesheet" href="/assets/css/06-sections.css">
+  <link rel="stylesheet" href="/assets/css/07-utilities.css">
+  <link rel="stylesheet" href="/assets/css/08-responsive.css">
+  <link rel="stylesheet" href="/assets/css/09-accessibility.css">
+  <link rel="stylesheet" href="/assets/css/10-a11y-widget.css">
+</noscript>
 
 <style>
-:root {
-  --bg:         #0a0d12;
-  --surface:    #141920;
-  --border:     #2a3340;
-  --border-hi:  #3a4755;
-  --ink:        #c9a84c;
-  --ink-hi:     #e8c97a;
-  --ink-dim:    rgba(201,168,76,0.10);
-  --ink-glow:   rgba(201,168,76,0.18);
-  --ink-border: rgba(201,168,76,0.28);
-  --text:       #dde4ec;
-  --text-2:     #8b95a2;
-  --text-3:     #4d5663;
-  --ok:         #3fb950;
-  --blue:       #388bfd;
-  --serif:      'EB Garamond', Georgia, serif;
-  --sans:       'DM Sans', system-ui, sans-serif;
-  --mono:       'DM Mono', monospace;
+@font-face{font-family:'Playfair Display';src:url('/assets/fonts/subset-PlayfairDisplay-Black.woff2') format('woff2'),url('/assets/fonts/subset-PlayfairDisplay-Black.woff') format('woff');font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('/assets/fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2'),url('/assets/fonts/subset-PlayfairDisplay-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Sans';src:url('/assets/fonts/subset-DMSans-9ptRegular.woff2') format('woff2'),url('/assets/fonts/subset-DMSans-9ptRegular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Mono';src:url('/assets/fonts/subset-DMMono-Regular.woff2') format('woff2'),url('/assets/fonts/subset-DMMono-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.7;overflow-x:hidden}
+#site-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 2.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,7,0.88);border-bottom:1px solid rgba(200,169,110,0.08);backdrop-filter:blur(16px) saturate(1.4)}
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2.5rem 10rem;position:relative;background:#080807}
+.hl-line{display:block;font-family:'Playfair Display',serif;text-transform:uppercase;letter-spacing:-0.02em;line-height:1.0;opacity:0}
+.hl-1{font-size:clamp(2.4rem,6vw,6rem);font-weight:700;color:#ffffff;margin-bottom:0.04em}
+.hl-2{font-size:clamp(3.2rem,9vw,9rem);font-weight:900;color:#c8a96e;margin-bottom:0.1em}
+.hl-3{font-size:clamp(2.4rem,6vw,6rem);font-weight:700;color:#ffffff}
+.btn-primary{display:inline-block;background:#c8a96e;color:#080807;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;padding:1rem 2.4rem;text-decoration:none;position:relative;overflow:hidden}
+[data-theme="light"] body{background:#f5f0e8;color:#0a0907}
+[data-theme="light"] #hero{background:#f5f0e8}
+[data-theme="light"] .hl-1{color:#0a0907}
+[data-theme="light"] .hl-2{color:#9c7c3e}
+[data-theme="light"] .hl-3{color:#0a0907}
+
+/* LANG SWITCHER */
+.nav-right{display:flex;align-items:center;gap:1.25rem}
+.lang-switcher{display:flex;align-items:center;background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.15);border-radius:6px;overflow:hidden;font-family:'DM Mono',monospace}
+.lang-btn{background:none;border:none;color:rgba(200,169,110,0.45);font-family:'DM Mono',monospace;font-size:0.62rem;font-weight:400;letter-spacing:0.10em;text-transform:uppercase;padding:0.3rem 0.55rem;cursor:pointer;transition:color 0.2s,background 0.2s;line-height:1;position:relative}
+.lang-btn:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(200,169,110,0.18)}
+.lang-btn:hover{color:rgba(200,169,110,0.75)}
+.lang-btn.active{color:#c8a96e;font-weight:500}
+[data-theme="light"] .lang-switcher{background:rgba(156,124,62,0.07);border-color:rgba(156,124,62,0.2)}
+[data-theme="light"] .lang-btn{color:rgba(156,124,62,0.45)}
+[data-theme="light"] .lang-btn:hover{color:rgba(156,124,62,0.75)}
+[data-theme="light"] .lang-btn.active{color:#9c7c3e}
+[data-theme="light"] .lang-btn:not(:last-child)::after{background:rgba(156,124,62,0.2)}
+
+/* FIX 1: Ocultar label texto do theme toggle */
+.tt-label{display:none !important}
+
+/* FIX 2: CTA Hero acima dos stats */
+.hero-cta-row{position:relative;z-index:10}
+.hero-stats{position:relative;z-index:5}
+
+/* DOR CTA LINK — Fix 3 */
+.dor-method-link{margin-top:1.75rem;display:inline-block}
+.dor-method-link a{display:inline-flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#c8a96e;text-decoration:none;border-bottom:1px solid rgba(200,169,110,0.35);padding-bottom:3px;transition:border-color 0.2s,color 0.2s}
+.dor-method-link a:hover{color:#e0c285;border-color:rgba(200,169,110,0.7)}
+.dor-method-link a::after{content:'↗';font-size:0.8em;transition:transform 0.2s}
+.dor-method-link a:hover::after{transform:translate(2px,-2px)}
+.dor-method-sub{margin-top:0.45rem;font-size:0.7rem;color:rgba(240,236,226,0.38);font-family:'DM Sans',sans-serif;letter-spacing:0.02em}
+[data-theme="light"] .dor-method-link a{color:#9c7c3e;border-color:rgba(156,124,62,0.35)}
+[data-theme="light"] .dor-method-link a:hover{color:#7a5e28}
+[data-theme="light"] .dor-method-sub{color:rgba(10,9,7,0.4)}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ===== MENU HAMBÚRGUER (herdado do index-velho) ===== */
+.hamburger{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.18);border-radius:50%;cursor:pointer;padding:0;flex-shrink:0;transition:border-color .25s ease,background .25s ease,box-shadow .25s ease}
+.hamburger:hover{border-color:#c8a96e;background:rgba(28,25,18,.55);box-shadow:0 0 0 4px rgba(200,164,100,.05),0 0 22px rgba(200,164,100,.08)}
+.hamburger-box{position:relative;width:14px;height:9px}
+.hamburger-line{position:absolute;left:0;width:100%;height:1px;background:#f0ece2;transition:transform .3s ease,opacity .3s ease,top .3s ease}
+.hamburger-line:nth-child(1){top:0}
+.hamburger-line:nth-child(2){top:50%;transform:translateY(-50%)}
+.hamburger-line:nth-child(3){top:100%;transform:translateY(-100%)}
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(1){top:50%;transform:translateY(-50%) rotate(45deg)}
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(2){opacity:0}
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(3){top:50%;transform:translateY(-50%) rotate(-45deg)}
+[data-theme="light"] .hamburger{background:rgba(156,124,62,0.08);border-color:rgba(156,124,62,0.22)}
+[data-theme="light"] .hamburger:hover{border-color:#9c7c3e;background:rgba(156,124,62,.12)}
+[data-theme="light"] .hamburger-line{background:#0a0907}
+
+.mnav-scrim{position:fixed;inset:0;background:transparent;z-index:198}
+.mnav-scrim[hidden]{display:none}
+
+#mobile-nav{position:fixed;top:70px;left:20px;z-index:199;width:min(92vw,320px);max-height:calc(100vh - 100px);overflow-y:auto;scrollbar-gutter:stable;background:rgba(28,25,18,.94);backdrop-filter:blur(10px);border:1px solid rgba(200,164,100,.14);border-radius:3px;box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(200,164,100,.08);padding:6px 0 14px;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top left;transition:opacity .28s ease,transform .28s ease,visibility 0s linear .28s;scrollbar-width:thin;scrollbar-color:rgba(200,164,100,.55) transparent}
+#mobile-nav::-webkit-scrollbar{width:2px}
+#mobile-nav::-webkit-scrollbar-track{background:transparent}
+#mobile-nav::-webkit-scrollbar-thumb{background:rgba(200,164,100,.55);border-radius:2px}
+#mobile-nav::-webkit-scrollbar-thumb:hover{background:#c8a96e}
+#mobile-nav[hidden]{display:none}
+#mobile-nav.open{opacity:1;visibility:visible;transform:translateY(0) scale(1);transition:opacity .28s ease,transform .28s ease}
+[data-theme="light"] #mobile-nav{background:rgba(245,240,232,.97);border-color:rgba(156,124,62,.25);box-shadow:0 24px 60px rgba(0,0,0,.12),inset 0 1px 0 rgba(156,124,62,.08)}
+
+.mnav-list{list-style:none;display:flex;flex-direction:column;width:100%}
+.mnav-item{border-top:1px solid #666;padding:0;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.mnav-item:last-child{border-bottom:1px solid #666}
+#mobile-nav.open .mnav-item{opacity:1;transform:translateY(0)}
+#mobile-nav.open .mnav-item:nth-child(1){transition-delay:.04s}
+#mobile-nav.open .mnav-item:nth-child(2){transition-delay:.07s}
+#mobile-nav.open .mnav-item:nth-child(3){transition-delay:.10s}
+#mobile-nav.open .mnav-item:nth-child(4){transition-delay:.13s}
+#mobile-nav.open .mnav-item:nth-child(5){transition-delay:.16s}
+#mobile-nav.open .mnav-item:nth-child(6){transition-delay:.19s}
+[data-theme="light"] .mnav-item{border-color:rgba(10,9,7,.15)}
+[data-theme="light"] .mnav-item:last-child{border-bottom-color:rgba(10,9,7,.15)}
+
+.mnav-link,.mnav-toggle{position:relative;font-family:'DM Mono',monospace;font-weight:400;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:#c8a464;text-decoration:none;background:none;border:none;cursor:pointer;display:flex;align-items:center;width:100%;min-height:48px;text-align:left;padding:13px 44px 13px 22px;transition:color .25s ease,background .25s ease,padding-left .25s ease}
+.mnav-link::before{content:'';position:absolute;left:0;top:9px;bottom:9px;width:2px;background:#c8a464;transform:scaleY(0);transform-origin:center;transition:transform .25s ease}
+.mnav-link::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(200,164,100,.09),transparent 80%);opacity:0;transition:opacity .25s ease;pointer-events:none}
+.mnav-link:hover{color:#e1bd78;padding-left:27px}
+.mnav-link:hover::before{transform:scaleY(1)}
+.mnav-link:hover::after{opacity:1}
+[data-theme="light"] .mnav-link,[data-theme="light"] .mnav-toggle{color:#7a5e28}
+[data-theme="light"] .mnav-link:hover{color:#9c7c3e}
+
+.mnav-dropdown{list-style:none;display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.mnav-dropdown:not([hidden]){grid-template-rows:1fr}
+.mnav-dropdown>*{overflow:hidden}
+.mnav-dropdown ul{list-style:none;display:flex;flex-direction:column;gap:0;padding:6px 8px 10px 14px;margin:0 14px 10px;background:rgba(42,37,27,.94);border-left:1px solid rgba(200,164,100,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 10px 24px rgba(0,0,0,.18)}
+.mnav-dropdown li{list-style:none;border-bottom:1px solid rgba(102,102,102,.55)}
+.mnav-dropdown li:last-child{border-bottom:0}
+.mnav-dropdown.contato ul{background:rgba(38,32,21,.96);border-left-color:rgba(200,164,100,.5)}
+.mnav-dropdown .cta-row{border-top:1px solid rgba(200,164,100,.2);border-bottom:0!important;margin-top:2px;padding-top:2px}
+.mnav-dropdown .cta-link{display:flex!important;align-items:center;gap:8px;color:#c8a464!important;font-weight:500}
+.mnav-dropdown .cta-link svg{flex-shrink:0;opacity:.85}
+.mnav-dropdown .cta-link:hover{color:#f0d18f!important}
+.mnav-dropdown .cta-link:hover svg{opacity:1}
+.mnav-dropdown a{position:relative;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:#cbbf9f;text-decoration:none;transition:color .25s ease,transform .25s ease,background .25s ease,padding-left .25s ease;display:block;padding:13px 14px 13px 10px}
+.mnav-dropdown a::after{content:'';position:absolute;left:10px;right:10px;bottom:0;height:1px;background:rgba(200,164,100,.16);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.mnav-dropdown li:last-child a::after{display:none}
+.mnav-dropdown a:hover{color:#f0d18f;padding-left:22px;background:rgba(200,164,100,.055)}
+.mnav-dropdown a:hover::after{transform:scaleX(1)}
+[data-theme="light"] .mnav-dropdown ul{background:rgba(228,218,198,.95);border-left-color:rgba(156,124,62,.4)}
+[data-theme="light"] .mnav-dropdown.contato ul{background:rgba(220,208,182,.96)}
+[data-theme="light"] .mnav-dropdown li{border-bottom-color:rgba(10,9,7,.12)}
+[data-theme="light"] .mnav-dropdown a{color:#4a3c22}
+[data-theme="light"] .mnav-dropdown a:hover{color:#7a5e28;background:rgba(156,124,62,.08)}
+
+@media(max-width:760px){#mobile-nav{width:min(92vw,300px)}}
+@media(max-width:600px){
+  #mobile-nav{top:64px;left:14px;width:min(94vw,290px)}
+  .mnav-link,.mnav-toggle{font-size:14px;padding-left:18px;padding-right:40px}
+  .mnav-dropdown ul{margin-left:10px;margin-right:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  #mobile-nav,.mnav-scrim,.hamburger-line,.mnav-item,.mnav-dropdown{transition:none!important}
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-
-body {
-  font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+/* ===== PROVA SOCIAL ===== */
+#prova-social{padding:8rem 2.5rem;background:#0c0c0a;border-top:1px solid rgba(200,169,110,.08);border-bottom:1px solid rgba(200,169,110,.08)}
+.social-proof-header{max-width:760px;margin:0 auto 4rem;text-align:center}
+.social-proof-header .rule{display:block;width:42px;height:1px;background:#c8a96e;margin:1.25rem auto 1.75rem;opacity:.65}
+.social-proof-header h2{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4.8rem);line-height:1.02;color:#fff}
+.social-proof-header h2 em{color:#c8a96e;font-style:normal}
+.social-proof-header>p:last-child{max-width:620px;margin:1.5rem auto 0;color:rgba(240,236,226,.58)}
+.reviews-grid{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(200,169,110,.15)}
+.review-card{position:relative;background:#11110f;padding:2.5rem}
+.review-mark{font-family:'Playfair Display',serif;color:#c8a96e;font-size:4rem;line-height:.7;margin-bottom:1.4rem}
+.review-text{font-family:'Playfair Display',serif;font-size:clamp(1.15rem,2vw,1.45rem);line-height:1.45;color:#f0ece2;min-height:5.2rem}
+.review-meta{display:flex;flex-direction:column;gap:.2rem;margin-top:2rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.review-meta strong{color:#c8a96e;font-weight:400}
+.review-meta span{color:rgba(240,236,226,.38)}
+.review-link{display:inline-block;margin-top:1.5rem;color:#c8a96e;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(200,169,110,.3);padding-bottom:3px}
+.review-link:hover{border-color:#c8a96e}
+.reviews-google{max-width:980px;margin:2rem auto 0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,236,226,.35)}
+.reviews-google-links{display:flex;flex-wrap:wrap;gap:.7rem 1rem;justify-content:flex-end}
+.reviews-google-links a{color:rgba(200,169,110,.68);text-decoration:none}
+.reviews-google-links a:hover{color:#c8a96e}
+[data-theme="light"] #prova-social{background:#eee8dc;border-color:rgba(156,124,62,.12)}
+[data-theme="light"] .social-proof-header h2{color:#0a0907}
+[data-theme="light"] .social-proof-header>p:last-child{color:rgba(10,9,7,.58)}
+[data-theme="light"] .reviews-grid{background:rgba(156,124,62,.18)}
+[data-theme="light"] .review-card{background:#f5f0e8}
+[data-theme="light"] .review-text{color:#0a0907}
+[data-theme="light"] .review-meta span{color:rgba(10,9,7,.45)}
+[data-theme="light"] .reviews-google{color:rgba(10,9,7,.4)}
+@media(max-width:700px){
+  #prova-social{padding:6rem 1.25rem}
+  .reviews-grid{grid-template-columns:1fr}
+  .review-card{padding:2rem}
+  .reviews-google{flex-direction:column;align-items:flex-start}
+  .reviews-google-links{justify-content:flex-start}
 }
 
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.028;
-}
-
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-/* ── HEADER ─────────────────────────────── */
-header {
-  position: fixed; top: 64px; left: 0; right: 0; z-index: 500;
-  height: 56px;
-  background: rgba(10,13,18,0.88);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 clamp(16px,5vw,48px);
-}
-
-.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo-mark {
-  width: 34px; height: 34px;
-  background: var(--ink-dim);
-  border: 1.5px solid var(--ink-border);
-  border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem;
-  transition: border-color .2s, box-shadow .2s;
-  flex-shrink: 0;
-}
-.logo:hover .logo-mark { border-color: var(--ink); box-shadow: 0 0 12px var(--ink-glow); }
-.logo-text { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); line-height: 1; letter-spacing: -0.01em; }
-.logo-sub  { font-family: var(--mono); font-size: 0.5rem; color: var(--text-3); letter-spacing: .18em; text-transform: uppercase; display: block; margin-top: 2px; }
-
-.hdr-right { display: flex; align-items: center; gap: 14px; }
-
-/* ── LANG SWITCHER ───────────────────────── */
-.lang-switcher {
-  display: flex; align-items: center; gap: 1px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 3px 5px;
-}
-.lang-btn {
-  background: none; border: none; cursor: pointer;
-  font-family: var(--mono); font-size: 0.6rem;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--text-3);
-  padding: 4px 9px; border-radius: 5px;
-  transition: color .15s, background .15s;
-  line-height: 1;
-}
-.lang-btn:hover  { color: var(--text-2); }
-.lang-btn.active { color: var(--ink); background: var(--ink-dim); }
-.lang-sep { color: var(--border-hi); font-size: 0.55rem; padding: 0 1px; pointer-events: none; user-select: none; }
-
-.btn-app {
-  display: flex; align-items: center; gap: 7px;
-  background: var(--ink); color: #0a0d12;
-  text-decoration: none; padding: 7px 16px;
-  border-radius: 8px; font-size: 0.8rem; font-weight: 600;
-  letter-spacing: 0.01em;
-  transition: background .2s, transform .15s;
-  white-space: nowrap;
-}
-.btn-app:hover { background: var(--ink-hi); transform: translateY(-1px); }
-
-/* ── HERO ────────────────────────────────── */
-.hero {
-  min-height: 100dvh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 120px clamp(16px,5vw,48px) 80px;
-  position: relative; overflow: hidden;
-}
-.hero::after {
-  content: ''; position: absolute;
-  width: 700px; height: 700px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
-  top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none;
-}
-.hero-inner { max-width: 820px; text-align: center; position: relative; z-index: 1; }
-
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-family: var(--mono); font-size: 0.65rem;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--ink); background: var(--ink-dim); border: 1px solid var(--ink-border);
-  padding: 5px 13px; border-radius: 20px; margin-bottom: 28px;
-  animation: fadeDown .6s ease both;
-}
-.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); flex-shrink: 0; }
-
-.hero-h1 {
-  font-family: var(--serif);
-  font-size: clamp(2.6rem, 6.5vw, 4.4rem); font-weight: 500;
-  line-height: 1.1; letter-spacing: -0.02em; color: var(--text);
-  margin-bottom: 20px; animation: fadeDown .6s .1s ease both;
-}
-.hero-h1 em { font-style: italic; color: var(--ink); }
-
-.hero-sub {
-  font-size: clamp(.95rem, 2.2vw, 1.12rem); color: var(--text-2);
-  max-width: 560px; margin: 0 auto 40px; line-height: 1.65;
-  animation: fadeDown .6s .18s ease both;
-}
-
-.hero-ctas {
-  display: flex; align-items: center; justify-content: center;
-  gap: 12px; flex-wrap: wrap; margin-bottom: 12px;
-  animation: fadeDown .6s .26s ease both;
-}
-
-/* Segunda linha de CTAs — espaçamento menor */
-.hero-ctas-secondary {
-  margin-bottom: 44px;
-  animation: fadeDown .6s .32s ease both;
-}
-
-/* Botões da linha secundária — ligeiramente menores */
-.hero-ctas-secondary .cta-dev,
-.hero-ctas-secondary .cta-secondary {
-  padding: 9px 18px;
-  font-size: .82rem;
-  opacity: 0.78;
-}
-.hero-ctas-secondary .cta-dev:hover,
-.hero-ctas-secondary .cta-secondary:hover { opacity: 1; }
-
-.cta-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--ink); color: #0a0d12; text-decoration: none;
-  padding: 13px 26px; border-radius: 10px;
-  font-size: .9rem; font-weight: 700; letter-spacing: .01em;
-  transition: background .2s, transform .15s, box-shadow .2s;
-}
-.cta-primary:hover { background: var(--ink-hi); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,.25); }
-
-.cta-dev {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: var(--ink); text-decoration: none;
-  padding: 13px 22px; border-radius: 10px;
-  font-size: .9rem; font-weight: 600; border: 1px solid var(--ink-border);
-  transition: color .2s, border-color .2s, background .2s, transform .15s;
-  letter-spacing: .01em;
-}
-.cta-dev:hover { color: var(--ink-hi); border-color: var(--ink); background: var(--ink-dim); transform: translateY(-1px); }
-.cta-dev-arrow { font-size: .75rem; opacity: .7; }
-
-.cta-secondary {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: var(--text-2); text-decoration: none;
-  padding: 13px 22px; border-radius: 10px; font-size: .9rem;
-  border: 1px solid var(--border-hi);
-  transition: color .2s, border-color .2s, background .2s;
-}
-.cta-secondary:hover { color: var(--text); background: var(--surface); }
-
-/* GitHub button — ícone SVG inline */
-.cta-github { gap: 8px; }
-.cta-github svg { flex-shrink: 0; opacity: .85; }
-.cta-github:hover svg { opacity: 1; }
-
-.hero-pipeline {
-  display: inline-flex; align-items: center;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; overflow: hidden;
-  animation: fadeDown .6s .38s ease both; max-width: 100%; flex-wrap: wrap;
-}
-.pipeline-step {
-  display: flex; align-items: center; gap: 8px;
-  padding: 12px 18px; font-size: .8rem; color: var(--text-2);
-}
-.pipeline-step + .pipeline-step { border-left: 1px solid var(--border); }
-.pipeline-step .p-label { white-space: nowrap; }
-
-/* ── SECTIONS ────────────────────────────── */
-section { position: relative; z-index: 1; }
-.section-wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(16px,5vw,48px); }
-
-.section-label { font-family: var(--mono); font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 10px; }
-.section-h2 { font-family: var(--serif); font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px; }
-.section-h2 em { font-style: italic; color: var(--ink); }
-.section-desc { font-size: .95rem; color: var(--text-2); max-width: 480px; line-height: 1.65; }
-
-/* ── COMO FUNCIONA ───────────────────────── */
-.como-funciona { padding: 100px 0; border-top: 1px solid var(--border); }
-.cf-header { margin-bottom: 56px; }
-.cf-steps {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
-}
-.cf-step { background: var(--bg); padding: 32px 28px; position: relative; }
-.cf-step-num { font-family: var(--serif); font-size: 3rem; font-weight: 400; color: var(--border-hi); line-height: 1; margin-bottom: 16px; display: block; }
-.cf-step-title { font-size: .95rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-.cf-step-desc { font-size: .83rem; color: var(--text-2); line-height: 1.6; }
-.cf-step-icon { position: absolute; top: 28px; right: 28px; font-size: 1.4rem; opacity: .5; }
-
-/* ── FEATURES ────────────────────────────── */
-.features { padding: 100px 0; border-top: 1px solid var(--border); }
-.feat-header { margin-bottom: 56px; }
-.feat-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
-  gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
-}
-.feat-card { background: var(--bg); padding: 28px 26px; transition: background .2s; }
-.feat-card:hover { background: var(--surface); }
-.feat-icon { font-size: 1.6rem; margin-bottom: 14px; display: block; }
-.feat-title { font-size: .92rem; font-weight: 600; color: var(--text); margin-bottom: 7px; }
-.feat-desc { font-size: .82rem; color: var(--text-2); line-height: 1.6; }
-
-/* ── PRESETS ─────────────────────────────── */
-.presets { padding: 100px 0; border-top: 1px solid var(--border); }
-.presets-header { margin-bottom: 48px; }
-.presets-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
-.preset-chip {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px; padding: 8px 14px; font-size: .8rem; color: var(--text-2);
-  transition: all .15s; cursor: default;
-}
-.preset-chip:hover { border-color: var(--ink-border); color: var(--ink-hi); background: var(--ink-dim); }
-.pc-icon { font-size: .9rem; }
-
-/* ── AUTOFILL ────────────────────────────── */
-.autofill { padding: 100px 0; border-top: 1px solid var(--border); }
-.af-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-.af-fields { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.af-field-row { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--border); font-size: .82rem; }
-.af-field-row:last-child { border-bottom: none; }
-.af-field-label { color: var(--text-3); font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; min-width: 80px; }
-.af-field-value { color: var(--text); flex: 1; }
-.af-confidence { font-family: var(--mono); font-size: .62rem; padding: 2px 7px; border-radius: 20px; background: rgba(63,185,80,.1); color: var(--ok); border: 1px solid rgba(63,185,80,.2); flex-shrink: 0; }
-.af-field-row.af-glow .af-field-value { color: var(--ink-hi); }
-.af-text { margin-bottom: 24px; }
-.af-highlights { display: flex; flex-direction: column; gap: 12px; }
-.af-hi-item { display: flex; align-items: flex-start; gap: 12px; font-size: .85rem; color: var(--text-2); line-height: 1.5; }
-.af-hi-icon { color: var(--ink); flex-shrink: 0; margin-top: 1px; }
-
-/* ── EXPORT ──────────────────────────────── */
-.export { padding: 100px 0; border-top: 1px solid var(--border); }
-.export-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.export-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 32px; transition: border-color .2s; }
-.export-card:hover { border-color: var(--border-hi); }
-.export-ext { font-family: var(--mono); font-size: 2rem; font-weight: 700; margin-bottom: 14px; display: block; }
-.export-ext.pdf { color: #f85149; }
-.export-ext.docx { color: var(--blue); }
-.export-title { font-size: .95rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-.export-desc { font-size: .83rem; color: var(--text-2); line-height: 1.6; margin-bottom: 18px; }
-.export-feats { display: flex; flex-direction: column; gap: 6px; }
-.export-feat { display: flex; align-items: center; gap: 8px; font-size: .79rem; color: var(--text-2); }
-.export-feat::before { content: '✓'; color: var(--ok); font-size: .72rem; flex-shrink: 0; }
-
-/* ── PWA ─────────────────────────────────── */
-.pwa { padding: 100px 0; border-top: 1px solid var(--border); }
-.pwa-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-.pwa-visual { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 32px; text-align: center; }
-.pwa-icon-wrap { width: 80px; height: 80px; background: var(--ink-dim); border: 2px solid var(--ink-border); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 20px; }
-.pwa-visual-title { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); margin-bottom: 4px; }
-.pwa-visual-sub { font-family: var(--mono); font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.pwa-visual-stats { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.pwa-stat { flex: 1; padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
-.pwa-stat:last-child { border-right: none; }
-.pwa-stat-val { font-family: var(--mono); font-size: .9rem; color: var(--ink); font-weight: 700; display: block; }
-.pwa-stat-label { font-size: .67rem; color: var(--text-3); display: block; margin-top: 2px; }
-.pwa-points { display: flex; flex-direction: column; gap: 16px; }
-.pwa-point { display: flex; align-items: flex-start; gap: 14px; }
-.pwa-point-icon { width: 36px; height: 36px; background: var(--ink-dim); border: 1px solid var(--ink-border); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
-.pwa-point-title { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
-.pwa-point-desc { font-size: .8rem; color: var(--text-2); line-height: 1.5; }
-
-/* ── CREATOR ─────────────────────────────── */
-.creator { padding: 80px 0; border-top: 1px solid var(--border); }
-.creator-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 32px; flex-wrap: wrap;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 16px; padding: 36px 40px;
-}
-.creator-bio { flex: 1; min-width: 240px; }
-.creator-name { font-family: var(--serif); font-size: 1.35rem; color: var(--text); margin-bottom: 6px; letter-spacing: -.01em; }
-.creator-name a { color: var(--ink); text-decoration: none; transition: color .15s; }
-.creator-name a:hover { color: var(--ink-hi); }
-.creator-role { font-family: var(--mono); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
-.creator-desc { font-size: .85rem; color: var(--text-2); line-height: 1.65; max-width: 400px; }
-.creator-socials { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
-.creator-social-link {
-  display: flex; align-items: center; gap: 7px;
-  padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px;
-  color: var(--text-2); text-decoration: none; font-size: .78rem;
-  transition: all .15s; white-space: nowrap;
-}
-.creator-social-link svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
-.creator-social-link:hover { color: var(--ink-hi); border-color: var(--ink-border); background: var(--ink-dim); }
-
-/* ── CTA FINAL ───────────────────────────── */
-.cta-final { padding: 100px 0; border-top: 1px solid var(--border); text-align: center; }
-.cta-final-box {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
-  padding: clamp(40px,7vw,80px) clamp(24px,6vw,80px);
-  max-width: 680px; margin: 0 auto; position: relative; overflow: hidden;
-}
-.cta-final-box::before {
-  content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-  width: 400px; height: 300px;
-  background: radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 70%); pointer-events: none;
-}
-.cta-final-icon { font-size: 2.8rem; margin-bottom: 20px; display: block; }
-.cta-final-h2 { font-family: var(--serif); font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 500; line-height: 1.15; color: var(--text); margin-bottom: 12px; letter-spacing: -.02em; }
-.cta-final-h2 em { font-style: italic; color: var(--ink); }
-.cta-final-desc { font-size: .92rem; color: var(--text-2); margin-bottom: 36px; line-height: 1.65; }
-.cta-final-btns { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
-.cta-note { font-family: var(--mono); font-size: .62rem; letter-spacing: .08em; color: var(--text-3); }
-.cta-note a { color: var(--ink); text-decoration: none; transition: color .15s; }
-.cta-note a:hover { color: var(--ink-hi); }
-
-/* ── FOOTER ──────────────────────────────── */
-footer { border-top: 1px solid var(--border); padding: 40px clamp(16px,5vw,48px); }
-.footer-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-.footer-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.footer-logo-text { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); }
-.footer-copy { font-size: .75rem; color: var(--text-3); line-height: 1.5; }
-.footer-links { display: flex; align-items: center; gap: 16px; }
-.footer-link { display: flex; align-items: center; gap: 6px; color: var(--text-2); text-decoration: none; font-size: .8rem; transition: color .15s; }
-.footer-link:hover { color: var(--ink); }
-.footer-link svg { width: 15px; height: 15px; fill: currentColor; }
-.footer-sep { color: var(--border-hi); }
-
-/* ── ANIMATIONS ──────────────────────────── */
-@keyframes fadeDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
-
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ── RESPONSIVE ──────────────────────────── */
-@media (max-width: 780px) {
-  .af-inner, .pwa-inner, .export-inner { grid-template-columns: 1fr; }
-  .pipeline-step .p-label { display: none; }
-  .creator-inner { flex-direction: column; align-items: flex-start; }
-}
-@media (max-width: 640px) {
-  .hero-pipeline { display: none; }
-  .footer-inner { flex-direction: column; align-items: flex-start; }
-  .creator-socials { flex-wrap: wrap; }
-}
-@media (max-width: 400px) {
-  .feat-grid { grid-template-columns: 1fr; }
-}
-@media print { header, footer, .cta-final { display: none; } }
-</style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-<style id="ecosystem-nav-style">
-#nav {
-  --bg: #060B14;
-  --surface: #0B1623;
-  --s2: #0d1b2a;
-  --s3: #1e293b;
-  --border: rgba(255,255,255,0.07);
-  --accent: #FF9900;
-  --amber: #f59e0b;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --red: #ef4444;
-  --purple: #8b5cf6;
-  --text: #f1f5f9;
-  --muted: #94a3b8;
-  --muted2: #64748b;
-  --mono: 'JetBrains Mono', monospace;
-  --sans: 'Syne', sans-serif;
-  font-family: var(--sans);
-}
-    /* ─── NAVEGAÇÃO GLOBAL DO ECOSSISTEMA ─────────────── */
-    #nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      min-height: 64px;
-      padding: 12px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 28px;
-      background: rgba(6,11,20,0.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    #nav .nav-logo {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .2px;
-      text-decoration: none;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    #nav .nav-logo::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(255,153,0,.45);
-    }
-
-    #nav .nav-logo span { color: var(--accent); }
-
-    #nav .nav-links {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 6px;
-      list-style: none;
-      margin-left: auto;
-    }
-
-    #nav .nav-links > li { position: relative; }
-
-    .nav-links a,
-    #nav .nav-dropdown-trigger {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 9px 11px;
-      border-radius: 7px;
-      transition: color .2s, background .2s;
-      letter-spacing: .35px;
-      white-space: nowrap;
-      background: none;
-      border: 0;
-      font-family: inherit;
-      cursor: pointer;
-    }
-
-    .nav-links a:hover,
-    .nav-links a:focus-visible,
-    .nav-dropdown-trigger:hover,
-    #nav .nav-dropdown-trigger:focus-visible {
-      color: var(--text);
-      background: rgba(255,255,255,.05);
-      outline: none;
-    }
-
-    #nav .nav-links .nav-current {
-      color: var(--accent);
-    }
-
-    #nav .nav-dropdown-trigger::after {
-      content: '⌄';
-      font-size: 11px;
-      line-height: 1;
-      opacity: .7;
-      transform: translateY(-1px);
-    }
-
-    #nav .nav-products::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      height: 8px;
-    }
-
-    #nav .nav-dropdown {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      min-width: 220px;
-      padding: 7px;
-      display: none;
-      background: rgba(9,16,27,.98);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      box-shadow: 0 18px 45px rgba(0,0,0,.45);
-      backdrop-filter: blur(20px);
-    }
-
-    #nav .nav-dropdown li { list-style: none; }
-
-    #nav .nav-dropdown a {
-      display: flex;
-      width: 100%;
-      padding: 10px 11px;
-      font-size: 11px;
-      border-radius: 7px;
-    }
-
-    #nav .nav-dropdown a:hover { background: rgba(255,153,0,.08); }
-
-    .nav-products:hover .nav-dropdown,
-    .nav-products:focus-within .nav-dropdown,
-    #nav .nav-products.open .nav-dropdown {
-      display: block;
-    }
-
-    #nav .nav-cta {
-      background: var(--accent) !important;
-      color: #000 !important;
-      padding: 9px 15px !important;
-      border-radius: 8px !important;
-      font-weight: 800 !important;
-      box-shadow: 0 0 20px rgba(255,153,0,0.22);
-    }
-
-    .nav-cta:hover,
-    #nav .nav-cta:focus-visible {
-      background: var(--amber) !important;
-      color: #000 !important;
-      box-shadow: 0 0 30px rgba(255,153,0,0.38) !important;
-    }
-
-    #nav .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 7px;
-    }
-
-    #nav .nav-hamburger span {
-      width: 22px;
-      height: 2px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: all .3s;
-      display: block;
-    }
-
-    #nav .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-    #nav .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    #nav .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-    @media (max-width: 820px) {
-      #nav { padding: 12px 24px; }
-      #nav .nav-links { gap: 2px; }
-      .nav-links a,
-      #nav .nav-dropdown-trigger { font-size: 10px; padding: 8px 8px; }
-    }
-
-    @media (max-width: 640px) {
-      header { top: 60px; }
-      #nav { min-height: 60px; padding: 12px 20px; }
-      #nav .nav-links {
-        display: none;
-        position: fixed;
-        top: 60px;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 3px;
-        padding: 14px 20px 20px;
-        margin: 0;
-        background: rgba(6,11,20,.98);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        border-bottom: 1px solid var(--border);
-        box-shadow: 0 20px 40px rgba(0,0,0,.35);
-      }
-
-      #nav .nav-links.mobile-open { display: flex; }
-
-      #nav .nav-links > li { width: 100%; }
-      .nav-links a,
-      #nav .nav-dropdown-trigger {
-        width: 100%;
-        justify-content: space-between;
-        font-size: 12px !important;
-        padding: 11px 10px !important;
-      }
-
-      #nav .nav-dropdown {
-        position: static;
-        width: 100%;
-        min-width: 0;
-        padding: 3px 0 3px 12px;
-        background: transparent;
-        border: 0;
-        box-shadow: none;
-        display: none;
-      }
-
-      #nav .nav-products.open .nav-dropdown { display: block; }
-
-      #nav .nav-dropdown a {
-        justify-content: flex-start;
-        padding: 9px 10px !important;
-      }
-
-      #nav .nav-cta { margin-top: 5px; justify-content: center !important; }
-      #nav .nav-hamburger { display: flex; }
-      .hero { padding-top: 116px; }
-    }
-    
 </style>
 </head>
 <body>
 
-<!-- ══ NAVEGAÇÃO GLOBAL DO ECOSSISTEMA ═════════════════════ -->
-<nav id="nav" aria-label="Navegação global do ecossistema">
-  <a href="/" class="nav-logo">Alexandre <span>Torres</span></a>
+<!-- Skip link — acessibilidade por teclado -->
+<a href="#hero" class="skip-link">Ir para o conteúdo principal</a>
 
-  <ul class="nav-links">
-    <li><a href="/">Início</a></li>
-    <li><a href="/posicionamento/">Posicionamento</a></li>
-    <li><a href="/at-lab/">AT-LAB</a></li>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WWHT6VJF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <li class="nav-products">
-      <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
-        Produtos
-      </button>
-	
-      <ul class="nav-dropdown" aria-label="Produtos proprietários">
-        <li><a href="/ilist/">iList</a></li>
-        <li><a href="/docform/">DocForm</a></li>
-        <li><a href="/voicelab/">VoiceLab</a></li>
-        <li><a href="/youlist/">YouList</a></li>
-        <li><a href="/dossie-da-conversao/">Dossiê da Conversão</a></li>
-      </ul>
-    </li>
-
-    <li class="nav-products nav-contact">
-      <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
-        Contato
-      </button>
-      <ul class="nav-dropdown" aria-label="Contato e redes sociais">
-        <li><a href="https://www.linkedin.com/in/aletordev/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-        <li><a href="https://www.instagram.com/aletordev/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-        <li><a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-      </ul>
-    </li>
-    <li><a href="/atendimento/" class="nav-cta">Atendimento</a></li>
-  </ul>
-
-  <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+<!-- NAV -->
+<nav id="site-nav" aria-label="Navegação principal">
+  <div class="nav-left">
+    <span class="nav-logo">aletor</span>
+    <div class="nav-sep" aria-hidden="true"></div>
+    <span class="nav-tag">design &amp; software dev</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
+      <button class="lang-btn" id="langPT" data-lang="pt" aria-pressed="false" aria-label="Português">PT</button>
+      <button class="lang-btn" id="langEN" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+      <button class="lang-btn" id="langES" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+    </div>
+    <span id="fontLiveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></span>
+    <div class="font-ctrl" role="group" aria-label="Tamanho do texto">
+      <button class="font-btn" id="fontDecrease" aria-label="Diminuir tamanho do texto">A−</button>
+      <button class="font-btn" id="fontIncrease" aria-label="Aumentar tamanho do texto">A+</button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema" title="Alternar modo claro/escuro">
+      <div class="tt-track" aria-hidden="true"><div class="tt-dot" id="ttDot">🌙</div></div>
+      <span class="tt-label" id="ttLabel" data-i18n="themeLabel">Versão clara</span>
+    </button>
+    <button class="hamburger" id="hamburger-toggle" type="button"
+            aria-haspopup="true" aria-expanded="false"
+            aria-controls="mobile-nav" aria-label="Abrir menu">
+      <span class="hamburger-box" aria-hidden="true">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </span>
+    </button>
+  </div>
 </nav>
 
+<div class="mnav-scrim" id="mnav-scrim" hidden></div>
 
-<!-- ═══ HEADER ════════════════════════════════════════════════════════ -->
-<header>
-  <a href="./index.html" class="logo" aria-label="DocForm — Página inicial">
-    <div class="logo-mark" aria-hidden="true">⚖</div>
-    <div>
-      <span class="logo-text">DocForm</span>
-      <span class="logo-sub">Formatação Profissional</span>
-    </div>
-  </a>
+<nav id="mobile-nav" aria-label="Menu secundário" hidden>
+  <ul class="mnav-list">
+    <li class="mnav-item">
+      <button class="mnav-link mnav-toggle" id="sol-toggle" type="button"
+              aria-expanded="false" aria-controls="sol-menu">
+        Produtos
+      </button>
+      <div class="mnav-dropdown" id="sol-menu" hidden>
+        <ul>
+          <li><a href="/ilist/">iList</a></li>
+          <li><a href="/docform/">DocForm</a></li>
+          <li><a href="/voicelab/">VoiceLab</a></li>
+          <li><a href="/youlist/">YouList</a></li>
+          <li><a href="/dossie-da-conversao/">Dossiê da Conversão</a></li>
+        </ul>
+      </div>
+    </li>
 
-  <div class="hdr-right">
-    <!-- Language Switcher -->
-    <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
-      <button class="lang-btn" data-lang="pt" aria-label="Português">PT</button>
-      <span class="lang-sep" aria-hidden="true">·</span>
-      <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
-      <span class="lang-sep" aria-hidden="true">·</span>
-      <button class="lang-btn" data-lang="es" aria-label="Español">ES</button>
-    </div>
+    <li class="mnav-item">
+      <a href="/posicionamento/" class="mnav-link">Posicionamento</a>
+    </li>
 
-    <a href="https://alexandretorres.com.br/docform/app.html" class="btn-app" aria-label="Abrir o DocForm">
-      <span aria-hidden="true">⚖</span>
-      <span data-i18n="nav.cta">Abrir App</span>
+    <li class="mnav-item">
+      <a href="/at-lab/" class="mnav-link">AT-LAB</a>
+    </li>
+
+    <li class="mnav-item">
+      <a href="/atendimento/" class="mnav-link">Atendimento</a>
+    </li>
+
+    <li class="mnav-item">
+      <a href="/faq/" class="mnav-link">FAQ</a>
+    </li>
+
+    <li class="mnav-item">
+      <button class="mnav-link mnav-toggle" id="contato-toggle" type="button"
+              aria-expanded="false" aria-controls="contato-menu">
+        Contato
+      </button>
+
+      <div class="mnav-dropdown contato" id="contato-menu" hidden>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/aletordev/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/aletordev/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener">Youtube</a></li>
+          <li class="cta-row">
+            <a href="/atendimento/" class="cta-link">
+              <svg viewBox="0 0 24 24" width="13" height="13"
+                   fill="none" stroke="currentColor" stroke-width="1.6"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 13v-1.5a8 8 0 0 1 16 0V13"/>
+                <rect x="3" y="13" width="4.2" height="6.2" rx="1.4"/>
+                <rect x="16.8" y="13" width="4.2" height="6.2" rx="1.4"/>
+                <path d="M20.8 19.2v.8a3 3 0 0 1-3 3h-2.6"/>
+              </svg>
+              Iniciar projeto
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" aria-labelledby="hero-heading">
+  <p class="hero-eyebrow" id="heroEyebrow" aria-hidden="true" data-i18n="heroEyebrow">Maximize Sua Base de Clientes</p>
+  <h1 id="hero-heading" class="hero-headline">
+    <span class="hl-line hl-1" id="hl1" data-i18n="heroHL1">SUA PÁGINA</span>
+    <span class="hl-line hl-2" id="hl2" data-i18n="heroHL2">VENDENDO.</span>
+    <span class="hl-divider" id="hlDiv" aria-hidden="true"></span>
+    <span class="hl-line hl-3" id="hl3" data-i18n="heroHL3">Enquanto você dorme.</span>
+  </h1>
+  <p class="hero-sub" id="heroSub" data-i18n-html="heroSub">Landing pages construídas com arquitetura psicológica de compra — <em>não opinião de designer.</em></p>
+  <div class="hero-micro-proof" id="heroMicroProof" role="status" data-i18n="heroMicro">Não adie a engenharia que valida o seu lucro.</div>
+  <div class="hero-cta-row" id="heroCtaRow">
+    <a href="https://alexandretorres.com.br/atendimento/" class="btn-primary">
+      <span data-i18n="heroCTA">Quero parar de perder vendas</span>
     </a>
+    <span class="hero-scarcity" role="status" data-i18n="heroScarcity">Atendo no máx. 3 projetos por semana</span>
   </div>
-</header>
+  <div class="hero-stats" id="heroStats">
+    <div class="hs-item"><span class="hs-num">+16%</span><span class="hs-label" data-i18n="stat1">Conversão média</span></div>
+    <div class="hs-item"><span class="hs-num" data-i18n="stat2num">15dias</span><span class="hs-label" data-i18n="stat2">Prazo de entrega</span></div>
+    <div class="hs-item"><span class="hs-num">100%</span><span class="hs-label" data-i18n="stat3">projeto sob medida</span></div>
+  </div>
+</section>
 
-<!-- ═══ HERO ═══════════════════════════════════════════════════════════ -->
-<main>
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-inner">
-      <span class="hero-badge" role="status">
-        <span class="hero-badge-dot" aria-hidden="true"></span>
-        <span data-i18n="hero.badge">PWA gratuita · funciona offline · sem login</span>
-      </span>
-
-      <h1 class="hero-h1" id="hero-title" data-i18n-html="hero.h1">
-        Cole o texto.<br>
-        O documento <em>pronto</em><br>
-        vem por nossa conta.
-      </h1>
-
-      <p class="hero-sub" data-i18n="hero.sub">
-        Transforme qualquer texto gerado por IA em contratos, currículos e documentos jurídicos formatados — prontos para impressão ou assinatura digital via Gov.br.
-      </p>
-
-      <!-- Linha principal: 3 botões de ação -->
-      <div class="hero-ctas">
-        <a href="https://alexandretorres.com.br/docform/app.html" target="_blank" rel="noopener noreferrer" class="cta-dev">
-          <span aria-hidden="true">📲</span>
-          <span data-i18n="hero.cta.app">Usar o App</span>
-          <span class="cta-dev-arrow" aria-hidden="true">↗</span>
-        </a>
-      </div>
-
-      <!-- Linha secundária: 2 botões de navegação -->
-      <div class="hero-ctas hero-ctas-secondary">
-        <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" class="cta-dev">
-          <span data-i18n="hero.cta2">Página do Desenvolvedor</span>
-          <span class="cta-dev-arrow" aria-hidden="true">↗</span>
-        </a>
-        <a href="#como-funciona" class="cta-secondary">
-          <span aria-hidden="true">▾</span>
-          <span data-i18n="hero.cta3">Como funciona</span>
-        </a>
-      </div>
-
-      <div class="hero-pipeline" role="presentation">
-        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">📋</span><span class="p-label" data-i18n="pipe.1">Cole o texto</span></div>
-        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">🧠</span><span class="p-label" data-i18n="pipe.2">Auto-detecta o tipo</span></div>
-        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">✍️</span><span class="p-label" data-i18n="pipe.3">Preenche o cabeçalho</span></div>
-        <div class="pipeline-step"><span class="p-icon" aria-hidden="true">📄</span><span class="p-label" data-i18n="pipe.4">Gera o PDF</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ COMO FUNCIONA ══════════════════════════════════════════════ -->
-  <section class="como-funciona" id="como-funciona" aria-labelledby="cf-title">
-    <div class="section-wrap">
-      <div class="cf-header reveal">
-        <span class="section-label" data-i18n="cf.label">// processo</span>
-        <h2 class="section-h2" id="cf-title" data-i18n-html="cf.h2">Quatro passos.<br>Um documento <em>impecável.</em></h2>
-        <p class="section-desc" data-i18n="cf.desc">Sem templates vagos, sem formatação manual, sem horas perdidas com espaçamentos. O DocForm entende o que você colou e faz o resto.</p>
-      </div>
-      <div class="cf-steps reveal">
-        <div class="cf-step">
-          <span class="cf-step-num" aria-hidden="true">01</span>
-          <span class="cf-step-icon" aria-hidden="true">📋</span>
-          <div class="cf-step-title" data-i18n="cf.s1.title">Cole o texto</div>
-          <p class="cf-step-desc" data-i18n="cf.s1.desc">Cole o contrato, e-mail ou currículo gerado por qualquer IA diretamente na área de texto do DocForm.</p>
-        </div>
-        <div class="cf-step">
-          <span class="cf-step-num" aria-hidden="true">02</span>
-          <span class="cf-step-icon" aria-hidden="true">🧠</span>
-          <div class="cf-step-title" data-i18n="cf.s2.title">Auto-detecção</div>
-          <p class="cf-step-desc" data-i18n="cf.s2.desc">O motor inteligente identifica o tipo de documento por fingerprint de palavras-chave com score de confiança.</p>
-        </div>
-        <div class="cf-step">
-          <span class="cf-step-num" aria-hidden="true">03</span>
-          <span class="cf-step-icon" aria-hidden="true">✍️</span>
-          <div class="cf-step-title" data-i18n="cf.s3.title">Auto-fill do cabeçalho</div>
-          <p class="cf-step-desc" data-i18n="cf.s3.desc">Título, cidade, data, partes e número de contrato são extraídos e preenchidos automaticamente, sem sobrescrever o que você já digitou.</p>
-        </div>
-        <div class="cf-step">
-          <span class="cf-step-num" aria-hidden="true">04</span>
-          <span class="cf-step-icon" aria-hidden="true">📄</span>
-          <div class="cf-step-title" data-i18n="cf.s4.title">Exporte PDF ou DOCX</div>
-          <p class="cf-step-desc" data-i18n="cf.s4.desc">Gere o documento com margens jurídicas padrão OAB/Tribunais, paginação e logotipo — direto no browser, sem servidor.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ FEATURES ══════════════════════════════════════════════════ -->
-  <section class="features" id="funcionalidades" aria-labelledby="feat-title">
-    <div class="section-wrap">
-      <div class="feat-header reveal">
-        <span class="section-label" data-i18n="feat.label">// funcionalidades</span>
-        <h2 class="section-h2" id="feat-title" data-i18n-html="feat.h2">Tudo que um documento<br>profissional <em>precisa.</em></h2>
-      </div>
-      <div class="feat-grid reveal">
-        <div class="feat-card"><span class="feat-icon" aria-hidden="true">📝</span><div class="feat-title" data-i18n="feat.1.title">Formatador de Contratos</div><p class="feat-desc" data-i18n="feat.1.desc">12 presets jurídicos prontos: aluguel, prestação de serviços, NDA, compra e venda, CLT, freelance, empréstimo e mais.</p></div>
-        <div class="feat-card"><span class="feat-icon" aria-hidden="true">👤</span><div class="feat-title" data-i18n="feat.2.title">Gerador de Currículo 2026</div><p class="feat-desc" data-i18n="feat.2.desc">Formulário completo com foto, experiências, formação, idiomas e habilidades. Campos vazios não aparecem no PDF.</p></div>
-        <div class="feat-card"><span class="feat-icon" aria-hidden="true">📧</span><div class="feat-title" data-i18n="feat.3.title">E-mail Formal</div><p class="feat-desc" data-i18n="feat.3.desc">Formatação corporativa com cabeçalho, corpo e assinatura estruturados. Exportação PDF e DOCX em segundos.</p></div>
-        <div class="feat-card"><span class="feat-icon" aria-hidden="true">🖋️</span><div class="feat-title" data-i18n="feat.4.title">Assinatura Digital</div><p class="feat-desc" data-i18n="feat.4.desc">Opções de assinatura via Gov.br e ICP-Brasil com campo de testemunhas configurável.</p></div>
-        <div class="feat-card"><span class="feat-icon" aria-hidden="true">🔒</span><div class="feat-title" data-i18n="feat.5.title">100% Privado</div><p class="feat-desc" data-i18n="feat.5.desc">Nenhum texto sai do seu dispositivo. Sem backend, sem banco de dados, sem login. Processamento inteiramente no browser.</p></div>
-        <div class="feat-card"><span class="feat-icon" aria-hidden="true">🏷️</span><div class="feat-title" data-i18n="feat.6.title">Marca d'água e Logotipo</div><p class="feat-desc" data-i18n="feat.6.desc">Insira seu logotipo no cabeçalho e configure marca d'água personalizada (PNG, JPG ou SVG) no documento.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ PRESETS ════════════════════════════════════════════════════ -->
-  <section class="presets" id="presets" aria-labelledby="presets-title">
-    <div class="section-wrap">
-      <div class="presets-header reveal">
-        <span class="section-label" data-i18n="presets.label">// presets jurídicos</span>
-        <h2 class="section-h2" id="presets-title" data-i18n-html="presets.h2">12 modelos prontos.<br><em>Zero</em> formatação manual.</h2>
-        <p class="section-desc" style="margin-bottom:32px;" data-i18n="presets.desc">Cada preset segue as normas da OAB e dos Tribunais brasileiros — margens, espaçamentos, numeração de cláusulas e paginação configurados por padrão.</p>
-      </div>
-      <div class="presets-grid reveal" role="list">
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🏠</span><span data-i18n="preset.1">Aluguel Residencial</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🏢</span><span data-i18n="preset.2">Aluguel Comercial</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💼</span><span data-i18n="preset.3">Prestação de Serviços</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🔒</span><span data-i18n="preset.4">NDA / Confidencialidade</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🤝</span><span data-i18n="preset.5">Compra e Venda</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">👷</span><span data-i18n="preset.6">Contrato CLT</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💻</span><span data-i18n="preset.7">Contrato Freelance</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">💰</span><span data-i18n="preset.8">Contrato de Empréstimo</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">🤲</span><span data-i18n="preset.9">Parceria Comercial</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📜</span><span data-i18n="preset.10">Procuração</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📋</span><span data-i18n="preset.11">Declaração</span></div>
-        <div class="preset-chip" role="listitem"><span class="pc-icon" aria-hidden="true">📝</span><span data-i18n="preset.12">Ata de Reunião</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ AUTO-FILL ══════════════════════════════════════════════════ -->
-  <section class="autofill" id="auto-fill" aria-labelledby="af-title">
-    <div class="section-wrap">
-      <div class="af-inner">
-        <div class="reveal">
-          <span class="section-label" data-i18n="af.label">// auto-fill engine</span>
-          <h2 class="section-h2" id="af-title" data-i18n-html="af.h2">O sistema entende<br>o texto. <em>Você revisa.</em></h2>
-          <div class="af-text">
-            <p class="section-desc" style="margin-bottom:20px;" data-i18n="af.desc">Ao colar o texto, o motor analisa e extrai automaticamente os campos essenciais do documento — com indicação de confiança para cada campo.</p>
-          </div>
-          <div class="af-highlights">
-            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">⚡</span><span data-i18n="af.hi1">Extração em tempo real enquanto você digita ou cola o texto.</span></div>
-            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">🛡️</span><span data-i18n="af.hi2">Nunca sobrescreve dados já digitados pelo usuário.</span></div>
-            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">✨</span><span data-i18n="af.hi3">Flash visual nos campos preenchidos com percentual de confiança.</span></div>
-            <div class="af-hi-item"><span class="af-hi-icon" aria-hidden="true">🎯</span><span data-i18n="af.hi4">Thresholds configuráveis: sugestão a 35%, aplicação automática a 60%.</span></div>
-          </div>
-        </div>
-        <div class="af-fields reveal" role="table">
-          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.title">Título</span><span class="af-field-value" role="cell">CONTRATO DE PRESTAÇÃO DE SERVIÇOS</span><span class="af-confidence" role="cell">90%</span></div>
-          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.city">Cidade</span><span class="af-field-value" role="cell">Vila Velha – ES</span><span class="af-confidence" role="cell">88%</span></div>
-          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.date">Data</span><span class="af-field-value" role="cell">03 de abril de 2026</span><span class="af-confidence" role="cell">85%</span></div>
-          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.ref">Nº / Ref.</span><span class="af-field-value" role="cell">Nº 012/2026</span><span class="af-confidence" role="cell">80%</span></div>
-          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.client">Contratante</span><span class="af-field-value" role="cell">João da Silva Santos</span><span class="af-confidence" role="cell">82%</span></div>
-          <div class="af-field-row af-glow" role="row"><span class="af-field-label" role="cell" data-i18n="af.field.provider">Contratado</span><span class="af-field-value" role="cell">Alexandre Torres</span><span class="af-confidence" role="cell">82%</span></div>
-          <div class="af-field-row" role="row" style="justify-content:center;"><span style="font-family:var(--mono);font-size:.65rem;color:var(--ok);letter-spacing:.08em;" data-i18n="af.done">✓ 6 campos preenchidos automaticamente</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ EXPORTAÇÃO ════════════════════════════════════════════════ -->
-  <section class="export" id="exportacao" aria-labelledby="export-title">
-    <div class="section-wrap">
-      <div class="reveal" style="margin-bottom:48px;">
-        <span class="section-label" data-i18n="export.label">// exportação</span>
-        <h2 class="section-h2" id="export-title" data-i18n-html="export.h2">PDF vetorial.<br>DOCX <em>real.</em></h2>
-        <p class="section-desc" data-i18n="export.desc">Dois formatos profissionais gerados diretamente no seu browser — sem servidor, sem upload, sem espera.</p>
-      </div>
-      <div class="export-inner reveal">
-        <div class="export-card">
-          <span class="export-ext pdf">.PDF</span>
-          <div class="export-title" data-i18n="export.pdf.title">Documento vetorial para impressão</div>
-          <p class="export-desc" data-i18n="export.pdf.desc">Gerado com jsPDF, multi-página automático com fontes embutidas — sem granulação, sem distorção.</p>
-          <ul class="export-feats">
-            <li class="export-feat" data-i18n="export.pdf.f1">Margens jurídicas padrão OAB/Tribunais (30×20×20×20 mm)</li>
-            <li class="export-feat" data-i18n="export.pdf.f2">Multi-página com paginação automática</li>
-            <li class="export-feat" data-i18n="export.pdf.f3">Marca d'água posicionável (centro, cantos)</li>
-            <li class="export-feat" data-i18n="export.pdf.f4">Logotipo no cabeçalho</li>
-            <li class="export-feat" data-i18n="export.pdf.f5">Pronto para assinatura digital Gov.br / ICP-Brasil</li>
-            <li class="export-feat" data-i18n="export.pdf.f6">Funciona 100% offline após a primeira visita</li>
-          </ul>
-        </div>
-        <div class="export-card">
-          <span class="export-ext docx">.DOCX</span>
-          <div class="export-title" data-i18n="export.docx.title">Word real, editável em qualquer lugar</div>
-          <p class="export-desc" data-i18n="export.docx.desc">Gerado com docx.js — compatível com Microsoft Word, LibreOffice e Google Docs.</p>
-          <ul class="export-feats">
-            <li class="export-feat" data-i18n="export.docx.f1">Estilos de parágrafo e tab stops preservados</li>
-            <li class="export-feat" data-i18n="export.docx.f2">Hierarquia de títulos estruturada</li>
-            <li class="export-feat" data-i18n="export.docx.f3">Compatível com Word, LibreOffice e Google Docs</li>
-            <li class="export-feat" data-i18n="export.docx.f4">Disponível para contratos, currículo e e-mail formal</li>
-            <li class="export-feat" data-i18n="export.docx.f5">Download instantâneo via FileSaver.js</li>
-            <li class="export-feat" data-i18n="export.docx.f6">Editável após exportação</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ PWA ════════════════════════════════════════════════════════ -->
-  <section class="pwa" id="app" aria-labelledby="pwa-title">
-    <div class="section-wrap">
-      <div class="pwa-inner">
-        <div class="pwa-visual reveal">
-          <div class="pwa-icon-wrap" aria-hidden="true">⚖</div>
-          <div class="pwa-visual-title">DocForm</div>
-          <div class="pwa-visual-sub">Progressive Web App</div>
-          <div class="pwa-visual-stats">
-            <div class="pwa-stat"><span class="pwa-stat-val">≥ 90</span><span class="pwa-stat-label">Lighthouse</span></div>
-            <div class="pwa-stat"><span class="pwa-stat-val">offline</span><span class="pwa-stat-label" data-i18n="pwa.stat.offline">Sem rede</span></div>
-            <div class="pwa-stat"><span class="pwa-stat-val">0 KB</span><span class="pwa-stat-label" data-i18n="pwa.stat.data">Dados enviados</span></div>
-          </div>
-        </div>
-        <div class="reveal">
-          <span class="section-label" data-i18n="pwa.label">// pwa instalável</span>
-          <h2 class="section-h2" id="pwa-title" data-i18n-html="pwa.h2">Instale como app.<br>Use <em>offline.</em></h2>
-          <div class="pwa-points">
-            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">📲</div><div><div class="pwa-point-title" data-i18n="pwa.p1.title">Android e desktop</div><p class="pwa-point-desc" data-i18n="pwa.p1.desc">Instalável no Android via Chrome e no desktop via Chrome ou Edge. Ícone na tela inicial, abre sem barra do browser.</p></div></div>
-            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">📶</div><div><div class="pwa-point-title" data-i18n="pwa.p2.title">Offline completo</div><p class="pwa-point-desc" data-i18n="pwa.p2.desc">Service Worker com estratégia híbrida: HTML via Network First, CSS/JS via Stale While Revalidate, assets via Cache First.</p></div></div>
-            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">⚡</div><div><div class="pwa-point-title" data-i18n="pwa.p3.title">Atalhos nativos</div><p class="pwa-point-desc" data-i18n="pwa.p3.desc">Segure o ícone no Android e acesse direto o Formatador de Documentos ou o Gerador de Currículo.</p></div></div>
-            <div class="pwa-point"><div class="pwa-point-icon" aria-hidden="true">🔄</div><div><div class="pwa-point-title" data-i18n="pwa.p4.title">Atualização automática</div><p class="pwa-point-desc" data-i18n="pwa.p4.desc">Nova versão disponível? Um toast avisa discretamente e você decide quando recarregar.</p></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ CRIADOR ════════════════════════════════════════════════════ -->
-  <section class="creator" id="criador" aria-labelledby="creator-title">
-    <div class="section-wrap">
-      <div class="creator-inner reveal">
-        <div class="creator-bio">
-          <div class="creator-role" data-i18n="creator.label">// criador</div>
-          <h2 class="creator-name" id="creator-title">
-            <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a>
-          </h2>
-          <p class="creator-desc" data-i18n="creator.desc">Desenvolvedor e empreendedor de Serra, ES. O DocForm nasceu da necessidade real de formatar documentos jurídicos sem complicação. Acompanhe os bastidores do projeto nas redes.</p>
-        </div>
-        <div class="creator-socials">
-          <a href="https://instagram.com/aletordev/" target="_blank" rel="noopener noreferrer" class="creator-social-link">
-            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            @aletordev
+<!-- DOR -->
+<section id="dor" aria-labelledby="dor-heading">
+  <div class="container">
+    <p class="mono dor-eyebrow" data-i18n="dorEyebrow">O diagnóstico honesto</p>
+    <div class="dor-grid">
+      <div class="dor-left">
+        <h2 id="dor-heading" data-i18n-html="dorH2">Cada real em página fraca.<br><em>É um real no lixo.</em></h2>
+        <p data-i18n="dorP">Cada real em anúncios que chega numa página fraca é um real desperdiçado.</p>
+        <div class="dor-diagnostic-block sr">
+          <div class="dor-diag-label" data-i18n="diagLabel">✦ Diagnóstico gratuito</div>
+          <p class="dor-diag-headline" data-i18n="diagHeadline">Receba o diagnóstico técnico do seu site.</p>
+          <p class="dor-diag-sub" data-i18n="diagSub">Me mostre seu site e eu te mostro exatamente onde você está perdendo dinheiro.</p>
+          <a href="https://alexandretorres.com.br/atendimento/" class="btn-primary dor-diag-btn">
+            <span data-i18n="diagCTA">Receber diagnóstico do meu site</span>
           </a>
-          <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer" class="creator-social-link">
-            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            YouTube
-          </a>
-          <a href="https://linkedin.com/in/aletordev/" target="_blank" rel="noopener noreferrer" class="creator-social-link">
-            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            LinkedIn
-          </a>
+          <p class="dor-diag-note" data-i18n="diagNote">Sem compromisso. Resposta em até 24h.</p>
+        </div>
+      </div>
+      <div>
+        <div class="dor-item sr"><strong data-i18n="dor1title">Concorrentes menores vendendo mais.</strong><p data-i18n="dor1p">O mercado não escolhe o melhor produto — escolhe o que convence primeiro.</p></div>
+        <div class="dor-item sr"><strong data-i18n="dor2title">Visita sem comprar.</strong><p data-i18n="dor2p">As pessoas chegam, rolam por segundos e saem.</p></div>
+        <div class="dor-item sr"><strong data-i18n="dor3title">Design bonito que não converte.</strong><p data-i18n="dor3p">Visual sem estratégia é decoração.</p></div>
+        <div class="dor-item sr"><strong data-i18n="dor4title">Copy que descreve, não conecta.</strong><p data-i18n="dor4p">Sem conexão emocional, não há decisão de compra.</p></div>
+        <div class="dor-method-link sr">
+          <a href="https://alexandretorres.com.br/at-lab/" target="_blank" rel="noopener noreferrer" data-i18n="dorMethodCTA">Ver como resolvemos isso</a>
+          <p class="dor-method-sub" data-i18n="dorMethodSub">Estratégia, estrutura e execução real — sem achismo.</p>
         </div>
       </div>
     </div>
-  </section>
+    <blockquote class="dor-quote sr"><p data-i18n="dorQuote">"Uma página de alta conversão não é custo — é o ativo mais rentável do seu negócio."</p></blockquote>
+  </div>
+</section>
 
-  <!-- ═══ CTA FINAL ══════════════════════════════════════════════════ -->
-  <section class="cta-final" aria-labelledby="cta-title">
-    <div class="section-wrap">
-      <div class="cta-final-box reveal">
-        <span class="cta-final-icon" aria-hidden="true">⚖</span>
-        <h2 class="cta-final-h2" id="cta-title" data-i18n-html="cta.h2">Seu documento<br>em <em>segundos.</em></h2>
-        <p class="cta-final-desc" data-i18n-html="cta.desc">Sem cadastro. Sem mensalidade. Sem dados enviados ao servidor.<br>Cole o texto — o DocForm faz o resto.</p>
-        <div class="cta-final-btns">
-          <a href="https://alexandretorres.com.br/docform/app.html" class="cta-primary">
-            <span aria-hidden="true">⚖</span>
-            <span data-i18n="cta.btn1">Formatar meu documento</span>
-          </a>
-          <a href="https://alexandretorres.com.br/atendimento/" class="cta-secondary">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <span data-i18n="cta.btn2">Falar com o atendimento</span>
-          </a>
+<!-- PORTFÓLIO -->
+<section id="portfolio" aria-labelledby="portfolio-heading">
+  <div class="portfolio-header sr">
+    <div>
+      <span class="mono gold-text" data-i18n="portEyebrow">Provas vivas de pensamento aplicado</span>
+      <span class="rule" aria-hidden="true"></span>
+      <h2 id="portfolio-heading" data-i18n-html="portH2">Projetos que validam<br><em>o meu método.</em></h2>
+    </div>
+    <p data-i18n="portP">Meus cases são sistemas vivos, construídos com a exata mentalidade que imprimo em cada projeto — estratégia psicológica antes da forma.</p>
+  </div>
+  <div class="portfolio-list">
+    <article class="pj-item sr">
+      <span class="pj-num" aria-hidden="true">01</span>
+      <div class="pj-body">
+        <div class="pj-tag" data-i18n="p1tag">SaaS · Gestão de Playlists</div>
+        <div class="pj-result" data-i18n="p1result">Organizou +120 canais → reduziu churn em 32%</div>
+        <h3 class="pj-name">iList</h3>
+        <p class="pj-desc" data-i18n="p1desc">Plataforma que transformou o caos de playlists em fluxo gerenciável.</p>
+        <div class="pj-ctas">
+          <a href="https://www.alexandretorres.com.br/ilist/" target="_blank" rel="noopener noreferrer" class="pj-cta-link primary" data-i18n="pjSeeProject">Conhecer Projeto ↗</a>
+          <a href="https://startup-ldt.com.br/ilist/" target="_blank" rel="noopener noreferrer" class="pj-cta-link" data-i18n="pjUseApp">Usar App Gratuitamente ↗</a>
         </div>
-        <p class="cta-note" data-i18n-html="cta.note">Criado por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev/" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, ES · CNPJ 54.806.916/0001-62</p>
+      </div>
+    </article>
+    <article class="pj-item sr">
+      <span class="pj-num" aria-hidden="true">02</span>
+      <div class="pj-body">
+        <div class="pj-tag" data-i18n="p2tag">Ferramenta Gratuita · Web Audio API</div>
+        <div class="pj-result" data-i18n="p2result">Zero instalação → produtores economizando mais de R$200/mês em software e plugins</div>
+        <h3 class="pj-name">VoiceLab</h3>
+        <p class="pj-desc" data-i18n="p2desc">Processador de áudio profissional que funciona direto no browser.</p>
+        <div class="pj-ctas">
+          <a href="https://alexandretorres.com.br/voicelab" target="_blank" rel="noopener noreferrer" class="pj-cta-link primary" data-i18n="pjSeeProject">Conhecer Projeto ↗</a>
+          <a href="https://aletoapp.github.io/voicelab/" target="_blank" rel="noopener noreferrer" class="pj-cta-link" data-i18n="pjUseFree">Usar Gratuitamente ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="pj-item sr">
+      <span class="pj-num" aria-hidden="true">03</span>
+      <div class="pj-body">
+        <div class="pj-tag" data-i18n="p3tag">Ferramenta Gratuita · Automação</div>
+        <div class="pj-result" data-i18n="p3result">Processo manual de 40min → geração automática em 60 segundos</div>
+        <h3 class="pj-name">DocForm</h3>
+        <p class="pj-desc" data-i18n="p3desc">Transformou templates estáticos em fluxos de preenchimento automático. Impacto real: equipes operacionais recuperando horas semanais que iam para burocracia.</p>
+        <div class="pj-ctas">
+          <a href="https://aletoapp.github.io/docform/" target="_blank" rel="noopener noreferrer" class="pj-cta-link primary" data-i18n="pjSeeProject">Conhecer Projeto ↗</a>
+          <a href="https://aletoapp.github.io/docform/" target="_blank" rel="noopener noreferrer" class="pj-cta-link" data-i18n="pjUseFree">Usar Gratuitamente ↗</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<!-- PROVA SOCIAL -->
+<section id="prova-social" aria-labelledby="prova-heading">
+  <div class="container">
+    <div class="social-proof-header sr">
+      <p class="mono gold-text">Engenharia de confiança</p>
+      <span class="rule" aria-hidden="true"></span>
+      <h2 id="prova-heading">O trabalho fala.<br><em>Clientes confirmam.</em></h2>
+      <p>Confiança não se declara. É construída por experiência real — e pela prova de quem já trabalhou comigo.</p>
+    </div>
+
+    <div class="reviews-grid">
+      <article class="review-card sr">
+        <div class="review-mark" aria-hidden="true">“</div>
+        <p class="review-text">Sou Elson Costa, servidor federal. Utilizo o DyList Pro e indico o web design alexandretorres.com.br</p>
+        <div class="review-meta">
+          <strong>Elson Costa</strong>
+          <span>Cliente · Google / vídeo</span>
+        </div>
+        <a class="review-link" href="https://www.youtube.com/shorts/4zdPr3ByZTY" target="_blank" rel="noopener noreferrer">Ver depoimento ↗</a>
+      </article>
+
+      <article class="review-card sr">
+        <div class="review-mark" aria-hidden="true">“</div>
+        <p class="review-text">Excelente profissional!</p>
+        <div class="review-meta">
+          <strong>Jonatas Costa</strong>
+          <span>Cliente · Google</span>
+        </div>
+        <a class="review-link" href="https://maps.app.goo.gl/TKRtwjwJ2EizZGwo9" target="_blank" rel="noopener noreferrer">Ver avaliação ↗</a>
+      </article>
+    </div>
+
+    <div class="reviews-google sr">
+      <span>Mais avaliações verificáveis</span>
+      <div class="reviews-google-links">
+        <a href="https://maps.app.goo.gl/GBDhncx9N1w4pHy7A" target="_blank" rel="noopener noreferrer">Google 01</a>
+        <a href="https://maps.app.goo.gl/WTE5GYyu7UQmAu1K8" target="_blank" rel="noopener noreferrer">Google 02</a>
+        <a href="https://maps.app.goo.gl/x63pxgDprHxqvDeB6" target="_blank" rel="noopener noreferrer">Google 03</a>
+        <a href="https://maps.app.goo.gl/siqEe38YagNcLPqf6" target="_blank" rel="noopener noreferrer">Google 04</a>
+        <a href="https://maps.app.goo.gl/TKRtwjwJ2EizZGwo9" target="_blank" rel="noopener noreferrer">Google 05</a>
+        <a href="https://maps.app.goo.gl/ifqHvZ7VpVGtk1wa9" target="_blank" rel="noopener noreferrer">Google 06</a>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</section>
 
-<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<!-- MÉTODO -->
+<section id="metodo" aria-labelledby="metodo-heading">
+  <div class="container">
+    <div class="metodo-header">
+      <p class="mono gold-text" data-i18n="metEyebrow">O processo</p>
+      <p class="metodo-transition sr" data-i18n="metTransition">Agências entregam design. Eu entrego uma sequência psicológica que transforma curiosidade em certeza de compra. É o que chamo de arquitetura de decisão.</p>
+      <h2 id="metodo-heading" data-i18n-html="metH2">Não é design. É<br><em>arquitetura de decisão.</em></h2>
+      <p data-i18n="metP">Cada elemento posicionado com intenção — do primeiro pixel ao botão de compra.</p>
+    </div>
+    <div class="metodo-grid">
+      <div class="step sr"><span class="step-num" aria-hidden="true">01</span><h3 data-i18n="s1h">Mapeamento de Estado Mental</h3><p data-i18n="s1p">Mapeamos o estado emocional do seu cliente — medos, objeções, esperanças. A página começa daí, não do produto.</p><span class="step-tag" data-i18n="s1tag">Estratégia · Pesquisa</span></div>
+      <div class="step sr"><span class="step-num" aria-hidden="true">02</span><h3 data-i18n="s2h">Arquitetura de Conversão</h3><p data-i18n="s2p">Cada seção tem uma função emocional específica. Tudo conduz ao próximo passo com naturalidade.</p><span class="step-tag" data-i18n="s2tag">Estrutura · Copy</span></div>
+      <div class="step sr"><span class="step-num" aria-hidden="true">03</span><h3 data-i18n="s3h">Engenharia de Performance</h3><p data-i18n="s3p">Performance é copy invisível. Um site que demora 1 segundo a mais destrói a confiança. Construímos uma base técnica ultra-rápida para manter o momentum da venda.</p><span class="step-tag" data-i18n="s3tag">Visual · UX</span></div>
+    </div>
+    <div class="metodo-grid" style="border-top:none;">
+      <div class="step sr"><span class="step-num" aria-hidden="true">04</span><h3 data-i18n="s4h">Engenharia de Confiança</h3><p data-i18n="s4p">Prova social posicionada com precisão, especificidade que gera credibilidade, eliminação de gatilhos de desconfiança.</p><span class="step-tag" data-i18n="s4tag">Credibilidade · Prova</span></div>
+      <div class="step sr"><span class="step-num" aria-hidden="true">05</span><h3 data-i18n="s5h">CTA Como Alívio</h3><p data-i18n="s5p">Quando a narrativa é construída corretamente, clicar no botão não parece uma compra — parece o próximo passo inevitável.</p><span class="step-tag" data-i18n="s5tag">Conversão · Ação</span></div>
+      <div class="step sr"><span class="step-num" aria-hidden="true">06</span><h3 data-i18n="s6h">Entrega e Otimização</h3><p data-i18n="s6p">Página entregue em até 15 dias, pronta para publicar. Revisão de performance no 30º dia incluída.</p><span class="step-tag" data-i18n="s6tag">Entrega · Revisão</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final" aria-labelledby="cta-final-heading">
+  <div class="cta-final-inner">
+    <h2 class="cfl-line1" id="cta-final-heading">
+      <span class="sr-only" data-i18n="ctaSR">Agora não há mais dúvidas.</span>
+      <span class="cfw" data-i18n="ctaW1" aria-hidden="true">Agora</span>
+      <span class="cfw" data-i18n="ctaW2" aria-hidden="true">não</span>
+      <span class="cfw" data-i18n="ctaW3" aria-hidden="true">há</span>
+      <span class="cfw" data-i18n="ctaW4" aria-hidden="true">mais</span>
+      <span class="cfw gold" data-i18n="ctaW5" aria-hidden="true">dúvidas.</span>
+    </h2>
+    <p class="cfl-line2" id="cfLine2" data-i18n-html="ctaP">A única pergunta é: quanto tempo você ainda vai<br class="cfl-br"> deixar dinheiro na mesa e ver sua concorrência<br class="cfl-br"> faturar com o que poderia ser <em>seu?</em></p>
+    <div class="cfl-cta" id="cfCta">
+      <a href="https://alexandretorres.com.br/atendimento/" class="btn-primary cfl-btn">
+        <span data-i18n="ctaBtn">SIM, EU QUERO UMA ESTRATÉGIA PARA O MEU NEGÓCIO</span>
+      </a>
+      <p class="cta-guarantee" data-i18n="ctaGuarantee">✦ Garantia de satisfação &nbsp;·&nbsp; ✦ Entrega em 15 dias &nbsp;·&nbsp; ✦ Revisão no 30º dia incluída</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer role="contentinfo">
   <div class="footer-inner">
-    <a href="./index.html" class="footer-logo">
-      <div class="logo-mark" aria-hidden="true">⚖</div>
-      <span class="footer-logo-text">DocForm</span>
-    </a>
-    <p class="footer-copy" data-i18n-html="footer.copy">© 2026 DocForm · Feito por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Distribuído sob licença MIT</p>
-    <nav class="footer-links">
-      <a href="https://instagram.com/aletordev/" target="_blank" rel="noopener noreferrer" class="footer-link">
-        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        Instagram
-      </a>
-      <span class="footer-sep" aria-hidden="true">·</span>
-      <a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer" class="footer-link">
-        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        YouTube
-      </a>
-      <span class="footer-sep" aria-hidden="true">·</span>
-      <a href="https://linkedin.com/in/aletordev/" target="_blank" rel="noopener noreferrer" class="footer-link">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-    </nav>
+    <div class="footer-col-brand">
+      <span class="footer-logo-line">Alexandre Torres</span>
+      <p class="footer-brand" data-i18n-html="footerBrand">Landing Pages &amp; Aplicações Web Premium<br>Serra, Espírito Santo — ES · Brasil</p>
+    </div>
+    <div class="footer-col-contacts">
+      <address class="footer-contacts" style="font-style:normal;">
+        <a href="privacidade" rel="noopener noreferrer" class="footer-link" target="_blank" data-i18n="footerPrivacy">Termos | Privacidade</a>
+      </address>
+      <span class="footer-cnpj">CNPJ 54.806.916/0001-62</span>
+    </div>
+    <div class="footer-divider" aria-hidden="true"></div>
+    <div class="footer-bottom">
+      <span class="footer-bottom-copy" data-i18n="footerCopy">© 2026 Alexandre Torres · Todos os direitos reservados</span>
+      <div class="footer-bottom-links">
+        <a href="https://www.instagram.com/aletordev" target="_blank" rel="noopener noreferrer" class="footer-bottom-link">Instagram</a>
+        <a href="https://www.linkedin.com/in/aletordev" target="_blank" rel="noopener noreferrer" class="footer-bottom-link">LinkedIn</a>
+      </div>
+    </div>
   </div>
 </footer>
 
+<!-- SCRIPTS -->
+<script src="/assets/js/script.js" defer></script>
+<script src="/assets/js/font-control.js" defer></script>
+<script src="/assets/js/a11y-widget.js" defer></script>
+
 <script>
-/* ════════════════════════════════════════════════════════
-   i18n ENGINE — DocForm
-   Ordem de prioridade: localStorage → navigator.language → pt
-════════════════════════════════════════════════════════ */
-const LOCALES = {
-  pt: {
-    'nav.cta': 'Abrir App',
-    'hero.badge': 'PWA gratuita · funciona offline · sem login',
-    'hero.h1': 'Cole o texto.<br>O documento <em>pronto</em><br>vem por nossa conta.',
-    'hero.sub': 'Transforme qualquer texto gerado por IA em contratos, currículos e documentos jurídicos formatados — prontos para impressão ou assinatura digital via Gov.br.',
-    'hero.cta1': 'Formatar Documento', 'hero.cta2': 'Página do Desenvolvedor', 'hero.cta3': 'Como funciona',
-    'hero.cta.app': 'Usar o App', 'hero.cta.github': 'Projeto no GitHub',
-    'pipe.1': 'Cole o texto', 'pipe.2': 'Auto-detecta o tipo', 'pipe.3': 'Preenche o cabeçalho', 'pipe.4': 'Gera o PDF',
-    'cf.label': '// processo',
-    'cf.h2': 'Quatro passos.<br>Um documento <em>impecável.</em>',
-    'cf.desc': 'Sem templates vagos, sem formatação manual, sem horas perdidas com espaçamentos. O DocForm entende o que você colou e faz o resto.',
-    'cf.s1.title': 'Cole o texto', 'cf.s1.desc': 'Cole o contrato, e-mail ou currículo gerado por qualquer IA diretamente na área de texto do DocForm.',
-    'cf.s2.title': 'Auto-detecção', 'cf.s2.desc': 'O motor inteligente identifica o tipo de documento por fingerprint de palavras-chave com score de confiança.',
-    'cf.s3.title': 'Auto-fill do cabeçalho', 'cf.s3.desc': 'Título, cidade, data, partes e número de contrato são extraídos e preenchidos automaticamente, sem sobrescrever o que você já digitou.',
-    'cf.s4.title': 'Exporte PDF ou DOCX', 'cf.s4.desc': 'Gere o documento com margens jurídicas padrão OAB/Tribunais, paginação e logotipo — direto no browser, sem servidor.',
-    'feat.label': '// funcionalidades',
-    'feat.h2': 'Tudo que um documento<br>profissional <em>precisa.</em>',
-    'feat.1.title': 'Formatador de Contratos', 'feat.1.desc': '12 presets jurídicos prontos: aluguel, prestação de serviços, NDA, compra e venda, CLT, freelance, empréstimo e mais.',
-    'feat.2.title': 'Gerador de Currículo 2026', 'feat.2.desc': 'Formulário completo com foto, experiências, formação, idiomas e habilidades. Campos vazios não aparecem no PDF.',
-    'feat.3.title': 'E-mail Formal', 'feat.3.desc': 'Formatação corporativa com cabeçalho, corpo e assinatura estruturados. Exportação PDF e DOCX em segundos.',
-    'feat.4.title': 'Assinatura Digital', 'feat.4.desc': 'Opções de assinatura via Gov.br e ICP-Brasil com campo de testemunhas configurável.',
-    'feat.5.title': '100% Privado', 'feat.5.desc': 'Nenhum texto sai do seu dispositivo. Sem backend, sem banco de dados, sem login. Processamento inteiramente no browser.',
-    'feat.6.title': "Marca d'água e Logotipo", 'feat.6.desc': "Insira seu logotipo no cabeçalho e configure marca d'água personalizada (PNG, JPG ou SVG) no documento.",
-    'presets.label': '// presets jurídicos',
-    'presets.h2': '12 modelos prontos.<br><em>Zero</em> formatação manual.',
-    'presets.desc': 'Cada preset segue as normas da OAB e dos Tribunais brasileiros — margens, espaçamentos, numeração de cláusulas e paginação configurados por padrão.',
-    'preset.1': 'Aluguel Residencial', 'preset.2': 'Aluguel Comercial', 'preset.3': 'Prestação de Serviços',
-    'preset.4': 'NDA / Confidencialidade', 'preset.5': 'Compra e Venda', 'preset.6': 'Contrato CLT',
-    'preset.7': 'Contrato Freelance', 'preset.8': 'Contrato de Empréstimo', 'preset.9': 'Parceria Comercial',
-    'preset.10': 'Procuração', 'preset.11': 'Declaração', 'preset.12': 'Ata de Reunião',
-    'af.label': '// auto-fill engine',
-    'af.h2': 'O sistema entende<br>o texto. <em>Você revisa.</em>',
-    'af.desc': 'Ao colar o texto, o motor analisa e extrai automaticamente os campos essenciais do documento — com indicação de confiança para cada campo.',
-    'af.hi1': 'Extração em tempo real enquanto você digita ou cola o texto.',
-    'af.hi2': 'Nunca sobrescreve dados já digitados pelo usuário.',
-    'af.hi3': 'Flash visual nos campos preenchidos com percentual de confiança.',
-    'af.hi4': 'Thresholds configuráveis: sugestão a 35%, aplicação automática a 60%.',
-    'af.done': '✓ 6 campos preenchidos automaticamente',
-    'af.field.title': 'Título', 'af.field.city': 'Cidade', 'af.field.date': 'Data',
-    'af.field.ref': 'Nº / Ref.', 'af.field.client': 'Contratante', 'af.field.provider': 'Contratado',
-    'export.label': '// exportação',
-    'export.h2': 'PDF vetorial.<br>DOCX <em>real.</em>',
-    'export.desc': 'Dois formatos profissionais gerados diretamente no seu browser — sem servidor, sem upload, sem espera.',
-    'export.pdf.title': 'Documento vetorial para impressão', 'export.pdf.desc': 'Gerado com jsPDF, multi-página automático com fontes embutidas — sem granulação, sem distorção.',
-    'export.pdf.f1': 'Margens jurídicas padrão OAB/Tribunais (30×20×20×20 mm)', 'export.pdf.f2': 'Multi-página com paginação automática',
-    'export.pdf.f3': "Marca d'água posicionável (centro, cantos)", 'export.pdf.f4': 'Logotipo no cabeçalho',
-    'export.pdf.f5': 'Pronto para assinatura digital Gov.br / ICP-Brasil', 'export.pdf.f6': 'Funciona 100% offline após a primeira visita',
-    'export.docx.title': 'Word real, editável em qualquer lugar', 'export.docx.desc': 'Gerado com docx.js — compatível com Microsoft Word, LibreOffice e Google Docs.',
-    'export.docx.f1': 'Estilos de parágrafo e tab stops preservados', 'export.docx.f2': 'Hierarquia de títulos estruturada',
-    'export.docx.f3': 'Compatível com Word, LibreOffice e Google Docs', 'export.docx.f4': 'Disponível para contratos, currículo e e-mail formal',
-    'export.docx.f5': 'Download instantâneo via FileSaver.js', 'export.docx.f6': 'Editável após exportação',
-    'pwa.label': '// pwa instalável',
-    'pwa.h2': 'Instale como app.<br>Use <em>offline.</em>',
-    'pwa.stat.offline': 'Sem rede', 'pwa.stat.data': 'Dados enviados',
-    'pwa.p1.title': 'Android e desktop', 'pwa.p1.desc': 'Instalável no Android via Chrome e no desktop via Chrome ou Edge. Ícone na tela inicial, abre sem barra do browser.',
-    'pwa.p2.title': 'Offline completo', 'pwa.p2.desc': 'Service Worker com estratégia híbrida: HTML via Network First, CSS/JS via Stale While Revalidate, assets via Cache First.',
-    'pwa.p3.title': 'Atalhos nativos', 'pwa.p3.desc': 'Segure o ícone no Android e acesse direto o Formatador de Documentos ou o Gerador de Currículo.',
-    'pwa.p4.title': 'Atualização automática', 'pwa.p4.desc': 'Nova versão disponível? Um toast avisa discretamente e você decide quando recarregar.',
-    'creator.label': '// criador',
-    'creator.desc': 'Desenvolvedor e empreendedor de Serra, ES. O DocForm nasceu da necessidade real de formatar documentos jurídicos sem complicação. Acompanhe os bastidores do projeto nas redes.',
-    'cta.h2': 'Seu documento<br>em <em>segundos.</em>',
-    'cta.desc': 'Sem cadastro. Sem mensalidade. Sem dados enviados ao servidor.<br>Cole o texto — o DocForm faz o resto.',
-    'cta.btn1': 'Formatar meu documento', 'cta.btn2': 'Falar com o atendimento',
-    'cta.note': 'Criado por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, ES · CNPJ 54.806.916/0001-62',
-    'footer.copy': '© 2026 DocForm · Feito por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Distribuído sob licença MIT',
-  },
+(function(){
+  /* ── Menu hambúrguer (herdado do index-velho) ── */
+  var toggle=document.getElementById('hamburger-toggle');
+  var nav=document.getElementById('mobile-nav');
+  var scrim=document.getElementById('mnav-scrim');
+  if(!toggle||!nav||!scrim)return;
 
-  en: {
-    'nav.cta': 'Open App',
-    'hero.badge': 'Free PWA · works offline · no login',
-    'hero.h1': 'Paste your text.<br>A professional document<br>comes back <em>ready.</em>',
-    'hero.sub': 'Turn any AI-generated text into formatted contracts, résumés, and legal documents — ready to print or sign digitally.',
-    'hero.cta1': 'Format Document', 'hero.cta2': "Developer's Page", 'hero.cta3': 'How it works',
-    'hero.cta.app': 'Use the App', 'hero.cta.github': 'Project on GitHub',
-    'pipe.1': 'Paste the text', 'pipe.2': 'Auto-detects type', 'pipe.3': 'Fills the header', 'pipe.4': 'Generates PDF',
-    'cf.label': '// process',
-    'cf.h2': 'Four steps.<br>One <em>flawless</em> document.',
-    'cf.desc': 'No vague templates, no manual formatting, no hours lost on spacing. DocForm understands what you pasted and does the rest.',
-    'cf.s1.title': 'Paste the text', 'cf.s1.desc': "Paste the contract, email, or résumé generated by any AI directly into DocForm's text area.",
-    'cf.s2.title': 'Auto-detection', 'cf.s2.desc': 'The smart engine identifies the document type using keyword fingerprinting with a confidence score.',
-    'cf.s3.title': 'Header auto-fill', 'cf.s3.desc': "Title, city, date, parties, and contract number are extracted and filled in automatically — without overwriting what you've already typed.",
-    'cf.s4.title': 'Export PDF or DOCX', 'cf.s4.desc': 'Generate the document with standard legal margins, pagination and logo — right in the browser, no server needed.',
-    'feat.label': '// features',
-    'feat.h2': 'Everything a professional<br>document <em>needs.</em>',
-    'feat.1.title': 'Contract Formatter', 'feat.1.desc': '12 ready-made legal presets: rental, service agreement, NDA, purchase, employment, freelance, loan, and more.',
-    'feat.2.title': 'Résumé Generator 2026', 'feat.2.desc': "Complete form with photo, experience, education, languages and skills. Empty fields don't appear in the PDF.",
-    'feat.3.title': 'Formal Email', 'feat.3.desc': 'Corporate formatting with structured header, body and signature. PDF and DOCX export in seconds.',
-    'feat.4.title': 'Digital Signature', 'feat.4.desc': 'Digital signature options with configurable witness fields.',
-    'feat.5.title': '100% Private', 'feat.5.desc': 'No text ever leaves your device. No backend, no database, no login. Processing entirely in the browser.',
-    'feat.6.title': 'Watermark & Logo', 'feat.6.desc': 'Add your logo to the header and set a custom watermark (PNG, JPG or SVG) on the document.',
-    'presets.label': '// legal presets',
-    'presets.h2': '12 ready templates.<br><em>Zero</em> manual formatting.',
-    'presets.desc': 'Each preset follows professional document standards — margins, spacing, clause numbering and pagination set by default.',
-    'preset.1': 'Residential Lease', 'preset.2': 'Commercial Lease', 'preset.3': 'Service Agreement',
-    'preset.4': 'NDA / Confidentiality', 'preset.5': 'Purchase Agreement', 'preset.6': 'Employment Contract',
-    'preset.7': 'Freelance Contract', 'preset.8': 'Loan Agreement', 'preset.9': 'Business Partnership',
-    'preset.10': 'Power of Attorney', 'preset.11': 'Declaration', 'preset.12': 'Meeting Minutes',
-    'af.label': '// auto-fill engine',
-    'af.h2': 'The system reads<br>the text. <em>You review.</em>',
-    'af.desc': "When you paste the text, the engine automatically analyzes and extracts the document's key fields — with a confidence indicator for each.",
-    'af.hi1': 'Real-time extraction as you type or paste.',
-    'af.hi2': 'Never overwrites data already typed by the user.',
-    'af.hi3': 'Visual flash on filled fields with confidence percentage.',
-    'af.hi4': 'Configurable thresholds: suggestion at 35%, auto-apply at 60%.',
-    'af.done': '✓ 6 fields filled automatically',
-    'af.field.title': 'Title', 'af.field.city': 'City', 'af.field.date': 'Date',
-    'af.field.ref': 'No. / Ref.', 'af.field.client': 'Client', 'af.field.provider': 'Provider',
-    'export.label': '// export',
-    'export.h2': 'Vector PDF.<br><em>Real</em> DOCX.',
-    'export.desc': 'Two professional formats generated directly in your browser — no server, no upload, no waiting.',
-    'export.pdf.title': 'Vector document for printing', 'export.pdf.desc': 'Generated with jsPDF, automatic multi-page with embedded fonts — no pixelation, no distortion.',
-    'export.pdf.f1': 'Standard legal margins (30×20×20×20 mm)', 'export.pdf.f2': 'Multi-page with automatic pagination',
-    'export.pdf.f3': 'Positionable watermark (center, corners)', 'export.pdf.f4': 'Logo in the header',
-    'export.pdf.f5': 'Ready for digital signature', 'export.pdf.f6': 'Works 100% offline after first visit',
-    'export.docx.title': 'Real Word, editable anywhere', 'export.docx.desc': 'Generated with docx.js — compatible with Microsoft Word, LibreOffice and Google Docs.',
-    'export.docx.f1': 'Paragraph styles and tab stops preserved', 'export.docx.f2': 'Structured heading hierarchy',
-    'export.docx.f3': 'Compatible with Word, LibreOffice and Google Docs', 'export.docx.f4': 'Available for contracts, résumés and formal email',
-    'export.docx.f5': 'Instant download via FileSaver.js', 'export.docx.f6': 'Editable after export',
-    'pwa.label': '// installable pwa',
-    'pwa.h2': 'Install as an app.<br>Use <em>offline.</em>',
-    'pwa.stat.offline': 'No network', 'pwa.stat.data': 'Data sent',
-    'pwa.p1.title': 'Android & desktop', 'pwa.p1.desc': 'Installable on Android via Chrome and on desktop via Chrome or Edge. Home screen icon, opens without a browser bar.',
-    'pwa.p2.title': 'Full offline', 'pwa.p2.desc': 'Service Worker with hybrid strategy: HTML via Network First, CSS/JS via Stale While Revalidate, assets via Cache First.',
-    'pwa.p3.title': 'Native shortcuts', 'pwa.p3.desc': 'Long-press the icon on Android to jump straight to the Document Formatter or the Résumé Generator.',
-    'pwa.p4.title': 'Auto-update', 'pwa.p4.desc': 'New version available? A discreet toast notifies you and you decide when to reload.',
-    'creator.label': '// creator',
-    'creator.desc': "Developer and entrepreneur from Serra, Brazil. DocForm was born from the real need to format legal documents without the hassle. Follow the project's behind-the-scenes on social media.",
-    'cta.h2': 'Your document<br>in <em>seconds.</em>',
-    'cta.desc': 'No sign-up. No subscription. No data sent to any server.<br>Paste the text — DocForm does the rest.',
-    'cta.btn1': 'Format my document', 'cta.btn2': 'Contact support',
-    'cta.note': 'Created by <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, Brazil',
-    'footer.copy': '© 2026 DocForm · Made by <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Released under the MIT License',
-  },
+  var firstLink=nav.querySelector('.mnav-link,.mnav-toggle');
+  var dropdownToggles=Array.prototype.slice.call(nav.querySelectorAll('.mnav-toggle'));
 
-  es: {
-    'nav.cta': 'Abrir App',
-    'hero.badge': 'PWA gratuita · funciona sin conexión · sin registro',
-    'hero.h1': 'Pega el texto.<br>El documento <em>listo</em><br>corre por nuestra cuenta.',
-    'hero.sub': 'Transforma cualquier texto generado por IA en contratos, currículums y documentos legales formateados — listos para imprimir o firmar digitalmente.',
-    'hero.cta1': 'Formatear Documento', 'hero.cta2': 'Página del Desarrollador', 'hero.cta3': 'Cómo funciona',
-    'hero.cta.app': 'Usar la App', 'hero.cta.github': 'Proyecto en GitHub',
-    'pipe.1': 'Pega el texto', 'pipe.2': 'Auto-detecta el tipo', 'pipe.3': 'Rellena el encabezado', 'pipe.4': 'Genera el PDF',
-    'cf.label': '// proceso',
-    'cf.h2': 'Cuatro pasos.<br>Un documento <em>impecable.</em>',
-    'cf.desc': 'Sin plantillas vagas, sin formateo manual, sin horas perdidas en espaciados. DocForm entiende lo que pegaste y hace el resto.',
-    'cf.s1.title': 'Pega el texto', 'cf.s1.desc': 'Pega el contrato, correo o currículum generado por cualquier IA directamente en el área de texto de DocForm.',
-    'cf.s2.title': 'Auto-detección', 'cf.s2.desc': 'El motor inteligente identifica el tipo de documento mediante fingerprint de palabras clave con puntuación de confianza.',
-    'cf.s3.title': 'Autorelleno del encabezado', 'cf.s3.desc': 'Título, ciudad, fecha, partes y número de contrato se extraen y rellenan automáticamente, sin sobrescribir lo que ya escribiste.',
-    'cf.s4.title': 'Exporta PDF o DOCX', 'cf.s4.desc': 'Genera el documento con márgenes legales estándar, paginación y logotipo — directo en el navegador, sin servidor.',
-    'feat.label': '// funcionalidades',
-    'feat.h2': 'Todo lo que un documento<br>profesional <em>necesita.</em>',
-    'feat.1.title': 'Formateador de Contratos', 'feat.1.desc': '12 plantillas legales listas: alquiler, servicios, NDA, compraventa, empleo, freelance, préstamo y más.',
-    'feat.2.title': 'Generador de Currículum 2026', 'feat.2.desc': 'Formulario completo con foto, experiencias, formación, idiomas y habilidades. Los campos vacíos no aparecen en el PDF.',
-    'feat.3.title': 'Correo Formal', 'feat.3.desc': 'Formato corporativo con encabezado, cuerpo y firma estructurados. Exportación PDF y DOCX en segundos.',
-    'feat.4.title': 'Firma Digital', 'feat.4.desc': 'Opciones de firma digital con campo de testigos configurable.',
-    'feat.5.title': '100% Privado', 'feat.5.desc': 'Ningún texto sale de tu dispositivo. Sin backend, sin base de datos, sin registro. Procesamiento íntegramente en el navegador.',
-    'feat.6.title': 'Marca de Agua y Logotipo', 'feat.6.desc': 'Añade tu logotipo al encabezado y configura una marca de agua personalizada (PNG, JPG o SVG) en el documento.',
-    'presets.label': '// plantillas legales',
-    'presets.h2': '12 plantillas listas.<br><em>Cero</em> formateo manual.',
-    'presets.desc': 'Cada plantilla sigue los estándares de documentos profesionales — márgenes, espaciados, numeración de cláusulas y paginación configurados por defecto.',
-    'preset.1': 'Arrendamiento Residencial', 'preset.2': 'Arrendamiento Comercial', 'preset.3': 'Contrato de Servicios',
-    'preset.4': 'NDA / Confidencialidad', 'preset.5': 'Contrato de Compraventa', 'preset.6': 'Contrato Laboral',
-    'preset.7': 'Contrato Freelance', 'preset.8': 'Contrato de Préstamo', 'preset.9': 'Asociación Comercial',
-    'preset.10': 'Poder Notarial', 'preset.11': 'Declaración', 'preset.12': 'Acta de Reunión',
-    'af.label': '// motor de autorelleno',
-    'af.h2': 'El sistema lee<br>el texto. <em>Tú revisas.</em>',
-    'af.desc': 'Al pegar el texto, el motor analiza y extrae automáticamente los campos esenciales del documento — con indicador de confianza para cada campo.',
-    'af.hi1': 'Extracción en tiempo real mientras escribes o pegas.',
-    'af.hi2': 'Nunca sobrescribe datos ya escritos por el usuario.',
-    'af.hi3': 'Flash visual en los campos rellenados con porcentaje de confianza.',
-    'af.hi4': 'Umbrales configurables: sugerencia al 35%, aplicación automática al 60%.',
-    'af.done': '✓ 6 campos rellenados automáticamente',
-    'af.field.title': 'Título', 'af.field.city': 'Ciudad', 'af.field.date': 'Fecha',
-    'af.field.ref': 'Nº / Ref.', 'af.field.client': 'Contratante', 'af.field.provider': 'Contratado',
-    'export.label': '// exportación',
-    'export.h2': 'PDF vectorial.<br>DOCX <em>real.</em>',
-    'export.desc': 'Dos formatos profesionales generados directamente en tu navegador — sin servidor, sin subida, sin espera.',
-    'export.pdf.title': 'Documento vectorial para impresión', 'export.pdf.desc': 'Generado con jsPDF, multipágina automático con fuentes integradas — sin pixelación, sin distorsión.',
-    'export.pdf.f1': 'Márgenes legales estándar (30×20×20×20 mm)', 'export.pdf.f2': 'Multipágina con paginación automática',
-    'export.pdf.f3': 'Marca de agua posicionable (centro, esquinas)', 'export.pdf.f4': 'Logotipo en el encabezado',
-    'export.pdf.f5': 'Listo para firma digital', 'export.pdf.f6': 'Funciona 100% sin conexión tras la primera visita',
-    'export.docx.title': 'Word real, editable en cualquier lugar', 'export.docx.desc': 'Generado con docx.js — compatible con Microsoft Word, LibreOffice y Google Docs.',
-    'export.docx.f1': 'Estilos de párrafo y tabulaciones preservados', 'export.docx.f2': 'Jerarquía de títulos estructurada',
-    'export.docx.f3': 'Compatible con Word, LibreOffice y Google Docs', 'export.docx.f4': 'Disponible para contratos, currículum y correo formal',
-    'export.docx.f5': 'Descarga instantánea via FileSaver.js', 'export.docx.f6': 'Editable tras la exportación',
-    'pwa.label': '// pwa instalable',
-    'pwa.h2': 'Instala como app.<br>Usa <em>sin conexión.</em>',
-    'pwa.stat.offline': 'Sin red', 'pwa.stat.data': 'Datos enviados',
-    'pwa.p1.title': 'Android y escritorio', 'pwa.p1.desc': 'Instalable en Android vía Chrome y en escritorio vía Chrome o Edge. Icono en pantalla de inicio, abre sin barra del navegador.',
-    'pwa.p2.title': 'Offline completo', 'pwa.p2.desc': 'Service Worker con estrategia híbrida: HTML vía Network First, CSS/JS vía Stale While Revalidate, assets vía Cache First.',
-    'pwa.p3.title': 'Accesos directos nativos', 'pwa.p3.desc': 'Mantén pulsado el icono en Android para acceder directamente al Formateador o al Generador de Currículum.',
-    'pwa.p4.title': 'Actualización automática', 'pwa.p4.desc': '¿Nueva versión disponible? Un toast discreto te avisa y decides cuándo recargar.',
-    'creator.label': '// creador',
-    'creator.desc': 'Desarrollador y emprendedor de Serra, Brasil. DocForm nació de la necesidad real de formatear documentos legales sin complicaciones. Sigue los bastidores del proyecto en redes.',
-    'cta.h2': 'Tu documento<br>en <em>segundos.</em>',
-    'cta.desc': 'Sin registro. Sin suscripción. Sin datos enviados al servidor.<br>Pega el texto — DocForm hace el resto.',
-    'cta.btn1': 'Formatear mi documento', 'cta.btn2': 'Hablar con atención al cliente',
-    'cta.note': 'Creado por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer">Alexandre Torres</a> · <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer">@aletordev</a> · Serra, Brasil',
-    'footer.copy': '© 2026 DocForm · Hecho por <a href="https://alexandretorres.com.br" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none;">Alexandre Torres</a><br>Distribuido bajo licencia MIT',
+  function closeAllDropdowns(){
+    dropdownToggles.forEach(function(btn){
+      btn.setAttribute('aria-expanded','false');
+      var menu=document.getElementById(btn.getAttribute('aria-controls'));
+      if(menu)menu.hidden=true;
+    });
   }
-};
 
-const HTML_LANG = { pt: 'pt-BR', en: 'en', es: 'es' };
+  function openMenu(){
+    nav.hidden=false;
+    scrim.hidden=false;
 
-function detectLocale() {
-  const saved = localStorage.getItem('df-locale');
-  if (saved && LOCALES[saved]) return saved;
-  const lang = (navigator.language || 'pt').slice(0, 2).toLowerCase();
-  return LOCALES[lang] ? lang : 'pt';
-}
+    requestAnimationFrame(function(){
+      nav.classList.add('open');
+    });
 
-function applyLocale(locale) {
-  const t = LOCALES[locale];
-  if (!t) return;
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Fechar menu');
+    if(firstLink)firstLink.focus();
+  }
 
-  document.documentElement.lang = HTML_LANG[locale] || locale;
+  function closeMenu(){
+    nav.classList.remove('open');
 
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) el.textContent = t[key];
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Abrir menu');
+
+    toggle.focus();
+    closeAllDropdowns();
+
+    setTimeout(function(){
+      nav.hidden=true;
+      scrim.hidden=true;
+    },300);
+  }
+
+  toggle.addEventListener('click',function(){
+    toggle.getAttribute('aria-expanded')==='true'
+      ? closeMenu()
+      : openMenu();
   });
 
-  document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    const key = el.getAttribute('data-i18n-html');
-    if (t[key] !== undefined) el.innerHTML = t[key];
+  scrim.addEventListener('click',closeMenu);
+
+  dropdownToggles.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var isOpen=btn.getAttribute('aria-expanded')==='true';
+      dropdownToggles.forEach(function(other){
+        if(other!==btn){
+          other.setAttribute('aria-expanded','false');
+          var otherMenu=document.getElementById(other.getAttribute('aria-controls'));
+          if(otherMenu)otherMenu.hidden=true;
+        }
+      });
+      btn.setAttribute('aria-expanded',String(!isOpen));
+      var menu=document.getElementById(btn.getAttribute('aria-controls'));
+      if(menu)menu.hidden=isOpen;
+    });
   });
 
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    const isActive = btn.dataset.lang === locale;
-    btn.classList.toggle('active', isActive);
-    btn.setAttribute('aria-pressed', isActive);
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape')return;
+    if(toggle.getAttribute('aria-expanded')==='true')closeMenu();
   });
-
-  localStorage.setItem('df-locale', locale);
-}
-
-// Boot
-const currentLocale = detectLocale();
-applyLocale(currentLocale);
-
-// Switcher clicks
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => applyLocale(btn.dataset.lang));
-});
-
-/* ── Reveal on scroll ── */
-const revealEls = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 60);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => observer.observe(el));
+})();
 </script>
 
-<script id="ecosystem-nav-script">
-  (() => {
-  // Navegação global do ecossistema
-  const hamburger = document.querySelector('.nav-hamburger');
-  const navLinks = document.querySelector('.nav-links');
-  const productsNav = document.querySelector('.nav-products');
-  const productsTrigger = document.querySelector('.nav-dropdown-trigger');
+<script>
+(function(){
+'use strict';
 
-  function closeMenus() {
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    navLinks.classList.remove('mobile-open');
-    productsNav.classList.remove('open');
-    productsTrigger.setAttribute('aria-expanded', 'false');
-  }
+var T={
+pt:{
+  htmlLang:'pt-BR',pageTitle:'Alexandre Torres — Aplicações, Sites e Landing Pages',themeLabel:'Versão clara',
+  heroEyebrow:'Maximize Sua Base de Clientes',heroHL1:'SUA PÁGINA',heroHL2:'VENDENDO.',heroHL3:'Enquanto você dorme.',
+  heroSR:'SUA PÁGINA VENDENDO. Enquanto você dorme.',
+  heroSub:'Landing pages construídas com arquitetura de decisão — <em>não opinião de designer.</em>',
+  heroMicro:'Não adie a engenharia que transforma percepção em decisão.',heroCTA:'Quero parar de perder vendas',
+  heroScarcity:'Atendo no máx. 3 projetos por semana',
+  stat1:'Conversão média',stat2num:'15dias',stat2:'Prazo de entrega',stat3:'projeto sob medida',
+  dorEyebrow:'O diagnóstico honesto',
+  dorH2:'Cada real em página fraca.<br><em>É um real no lixo.</em>',
+  dorP:'Cada real em anúncios que chega numa página fraca é um real desperdiçado.',
+  diagLabel:'✦ Diagnóstico gratuito',diagHeadline:'Receba o diagnóstico técnico do seu site.',
+  diagSub:'Me mostre seu site e eu te mostro exatamente onde você está perdendo dinheiro.',
+  diagCTA:'Receber diagnóstico do meu site',diagNote:'Sem compromisso. Resposta em até 24h.',
+  dor1title:'Concorrentes menores vendendo mais.',dor1p:'O mercado não escolhe necessariamente o melhor produto — escolhe o que consegue comunicar valor e reduzir risco primeiro.',
+  dor2title:'Visita sem comprar.',dor2p:'As pessoas chegam, rolam por segundos e saem.',
+  dor3title:'Design bonito que não converte.',dor3p:'Visual sem estratégia é decoração.',
+  dor4title:'Copy que descreve, não conecta.',dor4p:'Se o visitante não reconhece o próprio problema, a informação vira ruído — não decisão.',
+  dorMethodCTA:'Ver como resolvemos isso',
+  dorMethodSub:'Estratégia, estrutura e execução real — sem achismo.',
+  dorQuote:'"Uma página de alta conversão não é custo — é o ativo mais rentável do seu negócio."',
+  portEyebrow:'Provas vivas de pensamento aplicado',
+  portH2:'Projetos que validam<br><em>o meu método.</em>',
+  portP:'Meus cases são sistemas vivos, construídos com a exata mentalidade que imprimo em cada projeto — estratégia psicológica antes da forma.',
+  p1tag:'SaaS · Gestão de Playlists',p1result:'Organizou +120 canais → reduziu churn em 32%',p1desc:'Plataforma que transformou o caos de playlists em fluxo gerenciável.',
+  p2tag:'Ferramenta Gratuita · Web Audio API',p2result:'Zero instalação → produtores economizando R$200/mês em software',p2desc:'Processador de áudio profissional que funciona direto no browser.',
+  p3tag:'Ferramenta Gratuita · Automação',p3result:'Processo manual de 40min → geração automática em 90 segundos',
+  p3desc:'Transformou templates estáticos em fluxos de preenchimento automático. Impacto real: equipes operacionais recuperando horas semanais que iam para burocracia.',
+  pjSeeProject:'Conhecer Projeto ↗',pjUseApp:'Usar App Gratuitamente ↗',pjUseFree:'Usar Gratuitamente ↗',
+  metEyebrow:'O processo',
+  metTransition:'Agências entregam design. Eu entrego uma sequência psicológica que transforma curiosidade em certeza de compra. É o que chamo de arquitetura de decisão.',
+  metH2:'Não é design. É<br><em>arquitetura de decisão.</em>',
+  metP:'Cada elemento posicionado com intenção — do primeiro pixel ao botão de compra.',
+  s1h:'Mapeamento de Estado Mental',s1p:'Mapeamos o estado emocional do seu cliente — medos, objeções, esperanças. A página começa daí, não do produto.',s1tag:'Estratégia · Pesquisa',
+  s2h:'Arquitetura de Conversão',s2p:'Cada seção tem uma função emocional específica. Tudo conduz ao próximo passo com naturalidade.',s2tag:'Estrutura · Copy',
+  s3h:'Engenharia de Performance',s3p:'Performance também comunica. Velocidade, estabilidade e resposta preservam atenção e confiança enquanto a decisão está sendo construída.',s3tag:'Técnica · UX',
+  s4h:'Engenharia de Confiança',s4p:'Prova social posicionada com precisão, especificidade que gera credibilidade e remoção dos sinais que fazem o visitante hesitar.',s4tag:'Credibilidade · Prova',
+  s5h:'CTA Como Alívio',s5p:'Quando a narrativa é construída corretamente, clicar no botão não parece uma interrupção — parece o próximo passo natural.',s5tag:'Conversão · Ação',
+  s6h:'Entrega e Otimização',s6p:'Página entregue em até 15 dias, pronta para publicar. Revisão de performance no 30º dia incluída.',s6tag:'Entrega · Revisão',
+  ctaW1:'Agora',ctaW2:'não',ctaW3:'há',ctaW4:'mais',ctaW5:'dúvidas.',
+  ctaSR:'Agora não há mais dúvidas.',
+  ctaP:'A única pergunta é: quanto tempo você ainda vai<br class="cfl-br"> deixar dinheiro na mesa e ver sua concorrência<br class="cfl-br"> faturar com o que poderia ser <em>seu?</em>',
+  ctaBtn:'SIM, EU QUERO UMA ESTRATÉGIA PARA O MEU NEGÓCIO',
+  ctaGuarantee:'✦ Escopo definido antes do início &nbsp;·&nbsp; ✦ Entrega em até 15 dias &nbsp;·&nbsp; ✦ Revisão de performance no 30º dia',
+  footerBrand:'Landing Pages &amp; Aplicações Web Premium<br>Serra, Espírito Santo — ES · Brasil',
+  footerPrivacy:'Termos | Privacidade',footerCopy:'© 2026 Alexandre Torres · Todos os direitos reservados'
+},
 
-  hamburger.addEventListener('click', () => {
-    const open = !navLinks.classList.contains('mobile-open');
-    if (open) {
-      navLinks.classList.add('mobile-open');
-      hamburger.classList.add('open');
-      hamburger.setAttribute('aria-expanded', 'true');
-    } else {
-      closeMenus();
-    }
+en:{
+  htmlLang:'en',pageTitle:'Alexandre Torres — Web Apps, Sites & Landing Pages',themeLabel:'Light mode',
+  heroEyebrow:'Maximize Your Customer Base',heroHL1:'YOUR PAGE',heroHL2:'SELLING.',heroHL3:'While you sleep.',
+  heroSR:'YOUR PAGE SELLING. While you sleep.',
+  heroSub:"Landing pages built on decision architecture — <em>not a designer's opinion.</em>",
+  heroMicro:"Don't delay the engineering that turns perception into decision.",heroCTA:'I want to stop losing sales',
+  heroScarcity:'Max. 3 projects per week',
+  stat1:'Avg. conversion',stat2num:'15days',stat2:'Delivery time',stat3:'tailored project',
+  dorEyebrow:'The honest diagnosis',
+  dorH2:'Every dollar on a weak page.<br><em>Is a wasted dollar.</em>',
+  dorP:'Every dollar spent on ads that lands on a weak page is a dollar wasted.',
+  diagLabel:'✦ Free diagnosis',diagHeadline:'Get the technical diagnosis of your site.',
+  diagSub:"Show me your site and I'll show you exactly where you're losing money.",
+  diagCTA:'Get my site diagnosed',diagNote:'No commitment. Reply within 24h.',
+  dor1title:'Smaller competitors selling more.',dor1p:"The market doesn't choose the best product — it chooses the one that convinces first.",
+  dor2title:"Visitors who don't buy.",dor2p:'People arrive, scroll for a few seconds, and leave.',
+  dor3title:"Pretty design that doesn't convert.",dor3p:'Visuals without strategy are just decoration.',
+  dor4title:"Copy that describes, not connects.",dor4p:"Without emotional connection, there's no purchase decision.",
+  dorMethodCTA:'See how we solve this',
+  dorMethodSub:'Strategy, structure and real execution — no guesswork.',
+  dorQuote:"\"A high-converting page isn't a cost — it's the most profitable asset of your business.\"",
+  portEyebrow:'Live proof of applied thinking',
+  portH2:'Projects that validate<br><em>my method.</em>',
+  portP:'My cases are living systems, built with the exact mindset I bring to every project — psychological strategy before form.',
+  p1tag:'SaaS · Playlist Management',p1result:'Organized +120 channels → reduced churn by 32%',p1desc:'Platform that turned playlist chaos into a manageable flow.',
+  p2tag:'Free Tool · Web Audio API',p2result:'Zero install → producers saving $40/month on software',p2desc:'Professional audio processor that runs directly in the browser.',
+  p3tag:'Free Tool · Automation',p3result:'40-min manual process → automatic generation in 90 seconds',
+  p3desc:'Turned static templates into automated fill flows. Real impact: operational teams reclaiming weekly hours lost to bureaucracy.',
+  pjSeeProject:'See Project ↗',pjUseApp:'Use App for Free ↗',pjUseFree:'Use for Free ↗',
+  metEyebrow:'The process',
+  metTransition:"Agencies deliver design. I deliver a psychological sequence that turns curiosity into certainty. That's what I call decision architecture.",
+  metH2:"It's not design. It's<br><em>decision architecture.</em>",
+  metP:'Every element placed with intention — from the first pixel to the buy button.',
+  s1h:'Mental State Mapping',s1p:"We map your customer's emotional state — fears, objections, hopes. The page starts there, not with the product.",s1tag:'Strategy · Research',
+  s2h:'Conversion Architecture',s2p:'Each section has a specific emotional function. Everything leads to the next step naturally.',s2tag:'Structure · Copy',
+  s3h:'Performance Engineering',s3p:"Performance also communicates. Speed, stability and responsiveness preserve attention and trust while the decision is being built.",s3tag:'Technical · UX',
+  s4h:'Trust Engineering',s4p:'Social proof placed with precision, specificity that builds credibility, and removal of signals that make visitors hesitate.',s4tag:'Credibility · Proof',
+  s5h:'CTA as Relief',s5p:"When the narrative is built correctly, clicking the button doesn't feel like an interruption — it feels like the natural next step.",s5tag:'Conversion · Action',
+  s6h:'Delivery & Optimization',s6p:'Page delivered within 15 days, ready to publish. Performance review on day 30 included.',s6tag:'Delivery · Review',
+  ctaW1:'Now',ctaW2:'there',ctaW3:'are',ctaW4:'no',ctaW5:'doubts.',
+  ctaSR:'Now there are no doubts.',
+  ctaP:'The only question is: how much longer will you<br class="cfl-br"> leave money on the table and watch your competition<br class="cfl-br"> earn what could be <em>yours?</em>',
+  ctaBtn:'YES, I WANT A STRATEGY FOR MY BUSINESS',
+  ctaGuarantee:'✦ Scope defined before work begins &nbsp;·&nbsp; ✦ Delivery within 15 days &nbsp;·&nbsp; ✦ Day-30 performance review',
+  footerBrand:'Landing Pages &amp; Premium Web Apps<br>Serra, Espírito Santo — ES · Brazil',
+  footerPrivacy:'Terms | Privacy',footerCopy:'© 2026 Alexandre Torres · All rights reserved'
+},
+
+es:{
+  htmlLang:'es',pageTitle:'Alexandre Torres — Apps Web, Sitios y Landing Pages',themeLabel:'Versión clara',
+  heroEyebrow:'Maximiza Tu Base de Clientes',heroHL1:'TU PÁGINA',heroHL2:'VENDIENDO.',heroHL3:'Mientras duermes.',
+  heroSR:'TU PÁGINA VENDIENDO. Mientras duermes.',
+  heroSub:'Landing pages construidas con arquitectura de decisión — <em>no con opinión de diseñador.</em>',
+  heroMicro:'No demores la ingeniería que transforma percepción en decisión.',heroCTA:'Quiero dejar de perder ventas',
+  heroScarcity:'Atiendo máx. 3 proyectos por semana',
+  stat1:'Conversión promedio',stat2num:'15días',stat2:'Plazo de entrega',stat3:'proyecto a medida',
+  dorEyebrow:'El diagnóstico honesto',
+  dorH2:'Cada peso en página débil.<br><em>Es un peso en la basura.</em>',
+  dorP:'Cada peso en anuncios que llega a una página débil es un peso desperdiciado.',
+  diagLabel:'✦ Diagnóstico gratuito',diagHeadline:'Recibe el diagnóstico técnico de tu sitio.',
+  diagSub:'Muéstrame tu sitio y te muestro exactamente dónde estás perdiendo dinero.',
+  diagCTA:'Recibir diagnóstico de mi sitio',diagNote:'Sin compromiso. Respuesta en menos de 24h.',
+  dor1title:'Competidores más pequeños vendiendo más.',dor1p:'El mercado no elige el mejor producto — elige el que convence primero.',
+  dor2title:'Visitas sin comprar.',dor2p:'Las personas llegan, hacen scroll por segundos y se van.',
+  dor3title:'Diseño bonito que no convierte.',dor3p:'Visual sin estrategia es decoración.',
+  dor4title:'Copy que describe, no conecta.',dor4p:'Sin conexión emocional, no hay decisión de compra.',
+  dorMethodCTA:'Ver cómo lo resolvemos',
+  dorMethodSub:'Estrategia, estructura y ejecución real — sin suposiciones.',
+  dorQuote:'"Una página de alta conversión no es un gasto — es el activo más rentable de tu negocio."',
+  portEyebrow:'Pruebas vivas de pensamiento aplicado',
+  portH2:'Proyectos que validan<br><em>mi método.</em>',
+  portP:'Mis casos son sistemas vivos, construidos con la mentalidad exacta que imprimo en cada proyecto — estrategia psicológica antes que forma.',
+  p1tag:'SaaS · Gestión de Playlists',p1result:'Organizó +120 canales → redujo churn en 32%',p1desc:'Plataforma que transformó el caos de playlists en un flujo manejable.',
+  p2tag:'Herramienta Gratuita · Web Audio API',p2result:'Sin instalación → productores ahorrando $40/mes en software',p2desc:'Procesador de audio profesional que funciona directo en el navegador.',
+  p3tag:'Herramienta Gratuita · Automatización',p3result:'Proceso manual de 40min → generación automática en 90 segundos',
+  p3desc:'Convirtió plantillas estáticas en flujos de llenado automático. Impacto real: equipos operativos recuperando horas semanales perdidas en burocracia.',
+  pjSeeProject:'Ver Proyecto ↗',pjUseApp:'Usar App Gratis ↗',pjUseFree:'Usar Gratis ↗',
+  metEyebrow:'El proceso',
+  metTransition:'Las agencias entregan diseño. Yo entrego una secuencia psicológica que transforma curiosidad en certeza de compra. Es lo que llamo arquitectura de decisión.',
+  metH2:'No es diseño. Es<br><em>arquitectura de decisión.</em>',
+  metP:'Cada elemento posicionado con intención — desde el primer píxel hasta el botón de compra.',
+  s1h:'Mapeo de Estado Mental',s1p:'Mapeamos el estado emocional de tu cliente — miedos, objeciones, esperanzas. La página empieza ahí, no en el producto.',s1tag:'Estrategia · Investigación',
+  s2h:'Arquitectura de Conversión',s2p:'Cada sección tiene una función emocional específica. Todo conduce al siguiente paso de forma natural.',s2tag:'Estructura · Copy',
+  s3h:'Ingeniería de Performance',s3p:'La performance también comunica. Velocidad, estabilidad y respuesta preservan la atención y la confianza mientras se construye la decisión.',s3tag:'Técnica · UX',
+  s4h:'Ingeniería de Confianza',s4p:'Prueba social posicionada con precisión, especificidad que genera credibilidad y eliminación de señales que hacen dudar al visitante.',s4tag:'Credibilidad · Prueba',
+  s5h:'CTA Como Alivio',s5p:'Cuando la narrativa está bien construida, hacer clic en el botón no parece una interrupción — parece el siguiente paso natural.',s5tag:'Conversión · Acción',
+  s6h:'Entrega y Optimización',s6p:'Página entregada en hasta 15 días, lista para publicar. Revisión de performance en el día 30 incluida.',s6tag:'Entrega · Revisión',
+  ctaW1:'Ya',ctaW2:'no',ctaW3:'hay',ctaW4:'más',ctaW5:'dudas.',
+  ctaSR:'Ya no hay más dudas.',
+  ctaP:'La única pregunta es: ¿cuánto tiempo más vas a<br class="cfl-br"> dejar dinero sobre la mesa y ver a tu competencia<br class="cfl-br"> ganar con lo que podría ser <em>tuyo?</em>',
+  ctaBtn:'SÍ, QUIERO UNA ESTRATEGIA PARA MI NEGOCIO',
+  ctaGuarantee:'✦ Alcance definido antes de comenzar &nbsp;·&nbsp; ✦ Entrega en hasta 15 días &nbsp;·&nbsp; ✦ Revisión de performance en el día 30',
+  footerBrand:'Landing Pages &amp; Apps Web Premium<br>Serra, Espírito Santo — ES · Brasil',
+  footerPrivacy:'Términos | Privacidad',footerCopy:'© 2026 Alexandre Torres · Todos los derechos reservados'
+}
+};
+
+function detectLang(){
+  var s=localStorage.getItem('at-lang');
+  if(s&&T[s])return s;
+  var n=(navigator.language||navigator.userLanguage||'pt').toLowerCase();
+  if(n.startsWith('pt'))return 'pt';
+  if(n.startsWith('es'))return 'es';
+  if(n.startsWith('en'))return 'en';
+  return 'en';
+}
+
+function applyLang(lang){
+  var d=T[lang];if(!d)return;
+  document.documentElement.lang=d.htmlLang;
+  document.title=d.pageTitle;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(d[k]!==undefined)el.textContent=d[k];
   });
-
-  productsTrigger.addEventListener('click', (event) => {
-    event.preventDefault();
-    const open = !productsNav.classList.contains('open');
-    productsNav.classList.toggle('open', open);
-    productsTrigger.setAttribute('aria-expanded', String(open));
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+    var k=el.getAttribute('data-i18n-html');
+    if(d[k]!==undefined)el.innerHTML=d[k];
   });
-
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeMenus);
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    var a=btn.dataset.lang===lang;
+    btn.classList.toggle('active',a);
+    btn.setAttribute('aria-pressed',String(a));
   });
+}
 
-  document.addEventListener('click', (event) => {
-    if (!productsNav.contains(event.target)) {
-      productsNav.classList.remove('open');
-      productsTrigger.setAttribute('aria-expanded', 'false');
-    }
+var cur=detectLang();
+applyLang(cur);
+
+document.querySelectorAll('.lang-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var l=btn.dataset.lang;
+    cur=l;
+    localStorage.setItem('at-lang',l);
+    applyLang(l);
+    document.dispatchEvent(new CustomEvent('langChange',{detail:{lang:l}}));
   });
+});
 
-  // Destaque da seção/página atual
-  const currentPath = location.pathname.replace(/\/+$/, '/') || '/';
-  navLinks.querySelectorAll('a[href]').forEach(link => {
-    const href = link.getAttribute('href');
-    if (href && href.startsWith('/') && (currentPath === href || (href !== '/' && currentPath.startsWith(href)))) {
-      link.classList.add('nav-current');
-      link.setAttribute('aria-current', 'page');
-    }
-  });
-
-  })();
+})();
 </script>
 
 </body>
