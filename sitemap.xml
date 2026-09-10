@@ -43,12 +43,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alexandretorres.com.br/ilist/</loc>
-    <lastmod>2026-09-10T11:30:55.000+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://alexandretorres.com.br/posicionamento/</loc>
     <lastmod>2026-09-08T21:37:57.000+00:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -58,6 +52,12 @@
     <loc>https://alexandretorres.com.br/voicelab/</loc>
     <lastmod>2026-07-19T18:09:37.000+00:00</lastmod>
     <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alexandretorres.com.br/youlist/</loc>
+    <lastmod>2026-09-10T11:36:26.000+00:00</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>
