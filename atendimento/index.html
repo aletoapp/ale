@@ -118,6 +118,63 @@
 
 
 
+    /* ── Modal · Reforço de acesso ─────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .modal-overlay.visivel { opacity: 1; pointer-events: all; }
+
+    .modal-caixa {
+      width: 100%;
+      max-width: 380px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 30px 24px 24px;
+      text-align: center;
+      animation: fadeUp .3s ease both;
+      box-shadow: 0 20px 50px rgba(0,0,0,.5);
+    }
+    .modal-icone {
+      width: 44px; height: 44px;
+      margin: 0 auto 16px;
+      background: var(--accent-dim);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-icone svg { width: 20px; height: 20px; color: #000; }
+    .modal-caixa h2 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .modal-texto {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .modal-texto strong {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-weight: 500;
+    }
+    #btn-fechar-modal { width: 100%; }
+
     .rodape-identidade {
       margin-top: 28px;
       padding-top: 18px;
@@ -644,6 +701,21 @@
 <div id="toast-container" aria-live="polite"></div>
 
 <!-- Banner de notificações (cliente) -->
+<div id="modal-retorno" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-retorno-titulo">
+  <div class="modal-caixa">
+    <div class="modal-icone">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/>
+      </svg>
+    </div>
+    <h2 id="modal-retorno-titulo">Guarde este acesso</h2>
+    <p class="modal-texto">
+      Para acessar novamente este atendimento, utilize o telefone <strong id="modal-tel"></strong><span id="modal-sep-email"></span><strong id="modal-email"></strong>.
+    </p>
+    <button type="button" class="btn-primary" id="btn-fechar-modal">Entendi, fechar</button>
+  </div>
+</div>
+
 <div id="banner-notif" role="complementary" aria-label="Ativar notificações">
   <div class="banner-notif-icon">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
@@ -777,6 +849,8 @@
       sessao.chamadoId = data.chamado.id;
       sessao.nomeCli   = data.cliente.nome;
 
+      salvarSessaoLocal();
+      mostrarModalRetorno(data.cliente);
       abrirChat(data);
 
     } catch (err) {
@@ -1075,23 +1149,88 @@
     e.returnValue = '';
   });
 
-  // ── URL param: protocolo direto (link do e-mail) ─────────────────────────────
-  (function carregarPelaURL() {
+  // ── Persistência de sessão (não desloga mais) ─────────────────────────────────
+  const CHAVE_SESSAO = 'chatProtocoloSessao';
+
+  function salvarSessaoLocal() {
+    try {
+      localStorage.setItem(CHAVE_SESSAO, JSON.stringify({
+        telefone:  sessao.telefone,
+        protocolo: sessao.protocolo,
+      }));
+    } catch (err) {}
+  }
+
+  function carregarSessaoLocal() {
+    try {
+      const bruto = localStorage.getItem(CHAVE_SESSAO);
+      return bruto ? JSON.parse(bruto) : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  // ── Modal · Reforço de acesso ──────────────────────────────────────────────────
+  const modalRetorno  = document.getElementById('modal-retorno');
+  const modalTel       = document.getElementById('modal-tel');
+  const modalEmail     = document.getElementById('modal-email');
+  const modalSepEmail  = document.getElementById('modal-sep-email');
+  const btnFecharModal = document.getElementById('btn-fechar-modal');
+
+  function formatarTelefoneExibicao(tel) {
+    const v = String(tel || '').replace(/\D/g, '');
+    if (v.length < 10) return tel || '';
+    return v.length > 10
+      ? `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`
+      : `(${v.slice(0,2)}) ${v.slice(2,6)}-${v.slice(6)}`;
+  }
+
+  function mostrarModalRetorno(cliente) {
+    if (!cliente) return;
+    modalTel.textContent = formatarTelefoneExibicao(cliente.telefone);
+    if (cliente.email) {
+      modalSepEmail.textContent = ' ou o e-mail ';
+      modalEmail.textContent = cliente.email;
+    } else {
+      modalSepEmail.textContent = '';
+      modalEmail.textContent = '';
+    }
+    modalRetorno.classList.add('visivel');
+  }
+
+  btnFecharModal.addEventListener('click', () => modalRetorno.classList.remove('visivel'));
+  modalRetorno.addEventListener('click', e => {
+    if (e.target === modalRetorno) modalRetorno.classList.remove('visivel');
+  });
+
+  // ── Login automático: link do e-mail (URL) ou sessão salva (localStorage) ─────
+  (function autoLogin() {
     const params = new URLSearchParams(location.search);
-    const p   = params.get('p');
-    const tel = params.get('tel');
-    if (!p || !tel) return;
+    const pURL   = params.get('p');
+    const telURL = params.get('tel');
 
-    campoTel.value = tel;
-    sessao.telefone  = tel.replace(/\D/g,'');
-    sessao.protocolo = p;
+    let protocolo, telefone;
+    if (pURL && telURL) {
+      protocolo = pURL;
+      telefone  = telURL.replace(/\D/g, '');
+    } else {
+      const salva = carregarSessaoLocal();
+      if (!salva || !salva.protocolo || !salva.telefone) return;
+      protocolo = salva.protocolo;
+      telefone  = salva.telefone;
+    }
 
-    fetch(`${API}/api/chat/${p}?tel=${tel.replace(/\D/g,'')}`)
+    campoTel.value   = telefone;
+    sessao.telefone  = telefone;
+    sessao.protocolo = protocolo;
+
+    fetch(`${API}/api/chat/${protocolo}?tel=${telefone}`)
       .then(r => r.json())
       .then(data => {
         if (data.chamado) {
           sessao.nomeCli   = data.chamado.nome || '';
           sessao.chamadoId = data.chamado.id;
+          salvarSessaoLocal();
           abrirChat({ cliente: { nome: sessao.nomeCli }, chamado: data.chamado, mensagens: data.mensagens || [] });
         }
       })
