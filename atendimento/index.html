@@ -939,7 +939,11 @@
       }
 
       const data = await res.json();
-      if (!res.ok) { erroEntrada.textContent = data.erro || 'Erro ao conectar.'; return; }
+      if (!res.ok) {
+        erroEntrada.textContent = data.erro || 'Erro ao conectar.';
+        if (data.detalhe) console.error('Detalhe do erro em /api/identificar:', data.detalhe);
+        return;
+      }
 
       sessao.telefone  = data.cliente.telefone;
       sessao.protocolo = data.chamado.protocolo;
