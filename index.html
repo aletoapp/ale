@@ -267,18 +267,7 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
 .hl-2{font-size:clamp(3.2rem,9vw,9rem);font-weight:900;color:#c8a96e;margin-bottom:0.1em}
 .hl-3{font-size:clamp(2.4rem,6vw,6rem);font-weight:700;color:#ffffff}
 .btn-primary{display:inline-block;background:#c8a96e;color:#080807;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;padding:1rem 2.4rem;text-decoration:none;position:relative;overflow:hidden}
-.dor-diag-form{margin-top:.6rem}
-.dor-diag-field-label{display:block;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,236,226,.55);margin-bottom:.5rem}
-.dor-diag-field-row{display:flex;flex-wrap:wrap;gap:.6rem;width:100%}
-.dor-diag-input{flex:1 1 220px;min-width:0;background:rgba(240,236,226,.04);border:1px solid rgba(200,169,110,.35);color:#f0ece2;font-family:'DM Mono',monospace;font-size:.85rem;padding:.9rem 1rem;outline:none;transition:border-color .2s,background .2s}
-.dor-diag-input::placeholder{color:rgba(240,236,226,.35)}
-.dor-diag-input:focus{border-color:#c8a96e;background:rgba(200,169,110,.06)}
-.dor-diag-btn{border:none;cursor:pointer;flex:0 0 auto;font:inherit;letter-spacing:inherit;text-transform:inherit}
-.dor-diag-btn[disabled]{opacity:.6;cursor:not-allowed}
-.dor-diag-honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.dor-diag-status{min-height:1.2em;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.06em;margin-top:.6rem}
-.dor-diag-status.success{color:#8fd19e}
-.dor-diag-status.error{color:#e08a8a}
+.dor-diag-btn{margin-top:.8rem}
 [data-theme="light"] body{background:#f5f0e8;color:#0a0907}
 [data-theme="light"] #hero{background:#f5f0e8}
 [data-theme="light"] .hl-1{color:#0a0907}
@@ -580,23 +569,10 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
         <div class="dor-diagnostic-block sr">
           <p class="dor-diag-headline" data-i18n-html="diagHeadline">Antes de contratar,<br>descubra o que está errado.</p>
           <div class="dor-diag-label" data-i18n="diagLabel">✦ Diagnóstico técnico gratuito</div>
-          <form class="dor-diag-form" id="diagForm" novalidate>
-            <label class="dor-diag-field-label" for="diagUrl" data-i18n="diagFieldLabel">URL do site</label>
-            <div class="dor-diag-field-row">
-              <input type="url" id="diagUrl" name="url" class="dor-diag-input" inputmode="url" autocomplete="url" required data-i18n-placeholder="diagPlaceholder" placeholder="https://seusite.com.br">
-              <label class="sr-only" for="diagWhats" data-i18n="diagWhatsLabel">Seu WhatsApp</label>
-              <input type="tel" id="diagWhats" name="whatsapp" class="dor-diag-input" inputmode="tel" autocomplete="tel" required data-i18n-placeholder="diagWhatsPlaceholder" placeholder="Seu WhatsApp">
-              <button type="submit" class="btn-primary dor-diag-btn" id="diagSubmitBtn">
-                <span data-i18n="diagCTA">Analisar meu site →</span>
-              </button>
-            </div>
-            <input type="checkbox" name="botcheck" class="dor-diag-honeypot" tabindex="-1" autocomplete="off">
-            <input type="hidden" name="access_key" value="56a4c1a9-d4c6-4e3d-93d8-fa033e832c64">
-            <input type="hidden" name="subject" value="Novo pedido de diagnóstico técnico — site">
-            <input type="hidden" name="from_name" value="Formulário do site — Diagnóstico técnico">
-          </form>
-          <p class="dor-diag-note" data-i18n="diagNote">Sem compromisso. Resposta em até 24h.</p>
-          <p class="dor-diag-status" id="diagStatus" role="status" aria-live="polite"></p>
+          <a href="https://alexandretorres.com.br/atendimento" class="btn-primary dor-diag-btn">
+            <span data-i18n="diagCTA">Analisar meu site →</span>
+          </a>
+          <p class="dor-diag-note" data-i18n="diagNote">Sem compromisso. Te chamo no WhatsApp.</p>
         </div>
       </div>
       <div>
@@ -881,10 +857,7 @@ pt:{
   dorH2:'Cada real em página fraca.<br><em>É um real no lixo.</em>',
   dorP:'Cada real em anúncios que chega numa página fraca é um real desperdiçado.',
   diagLabel:'✦ Diagnóstico técnico gratuito',diagHeadline:'Antes de contratar,<br>descubra o que está errado.',
-  diagFieldLabel:'URL do site',diagPlaceholder:'https://seusite.com.br',
-  diagWhatsLabel:'Seu WhatsApp',diagWhatsPlaceholder:'Seu WhatsApp',
-  diagCTA:'Analisar meu site →',diagNote:'Sem compromisso. Te chamo no WhatsApp em até 24h.',
-  diagSending:'Enviando...',diagSuccess:'Recebido! Vou analisar seu site e te respondo em breve.',diagError:'Não foi possível enviar agora. Tente novamente ou fale comigo direto.',
+  diagCTA:'Analisar meu site →',diagNote:'Sem compromisso. Te chamo no WhatsApp.',
   dor1title:'Concorrentes menores vendendo mais.',dor1p:'O mercado não escolhe necessariamente o melhor produto — escolhe o que consegue comunicar valor e reduzir risco primeiro.',
   dor2title:'Visita sem comprar.',dor2p:'As pessoas chegam, rolam por segundos e saem.',
   dor3title:'Design bonito que não converte.',dor3p:'Visual sem estratégia é decoração.',
@@ -931,10 +904,7 @@ en:{
   dorH2:'Every dollar on a weak page.<br><em>Is a wasted dollar.</em>',
   dorP:'Every dollar spent on ads that lands on a weak page is a dollar wasted.',
   diagLabel:'✦ Free technical diagnosis',diagHeadline:"Before you hire,<br>find out what's wrong.",
-  diagFieldLabel:'Website URL',diagPlaceholder:'https://yoursite.com',
-  diagWhatsLabel:'Your WhatsApp',diagWhatsPlaceholder:'Your WhatsApp number',
-  diagCTA:'Analyze my site →',diagNote:"No commitment. I'll message you on WhatsApp within 24h.",
-  diagSending:'Sending...',diagSuccess:"Got it! I'll analyze your site and reply soon.",diagError:'Could not send right now. Please try again or contact me directly.',
+  diagCTA:'Analyze my site →',diagNote:"No commitment. I'll message you on WhatsApp.",
   dor1title:'Smaller competitors selling more.',dor1p:"The market doesn't choose the best product — it chooses the one that convinces first.",
   dor2title:"Visitors who don't buy.",dor2p:'People arrive, scroll for a few seconds, and leave.',
   dor3title:"Pretty design that doesn't convert.",dor3p:'Visuals without strategy are just decoration.',
@@ -981,10 +951,7 @@ es:{
   dorH2:'Cada peso en página débil.<br><em>Es un peso en la basura.</em>',
   dorP:'Cada peso en anuncios que llega a una página débil es un peso desperdiciado.',
   diagLabel:'✦ Diagnóstico técnico gratuito',diagHeadline:'Antes de contratar,<br>descubre qué está mal.',
-  diagFieldLabel:'URL del sitio',diagPlaceholder:'https://tusitio.com',
-  diagWhatsLabel:'Tu WhatsApp',diagWhatsPlaceholder:'Tu WhatsApp',
-  diagCTA:'Analizar mi sitio →',diagNote:'Sin compromiso. Te contacto por WhatsApp en menos de 24h.',
-  diagSending:'Enviando...',diagSuccess:'¡Recibido! Analizaré tu sitio y te responderé pronto.',diagError:'No se pudo enviar ahora. Intenta de nuevo o contáctame directamente.',
+  diagCTA:'Analizar mi sitio →',diagNote:'Sin compromiso. Te contacto por WhatsApp.',
   dor1title:'Competidores más pequeños vendiendo más.',dor1p:'El mercado no elige el mejor producto — elige el que convence primero.',
   dor2title:'Visitas sin comprar.',dor2p:'Las personas llegan, hacen scroll por segundos y se van.',
   dor3title:'Diseño bonito que no convierte.',dor3p:'Visual sin estrategia es decoración.',
@@ -1065,46 +1032,6 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){
     document.dispatchEvent(new CustomEvent('langChange',{detail:{lang:l}}));
   });
 });
-
-var diagForm=document.getElementById('diagForm');
-if(diagForm){
-  diagForm.addEventListener('submit',function(e){
-    e.preventDefault();
-    var btn=document.getElementById('diagSubmitBtn');
-    var btnLabel=btn.querySelector('span');
-    var status=document.getElementById('diagStatus');
-    var urlInput=document.getElementById('diagUrl');
-    var whatsInput=document.getElementById('diagWhats');
-    var d=T[cur];
-    if(!urlInput.value){urlInput.focus();return;}
-    if(!whatsInput.value){whatsInput.focus();return;}
-    btn.disabled=true;
-    var originalText=btnLabel.textContent;
-    btnLabel.textContent=d.diagSending||'...';
-    status.className='dor-diag-status';
-    status.textContent='';
-    fetch('https://api.web3forms.com/submit',{
-      method:'POST',
-      headers:{'Accept':'application/json'},
-      body:new FormData(diagForm)
-    }).then(function(r){return r.json();}).then(function(data){
-      if(data && data.success){
-        status.textContent=d.diagSuccess;
-        status.classList.add('success');
-        diagForm.reset();
-      }else{
-        status.textContent=d.diagError;
-        status.classList.add('error');
-      }
-    }).catch(function(){
-      status.textContent=d.diagError;
-      status.classList.add('error');
-    }).finally(function(){
-      btn.disabled=false;
-      btnLabel.textContent=originalText;
-    });
-  });
-}
 
 })();
 </script>
