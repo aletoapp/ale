@@ -785,6 +785,14 @@
   }
 
   body { padding-top: 104px; }
+
+  /* Barra de navegação oculta apenas visualmente nesta página.
+     O código continua no HTML (mantém consistência com o template
+     do ecossistema); o JSON-LD no <head> é independente desta nav
+     e não é afetado por esta regra. */
+  nav#nav { display: none; }
+  body { padding-top: 0 !important; }
+  @media (max-width: 900px) { body { padding-top: 0 !important; } }
 </style>
 </head>
 <body data-mode="aberto">
