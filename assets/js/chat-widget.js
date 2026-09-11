@@ -24,7 +24,7 @@
      o widget já funciona no modo "coleta e leva pro
      WhatsApp" — sem precisar da API configurada.
   ─────────────────────────────────────────────────────── */
-  const WORKER_URL   = 'https://seu-worker.seu-subdominio.workers.dev';
+  const WORKER_URL   = 'https://chat-do-site-aletor-2026.aletor-app.workers.dev';
   const WHATSAPP_NUM = '5527996252050';
   const STORAGE_KEY  = 'aletor-chat-history';
 
