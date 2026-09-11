@@ -164,6 +164,30 @@
           "reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},
           "inLanguage":"pt-BR",
           "datePublished":"2023-05-01"
+        },
+        {
+          "@type":"Review",
+          "author":{"@type":"Organization","name":"Arte do Brincar"},
+          "reviewBody":"Quando busquei uma empresa para ser responsável pelo marketing da minha empresa, fiquei com muitas dúvidas e insegurança. Busquei pela internet e não tive bom retorno, quando encontrei a empresa do Alexandre, que foi um alívio, pois encontrei todas as respostas. O trabalho foi perfeito, extremamente atencioso e responsável. A qualidade do trabalho é maravilhosa. Não encontrei empresa melhor pra me assessorar... TOP. Sucesso pra você meu parceiro",
+          "reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},
+          "inLanguage":"pt-BR",
+          "url":"https://maps.app.goo.gl/WBkHGnLa88eP9Dm27"
+        },
+        {
+          "@type":"Review",
+          "author":{"@type":"Person","name":"Murilo Lucca"},
+          "reviewBody":"Profissionalismo, atencioso e compromisso com os clientes",
+          "reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},
+          "inLanguage":"pt-BR",
+          "url":"https://maps.app.goo.gl/EdQ4pAEijUHfVGAh6"
+        },
+        {
+          "@type":"Review",
+          "author":{"@type":"Person","name":"Mara Torres"},
+          "reviewBody":"Trabalho de qualidade, moderno, personalizado",
+          "reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},
+          "inLanguage":"pt-BR",
+          "url":"https://maps.app.goo.gl/2cnSn5mGwbw8PcyE8"
         }
       ]
     },
@@ -560,6 +584,8 @@ body{background:#080807;color:#f0ece2;font-family:'DM Sans',sans-serif;font-weig
             <label class="dor-diag-field-label" for="diagUrl" data-i18n="diagFieldLabel">URL do site</label>
             <div class="dor-diag-field-row">
               <input type="url" id="diagUrl" name="url" class="dor-diag-input" inputmode="url" autocomplete="url" required data-i18n-placeholder="diagPlaceholder" placeholder="https://seusite.com.br">
+              <label class="sr-only" for="diagWhats" data-i18n="diagWhatsLabel">Seu WhatsApp</label>
+              <input type="tel" id="diagWhats" name="whatsapp" class="dor-diag-input" inputmode="tel" autocomplete="tel" required data-i18n-placeholder="diagWhatsPlaceholder" placeholder="Seu WhatsApp">
               <button type="submit" class="btn-primary dor-diag-btn" id="diagSubmitBtn">
                 <span data-i18n="diagCTA">Analisar meu site →</span>
               </button>
@@ -856,7 +882,8 @@ pt:{
   dorP:'Cada real em anúncios que chega numa página fraca é um real desperdiçado.',
   diagLabel:'✦ Diagnóstico técnico gratuito',diagHeadline:'Antes de contratar,<br>descubra o que está errado.',
   diagFieldLabel:'URL do site',diagPlaceholder:'https://seusite.com.br',
-  diagCTA:'Analisar meu site →',diagNote:'Sem compromisso. Resposta em até 24h.',
+  diagWhatsLabel:'Seu WhatsApp',diagWhatsPlaceholder:'Seu WhatsApp',
+  diagCTA:'Analisar meu site →',diagNote:'Sem compromisso. Te chamo no WhatsApp em até 24h.',
   diagSending:'Enviando...',diagSuccess:'Recebido! Vou analisar seu site e te respondo em breve.',diagError:'Não foi possível enviar agora. Tente novamente ou fale comigo direto.',
   dor1title:'Concorrentes menores vendendo mais.',dor1p:'O mercado não escolhe necessariamente o melhor produto — escolhe o que consegue comunicar valor e reduzir risco primeiro.',
   dor2title:'Visita sem comprar.',dor2p:'As pessoas chegam, rolam por segundos e saem.',
@@ -905,7 +932,8 @@ en:{
   dorP:'Every dollar spent on ads that lands on a weak page is a dollar wasted.',
   diagLabel:'✦ Free technical diagnosis',diagHeadline:"Before you hire,<br>find out what's wrong.",
   diagFieldLabel:'Website URL',diagPlaceholder:'https://yoursite.com',
-  diagCTA:'Analyze my site →',diagNote:'No commitment. Reply within 24h.',
+  diagWhatsLabel:'Your WhatsApp',diagWhatsPlaceholder:'Your WhatsApp number',
+  diagCTA:'Analyze my site →',diagNote:"No commitment. I'll message you on WhatsApp within 24h.",
   diagSending:'Sending...',diagSuccess:"Got it! I'll analyze your site and reply soon.",diagError:'Could not send right now. Please try again or contact me directly.',
   dor1title:'Smaller competitors selling more.',dor1p:"The market doesn't choose the best product — it chooses the one that convinces first.",
   dor2title:"Visitors who don't buy.",dor2p:'People arrive, scroll for a few seconds, and leave.',
@@ -954,7 +982,8 @@ es:{
   dorP:'Cada peso en anuncios que llega a una página débil es un peso desperdiciado.',
   diagLabel:'✦ Diagnóstico técnico gratuito',diagHeadline:'Antes de contratar,<br>descubre qué está mal.',
   diagFieldLabel:'URL del sitio',diagPlaceholder:'https://tusitio.com',
-  diagCTA:'Analizar mi sitio →',diagNote:'Sin compromiso. Respuesta en menos de 24h.',
+  diagWhatsLabel:'Tu WhatsApp',diagWhatsPlaceholder:'Tu WhatsApp',
+  diagCTA:'Analizar mi sitio →',diagNote:'Sin compromiso. Te contacto por WhatsApp en menos de 24h.',
   diagSending:'Enviando...',diagSuccess:'¡Recibido! Analizaré tu sitio y te responderé pronto.',diagError:'No se pudo enviar ahora. Intenta de nuevo o contáctame directamente.',
   dor1title:'Competidores más pequeños vendiendo más.',dor1p:'El mercado no elige el mejor producto — elige el que convence primero.',
   dor2title:'Visitas sin comprar.',dor2p:'Las personas llegan, hacen scroll por segundos y se van.',
@@ -1045,8 +1074,10 @@ if(diagForm){
     var btnLabel=btn.querySelector('span');
     var status=document.getElementById('diagStatus');
     var urlInput=document.getElementById('diagUrl');
+    var whatsInput=document.getElementById('diagWhats');
     var d=T[cur];
     if(!urlInput.value){urlInput.focus();return;}
+    if(!whatsInput.value){whatsInput.focus();return;}
     btn.disabled=true;
     var originalText=btnLabel.textContent;
     btnLabel.textContent=d.diagSending||'...';
