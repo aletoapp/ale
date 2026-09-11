@@ -166,33 +166,7 @@
   .balao-suporte .balao-meta{text-align:right;}
   .marcador-data{align-self:center;font-size:11px;font-family:var(--mono);color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:3px 12px;border-radius:20px;margin:6px 0;}
 
-  .balao-anexos{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
-  .balao-anexos:first-child{margin-top:0;}
-  .balao-anexo-img{display:block;max-width:220px;max-height:220px;border-radius:8px;border:1px solid var(--border);cursor:pointer;}
-  .balao-anexo-arquivo,.balao-anexo-link{
-    display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.2);border:1px solid var(--border);
-    border-radius:6px;padding:6px 10px;font-size:12px;color:inherit;text-decoration:none;max-width:230px;
-  }
-  .balao-anexo-arquivo:hover,.balao-anexo-link:hover{border-color:#444;}
-  .balao-anexo-arquivo svg,.balao-anexo-link svg{width:13px;height:13px;flex-shrink:0;opacity:.7;}
-  .balao-anexo-nome{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
   .input-toolbar{display:flex;align-items:center;gap:6px;padding:10px 20px 0;background:var(--surface);flex-shrink:0;}
-  .btn-anexo{
-    display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;letter-spacing:.04em;
-    background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:4px 8px;cursor:pointer;
-    transition:color .15s,border-color .15s;
-  }
-  .btn-anexo:hover{color:var(--text);border-color:#444;}
-  .btn-anexo svg{width:11px;height:11px;}
-  .btn-anexo:disabled{opacity:.4;cursor:not-allowed;}
-
-  .anexos-pendentes{display:flex;flex-wrap:wrap;gap:6px;padding:8px 20px 0;background:var(--surface);}
-  .anexo-chip{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;color:var(--muted);max-width:220px;}
-  .anexo-chip .ac-nome{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .anexo-chip .ac-remover{background:none;border:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;padding:0;line-height:0;}
-  .anexo-chip .ac-remover:hover{color:var(--danger);}
-  .anexo-chip.ac-carregando{opacity:.6;}
 
   .detalhe-input-area{padding:12px 20px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;}
   #campo-resposta{
@@ -359,15 +333,6 @@
 
         <div class="detalhe-mensagens" id="detalhe-mensagens"></div>
 
-        <div class="input-toolbar">
-          <button class="btn-anexo" id="btn-anexo-arquivo" type="button" title="Anexar PDF ou foto">
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.3 3.9 7.9a2.3 2.3 0 0 0 3.2 3.2l5.1-5.1a1.5 1.5 0 0 0-2.1-2.1L4.9 9.1"/></svg>
-            Anexar
-          </button>
-          <input type="file" id="input-anexo-arquivo" accept="application/pdf,image/jpeg,image/png,image/webp,image/gif" multiple style="display:none">
-        </div>
-        <div class="anexos-pendentes" id="anexos-pendentes" style="display:none;"></div>
-
         <div class="detalhe-input-area">
           <textarea id="campo-resposta" placeholder="Responder ao cliente… (Ctrl+Enter para enviar)" rows="1"></textarea>
           <button class="btn-enviar" id="btn-responder" title="Enviar (Ctrl+Enter)">
@@ -384,7 +349,7 @@
 <div class="modal-fundo" id="modal-limpeza">
   <div class="modal-caixa">
     <h2>Excluir chamados antigos</h2>
-    <p>Remove definitivamente (mensagens e anexos inclusos) chamados sem atualização há mais de X dias.</p>
+    <p>Remove definitivamente (mensagens inclusas) chamados sem atualização há mais de X dias.</p>
     <div class="form-grupo">
       <label for="campo-dias">Dias sem atualização</label>
       <input type="number" id="campo-dias" value="90" min="1">
@@ -410,7 +375,7 @@
 <div class="modal-fundo" id="modal-excluir">
   <div class="modal-caixa">
     <h2>Excluir este chamado?</h2>
-    <p>Essa ação remove o chamado, todas as mensagens e anexos permanentemente. Não pode ser desfeita.</p>
+    <p>Essa ação remove o chamado e todas as mensagens permanentemente. Não pode ser desfeita.</p>
     <div class="modal-acoes">
       <button class="btn-secundario" id="btn-cancelar-excluir">Cancelar</button>
       <button class="btn-secundario btn-perigo" id="btn-confirmar-excluir">Excluir definitivamente</button>
@@ -434,7 +399,6 @@
   let buscaTimer = null;
   let chamadoAtual = null;      // protocolo selecionado
   let mensagensAtuais = [];
-  let anexosPendentes = [];
   let pollListaTimer = null;
   let pollDetalheTimer = null;
   let notifAtivada = false;
@@ -466,9 +430,6 @@
 
   const campoResposta    = document.getElementById('campo-resposta');
   const btnResponder      = document.getElementById('btn-responder');
-  const btnAnexoArquivo   = document.getElementById('btn-anexo-arquivo');
-  const inputAnexo        = document.getElementById('input-anexo-arquivo');
-  const anexosPendentesEl = document.getElementById('anexos-pendentes');
 
   const btnSair       = document.getElementById('btn-sair');
   const btnAtualizar  = document.getElementById('btn-atualizar');
@@ -739,8 +700,6 @@
   // ── Detalhe do chamado ──────────────────────────────────────
   async function abrirChamado(protocolo){
     chamadoAtual = protocolo;
-    anexosPendentes = [];
-    renderAnexosPendentes();
     campoResposta.value = '';
 
     detalheVazio.style.display = 'none';
@@ -799,7 +758,7 @@
       const textoHtml = m.conteudo ? `<div>${escapeHtml(m.conteudo)}</div>` : '';
       partes.push(`
         <div class="balao balao-${m.remetente}">
-          ${textoHtml}${renderBalaoAnexos(m.anexos)}
+          ${textoHtml}
           <div class="balao-meta">${quem} · ${hora}</div>
         </div>
       `);
@@ -808,28 +767,6 @@
     if (estavaNaBase) {
       requestAnimationFrame(() => { detalheMensagens.scrollTop = detalheMensagens.scrollHeight; });
     }
-  }
-
-  function renderBalaoAnexos(anexos){
-    if (!anexos || !anexos.length) return '';
-    const itens = anexos.map(a => {
-      const href = escapeHtml((a.url || '').startsWith('http') ? a.url : `${API}${a.url}`);
-      if (a.tipo === 'imagem') {
-        return `<a href="${href}" target="_blank" rel="noopener"><img class="balao-anexo-img" src="${href}" alt="${escapeHtml(a.nome||'')}"></a>`;
-      }
-      if (a.tipo === 'pdf') {
-        return `<a class="balao-anexo-arquivo" href="${href}" target="_blank" rel="noopener">
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1.5h6l3 3v8a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5z"/><path d="M9 1.5V4a1 1 0 0 0 1 1h2.5"/></svg>
-          <span class="balao-anexo-nome">${escapeHtml(a.nome || 'arquivo.pdf')}</span>
-        </a>`;
-      }
-      const urlEsc = escapeHtml(a.url || '');
-      return `<a class="balao-anexo-link" href="${urlEsc}" target="_blank" rel="noopener">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 8.2 8.2 5.8m-3.6.4L3 7.8a1.9 1.9 0 0 0 2.7 2.7l1.6-1.6M8.3 6.1l1.6-1.6a1.9 1.9 0 1 0-2.7-2.7L5.6 3.4"/></svg>
-        <span class="balao-anexo-nome">${escapeHtml(a.nome || a.url)}</span>
-      </a>`;
-    }).join('');
-    return `<div class="balao-anexos">${itens}</div>`;
   }
 
   btnVoltar.addEventListener('click', () => {
@@ -921,70 +858,6 @@
     }
   });
 
-  // ── Anexos na resposta ────────────────────────────────────────
-  const TIPOS_ANEXO_ACEITOS = {
-    'application/pdf': 'pdf',
-    'image/jpeg': 'imagem', 'image/jpg': 'imagem', 'image/png': 'imagem',
-    'image/webp': 'imagem', 'image/gif': 'imagem',
-  };
-  const TAMANHO_MAX_ANEXO = 1.5 * 1024 * 1024; // limite real é validado no worker (1.5MB)
-
-  function renderAnexosPendentes(){
-    if (!anexosPendentes.length) {
-      anexosPendentesEl.style.display = 'none';
-      anexosPendentesEl.innerHTML = '';
-      return;
-    }
-    anexosPendentesEl.style.display = 'flex';
-    anexosPendentesEl.innerHTML = anexosPendentes.map((a, i) => `
-      <span class="anexo-chip${a._carregando ? ' ac-carregando' : ''}">
-        <span class="ac-nome">${a._carregando ? 'Enviando…' : escapeHtml(a.nome)}</span>
-        <button class="ac-remover" data-i="${i}" title="Remover" ${a._carregando ? 'disabled' : ''}>✕</button>
-      </span>
-    `).join('');
-  }
-
-  anexosPendentesEl.addEventListener('click', (e) => {
-    const btn = e.target.closest('.ac-remover');
-    if (!btn) return;
-    anexosPendentes.splice(Number(btn.dataset.i), 1);
-    renderAnexosPendentes();
-  });
-
-  btnAnexoArquivo.addEventListener('click', () => {
-    if (!chamadoAtual) return;
-    inputAnexo.click();
-  });
-
-  inputAnexo.addEventListener('change', async () => {
-    const arquivos = [...inputAnexo.files];
-    inputAnexo.value = '';
-    for (const arquivo of arquivos) {
-      const tipo = TIPOS_ANEXO_ACEITOS[arquivo.type];
-      if (!tipo) { toast(`"${arquivo.name}" não é PDF nem imagem — não foi anexado.`, true); continue; }
-      if (arquivo.size > TAMANHO_MAX_ANEXO) { toast(`"${arquivo.name}" passa de 1,5MB — não foi anexado.`, true); continue; }
-
-      const placeholder = { tipo, nome: arquivo.name, url: null, tamanho: arquivo.size, _carregando: true };
-      anexosPendentes.push(placeholder);
-      renderAnexosPendentes();
-
-      try {
-        const fd = new FormData();
-        fd.append('arquivo', arquivo);
-        fd.append('protocolo', chamadoAtual);
-        const res = await apiFetch('/api/admin/upload', { method: 'POST', body: fd });
-        const data = await res.json();
-        if (!res.ok || !data.ok) throw new Error(data.erro || 'falha no upload');
-        Object.assign(placeholder, { tipo: data.tipo, nome: data.nome, url: data.url, tamanho: data.tamanho, _carregando: false });
-      } catch (err) {
-        const idx = anexosPendentes.indexOf(placeholder);
-        if (idx !== -1) anexosPendentes.splice(idx, 1);
-        toast(`Erro ao enviar "${arquivo.name}": ${err.message}`, true);
-      }
-      renderAnexosPendentes();
-    }
-  });
-
   // ── Enviar resposta ────────────────────────────────────────
   campoResposta.addEventListener('input', () => {
     campoResposta.style.height = 'auto';
@@ -998,22 +871,17 @@
   async function enviarResposta(){
     if (!chamadoAtual) return;
     const texto = campoResposta.value.trim();
-    if (anexosPendentes.some(a => a._carregando)) { toast('Aguarde o anexo terminar de enviar.', true); return; }
-    if (!texto && anexosPendentes.length === 0) return;
-
-    const anexosParaEnviar = anexosPendentes.map(({ tipo, nome, url, tamanho }) => ({ tipo, nome, url, tamanho }));
+    if (!texto) return;
 
     btnResponder.disabled = true;
     campoResposta.value = '';
     campoResposta.style.height = 'auto';
-    anexosPendentes = [];
-    renderAnexosPendentes();
 
     try {
       const res = await apiFetch('/api/admin/responder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ protocolo: chamadoAtual, conteudo: texto, anexos: anexosParaEnviar })
+        body: JSON.stringify({ protocolo: chamadoAtual, conteudo: texto })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.erro || 'Erro ao enviar resposta');
