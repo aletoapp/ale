@@ -109,6 +109,13 @@
     }
     .sla-badge strong { color: var(--text); }
 
+    .aviso-retorno {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: -6px 0 22px;
+    }
+
 
 
     .rodape-identidade {
@@ -692,8 +699,8 @@
     <form id="form-entrada" novalidate>
 
       <div class="form-grupo">
-        <label for="campo-tel">Telefone para identificação</label>
-        <input type="tel" id="campo-tel" placeholder="(11) 99999-9999" autocomplete="tel" required>
+        <label for="campo-tel">Telefone ou e-mail para identificação</label>
+        <input type="text" id="campo-tel" placeholder="(11) 99999-9999 ou seu@email.com" autocomplete="tel email" required>
       </div>
 
       <!-- Campos extras: aparecem só para novos usuários -->
@@ -712,6 +719,10 @@
       <p class="msg-erro" id="erro-entrada"></p>
 
     </form>
+
+    <p class="aviso-retorno">
+      Para acessar novamente este atendimento no futuro, utilize o mesmo número de telefone informado ou o e-mail cadastrado no momento do primeiro contato.
+    </p>
 
     <footer class="rodape-identidade" aria-label="Identificação profissional">
       <div>Alexandre Torres · CNPJ 54.806.916/0001-62</div>
@@ -852,8 +863,9 @@
   const anexosPendentesEl = document.getElementById('anexos-pendentes');
   let anexosPendentes = []; // itens: {tipo:'pdf'|'imagem', nome, url, tamanho}
 
-  // ── Máscara de telefone ──────────────────────────────────────────────────────
+  // ── Máscara de telefone (não aplica se o campo parecer um e-mail) ────────────
   campoTel.addEventListener('input', () => {
+    if (/[a-zA-Z@]/.test(campoTel.value)) return;
     let v = campoTel.value.replace(/\D/g, '').slice(0, 11);
     if (v.length > 6)       v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
     else if (v.length > 2)  v = `(${v.slice(0,2)}) ${v.slice(2)}`;
@@ -876,19 +888,31 @@
   formEntrada.addEventListener('submit', async e => {
     e.preventDefault();
     erroEntrada.textContent = '';
-    const tel = campoTel.value.replace(/\D/g, '');
+    const bruto  = campoTel.value.trim();
+    const ehEmail = bruto.includes('@');
 
-    if (tel.length < 8) {
-      erroEntrada.textContent = 'Digite um número de telefone válido.';
-      return;
+    let body;
+    if (ehEmail) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(bruto)) {
+        erroEntrada.textContent = 'Digite um e-mail válido.';
+        return;
+      }
+      body = { email: bruto.toLowerCase() };
+      camposNovos.classList.remove('visivel');
+    } else {
+      const tel = bruto.replace(/\D/g, '');
+      if (tel.length < 8) {
+        erroEntrada.textContent = 'Digite um número de telefone ou e-mail válido.';
+        return;
+      }
+      body = { telefone: tel };
     }
 
     btnEntrar.disabled = true;
     btnEntrar.textContent = 'Verificando…';
 
     try {
-      const body = { telefone: tel };
-      if (camposNovos.classList.contains('visivel')) {
+      if (!ehEmail && camposNovos.classList.contains('visivel')) {
         body.nome  = campoNome.value.trim();
         body.email = campoEmail.value.trim();
         if (!body.nome || !body.email) {
@@ -904,7 +928,7 @@
       });
 
       // Se cliente não encontrado e campos extras não visíveis, mostra-os
-      if (res.status === 400 && !camposNovos.classList.contains('visivel')) {
+      if (res.status === 400 && !ehEmail && !camposNovos.classList.contains('visivel')) {
         const data = await res.json();
         if (data.erro?.includes('Nome e e-mail')) {
           camposNovos.classList.add('visivel');
@@ -917,7 +941,7 @@
       const data = await res.json();
       if (!res.ok) { erroEntrada.textContent = data.erro || 'Erro ao conectar.'; return; }
 
-      sessao.telefone  = tel;
+      sessao.telefone  = data.cliente.telefone;
       sessao.protocolo = data.chamado.protocolo;
       sessao.chamadoId = data.chamado.id;
       sessao.nomeCli   = data.cliente.nome;
