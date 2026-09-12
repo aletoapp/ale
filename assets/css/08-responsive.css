@@ -126,7 +126,6 @@
   .dor-grid { grid-template-columns: 1fr; gap: 3rem; }
   .dor-items-grid { grid-template-columns: 1fr; gap: 0; }
   .dor-items-grid::before { display: none; }
-  .dor-left h2 { font-size: clamp(1.7rem, 7vw, 2.4rem); }
   .dor-item { padding: 1.1rem 0 1.1rem 1.1rem; }
   .dor-item strong { font-size: 1.02rem; line-height: 1.28; }
   .dor-quote p { font-size: 1.05rem; }
@@ -221,7 +220,7 @@
 
   /* Headings — text-wrap balance */
   .dor-left h2, .portfolio-header h2, .metodo-header h2,
-  .prova-header h2, .balloon-intro h2, .cta-headline {
+  .social-proof-header h2, .balloon-intro h2, .cta-headline {
     line-height: 1.12;
     text-wrap: balance;
   }
