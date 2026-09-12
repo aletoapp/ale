@@ -37,7 +37,7 @@
 
 <!-- ── SEO PRIMARY ──────────────────────────────────────────── -->
 <title>Posicionamento & Engenharia de Sistemas | Alexandre Torres</title>
-<meta name="description" content="Programador e desenvolvedor web na Grande Vitória-ES, especialista em engenharia web, arquitetura de conversão e comunicação estratégica digital. Conheça o método.">
+<meta name="description" content="Programador e desenvolvedor web na Grande Vitória-ES, especialista em engenharia, arquitetura de conversão e comunicação estratégica digital.">
 <meta name="author"   content="Alexandre Torres">
 <meta name="robots"   content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://alexandretorres.com.br/posicionamento/">
@@ -46,13 +46,14 @@
 
 <!-- ── PRELOAD CRITICAL FONTS ────────────────────────────────── -->
 <link rel="preload" href="/assets/fonts/subset-PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/subset-DMSans-9ptRegular.woff2"    as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/subset-DMMono-Regular.woff2"       as="font" type="font/woff2" crossorigin>
 
 <!-- ── FAVICONS ──────────────────────────────────────────────── -->
 <link rel="icon"              type="image/svg+xml"  href="/assets/img/favicon-ouro.svg">
 <link rel="icon"              type="image/png" sizes="32x32"   href="/assets/img/favicon-ouro-32x32.png">
 <link rel="icon"              type="image/png" sizes="128x128" href="/assets/img/favicon-ouro-128x128.png">
-<link rel="apple-touch-icon" type="image/png" sizes="512x512" href="/assets/img/favicon-ouro-512x512.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/img/favicon-ouro-180x180.png">
 
 <!-- ── OPEN GRAPH ──────────────────────────────────────────── -->
 <meta property="og:type"        content="website">
@@ -106,7 +107,7 @@
 :root{--bg:#080807;--surface:rgba(255,255,255,0.03);--border:rgba(200,169,110,0.18);--border-soft:rgba(200,169,110,0.08);--ink:#f0ece2;--ink-2:#c4bfb2;--ink-3:#9a9080;--gold:#c8a96e;--gold-dim:rgba(200,169,110,0.10)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.65;padding-top:104px}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:400;font-size:18px;line-height:1.75;padding-top:104px}
 a{color:inherit}
 em{color:var(--gold);font-style:italic}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -370,21 +371,50 @@ nav {
 }
 
 /* ── Trilha (breadcrumb) ── */
-.breadcrumb{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:640px;margin:0 auto;padding:16px 24px 32px}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:760px;margin:0 auto;padding:16px 32px 32px}
 .breadcrumb a{text-decoration:none;color:var(--ink-3)}
 .breadcrumb a:hover{color:var(--gold)}
 
 /* ── Conteúdo ── */
-main{max-width:640px;margin:0 auto;padding:0 24px 80px}
-h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,4.2vw,36px);line-height:1.3;margin-bottom:44px}
-.sobre-block{margin-bottom:36px}
-.sobre-block h2{font-family:'Playfair Display',serif;font-weight:700;font-size:19px;color:var(--gold);margin-bottom:12px}
-.sobre-block p{color:var(--ink-2);margin-bottom:12px}
+main{max-width:760px;margin:0 auto;padding:0 32px 80px}
+h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw,46px);line-height:1.25;margin-bottom:40px}
+
+/* ── Faixa de identidade (foto + nome + links) ── */
+.identity{display:flex;align-items:center;gap:22px;margin-bottom:48px;flex-wrap:wrap}
+.identity-photo{flex-shrink:0;width:104px;height:104px;border-radius:50%;overflow:hidden;border:1px solid var(--border);box-shadow:0 0 0 6px var(--gold-dim)}
+.identity-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.identity-info{min-width:0}
+.identity-name{font-family:'Playfair Display',serif;font-weight:700;font-size:21px;color:var(--ink)}
+.identity-role{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.03em;color:var(--ink-3);margin-top:4px}
+.identity-links{display:flex;flex-wrap:wrap;gap:16px;list-style:none;margin-top:10px;padding:0}
+.identity-links a{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--gold);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.identity-links a:hover{border-color:var(--gold)}
+
+.sobre-block{margin-bottom:38px}
+.sobre-block h2{font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:var(--gold);margin-bottom:14px}
+.sobre-block p{color:var(--ink-2);margin-bottom:14px}
 .sobre-block a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
 .sobre-block a:hover{color:var(--ink)}
-.sobre-quote{border-left:2px solid var(--border);padding-left:20px;margin:20px 0;color:var(--ink);font-style:italic}
-.sobre-list{margin:14px 0 0 20px}
-.sobre-list li{margin-bottom:10px;color:var(--ink-2)}
+.sobre-quote{border-left:2px solid var(--border);padding-left:22px;margin:22px 0;color:var(--ink);font-size:19px;font-style:italic}
+.sobre-list{margin:16px 0 0 22px}
+.sobre-list li{margin-bottom:12px;color:var(--ink-2)}
+
+/* ── Skip-link (acessibilidade) ── */
+.skip-link{position:absolute;left:16px;top:-60px;z-index:1100;background:var(--gold);color:#080807;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;padding:10px 16px;border-radius:8px;text-decoration:none;transition:top .2s}
+.skip-link:focus{top:16px}
+
+@media(max-width:640px){
+  body{font-size:17px}
+  main{padding:0 20px 64px}
+  .breadcrumb{padding:12px 20px 24px;font-size:11px}
+  h1{margin-bottom:32px}
+  .identity{gap:16px;margin-bottom:36px}
+  .identity-photo{width:84px;height:84px}
+  .identity-name{font-size:19px}
+  .sobre-block{margin-bottom:28px}
+  .sobre-block h2{font-size:19px}
+  .sobre-quote{font-size:17px}
+}
 
 /* ── Rodapé ── */
 .page-footer{text-align:center;padding:40px 24px 60px;border-top:1px solid var(--border-soft)}
@@ -398,6 +428,8 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,4.2
 </head>
 
 <body>
+
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo</a>
 
 <nav id="nav" aria-label="Navegação global do ecossistema">
   <a href="/" class="nav-logo">Alexandre <span>Torres</span></a>
@@ -443,6 +475,28 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,4.2
 
 <main id="conteudo-principal">
   <h1>Construo ambientes digitais.<br>Não apenas <em>páginas.</em></h1>
+
+  <section class="identity" aria-label="Perfil">
+    <picture class="identity-photo">
+      <!-- COLOQUE A FOTO AQUI: 1 imagem, ~400×400px (será exibida em círculo),
+           formato WebP/AVIF, tratada em tons dourado/preto pra combinar com a paleta.
+           Sugestão de arquivo: /assets/img/alexandre-perfil.webp -->
+      <source srcset="/assets/img/alexandre-perfil.avif" type="image/avif">
+      <source srcset="/assets/img/alexandre-perfil.webp" type="image/webp">
+      <img src="/assets/img/alexandre-perfil.jpg"
+           alt="Alexandre Torres em seu ambiente de trabalho"
+           width="208" height="208" loading="eager" fetchpriority="high">
+    </picture>
+    <div class="identity-info">
+      <p class="identity-name">Alexandre Torres</p>
+      <p class="identity-role">Engenharia web &amp; arquitetura de conversão</p>
+      <ul class="identity-links">
+        <li><a href="https://www.linkedin.com/in/aletordev/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/aletordev/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a href="https://www.youtube.com/@aletordev" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      </ul>
+    </div>
+  </section>
 
   <div class="sobre-block">
     <h2>Posicionamento &amp; Engenharia de Sistemas</h2>
