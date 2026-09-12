@@ -327,6 +327,3 @@
   }
 }());
 
-.chat-msg {
-  white-space: pre-wrap;
-}
