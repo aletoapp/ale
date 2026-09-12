@@ -18,12 +18,7 @@
 (function () {
   'use strict';
 
-  /* ── CONFIGURAÇÃO ───────────────────────────────────
-     Troque pela URL da sua Worker publicada.
-     Enquanto o valor abaixo continuar com "seu-worker",
-     o widget já funciona no modo "coleta e leva pro
-     WhatsApp" — sem precisar da API configurada.
-  ─────────────────────────────────────────────────────── */
+  /* ── CONFIGURAÇÃO ─────────────────────────────────── */
   const WORKER_URL   = 'https://chat-do-site-aletor-2026.aletor-app.workers.dev';
   const WHATSAPP_NUM = '5527996252050';
   const STORAGE_KEY  = 'aletor-chat-history';
@@ -31,7 +26,7 @@
   const WORKER_READY = !WORKER_URL.includes('seu-worker');
 
   const GREETING =
-    'Olá! Sou o assistente do Alexandre. Me conta rapidamente: qual é a sua página ou negócio hoje — e onde você acha que está travando a venda?';
+    'Fala! Me conta em uma frase: qual é o seu negócio hoje e qual o maior travamento da sua página atual?';
 
   const QUICK_REPLIES = [
     { label: 'Diagnóstico grátis',   msg: 'Quero o diagnóstico técnico gratuito da minha página.' },
@@ -279,12 +274,10 @@
     showTyping();
 
     if (!WORKER_READY) {
-      // Modo sem backend configurado ainda: resposta local + condução ao WhatsApp.
       setTimeout(function () {
         hideTyping();
         botSay(
-          'Recebi sua mensagem! Meu assistente automático ainda está sendo configurado — ' +
-          'pra não te fazer esperar, me chama direto no WhatsApp que eu respondo pessoalmente:',
+          'Recebi sua mensagem! O chat direto está em ajuste — pra não te fazer esperar, me chama direto no WhatsApp que te respondo na hora:',
           { href: waLink('Olá Alexandre, vim do site. ' + userText), label: 'Abrir WhatsApp →' }
         );
       }, 600);
@@ -302,7 +295,7 @@
         if (data && data.reply) {
           botSay(data.reply);
         } else {
-          botSay('Tive uma oscilação por aqui. Pode me chamar direto no WhatsApp:',
+          botSay('Tive uma oscilação na conexão por aqui. Pode me chamar direto no WhatsApp:',
             { href: waLink('Olá Alexandre, vim do site e o chat travou. ' + userText), label: 'Abrir WhatsApp →' });
         }
       })
@@ -326,4 +319,3 @@
     init();
   }
 }());
-
