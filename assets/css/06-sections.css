@@ -1672,3 +1672,107 @@ footer {
 }
 
 .footer-bottom-link:hover { color: var(--gold); }
+
+
+/* ══════════════════════════════════════════════════════
+   PROVA SOCIAL — grade de depoimentos + links Google
+   Extraído do <style> inline do index.html.
+══════════════════════════════════════════════════════ */
+
+#prova-social {
+  padding: 8rem 2.5rem;
+  background: #0c0c0a;
+  border-top: 1px solid rgba(200,169,110,.08);
+  border-bottom: 1px solid rgba(200,169,110,.08);
+}
+
+.social-proof-header { max-width: 760px; margin: 0 auto 4rem; text-align: center; }
+
+.social-proof-header .rule {
+  display: block; width: 42px; height: 1px;
+  background: #c8a96e; margin: 1.25rem auto 1.75rem; opacity: .65;
+}
+
+.social-proof-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+  line-height: 1.02;
+  color: #fff;
+}
+
+.social-proof-header h2 em { color: #c8a96e; font-style: normal; }
+
+.social-proof-header > p:last-child {
+  max-width: 620px; margin: 1.5rem auto 0;
+  color: rgba(240,236,226,.58);
+}
+
+.reviews-grid {
+  max-width: 980px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 1px; background: rgba(200,169,110,.15);
+}
+
+.review-card { position: relative; background: #11110f; padding: 2.5rem; }
+
+.review-mark {
+  font-family: 'Playfair Display', serif;
+  color: #c8a96e; font-size: 4rem; line-height: .7;
+  margin-bottom: 1.4rem;
+}
+
+.review-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1.45; color: #f0ece2;
+  min-height: 5.2rem;
+}
+
+.review-meta {
+  display: flex; flex-direction: column; gap: .2rem;
+  margin-top: 2rem;
+  font-family: 'DM Mono', monospace; font-size: .68rem;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+
+.review-meta strong { color: #c8a96e; font-weight: 400; }
+.review-meta span   { color: rgba(240,236,226,.38); }
+
+.review-link {
+  display: inline-block; margin-top: 1.5rem;
+  color: #c8a96e; font-family: 'DM Mono', monospace;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  text-decoration: none; border-bottom: 1px solid rgba(200,169,110,.3);
+  padding-bottom: 3px;
+}
+
+.review-link:hover { border-color: #c8a96e; }
+
+.reviews-google {
+  max-width: 980px; margin: 2rem auto 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; font-family: 'DM Mono', monospace; font-size: .66rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(240,236,226,.35);
+}
+
+.reviews-google-links { display: flex; flex-wrap: wrap; gap: .7rem 1rem; justify-content: flex-end; }
+.reviews-google-links a { color: rgba(200,169,110,.68); text-decoration: none; }
+.reviews-google-links a:hover { color: #c8a96e; }
+
+[data-theme="light"] #prova-social                    { background: #eee8dc; border-color: rgba(156,124,62,.12); }
+[data-theme="light"] .social-proof-header h2          { color: #0a0907; }
+[data-theme="light"] .social-proof-header > p:last-child { color: rgba(10,9,7,.58); }
+[data-theme="light"] .reviews-grid                    { background: rgba(156,124,62,.18); }
+[data-theme="light"] .review-card                     { background: #f5f0e8; }
+[data-theme="light"] .review-text                     { color: #0a0907; }
+[data-theme="light"] .review-meta span                { color: rgba(10,9,7,.45); }
+[data-theme="light"] .reviews-google                  { color: rgba(10,9,7,.4); }
+
+@media (max-width: 700px) {
+  #prova-social          { padding: 6rem 1.25rem; }
+  .reviews-grid          { grid-template-columns: 1fr; }
+  .review-card           { padding: 2rem; }
+  .reviews-google        { flex-direction: column; align-items: flex-start; }
+  .reviews-google-links  { justify-content: flex-start; }
+}
