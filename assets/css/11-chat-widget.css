@@ -423,3 +423,7 @@
 @media print {
   .chat-fab-wrap, .chat-window { display: none !important; }
 }
+
+.chat-msg {
+  white-space: pre-wrap;
+}
