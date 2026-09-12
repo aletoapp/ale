@@ -46,6 +46,7 @@
 
 <!-- ── PRELOAD CRITICAL FONTS ────────────────────────────────── -->
 <link rel="preload" href="/assets/fonts/subset-PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/subset-DMSans-9ptRegular.woff2"    as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/subset-DMMono-Regular.woff2"       as="font" type="font/woff2" crossorigin>
 
 <!-- ── FONTES DO MENU GLOBAL — idênticas ao VoiceLab/ecossistema ── -->
@@ -55,7 +56,7 @@
 <link rel="icon"              type="image/svg+xml"  href="/assets/img/favicon-ouro.svg">
 <link rel="icon"              type="image/png" sizes="32x32"   href="/assets/img/favicon-ouro-32x32.png">
 <link rel="icon"              type="image/png" sizes="128x128" href="/assets/img/favicon-ouro-128x128.png">
-<link rel="apple-touch-icon" type="image/png" sizes="512x512" href="/assets/img/favicon-ouro-512x512.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/assets/img/favicon-ouro-180x180.png">
 
 <!-- ── OPEN GRAPH ──────────────────────────────────────────── -->
 <meta property="og:type"        content="website">
@@ -461,18 +462,23 @@ nav {
 }
 
 /* ── Trilha (breadcrumb) ── */
-.breadcrumb{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:640px;margin:0 auto;padding:16px 24px 32px}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:760px;margin:0 auto;padding:16px 32px 32px}
 .breadcrumb a{text-decoration:none;color:var(--ink-3)}
 .breadcrumb a:hover{color:var(--gold)}
 
 /* ── Conteúdo ── */
-main{max-width:640px;margin:0 auto;padding:0 24px 80px}
+main{max-width:760px;margin:0 auto;padding:0 32px 80px}
 h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,4.2vw,36px);line-height:1.3;margin-bottom:44px}
 .sobre-block{margin-bottom:36px}
 .sobre-label{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--gold);margin-bottom:8px}
 .sobre-block p{color:var(--ink-2)}
 .sobre-block a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
 .sobre-block a:hover{color:var(--ink)}
+
+@media(max-width:640px){
+  main{padding:0 20px 64px}
+  .breadcrumb{padding:12px 20px 24px}
+}
 
 /* ── Rodapé ── */
 .page-footer{text-align:center;padding:40px 24px 60px;border-top:1px solid var(--border-soft)}
@@ -674,6 +680,19 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,4.2
       link.setAttribute('aria-current', 'page');
     }
   });
+</script>
+
+</body>
+</html>('click',function(){
+    var l=btn.dataset.lang;
+    cur=l;
+    localStorage.setItem('at-lang',l);
+    applyLang(l);
+    document.dispatchEvent(new CustomEvent('langChange',{detail:{lang:l}}));
+  });
+});
+
+})();
 </script>
 
 </body>
