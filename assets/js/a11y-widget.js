@@ -79,6 +79,7 @@
       .a11y-fab-btn:hover { transform: scale(1.08) !important; }
       .a11y-fab-btn svg { width: 22px !important; height: 22px !important; }
       .a11y-panel[hidden] { display: none !important; }
+      .a11y-fab-wrap[hidden] { display: none !important; }
       .sr-only {
         position: absolute !important;
         width: 1px !important;
@@ -356,6 +357,12 @@
       btn.setAttribute('aria-expanded', 'true');
       btn.classList.add('is-open');
     }
+    // Esconde o FAB (rótulo + botão) enquanto o painel está aberto,
+    // evitando que "ACESSIBILIDADE" fique sobreposto ao rodapé do
+    // painel (botão "Restaurar Configurações"). Fechar continua
+    // disponível via X, Esc ou clique fora.
+    const fabWrap = document.getElementById('a11yFabWrap');
+    if (fabWrap) fabWrap.hidden = true;
     setTimeout(() => {
       const closeBtn = document.getElementById('a11yClose');
       if (closeBtn) closeBtn.focus();
@@ -364,6 +371,10 @@
 
   function closePanel(panel) {
     panel.classList.remove('open');
+    // Reexibe o FAB ANTES de focar o botão — focar um elemento
+    // com [hidden] (display:none) falha silenciosamente.
+    const fabWrap = document.getElementById('a11yFabWrap');
+    if (fabWrap) fabWrap.hidden = false;
     const btn = document.getElementById('a11yNavBtn');
     if (btn) {
       btn.setAttribute('aria-expanded', 'false');
