@@ -10,6 +10,30 @@
 (function () {
   'use strict';
 
+  /* ── Estado compartilhado do Espaçamento ─────────────
+     Centralizado aqui (fora de wireFeatures) para que
+     restoreState() e resetAll() consigam manter spIdx
+     sincronizado com a UI — evitando o bug em que os
+     botões +/- ficavam dessincronizados após restaurar
+     um valor salvo ou clicar em "Restaurar padrões". ── */
+  const SP_STEPS = ['Normal', 'Médio', 'Amplo'];
+  const SP_CLASSES = ['', 'a11y-sp2', 'a11y-sp3'];
+  let spIdx = 0;
+
+  function applySpacing(idx, silent) {
+    spIdx = idx;
+    SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
+    if (SP_CLASSES[idx]) document.body.classList.add(SP_CLASSES[idx]);
+    const spVal = document.getElementById('spVal');
+    const spDec = document.getElementById('spDec');
+    const spInc = document.getElementById('spInc');
+    if (spVal) spVal.textContent = SP_STEPS[idx];
+    if (spDec) spDec.disabled = idx === 0;
+    if (spInc) spInc.disabled = idx === SP_STEPS.length - 1;
+    save('a11y-spacing', idx);
+    if (!silent) announce(`Espaçamento de texto ajustado para: ${SP_STEPS[idx]}`);
+  }
+
   /* ── Estilos de Emergência (Garante layout fixo se o CSS externo falhar) ── */
   function injectFallbackStyles() {
     if (document.getElementById('a11y-fallback-styles')) return;
@@ -205,7 +229,7 @@
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M1 6a5 5 0 1 0 1.5-3.5L1 1v3h3"/>
           </svg>
-          Restaurar padrões
+          Restaurar Configurações
         </button>
       </div>
     `;
@@ -391,28 +415,13 @@
     sw('swCursor',   'a11y-cursor',   'a11y-cursor',   'Cursor ampliado');
     sw('swGuide',    'a11y-guide-on', 'a11y-guide',    'Guia de leitura');
 
-    /* Espaçamento (Stepper) */
-    const SP_STEPS = ['Normal', 'Médio', 'Amplo'];
-    const SP_CLASSES = ['', 'a11y-sp2', 'a11y-sp3'];
-    let spIdx = 0;
-
-    const spVal = document.getElementById('spVal');
+    /* Espaçamento (Stepper) — usa applySpacing/spIdx do escopo do módulo */
     const spDec = document.getElementById('spDec');
     const spInc = document.getElementById('spInc');
 
-    function applySpacing(idx, silent) {
-      SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
-      if (SP_CLASSES[idx]) document.body.classList.add(SP_CLASSES[idx]);
-      if (spVal) spVal.textContent = SP_STEPS[idx];
-      if (spDec) spDec.disabled = idx === 0;
-      if (spInc) spInc.disabled = idx === SP_STEPS.length - 1;
-      save('a11y-spacing', idx);
-      if (!silent) announce(`Espaçamento de texto ajustado para: ${SP_STEPS[idx]}`);
-    }
-
     if (spDec && spInc) {
-      spDec.addEventListener('click', () => { if (spIdx > 0) applySpacing(--spIdx); });
-      spInc.addEventListener('click', () => { if (spIdx < SP_STEPS.length - 1) applySpacing(++spIdx); });
+      spDec.addEventListener('click', () => { if (spIdx > 0) applySpacing(spIdx - 1); });
+      spInc.addEventListener('click', () => { if (spIdx < SP_STEPS.length - 1) applySpacing(spIdx + 1); });
     }
   }
 
@@ -452,18 +461,9 @@
       }
     });
 
-    const SP_STEPS = ['Normal', 'Médio', 'Amplo'];
-    const SP_CLASSES = ['', 'a11y-sp2', 'a11y-sp3'];
     const savedSp = load('a11y-spacing');
     if (typeof savedSp === 'number' && savedSp >= 0 && savedSp < SP_STEPS.length) {
-      SP_CLASSES.forEach(c => { if (c) document.body.classList.remove(c); });
-      if (SP_CLASSES[savedSp]) document.body.classList.add(SP_CLASSES[savedSp]);
-      const spVal = document.getElementById('spVal');
-      const spDec = document.getElementById('spDec');
-      const spInc = document.getElementById('spInc');
-      if (spVal) spVal.textContent = SP_STEPS[savedSp];
-      if (spDec) spDec.disabled = savedSp === 0;
-      if (spInc) spInc.disabled = savedSp === SP_STEPS.length - 1;
+      applySpacing(savedSp, true); // silent + sincroniza spIdx com o valor salvo
     }
   }
 
@@ -480,12 +480,7 @@
       if (track) track.setAttribute('aria-checked', 'false');
     });
 
-    const spVal = document.getElementById('spVal');
-    const spDec = document.getElementById('spDec');
-    const spInc = document.getElementById('spInc');
-    if (spVal) spVal.textContent = 'Normal';
-    if (spDec) spDec.disabled = true;
-    if (spInc) spInc.disabled = false;
+    applySpacing(0, true); // silent + zera spIdx de verdade (era o bug: só resetava a UI)
 
     ['a11y-contrast','a11y-gray','a11y-links','a11y-dyslexia',
      'a11y-freeze','a11y-cursor','a11y-guide','a11y-spacing'].forEach(k => {
