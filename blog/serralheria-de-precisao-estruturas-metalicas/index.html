@@ -12,6 +12,7 @@
   function gtag(){dataLayer.push(arguments)}
   window.gtag=gtag;
   window.loadGA=loadGA;
+  var events=['scroll','mousemove','touchstart','keydown'];
   function loadGA(cb){
     if(loaded){if(typeof cb==='function')cb();return}
     loaded=true;
@@ -24,7 +25,6 @@
     clearTimeout(fallback);
     if(typeof cb==='function')cb();
   }
-  var events=['scroll','mousemove','touchstart','keydown'];
   events.forEach(function(e){window.addEventListener(e,loadGA,{passive:true,once:true})});
   var fallback=setTimeout(loadGA,2500);
 })();
@@ -35,7 +35,7 @@
 <meta name="description" content="Como a qualidade da fabricação, o controle dimensional, a soldagem e o acabamento definem uma estrutura metálica confiável. Guia sobre serralheria, serralheria industrial, metalurgia e caldeiraria.">
 <meta name="author"   content="Alexandre Torres">
 <meta name="robots"   content="index, follow, max-image-preview:large">
-<link rel="canonical" href="https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/">
+<link rel="canonical" href="https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/">
 <meta name="theme-color" content="#080807">
 <meta name="referrer"    content="no-referrer-when-downgrade">
 
@@ -67,21 +67,20 @@
 <meta name="twitter:description" content="Guia sobre serralheria, serralheria industrial, metalurgia e caldeiraria: o que define uma estrutura metálica confiável.">
 <meta name="twitter:image"       content="https://alexandretorres.com.br/assets/img/og.jpg">
 
-<!-- ── JSON-LD — BlogPosting + WebPage + Breadcrumb + FAQPage,
-       ligados por @id ao Person (#person) e WebSite (#website) já definidos em / ── -->
+<!-- ── JSON-LD — BlogPosting + WebPage + Breadcrumb + FAQPage ── -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "BlogPosting",
-      "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/#article",
+      "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/#article",
       "headline": "Serralheria de precisão: como qualidade, fabricação e acabamento definem uma estrutura metálica",
       "description": "Serralheria vai muito além de cortar, soldar e montar peças de metal. Entenda como medição, corte, soldagem, montagem e acabamento definem a qualidade de uma estrutura metálica.",
       "author": { "@id": "https://alexandretorres.com.br/#person" },
       "publisher": { "@id": "https://alexandretorres.com.br/#person" },
       "isPartOf": { "@id": "https://alexandretorres.com.br/#website" },
-      "mainEntityOfPage": { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/#webpage" },
+      "mainEntityOfPage": { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/#webpage" },
       "inLanguage": "pt-BR",
       "articleSection": "Engenharia e Indústria",
       "datePublished": "2026-09-14",
@@ -105,14 +104,14 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/#webpage",
-      "url": "https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/",
+      "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/#webpage",
+      "url": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/",
       "name": "Serralheria de Precisão: Qualidade, Fabricação e Acabamento em Estruturas Metálicas",
       "description": "Como a qualidade da fabricação, o controle dimensional, a soldagem e o acabamento definem uma estrutura metálica confiável.",
       "inLanguage": "pt-BR",
       "isPartOf": { "@id": "https://alexandretorres.com.br/#website" },
-      "about": { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/#article" },
-      "breadcrumb": { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/#breadcrumb" }
+      "about": { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/#article" },
+      "breadcrumb": { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/#breadcrumb" }
     },
     {
       "@type": "BreadcrumbList",
