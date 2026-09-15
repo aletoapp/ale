@@ -12,6 +12,7 @@
   function gtag(){dataLayer.push(arguments)}
   window.gtag=gtag;
   window.loadGA=loadGA;
+  var events=['scroll','mousemove','touchstart','keydown'];
   function loadGA(cb){
     if(loaded){if(typeof cb==='function')cb();return}
     loaded=true;
@@ -24,7 +25,6 @@
     clearTimeout(fallback);
     if(typeof cb==='function')cb();
   }
-  var events=['scroll','mousemove','touchstart','keydown'];
   events.forEach(function(e){window.addEventListener(e,loadGA,{passive:true,once:true})});
   var fallback=setTimeout(loadGA,2500);
 })();
@@ -67,8 +67,7 @@
 <meta name="twitter:description" content="Artigos sobre engenharia, indústria, posicionamento de marca e presença digital.">
 <meta name="twitter:image"       content="https://alexandretorres.com.br/assets/img/og.jpg">
 
-<!-- ── JSON-LD — Blog + BreadcrumbList, ligados por @id ao
-       Person (#person) e WebSite (#website) já definidos em / ── -->
+<!-- ── JSON-LD — Blog + BreadcrumbList ── -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -84,7 +83,7 @@
       "author": { "@id": "https://alexandretorres.com.br/#person" },
       "publisher": { "@id": "https://alexandretorres.com.br/#person" },
       "blogPost": [
-        { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-como-qualidade-fabricacao-e-acabamento-definem-uma-estrutura-metalica/#article" }
+        { "@id": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/#article" }
       ]
     },
     {
@@ -109,7 +108,6 @@
   ]
 }
 </script>
-
 <style>
 @font-face{font-family:'Playfair Display';src:url('/assets/fonts/subset-PlayfairDisplay-Bold.woff2') format('woff2'),url('/assets/fonts/subset-PlayfairDisplay-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:'DM Sans';src:url('/assets/fonts/subset-DMSans-9ptRegular.woff2') format('woff2'),url('/assets/fonts/subset-DMSans-9ptRegular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
