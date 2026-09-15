@@ -462,12 +462,12 @@ nav {
 }
 
 /* ── Trilha (breadcrumb) ── */
-.breadcrumb{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:760px;margin:0 auto;padding:16px 32px 32px}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:970px;margin:0 auto;padding:16px 32px 32px}
 .breadcrumb a{text-decoration:none;color:var(--ink-3)}
 .breadcrumb a:hover{color:var(--gold)}
 
 /* ── Conteúdo ── */
-main{max-width:760px;margin:0 auto;padding:0 32px 80px}
+main{max-width:970px;margin:0 auto;padding:0 32px 80px}
 h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw,46px);line-height:1.25;margin-bottom:40px}
 .sobre-block{margin-bottom:38px}
 .sobre-label{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.06em;color:var(--gold);margin-bottom:8px;font-weight:400}
@@ -491,7 +491,11 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 .byline a:hover,.byline a:focus-visible{color:var(--gold)}
 .byline span{opacity:.4}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;scroll-behavior:auto!important}}
+.p-poppins{font-family:'Poppins',sans-serif!important;font-size:18px!important}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -539,95 +543,95 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
   </button>
 </nav>
 
-<p class="breadcrumb"><a href="/">Início</a> · Perguntas frequentes</p>
+<p class="breadcrumb p-poppins"><a href="/">Início</a> · Perguntas frequentes</p>
 
 <main id="conteudo-principal">
   <h1>Perguntas frequentes</h1>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Você atende só Serra-ES?</h2>
-    <p>Não. Atendo presencialmente toda a Grande Vitória — Serra, Vitória, Vila Velha, Cariacica, Viana, Guarapari e Fundão — e remotamente qualquer lugar do Brasil.</p>
+    <p class="p-poppins">Não. Atendo presencialmente toda a Grande Vitória — Serra, Vitória, Vila Velha, Cariacica, Viana, Guarapari e Fundão — e remotamente qualquer lugar do Brasil.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Quanto custa um site ou landing page?</h2>
-    <p>Varia com o escopo. Landing pages de alta conversão seguem processo e prazo definidos; sistemas maiores seguem o modelo <a href="/at-lab/">AT-LAB</a>: adesão única para setup e infraestrutura, mais uma assinatura mensal para manutenção e operação contínua. Sprints de evolução são orçados sob demanda.</p>
+    <p class="p-poppins">Varia com o escopo. Landing pages de alta conversão seguem processo e prazo definidos; sistemas maiores seguem o modelo <a href="/at-lab/">AT-LAB</a>: adesão única para setup e infraestrutura, mais uma assinatura mensal para manutenção e operação contínua. Sprints de evolução são orçados sob demanda.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Quanto tempo demora a entrega?</h2>
-    <p>Landing pages: até 15 dias, com revisão de performance incluída no 30º dia. Sistemas maiores seguem deploy progressivo — o ambiente fica visível em produção desde o primeiro commit, não só na entrega final.</p>
+    <p class="p-poppins">Landing pages: até 15 dias, com revisão de performance incluída no 30º dia. Sistemas maiores seguem deploy progressivo — o ambiente fica visível em produção desde o primeiro commit, não só na entrega final.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Qual a diferença entre landing page, site institucional e sistema?</h2>
-    <p>Landing page é arquitetura de decisão: cada elemento existe para conduzir uma ação específica. Site institucional apresenta e posiciona. Sistema (SaaS, aplicativo, plataforma) vai além: automatiza processos e escala com o negócio.</p>
+    <p class="p-poppins">Landing page é arquitetura de decisão: cada elemento existe para conduzir uma ação específica. Site institucional apresenta e posiciona. Sistema (SaaS, aplicativo, plataforma) vai além: automatiza processos e escala com o negócio.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">O que acontece depois que o projeto fica pronto? Tem suporte?</h2>
-    <p>Sim. O modelo AT-LAB inclui assinatura mensal com manutenção, infraestrutura ativa e suporte técnico contínuo. Você não compra "um site" — compra capacidade contínua de evolução.</p>
+    <p class="p-poppins">Sim. O modelo AT-LAB inclui assinatura mensal com manutenção, infraestrutura ativa e suporte técnico contínuo. Você não compra "um site" — compra capacidade contínua de evolução.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">O código e o site são meus, ou fico dependente de você?</h2>
-    <p>Propriedade total do código, zero lock-in. Sem CMS proprietário, sem dependência de plataforma — portabilidade completa garantida.</p>
+    <p class="p-poppins">Propriedade total do código, zero lock-in. Sem CMS proprietário, sem dependência de plataforma — portabilidade completa garantida.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Preciso pagar hospedagem separadamente?</h2>
-    <p>Não. A arquitetura é serverless/edge (GitHub Pages + Cloudflare), com custo de infraestrutura zero incluso no serviço.</p>
+    <p class="p-poppins">Não. A arquitetura é serverless/edge (GitHub Pages + Cloudflare), com custo de infraestrutura zero incluso no serviço.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Como funciona o primeiro contato?</h2>
-    <p>Diagnóstico técnico gratuito, sem compromisso, com resposta em até 24h pelo WhatsApp.</p>
+    <p class="p-poppins">Diagnóstico técnico gratuito, sem compromisso, com resposta em até 24h pelo WhatsApp.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">O que é o AT-LAB e qual a relação dele com você?</h2>
-    <p>O <a href="/at-lab/">AT-LAB</a> é meu laboratório de engenharia web — o ambiente onde arquitetura serverless, automações e SEO técnico viram sistemas reais em produção antes de chegar aos projetos de clientes. Não é uma marca separada: é a extensão técnica do meu próprio trabalho como programador e web designer.</p>
+    <p class="p-poppins">O <a href="/at-lab/">AT-LAB</a> é meu laboratório de engenharia web — o ambiente onde arquitetura serverless, automações e SEO técnico viram sistemas reais em produção antes de chegar aos projetos de clientes. Não é uma marca separada: é a extensão técnica do meu próprio trabalho como programador e web designer.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Quais produtos fazem parte do ecossistema AT-LAB?</h2>
-    <p>Hoje o AT-LAB reúne <a href="/youlist/">YouList</a> (ambiente de organização e consumo de conteúdo sem algoritmo), <a href="/docform/">DocForm</a> (formatação automática de documentos jurídicos a partir de texto gerado por IA), <a href="/voicelab/">VoiceLab</a> (processador de locução que roda 100% no navegador) e o <a href="/dossie-da-conversao/">Dossiê da Conversão</a> (toolpack de diagnóstico para landing pages de alta conversão).</p>
+    <p class="p-poppins">Hoje o AT-LAB reúne <a href="/youlist/">YouList</a> (ambiente de organização e consumo de conteúdo sem algoritmo), <a href="/docform/">DocForm</a> (formatação automática de documentos jurídicos a partir de texto gerado por IA), <a href="/voicelab/">VoiceLab</a> (processador de locução que roda 100% no navegador) e o <a href="/dossie-da-conversao/">Dossiê da Conversão</a> (toolpack de diagnóstico para landing pages de alta conversão).</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">O que é o Dossiê da Conversão e para quem ele serve?</h2>
-    <p>É um sistema digital de pagamento único com o motor estratégico de diagnóstico em 9 blocos, prompt mestre e roteiro de produção que uso para levar uma landing page do briefing ao deploy com evidência real do negócio, não achismo. Serve para quem já cria landing pages com IA e quer um método repetível por cliente. <a href="/dossie-da-conversao/">Conheça o sistema completo</a>.</p>
+    <p class="p-poppins">É um sistema digital de pagamento único com o motor estratégico de diagnóstico em 9 blocos, prompt mestre e roteiro de produção que uso para levar uma landing page do briefing ao deploy com evidência real do negócio, não achismo. Serve para quem já cria landing pages com IA e quer um método repetível por cliente. <a href="/dossie-da-conversao/">Conheça o sistema completo</a>.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">As ferramentas gratuitas do AT-LAB (DocForm, VoiceLab, YouList) têm algum custo escondido?</h2>
-    <p>Não. São gratuitas, sem cadastro obrigatório e sem mensalidade. Rodam no navegador, várias funcionam offline como PWA, e no caso do <a href="/docform/">DocForm</a> e do <a href="/voicelab/">VoiceLab</a> nenhum dado ou áudio é enviado a servidor — o processamento acontece localmente no seu dispositivo.</p>
+    <p class="p-poppins">Não. São gratuitas, sem cadastro obrigatório e sem mensalidade. Rodam no navegador, várias funcionam offline como PWA, e no caso do <a href="/docform/">DocForm</a> e do <a href="/voicelab/">VoiceLab</a> nenhum dado ou áudio é enviado a servidor — o processamento acontece localmente no seu dispositivo.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Vocês atendem só landing pages, ou também sistemas maiores e SaaS?</h2>
-    <p>Os dois. Landing pages de alta conversão seguem processo e prazo próprios; sistemas maiores, aplicativos e plataformas SaaS seguem o modelo <a href="/at-lab/">AT-LAB</a>, com deploy progressivo, adesão inicial e assinatura mensal para manutenção e evolução contínua.</p>
+    <p class="p-poppins">Os dois. Landing pages de alta conversão seguem processo e prazo próprios; sistemas maiores, aplicativos e plataformas SaaS seguem o modelo <a href="/at-lab/">AT-LAB</a>, com deploy progressivo, adesão inicial e assinatura mensal para manutenção e evolução contínua.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">O que você quer dizer com "arquitetura de decisão"?</h2>
-    <p>É tratar cada página ou sistema como um ambiente cognitivo, não um panfleto: tipografia, contraste, tempo de carregamento e densidade de informação são posicionados com intenção para remover fricção e conduzir o visitante até a decisão, em vez de existirem apenas para ficar bonito. <a href="/posicionamento/">Veja o método completo</a>.</p>
+    <p class="p-poppins">É tratar cada página ou sistema como um ambiente cognitivo, não um panfleto: tipografia, contraste, tempo de carregamento e densidade de informação são posicionados com intenção para remover fricção e conduzir o visitante até a decisão, em vez de existirem apenas para ficar bonito. <a href="/posicionamento/">Veja o método completo</a>.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">Como funciona o atendimento depois do primeiro contato?</h2>
-    <p>O primeiro contato é o diagnóstico gratuito pelo WhatsApp, com resposta em até 24h. Para acompanhamento de projetos em andamento, uso um <a href="/atendimento/">chat-protocolo próprio</a>, com histórico registrado e retorno em até 1 dia útil.</p>
+    <p class="p-poppins">O primeiro contato é o diagnóstico gratuito pelo WhatsApp, com resposta em até 24h. Para acompanhamento de projetos em andamento, uso um <a href="/atendimento/">chat-protocolo próprio</a>, com histórico registrado e retorno em até 1 dia útil.</p>
   </div>
 
   <div class="sobre-block">
     <h2 class="sobre-label">A infraestrutura é realmente sem custo de hospedagem? Isso é seguro?</h2>
-    <p>Sim. A arquitetura roda em GitHub Pages + Cloudflare (serverless/edge), com CDN global, cache em edge e proteção contra DDoS — sem banco de dados exposto e sem CMS vulnerável. Na prática, isso significa custo de hospedagem zero e performance de nível enterprise. <a href="/at-lab/">Veja a arquitetura completa do AT-LAB</a>.</p>
+    <p class="p-poppins">Sim. A arquitetura roda em GitHub Pages + Cloudflare (serverless/edge), com CDN global, cache em edge e proteção contra DDoS — sem banco de dados exposto e sem CMS vulnerável. Na prática, isso significa custo de hospedagem zero e performance de nível enterprise. <a href="/at-lab/">Veja a arquitetura completa do AT-LAB</a>.</p>
   </div>
 </main>
 
 <footer class="page-footer">
-  <p class="epigraph">Engenharia · Percepção · Decisão</p>
-  <p class="byline"><span>by</span> Alexandre Torres<br>54.806.916/0001-62</p>
+  <p class="epigraph p-poppins">Engenharia · Percepção · Decisão</p>
+  <p class="byline p-poppins"><span>by</span> Alexandre Torres<br>54.806.916/0001-62</p>
 </footer>
 
 <!-- ══ SCRIPTS ══ -->
