@@ -371,12 +371,12 @@ nav {
 }
 
 /* ── Trilha (breadcrumb) ── */
-.breadcrumb{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:760px;margin:0 auto;padding:16px 32px 32px}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:970px;margin:0 auto;padding:16px 32px 32px}
 .breadcrumb a{text-decoration:none;color:var(--ink-3)}
 .breadcrumb a:hover{color:var(--gold)}
 
 /* ── Conteúdo ── */
-main{max-width:760px;margin:0 auto;padding:0 32px 80px}
+main{max-width:970px;margin:0 auto;padding:0 32px 80px}
 h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw,46px);line-height:1.25;margin-bottom:40px}
 
 /* ── Faixa de identidade (foto + nome + links) ── */
@@ -424,7 +424,11 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 .byline a:hover,.byline a:focus-visible{color:var(--gold)}
 .byline span{opacity:.4}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;scroll-behavior:auto!important}}
+.p-poppins{font-family:'Poppins',sans-serif!important;font-size:18px!important}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -473,7 +477,7 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
   </button>
 </nav>
 
-<p class="breadcrumb"><a href="/">Início</a> · Posicionamento</p>
+<p class="breadcrumb p-poppins"><a href="/">Início</a> · Posicionamento</p>
 
 <main id="conteudo-principal">
   <h1>Construo ambientes digitais.<br>Não apenas <em>páginas.</em></h1>
@@ -490,8 +494,8 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
            width="208" height="208" loading="eager" fetchpriority="high">
     </picture>
     <div class="identity-info">
-      <p class="identity-name">Alexandre Torres</p>
-      <p class="identity-role">Engenharia web &amp; arquitetura de conversão</p>
+      <p class="identity-name p-poppins">Alexandre Torres</p>
+      <p class="identity-role p-poppins">Engenharia web &amp; arquitetura de conversão</p>
       <ul class="identity-links">
         <li><a href="https://www.linkedin.com/in/aletordev/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
         <li><a href="https://www.instagram.com/aletordev/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
@@ -502,19 +506,19 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 
   <div class="sobre-block">
     <h2>Posicionamento &amp; Engenharia de Sistemas</h2>
-    <p>Existem profissionais que entregam páginas isoladas. Existem os que entregam sistemas genéricos. E existem os que projetam <strong>ecossistemas digitais, aplicativos e plataformas SaaS capazes de influenciar percepção, comportamento e decisão.</strong></p>
-    <p>Pertenço à terceira categoria.</p>
-    <div class="sobre-quote"><p>Uma aplicação premium ou software modular não precisa apenas funcionar de forma estável. Ela precisa conduzir o usuário com fluidez absoluta.</p></div>
+    <p class="p-poppins">Existem profissionais que entregam páginas isoladas. Existem os que entregam sistemas genéricos. E existem os que projetam <strong>ecossistemas digitais, aplicativos e plataformas SaaS capazes de influenciar percepção, comportamento e decisão.</strong></p>
+    <p class="p-poppins">Pertenço à terceira categoria.</p>
+    <div class="sobre-quote"><p class="p-poppins">Uma aplicação premium ou software modular não precisa apenas funcionar de forma estável. Ela precisa conduzir o usuário com fluidez absoluta.</p></div>
   </div>
 
   <div class="sobre-block">
     <h2>AT‑LAB: Engenharia de Software e Desenvolvimento de SaaS</h2>
-    <p>O <a href="/at-lab/"><strong>AT-LAB</strong></a> é meu laboratório público de engenharia web e desenvolvimento de microsserviços (Micro SaaS). É o ambiente onde conceitos complexos de arquitetura de software, automações e bancos de dados viram produtos funcionais, interfaces mobile responsivas e ferramentas reais que operam no mundo real. Meu discurso técnico sobre otimização e escalabilidade de software sobrevive à prática.</p>
+    <p class="p-poppins">O <a href="/at-lab/"><strong>AT-LAB</strong></a> é meu laboratório público de engenharia web e desenvolvimento de microsserviços (Micro SaaS). É o ambiente onde conceitos complexos de arquitetura de software, automações e bancos de dados viram produtos funcionais, interfaces mobile responsivas e ferramentas reais que operam no mundo real. Meu discurso técnico sobre otimização e escalabilidade de software sobrevive à prática.</p>
   </div>
 
   <div class="sobre-block">
     <h2>Infraestrutura Leve, Aplicações Multiplataforma e Performance</h2>
-    <p>Prefiro arquitetar ambientes premium, aplicações móveis leves e sistemas robustos sem transformar o cliente em refém de infraestruturas inchadas, pesadas ou de custos de manutenção abusivos. Desenvolvo utilizando abordagens modernas de engenharia, otimizadas para a nuvem:</p>
+    <p class="p-poppins">Prefiro arquitetar ambientes premium, aplicações móveis leves e sistemas robustos sem transformar o cliente em refém de infraestruturas inchadas, pesadas ou de custos de manutenção abusivos. Desenvolvo utilizando abordagens modernas de engenharia, otimizadas para a nuvem:</p>
     <ul class="sobre-list">
       <li><strong>Aplicações Híbridas &amp; PWAs:</strong> Aplicativos Android e iOS rápidos, instaláveis, com carregamento instantâneo e menor consumo de dados.</li>
       <li><strong>Arquitetura de SaaS Escalável:</strong> Estruturas modulares prontas para crescer em usuários sem gargalos de banco de dados.</li>
@@ -527,27 +531,27 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 
   <div class="sobre-block">
     <h2>Método</h2>
-    <p>Atuo no cruzamento entre desenvolvimento web, experiência do usuário, posicionamento digital e engenharia de percepção. O foco está em criar estruturas capazes de <strong>transformar atenção em ação</strong> — com clareza, autoridade e intenção.</p>
-    <p>Cada projeto parte de uma pergunta central: como esta pessoa lê, decide, percebe valor — e o que faz com que ela aja sem sentir que foi pressionada?</p>
+    <p class="p-poppins">Atuo no cruzamento entre desenvolvimento web, experiência do usuário, posicionamento digital e engenharia de percepção. O foco está em criar estruturas capazes de <strong>transformar atenção em ação</strong> — com clareza, autoridade e intenção.</p>
+    <p class="p-poppins">Cada projeto parte de uma pergunta central: como esta pessoa lê, decide, percebe valor — e o que faz com que ela aja sem sentir que foi pressionada?</p>
   </div>
 
   <div class="sobre-block">
     <h2>Arquitetura de decisão</h2>
-    <p>Uma landing page não é um panfleto online. É um ambiente cognitivo. O visitante chega com dúvidas, excesso de informação e resistência. O papel da engenharia é organizar a experiência de forma tão clara que a decisão se torne consequência natural.</p>
-    <p>Isso aparece em cada projeto — na tipografia, no contraste, no tempo de carregamento, na densidade de informação. <strong>Nada existe apenas porque ficou bonito.</strong></p>
+    <p class="p-poppins">Uma landing page não é um panfleto online. É um ambiente cognitivo. O visitante chega com dúvidas, excesso de informação e resistência. O papel da engenharia é organizar a experiência de forma tão clara que a decisão se torne consequência natural.</p>
+    <p class="p-poppins">Isso aparece em cada projeto — na tipografia, no contraste, no tempo de carregamento, na densidade de informação. <strong>Nada existe apenas porque ficou bonito.</strong></p>
   </div>
 
   <div class="sobre-block">
     <h2>O trabalho</h2>
-    <p>Não atuo apenas como designer, desenvolvedor ou estrategista. O trabalho funciona na interseção entre todas essas áreas — comunicação, escrita, direção criativa, UX, branding, copy e experiência emocional do usuário.</p>
-    <p>Muitos negócios são excelentes no que fazem, mas comunicam mal. <strong>Meu trabalho traduz valor invisível em percepção concreta.</strong></p>
-    <div class="sobre-quote"><p>Tecnologia sem direção vira ruído.<br>Direção sem execução continua sendo apenas ideia.</p></div>
+    <p class="p-poppins">Não atuo apenas como designer, desenvolvedor ou estrategista. O trabalho funciona na interseção entre todas essas áreas — comunicação, escrita, direção criativa, UX, branding, copy e experiência emocional do usuário.</p>
+    <p class="p-poppins">Muitos negócios são excelentes no que fazem, mas comunicam mal. <strong>Meu trabalho traduz valor invisível em percepção concreta.</strong></p>
+    <div class="sobre-quote"><p class="p-poppins">Tecnologia sem direção vira ruído.<br>Direção sem execução continua sendo apenas ideia.</p></div>
   </div>
 </main>
 
 <footer class="page-footer">
-  <p class="epigraph">Engenharia · Percepção · Decisão</p>
-  <p class="byline"><span>by</span> Alexandre Torres<br>54.806.916/0001-62</p>
+  <p class="epigraph p-poppins">Engenharia · Percepção · Decisão</p>
+  <p class="byline p-poppins"><span>by</span> Alexandre Torres<br>54.806.916/0001-62</p>
 </footer>
 
 <!-- ══ SCRIPTS ══ -->
