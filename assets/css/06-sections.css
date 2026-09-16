@@ -575,11 +575,15 @@
 /* YouList usa um screenshot real — deixa o card acompanhar a
    proporção natural da imagem em vez de forçar o recorte 320:130,
    evitando cortar o conteúdo do print (grade de apps + ajuste fino). */
-.pj-visual--youlist {
+.pj-visual--youlist,
+.pj-visual--voicelab,
+.pj-visual--docform {
   aspect-ratio: auto;
 }
 
-.pj-visual--youlist .pj-visual-img {
+.pj-visual--youlist .pj-visual-img,
+.pj-visual--voicelab .pj-visual-img,
+.pj-visual--docform .pj-visual-img {
   height: auto;
   object-fit: contain;
 }
