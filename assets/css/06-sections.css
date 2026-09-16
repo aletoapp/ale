@@ -838,7 +838,7 @@
 
   .pj-visual {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 1 / 4;
     align-self: start;
     width: 100%;
     max-width: 320px;
