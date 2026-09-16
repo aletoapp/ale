@@ -558,6 +558,7 @@
   background: var(--surface);
   overflow: hidden;
   z-index: 1;
+  margin-left: 10px;
   transition: border-color 0.35s ease, var(--theme-transition);
 }
 
@@ -569,6 +570,18 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+/* YouList usa um screenshot real — deixa o card acompanhar a
+   proporção natural da imagem em vez de forçar o recorte 320:130,
+   evitando cortar o conteúdo do print (grade de apps + ajuste fino). */
+.pj-visual--youlist {
+  aspect-ratio: auto;
+}
+
+.pj-visual--youlist .pj-visual-img {
+  height: auto;
+  object-fit: contain;
 }
 
 .pjv-dot {
@@ -833,9 +846,9 @@
 
   .pj-body { display: contents; }
 
-  .pj-tag   { grid-column: 2; grid-row: 1; }
-  .pj-result{ grid-column: 2; grid-row: 2; margin-top: 0.45rem; }
-  .pj-name  { grid-column: 2; grid-row: 3; margin-top: 0.55rem; margin-bottom: 0; }
+  .pj-name  { grid-column: 2; grid-row: 1; margin-top: 0; margin-bottom: 0.5rem; }
+  .pj-tag   { grid-column: 2; grid-row: 2; margin-top: 0; }
+  .pj-result{ grid-column: 2; grid-row: 3; margin-top: 0.5rem; }
 
   .pj-ctas {
     grid-column: 3;
