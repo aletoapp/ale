@@ -143,7 +143,7 @@
     padding: 1.8rem 0;
     border-bottom: 1px solid var(--border-soft);
   }
-  .pj-visual { width: 100%; height: 100px; }
+  .pj-visual { width: 100%; max-width: 320px; }
   .pj-name { font-size: 1.45rem; line-height: 1.12; }
   .pj-ctas { gap: 0.55rem; margin-top: 0.85rem; opacity: 1; transform: translateY(0); pointer-events: auto; }
   .pj-cta-link { font-size: 0.72rem; letter-spacing: 0.09em; padding: 0.48rem 0.7rem; }
