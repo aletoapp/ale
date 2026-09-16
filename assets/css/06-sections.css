@@ -565,114 +565,112 @@
 
 .pjv-dot {
   position: absolute;
-  top: 10px;
-  width: 6px; height: 6px;
+  top: 12px;
+  width: 5px; height: 5px;
   border-radius: 50%;
-  opacity: 0.55;
+  opacity: 0.4;
 }
-.pjv-dot--r { left: 10px; background: var(--rust); }
-.pjv-dot--y { left: 22px; background: var(--gold); }
-.pjv-dot--g { left: 34px; background: #5fa870; }
+.pjv-dot--r { left: 13px; background: var(--rust); }
+.pjv-dot--y { left: 24px; background: var(--gold); }
+.pjv-dot--g { left: 35px; background: #5fa870; }
 
 .pjv-body,
 .pjv-eq,
 .pjv-form {
   position: absolute;
-  left: 13px; right: 13px;
-  top: 28px; bottom: 13px;
+  left: 16px; right: 16px;
+  top: 32px; bottom: 16px;
 }
 
-/* iList — linhas de playlist preenchendo */
-.pjv-body { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
-.pjv-row  { display: flex; align-items: center; gap: 8px; }
-.pjv-chip { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; opacity: 0.75; }
-.pjv-bar  { flex: 1; height: 4px; background: var(--border-soft); border-radius: 2px; overflow: hidden; }
+/* YouList — linhas de playlist preenchendo, traço fino em dourado */
+.pjv-body { display: flex; flex-direction: column; justify-content: center; gap: 13px; }
+.pjv-row  { display: flex; align-items: center; gap: 9px; }
+.pjv-chip { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; opacity: 0.55; }
+.pjv-bar  { flex: 1; height: 2px; background: var(--border-soft); border-radius: 1px; overflow: hidden; }
 .pjv-bar-fill {
-  display: block; height: 100%; width: 12%;
+  display: block; height: 100%; width: 8%;
   background: var(--gold);
-  border-radius: 2px;
-  animation: pjRowFill 3.6s ease-in-out infinite;
+  border-radius: 1px;
+  animation: pjRowFill 5.2s cubic-bezier(0.45,0,0.2,1) infinite;
 }
 
 @keyframes pjRowFill {
-  0%   { width: 12%; opacity: 0.55; }
-  45%  { width: 88%; opacity: 1; }
-  70%  { width: 88%; opacity: 1; }
-  100% { width: 12%; opacity: 0.55; }
+  0%   { width: 8%;  opacity: 0.4; }
+  40%  { width: 86%; opacity: 1; }
+  72%  { width: 86%; opacity: 1; }
+  100% { width: 8%;  opacity: 0.4; }
 }
 
-/* VoiceLab — equalizador */
-.pjv-eq { display: flex; align-items: flex-end; justify-content: space-between; gap: 4px; }
+/* VoiceLab — onda de áudio fina, em verde (identidade sonora) */
+.pjv-eq { display: flex; align-items: center; justify-content: space-between; gap: 7px; height: 100%; }
 .pjv-eq span {
-  flex: 1;
-  background: var(--gold);
-  border-radius: 2px 2px 0 0;
-  height: 100%;
-  opacity: 0.85;
-  transform: scaleY(0.28);
-  transform-origin: bottom;
-  animation: pjEqBounce 1.7s ease-in-out infinite;
+  width: 2px;
+  border-radius: 1px;
+  background: #5fa870;
+  opacity: 0.55;
+  transform-origin: center;
+  animation: pjEqBounce 2.6s ease-in-out infinite;
 }
-.pjv-eq span:nth-child(1) { animation-delay: 0s;   }
-.pjv-eq span:nth-child(2) { animation-delay: .12s; }
-.pjv-eq span:nth-child(3) { animation-delay: .24s; }
-.pjv-eq span:nth-child(4) { animation-delay: .36s; }
-.pjv-eq span:nth-child(5) { animation-delay: .24s; }
-.pjv-eq span:nth-child(6) { animation-delay: .12s; }
-.pjv-eq span:nth-child(7) { animation-delay: 0s;   }
+.pjv-eq span:nth-child(1) { height: 28%; animation-delay: 0s;   }
+.pjv-eq span:nth-child(2) { height: 50%; animation-delay: .18s; }
+.pjv-eq span:nth-child(3) { height: 74%; animation-delay: .36s; }
+.pjv-eq span:nth-child(4) { height: 96%; animation-delay: .54s; }
+.pjv-eq span:nth-child(5) { height: 74%; animation-delay: .36s; }
+.pjv-eq span:nth-child(6) { height: 50%; animation-delay: .18s; }
+.pjv-eq span:nth-child(7) { height: 28%; animation-delay: 0s;   }
 
 @keyframes pjEqBounce {
-  0%, 100% { transform: scaleY(0.28); }
-  50%      { transform: scaleY(1); }
+  0%, 100% { transform: scaleY(0.55); opacity: 0.5; }
+  50%      { transform: scaleY(1);    opacity: 0.9; }
 }
 
-/* DocForm — campos preenchendo sozinhos */
-.pjv-form { display: flex; flex-direction: column; justify-content: center; gap: 9px; }
+/* DocForm — campos preenchendo sozinhos, traço fino em terracota */
+.pjv-form { display: flex; flex-direction: column; justify-content: center; gap: 11px; }
 .pjv-field {
-  display: block; height: 6px; width: 100%;
+  display: block; height: 3px; width: 100%;
   background: var(--border-soft);
-  border-radius: 2px;
+  border-radius: 1.5px;
   overflow: hidden;
 }
-.pjv-field-sm { width: 58%; }
+.pjv-field-sm { width: 56%; }
 .pjv-field-fill {
   display: block; height: 100%; width: 0%;
-  background: var(--gold);
-  border-radius: 2px;
-  animation: pjFieldFill 3.2s ease-in-out infinite;
+  background: var(--rust);
+  border-radius: 1.5px;
+  animation: pjFieldFill 4.6s cubic-bezier(0.45,0,0.2,1) infinite;
 }
 @keyframes pjFieldFill {
   0%   { width: 0%; }
   35%  { width: 100%; }
-  75%  { width: 100%; }
+  78%  { width: 100%; }
   100% { width: 0%; }
 }
 .pjv-check {
   position: absolute;
-  right: 0; top: -3px;
+  right: 0; top: -2px;
   font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: #5fa870;
   opacity: 0;
-  transform: scale(0.6);
-  animation: pjCheckPop 3.2s ease-in-out infinite;
+  transform: scale(0.7);
+  animation: pjCheckPop 4.6s ease-in-out infinite;
 }
 @keyframes pjCheckPop {
-  0%, 78%  { opacity: 0; transform: scale(0.6); }
-  88%, 96% { opacity: 1; transform: scale(1); }
-  100%     { opacity: 0; transform: scale(0.6); }
+  0%, 80%  { opacity: 0; transform: scale(0.7); }
+  90%, 96% { opacity: 1; transform: scale(1); }
+  100%     { opacity: 0; transform: scale(0.7); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pjv-bar-fill, .pjv-eq span, .pjv-field-fill, .pjv-check {
     animation: none !important;
   }
-  .pjv-bar-fill   { width: 60%; }
-  .pjv-eq span    { transform: scaleY(0.6); }
-  .pjv-field-fill { width: 60%; }
+  .pjv-bar-fill   { width: 55%; }
+  .pjv-eq span    { transform: scaleY(0.75); opacity: 0.75; }
+  .pjv-field-fill { width: 55%; }
 }
 
-.pj-body { position: relative; z-index: 1; }
+.pj-body { position: relative; z-index: 1; margin-left: 0.6rem; }
 
 .pj-tag {
   font-family: 'DM Mono', monospace;
