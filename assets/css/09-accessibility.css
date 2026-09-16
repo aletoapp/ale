@@ -37,6 +37,18 @@
   .sr        { opacity: 1; transform: none; }
   .fade-in   { opacity: 1; transform: none; }
 
+  /* Portfólio — cards e conteúdo interno sem cascata/hover-lift */
+  .pj-item,
+  .pj-item .pj-tag,
+  .pj-item .pj-result,
+  .pj-item .pj-name,
+  .pj-item .pj-desc,
+  .pj-item .pj-ctas {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   /* CTA final word-by-word */
   .cfw       { opacity: 1; transform: none; }
   .cfl-line2 { opacity: 1; transform: none; }
