@@ -384,8 +384,8 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 .identity-photo{flex-shrink:0;width:104px;height:104px;border-radius:50%;overflow:hidden;border:1px solid var(--border);box-shadow:0 0 0 6px var(--gold-dim)}
 .identity-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .identity-info{min-width:0}
-.identity-name{font-family:'Playfair Display',serif;font-weight:700;font-size:21px;color:var(--ink)}
-.identity-role{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.03em;color:var(--ink-3);margin-top:4px}
+.identity-name{font-family:'Playfair Display',serif;font-weight:700;font-size:13px;color:var(--ink)}
+.identity-role{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.03em;color:var(--ink-3);margin-top:4px}
 .identity-links{display:flex;flex-wrap:wrap;gap:16px;list-style:none;margin-top:10px;padding:0}
 .identity-links a{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--gold);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
 .identity-links a:hover{border-color:var(--gold)}
@@ -406,11 +406,11 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 @media(max-width:640px){
   body{font-size:17px}
   main{padding:0 20px 64px}
-  .breadcrumb{padding:12px 20px 24px;font-size:11px}
+  .breadcrumb{padding:12px 20px 24px}
+  .breadcrumb.p-poppins{font-size:11px!important}
   h1{margin-bottom:32px}
   .identity{gap:16px;margin-bottom:36px}
   .identity-photo{width:84px;height:84px}
-  .identity-name{font-size:19px}
   .sobre-block{margin-bottom:28px}
   .sobre-block h2{font-size:19px}
   .sobre-quote{font-size:17px}
@@ -425,6 +425,13 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 .byline span{opacity:.4}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;scroll-behavior:auto!important}}
 .p-poppins{font-family:'Poppins',sans-serif!important;font-size:18px!important}
+/* Overrides de tamanho para elementos que usam .p-poppins mas precisam de um tamanho próprio.
+   Precisam de seletor composto + !important para vencer a regra .p-poppins acima. */
+.breadcrumb.p-poppins{font-size:12px!important}
+.identity-name.p-poppins{font-size:13px!important}
+.identity-role.p-poppins{font-size:13px!important}
+.epigraph.p-poppins{font-size:12px!important}
+.byline.p-poppins{font-size:12px!important}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -550,8 +557,8 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 </main>
 
 <footer class="page-footer">
-  <p class="epigraph p-poppins" style="font-size:12px;">Engenharia · Percepção · Decisão</p>
-  <p class="byline p-poppins" style="font-size:12px;"><span>by</span> Alexandre Torres<br>54.806.916/0001-62</p>
+  <p class="epigraph p-poppins">Engenharia · Percepção · Decisão</p>
+  <p class="byline p-poppins"><span>by</span> Alexandre Torres<br>54.806.916/0001-62</p>
 </footer>
 
 <!-- ══ SCRIPTS ══ -->
