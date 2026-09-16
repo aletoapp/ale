@@ -137,7 +137,7 @@
   .portfolio-header { grid-template-columns: 1fr; gap: 1.4rem; margin-bottom: 3.2rem; }
   #portfolio::before { display: none; }
   .pj-item { grid-template-columns: 52px 1fr 28px; gap: 1.2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--border-soft); }
-  .pj-num  { font-size: 2.8rem; opacity: 0.18; }
+  .pj-num  { width: 40px; height: 40px; font-size: 0.85rem; border-radius: 9px; }
   .pj-name { font-size: 1.45rem; line-height: 1.12; }
   .pj-ctas { gap: 0.55rem; margin-top: 0.85rem; opacity: 1; transform: translateY(0); pointer-events: auto; }
   .pj-cta-link { font-size: 0.72rem; letter-spacing: 0.09em; padding: 0.48rem 0.7rem; }

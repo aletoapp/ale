@@ -546,18 +546,34 @@
 .pj-item:hover::before { transform: scaleX(1); }
 .pj-item:hover { border-color: var(--gold); }
 
+/* Badge numerado — mesma linguagem visual do YouList (.step-num / .hsc-num):
+   quadrado arredondado, fundo e borda tonalizados, número em mono bold.
+   Entra em cascata junto com o resto do card (ver bloco de animação abaixo)
+   e ganha destaque no hover do item inteiro. */
 .pj-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.2rem;
-  font-weight: 900;
-  color: var(--border);
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid rgba(200,169,110,0.3);
+  border-radius: 10px;
   line-height: 1;
   position: relative;
   z-index: 1;
-  transition: color 0.35s ease;
+  flex-shrink: 0;
 }
 
-.pj-item:hover .pj-num { color: var(--gold); }
+.pj-item:hover .pj-num {
+  border-color: var(--gold);
+  background: rgba(200,169,110,0.24);
+}
 
 .pj-body { position: relative; z-index: 1; }
 
@@ -659,15 +675,15 @@
   box-shadow: 0 20px 44px rgba(0,0,0,0.08), 0 0 0 1px rgba(156,124,62,0.15);
 }
 
-.pj-item:hover .pj-num { transform: scale(1.08); }
-.pj-num { transition: color 0.35s ease, transform 0.35s ease; }
-
 /* Stagger — cada card espera um pouco mais para entrar */
 .portfolio-list .pj-item:nth-of-type(1) { transition-delay: 0s; }
 .portfolio-list .pj-item:nth-of-type(2) { transition-delay: 0.12s; }
 .portfolio-list .pj-item:nth-of-type(3) { transition-delay: 0.24s; }
 
-/* Conteúdo interno em cascata, disparado pelo .in do próprio .pj-item */
+/* Conteúdo interno em cascata, disparado pelo .in do próprio .pj-item.
+   O badge (.pj-num) lidera a sequência — sobe/aparece primeiro,
+   depois tag, resultado, nome, descrição e CTAs. */
+.pj-item .pj-num,
 .pj-item .pj-tag,
 .pj-item .pj-result,
 .pj-item .pj-name,
@@ -678,12 +694,22 @@
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
+/* .pj-num precisa também transicionar borda/fundo no hover — como essa regra
+   é mais específica (duas classes) que a base ".pj-num", ela fica por último
+   e reúne todas as propriedades para não perder nenhuma no hover. */
+.pj-item .pj-num {
+  transition: opacity 0.5s ease, transform 0.5s ease,
+              background 0.3s ease, border-color 0.3s ease;
+}
+
+.pj-item.in .pj-num    { transition-delay: 0.02s; }
 .pj-item.in .pj-tag    { transition-delay: 0.08s; }
 .pj-item.in .pj-result { transition-delay: 0.15s; }
 .pj-item.in .pj-name   { transition-delay: 0.22s; }
 .pj-item.in .pj-desc   { transition-delay: 0.29s; }
 .pj-item.in .pj-ctas   { transition-delay: 0.36s; }
 
+.pj-item.in .pj-num,
 .pj-item.in .pj-tag,
 .pj-item.in .pj-result,
 .pj-item.in .pj-name,
@@ -708,12 +734,10 @@
     grid-column: 1;
     grid-row: 1 / 4;
     align-self: start;
-    font-size: 5rem;
-    color: var(--ink);
-    opacity: 0.15;
-    padding-top: 0.1em;
-    letter-spacing: -0.05em;
-    transition: opacity 0.45s ease, color 0.4s ease, transform 0.35s ease;
+    width: 52px;
+    height: 52px;
+    font-size: 1.05rem;
+    margin-top: 0.15em;
   }
 
   .pj-body { display: contents; }
@@ -742,7 +766,6 @@
     transition: color 0.4s ease;
   }
 
-  .pj-item:hover .pj-num { opacity: 0.3; color: var(--gold); }
   .pj-item:hover .pj-desc { color: var(--ink-2); }
 }
 

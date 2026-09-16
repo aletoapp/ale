@@ -37,8 +37,9 @@
   .sr        { opacity: 1; transform: none; }
   .fade-in   { opacity: 1; transform: none; }
 
-  /* Portfólio — cards e conteúdo interno sem cascata/hover-lift */
+  /* Portfólio — cards e conteúdo interno (incl. badge numerado) sem cascata/hover-lift */
   .pj-item,
+  .pj-item .pj-num,
   .pj-item .pj-tag,
   .pj-item .pj-result,
   .pj-item .pj-name,
