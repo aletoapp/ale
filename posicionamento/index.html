@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- ── TEMA CLARO/ESCURO — aplica antes do primeiro paint, evita flash ── -->
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('at-theme');
+    if(!t){ t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; }
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){}
+})();
+</script>
+
 <!-- Google Tag Manager / GA4 — mesmo snippet da home, para manter analytics unificado no ecossistema -->
 <script>
 (function(){
@@ -105,9 +116,11 @@
 @font-face{font-family:'DM Sans';src:url('/assets/fonts/subset-DMSans-9ptRegular.woff2') format('woff2'),url('/assets/fonts/subset-DMSans-9ptRegular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:'DM Mono';src:url('/assets/fonts/subset-DMMono-Regular.woff2') format('woff2'),url('/assets/fonts/subset-DMMono-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
 :root{--bg:#080807;--surface:rgba(255,255,255,0.03);--border:rgba(200,169,110,0.18);--border-soft:rgba(200,169,110,0.08);--ink:#f0ece2;--ink-2:#c4bfb2;--ink-3:#9a9080;--gold:#c8a96e;--gold-dim:rgba(200,169,110,0.10)}
+html[data-theme="light"]{--bg:#faf8f3;--surface:rgba(30,22,8,0.035);--border:rgba(150,108,34,0.26);--border-soft:rgba(150,108,34,0.13);--ink:#1c1712;--ink-2:#4a4234;--ink-3:#7d7361;--gold:#9c7a2e;--gold-dim:rgba(156,122,46,0.14)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:400;font-size:18px;line-height:1.75;padding-top:104px}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:400;font-size:18px;line-height:1.75;padding-top:104px;transition:background-color .35s ease,color .35s ease}
+.mini-chart,.sobre-block,.sobre-quote,.identity-photo,.breadcrumb,main,.page-footer{transition:background-color .35s ease,color .35s ease,border-color .35s ease}
 a{color:inherit}
 em{color:var(--gold);font-style:italic}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -285,6 +298,17 @@ nav {
   box-shadow: 0 0 30px rgba(255,153,0,0.38) !important;
 }
 
+/* ── Botão de tema (idêntico ao blog) ── */
+.theme-toggle{position:relative;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:12px;transition:background .25s,border-color .25s,transform .2s}
+.theme-toggle:hover{border-color:var(--accent);transform:translateY(-1px)}
+.theme-toggle:active{transform:translateY(0)}
+.theme-toggle svg{position:absolute;width:16px;height:16px;fill:none;stroke:var(--text);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:opacity .3s,transform .4s}
+.theme-toggle .icon-moon{opacity:0;transform:rotate(-55deg) scale(.55)}
+.theme-toggle .icon-sun{opacity:1;transform:rotate(0) scale(1)}
+html[data-theme="light"] .theme-toggle .icon-sun{opacity:0;transform:rotate(55deg) scale(.55)}
+html[data-theme="light"] .theme-toggle .icon-moon{opacity:1;transform:rotate(0) scale(1)}
+@media(max-width:640px){.theme-toggle{margin-left:8px}}
+
 .nav-hamburger {
   display: none;
   flex-direction: column;
@@ -371,12 +395,12 @@ nav {
 }
 
 /* ── Trilha (breadcrumb) ── */
-.breadcrumb{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:970px;margin:0 auto;padding:16px 32px 32px}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:980px;margin:0 auto;padding:16px 24px 32px}
 .breadcrumb a{text-decoration:none;color:var(--ink-3)}
 .breadcrumb a:hover{color:var(--gold)}
 
 /* ── Conteúdo ── */
-main{max-width:970px;margin:0 auto;padding:0 32px 80px}
+main{max-width:980px;margin:0 auto;padding:0 24px 80px}
 h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw,46px);line-height:1.25;margin-bottom:40px}
 
 /* ── Faixa de identidade (foto + nome + links) ── */
@@ -398,6 +422,21 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
 .sobre-quote{border-left:2px solid var(--border);padding-left:22px;margin:22px 0;color:var(--ink);font-size:19px;font-style:italic}
 .sobre-list{margin:16px 0 0 22px}
 .sobre-list li{margin-bottom:12px;color:var(--ink-2)}
+
+/* ── Mini-gráficos ilustrativos (traço fino) — idênticos ao blog ── */
+.mini-chart{margin:36px 0;padding:22px 24px 20px;border:1px solid var(--border-soft);border-radius:12px;background:var(--surface)}
+.mini-chart-title{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.mini-chart svg{display:block;width:100%;height:auto;overflow:visible}
+.mini-chart .mc-shape{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.mini-chart .mc-shape-muted{fill:none;stroke:var(--ink-3);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.mini-chart .mc-dashed{stroke-dasharray:4 5}
+.mini-chart .mc-axis{stroke:var(--border);stroke-width:1}
+.mini-chart .mc-dot{fill:var(--gold)}
+.mini-chart text{font-family:'DM Mono',monospace;font-size:9.5px;fill:var(--ink-3);letter-spacing:.02em}
+.mini-chart .mc-text-strong{fill:var(--ink-2)}
+.mini-chart-caption{font-size:12.5px;color:var(--ink-3);margin-top:14px;line-height:1.55}
+.mini-chart-caption.p-poppins{font-size:12.5px!important}
+@media(max-width:640px){.mini-chart{padding:18px 16px}.mini-chart text{font-size:8.6px}}
 
 /* ── Skip-link (acessibilidade) ── */
 .skip-link{position:absolute;left:16px;top:-60px;z-index:1100;background:var(--gold);color:#080807;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;padding:10px 16px;border-radius:8px;text-decoration:none;transition:top .2s}
@@ -479,6 +518,11 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
     <li><a href="/atendimento/" class="nav-cta">Atendimento</a></li>
   </ul>
 
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Alternar entre modo claro e escuro" title="Alternar tema">
+    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5.2"/><line x1="12" y1="18.8" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5.2" y2="12"/><line x1="18.8" y1="12" x2="21.5" y2="12"/><line x1="5.3" y1="5.3" x2="7.2" y2="7.2"/><line x1="16.8" y1="16.8" x2="18.7" y2="18.7"/><line x1="5.3" y1="18.7" x2="7.2" y2="16.8"/><line x1="16.8" y1="7.2" x2="18.7" y2="5.3"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.5 8.5 0 1 1 9.8 4a6.8 6.8 0 0 0 10.2 10.2Z"/></svg>
+  </button>
+
   <button class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -516,6 +560,36 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
     <p class="p-poppins">Existem profissionais que entregam páginas isoladas. Existem os que entregam sistemas genéricos. E existem os que projetam <strong>ecossistemas digitais, aplicativos e plataformas SaaS capazes de influenciar percepção, comportamento e decisão.</strong></p>
     <p class="p-poppins">Pertenço à terceira categoria.</p>
     <div class="sobre-quote"><p class="p-poppins">Uma aplicação premium ou software modular não precisa apenas funcionar de forma estável. Ela precisa conduzir o usuário com fluidez absoluta.</p></div>
+
+    <div class="mini-chart">
+      <p class="mini-chart-title">As três categorias — e onde eu opero</p>
+      <svg viewBox="0 0 460 210" role="img" aria-labelledby="mc-mapa-t mc-mapa-d">
+        <title id="mc-mapa-t">Mapa de posicionamento em dois eixos</title>
+        <desc id="mc-mapa-d">Eixo horizontal: entrega em série à esquerda, sistema sob medida à direita. Eixo vertical: estética abaixo, influência sobre decisão acima. A maioria dos fornecedores se concentra no canto inferior esquerdo; um ponto isolado e destacado ocupa o canto superior direito.</desc>
+
+        <line class="mc-axis" x1="60" y1="175" x2="420" y2="175"/>
+        <line class="mc-axis" x1="60" y1="175" x2="60" y2="25"/>
+
+        <circle class="mc-shape-muted" cx="108" cy="150" r="7"/>
+        <circle class="mc-shape-muted" cx="132" cy="160" r="9"/>
+        <circle class="mc-shape-muted" cx="152" cy="141" r="6"/>
+        <circle class="mc-shape-muted" cx="124" cy="133" r="8"/>
+        <circle class="mc-shape-muted" cx="168" cy="158" r="7"/>
+        <circle class="mc-shape-muted" cx="228" cy="118" r="8"/>
+        <circle class="mc-shape-muted" cx="252" cy="131" r="6"/>
+
+        <circle class="mc-dot" cx="358" cy="58" r="4.5"/>
+        <circle class="mc-shape" cx="358" cy="58" r="16"/>
+
+        <text x="60" y="193">PÁGINA ISOLADA</text>
+        <text x="240" y="193" text-anchor="middle">SISTEMA GENÉRICO</text>
+        <text x="420" y="193" text-anchor="end">ECOSSISTEMA</text>
+        <text x="52" y="172" text-anchor="end" transform="rotate(-90 52 172)">ESTÉTICA</text>
+        <text x="52" y="30" text-anchor="end" transform="rotate(-90 52 30)">DECISÃO</text>
+        <text x="358" y="36" text-anchor="middle" class="mc-text-strong">AQUI</text>
+      </svg>
+      <p class="mini-chart-caption p-poppins">Mapa conceitual, sem dados de mercado: mostra a escolha de posição, não mede concorrentes.</p>
+    </div>
   </div>
 
   <div class="sobre-block">
@@ -534,6 +608,29 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
       <li><strong>Performance Nativa:</strong> Fontes locais pré-carregadas e eliminação completa de scripts que bloqueiam o render visual.</li>
       <li><strong>SEO Semântico &amp; Indexação:</strong> Estruturação de dados avançada para que seu software ou landing page ganhe autoridade imediata no Google.</li>
     </ul>
+
+    <div class="mini-chart">
+      <p class="mini-chart-title">O custo que ninguém mostra na proposta</p>
+      <svg viewBox="0 0 460 210" role="img" aria-labelledby="mc-infra-t mc-infra-d">
+        <title id="mc-infra-t">Duas trajetórias de custo de manutenção ao longo do tempo</title>
+        <desc id="mc-infra-d">Curva tracejada representa infraestrutura inchada: sobe de forma acentuada ao longo dos meses. Curva contínua representa infraestrutura leve em edge: permanece quase plana e baixa.</desc>
+
+        <line class="mc-axis" x1="60" y1="170" x2="420" y2="170"/>
+        <line class="mc-axis" x1="60" y1="170" x2="60" y2="30"/>
+
+        <path class="mc-shape-muted mc-dashed" d="M60 150 C 140 143, 210 120, 270 92 S 370 46, 420 36"/>
+        <path class="mc-shape" d="M60 152 C 150 150, 250 147, 340 145 S 400 143, 420 142"/>
+        <circle class="mc-dot" cx="420" cy="142" r="4"/>
+
+        <text x="60" y="188">ENTREGA</text>
+        <text x="240" y="188" text-anchor="middle">MESES DE OPERAÇÃO</text>
+        <text x="420" y="188" text-anchor="end">ANO 2</text>
+        <text x="52" y="168" text-anchor="end" transform="rotate(-90 52 168)">CUSTO</text>
+        <text x="300" y="66" class="mc-text-strong">STACK INCHADA</text>
+        <text x="300" y="133">EDGE + ASSETS ENXUTOS</text>
+      </svg>
+      <p class="mini-chart-caption p-poppins">Trajetórias conceituais: ilustram a diferença de inclinação entre as duas arquiteturas, não valores de contrato.</p>
+    </div>
   </div>
 
   <div class="sobre-block">
@@ -546,6 +643,29 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
     <h2>Arquitetura de decisão</h2>
     <p class="p-poppins">Uma landing page não é um panfleto online. É um ambiente cognitivo. O visitante chega com dúvidas, excesso de informação e resistência. O papel da engenharia é organizar a experiência de forma tão clara que a decisão se torne consequência natural.</p>
     <p class="p-poppins">Isso aparece em cada projeto — na tipografia, no contraste, no tempo de carregamento, na densidade de informação. <strong>Nada existe apenas porque ficou bonito.</strong></p>
+
+    <div class="mini-chart">
+      <p class="mini-chart-title">Atenção sem estrutura x atenção conduzida</p>
+      <svg viewBox="0 0 460 210" role="img" aria-labelledby="mc-curva-t mc-curva-d">
+        <title id="mc-curva-t">Duas curvas de retenção ao longo da página</title>
+        <desc id="mc-curva-d">Curva tracejada cai rápido nos primeiros segundos e chega ao fim da página quase no zero. Curva contínua desce devagar e termina alta, no ponto marcado como decisão.</desc>
+
+        <line class="mc-axis" x1="60" y1="170" x2="420" y2="170"/>
+        <line class="mc-axis" x1="60" y1="170" x2="60" y2="30"/>
+
+        <path class="mc-shape-muted mc-dashed" d="M60 42 C 105 95, 150 140, 200 155 S 320 166, 420 168"/>
+        <path class="mc-shape" d="M60 42 C 130 55, 210 70, 280 82 S 380 96, 420 100"/>
+        <circle class="mc-dot" cx="420" cy="100" r="4"/>
+
+        <text x="60" y="188">CHEGADA</text>
+        <text x="240" y="188" text-anchor="middle">MEIO DA PÁGINA</text>
+        <text x="420" y="188" text-anchor="end">DECISÃO</text>
+        <text x="52" y="168" text-anchor="end" transform="rotate(-90 52 168)">ATENÇÃO</text>
+        <text x="228" y="60" class="mc-text-strong">CONDUZIDA</text>
+        <text x="215" y="150">SEM ESTRUTURA</text>
+      </svg>
+      <p class="mini-chart-caption p-poppins">Curvas conceituais: ilustram diferença de trajetória, não medições de sessão.</p>
+    </div>
   </div>
 
   <div class="sobre-block">
@@ -567,15 +687,16 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
   const nav = document.getElementById('nav');
   const hamburger = document.querySelector('.nav-hamburger');
   const navLinks = document.querySelector('.nav-links');
-  const productsNav = document.querySelector('.nav-products');
-  const productsTrigger = document.querySelector('.nav-dropdown-trigger');
+  const productsNavs = document.querySelectorAll('.nav-products');
 
   function closeMenus() {
     hamburger.classList.remove('open');
     hamburger.setAttribute('aria-expanded', 'false');
     navLinks.classList.remove('mobile-open');
-    productsNav.classList.remove('open');
-    productsTrigger.setAttribute('aria-expanded', 'false');
+    productsNavs.forEach(p => {
+      p.classList.remove('open');
+      p.querySelector('.nav-dropdown-trigger').setAttribute('aria-expanded', 'false');
+    });
   }
 
   hamburger.addEventListener('click', () => {
@@ -589,11 +710,18 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
     }
   });
 
-  productsTrigger.addEventListener('click', (event) => {
-    event.preventDefault();
-    const open = !productsNav.classList.contains('open');
-    productsNav.classList.toggle('open', open);
-    productsTrigger.setAttribute('aria-expanded', String(open));
+  productsNavs.forEach(productsNav => {
+    const trigger = productsNav.querySelector('.nav-dropdown-trigger');
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      const open = !productsNav.classList.contains('open');
+      productsNavs.forEach(p => {
+        p.classList.remove('open');
+        p.querySelector('.nav-dropdown-trigger').setAttribute('aria-expanded', 'false');
+      });
+      productsNav.classList.toggle('open', open);
+      trigger.setAttribute('aria-expanded', String(open));
+    });
   });
 
   navLinks.querySelectorAll('a').forEach(link => {
@@ -601,10 +729,12 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
   });
 
   document.addEventListener('click', (event) => {
-    if (!productsNav.contains(event.target)) {
-      productsNav.classList.remove('open');
-      productsTrigger.setAttribute('aria-expanded', 'false');
-    }
+    productsNavs.forEach(p => {
+      if (!p.contains(event.target)) {
+        p.classList.remove('open');
+        p.querySelector('.nav-dropdown-trigger').setAttribute('aria-expanded', 'false');
+      }
+    });
   });
 
   // Destaque da seção/página atual
@@ -616,6 +746,25 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw
       link.setAttribute('aria-current', 'page');
     }
   });
+
+  // Tema claro/escuro (mesma chave 'at-theme' do resto do ecossistema)
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('at-theme', theme); } catch (e) {}
+    if (themeToggle) themeToggle.setAttribute('aria-pressed', String(theme === 'light'));
+    if (themeColorMeta) themeColorMeta.setAttribute('content', theme === 'light' ? '#faf8f3' : '#080807');
+  }
+
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-pressed', String(document.documentElement.getAttribute('data-theme') === 'light'));
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'light' ? 'dark' : 'light');
+    });
+  }
 </script>
 
 </body>
