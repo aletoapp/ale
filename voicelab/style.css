@@ -14,6 +14,14 @@
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+
+.text-pix {
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   /* Microinterações — nudge de ícone padrão para botões */
