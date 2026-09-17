@@ -87,6 +87,7 @@
     <p class="subtitle">Áudio Perfeito em Segundos</p>
     <div class="header-tools">
       <button class="header-btn" id="lib-btn" onclick="openLibrary()"><span class="btn-ico" aria-hidden="true">📚</span> Biblioteca <span class="dot-badge" id="lib-count" style="display:none">0</span></button>
+      <button class="header-btn" id="support-btn" onclick="openSupport()"><span class="btn-ico" aria-hidden="true">💬</span> Suporte</button>
     </div>
   </header>
 
@@ -393,6 +394,27 @@
   </div>
 </div>
 
+<!-- SUPPORT PANEL -->
+<div class="library-overlay" id="support-overlay" onclick="if(event.target===this) closeSupport()">
+  <div class="library-panel">
+    <div class="library-header">
+      <span class="library-title">💬 Suporte</span>
+      <button class="library-close" onclick="closeSupport()">✕</button>
+    </div>
+    <div class="library-list">
+      <a href="mailto:aletor.app@gmail.com" class="header-btn" style="width:100%;justify-content:flex-start;margin-bottom:10px;text-decoration:none">
+        <span class="btn-ico" aria-hidden="true">✉️</span> aletor.app@gmail.com
+      </a>
+      <a href="https://alexandretorres.com.br/atendimento" target="_blank" rel="noopener" class="header-btn" style="width:100%;justify-content:flex-start;margin-bottom:10px;text-decoration:none">
+        <span class="btn-ico" aria-hidden="true">🌐</span> alexandretorres.com.br/atendimento
+      </a>
+      <a href="https://g.page/r/CWoGLt9TheglEAE/review" target="_blank" rel="noopener" class="header-btn" style="width:100%;justify-content:flex-start;text-decoration:none">
+        <span class="btn-ico" aria-hidden="true">⭐</span> Deixe sua opinião ou sugestão, avalie o app
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- NAME MODAL -->
 <div class="name-modal-overlay" id="name-modal-overlay">
   <div class="name-modal">
@@ -406,5 +428,9 @@
 </div>
 
 <script src="script.js"></script>
+<script>
+  function openSupport(){ document.getElementById('support-overlay').classList.add('active'); }
+  function closeSupport(){ document.getElementById('support-overlay').classList.remove('active'); }
+</script>
 </body>
 </html>
