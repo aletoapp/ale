@@ -181,11 +181,18 @@ def analyze_file(path):
     }
 
 
+EXCLUDE_DIR_NAMES = {"admin"}  # pastas internas que não são conteúdo público — não fazem parte da auditoria de SEO
+
+
 def collect_files(paths):
     files = []
     for p in paths:
         if os.path.isdir(p):
-            files.extend(sorted(glob.glob(os.path.join(p, "**", "*.html"), recursive=True)))
+            for f in sorted(glob.glob(os.path.join(p, "**", "*.html"), recursive=True)):
+                rel_parts = os.path.normpath(f).split(os.sep)
+                if any(part in EXCLUDE_DIR_NAMES for part in rel_parts):
+                    continue
+                files.append(f)
         else:
             files.extend(sorted(glob.glob(p)))
     seen, out = set(), []

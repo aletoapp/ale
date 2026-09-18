@@ -42,11 +42,15 @@ if (!inputPath || !fs.existsSync(inputPath)) {
 }
 
 // ── Descobre quais arquivos .html processar ─────────────────────
+// Pastas internas que não são conteúdo público — não fazem parte da checagem de links.
+const EXCLUDE_DIR_NAMES = new Set(['admin']);
+
 function collectHtmlFiles(p) {
   const stat = fs.statSync(p);
   if (stat.isFile()) return p.endsWith('.html') ? [p] : [];
   const out = [];
   for (const entry of fs.readdirSync(p, { withFileTypes: true })) {
+    if (EXCLUDE_DIR_NAMES.has(entry.name)) continue;
     const full = path.join(p, entry.name);
     if (entry.isDirectory()) out.push(...collectHtmlFiles(full));
     else if (entry.name.endsWith('.html')) out.push(full);
