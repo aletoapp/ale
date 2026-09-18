@@ -3,9 +3,10 @@ name: SEO Health Dashboard
 on:
   schedule:
     - cron: '0 6 * * *'   # todo dia às 06:00 UTC (~03:00 em Brasília)
-  push:
-    branches: [ main ]     # roda a cada push, pra travar link quebrado antes do ar
   workflow_dispatch: {}    # permite rodar manualmente pelo botão "Run workflow" no GitHub
+  # Removido o gatilho "push" de propósito: ele fazia esse workflow rodar em paralelo
+  # com o "Generate Sitemap" (que também commita a cada push), e os dois brigavam pelo
+  # mesmo "git push" — o segundo a tentar sempre falhava com exit code 1 (non-fast-forward).
 
 permissions:
   contents: write   # necessário pro workflow poder commitar os relatórios de volta
@@ -55,4 +56,7 @@ jobs:
           git config user.email "seo-bot@users.noreply.github.com"
           git add seo-health-report.md seo-health-report.json link-check-report.json dashboard-data.json
           git diff --quiet --cached || git commit -m "chore: atualiza relatórios de SEO [skip ci]"
+          # Traz o que mudou no remoto antes de empurrar, pra não colidir com outro
+          # workflow que tenha commitado nesse meio-tempo (ex.: Generate Sitemap).
+          git pull --rebase origin main || true
           git push
