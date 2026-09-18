@@ -231,6 +231,8 @@ async function run() {
     });
   }
 
+  report.total_checked = totalChecked;
+  report.total_failures = totalFailures;
   fs.writeFileSync(opts.out, JSON.stringify(report, null, 2), 'utf8');
 
   console.log('\n-----------------------------------------');

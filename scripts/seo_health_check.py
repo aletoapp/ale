@@ -36,6 +36,7 @@ import os
 import re
 import sys
 from collections import defaultdict
+from datetime import datetime, timezone
 from difflib import SequenceMatcher
 from html.parser import HTMLParser
 
@@ -411,7 +412,7 @@ def build_report(pages, out_path):
     report = "\n".join(lines)
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(report)
-    return report
+    return report, issues
 
 
 def main():
@@ -420,6 +421,7 @@ def main():
     )
     ap.add_argument("paths", nargs="+", help="Arquivo(s) .html e/ou pasta(s) com os HTMLs do site.")
     ap.add_argument("--out", default="seo-health-report.md", help="Arquivo de saída (Markdown). Padrão: seo-health-report.md")
+    ap.add_argument("--json-out", default=None, help="Também salva um resumo estruturado em JSON nesse caminho (usado pelo painel).")
     args = ap.parse_args()
 
     files = collect_files(args.paths)
@@ -434,9 +436,28 @@ def main():
         except Exception as e:
             print(f"Falha ao processar {f}: {e}")
 
-    report = build_report(pages, args.out)
+    report, issues = build_report(pages, args.out)
     print(report)
     print(f"\n\n[Relatório salvo em: {args.out}]")
+
+    if args.json_out:
+        order = {"ALTA": 0, "MÉDIA": 1, "BAIXA": 2}
+        issues_sorted = sorted(issues, key=lambda x: (order.get(x[0], 9), x[1]))
+        counts = defaultdict(int)
+        for sev, _, _ in issues_sorted:
+            counts[sev] += 1
+        summary = {
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "pages_analyzed": len(pages),
+            "counts": {"ALTA": counts.get("ALTA", 0), "MÉDIA": counts.get("MÉDIA", 0), "BAIXA": counts.get("BAIXA", 0)},
+            "issues": [
+                {"severity": sev, "file": os.path.basename(page), "message": msg}
+                for sev, page, msg in issues_sorted
+            ],
+        }
+        with open(args.json_out, "w", encoding="utf-8") as f:
+            json.dump(summary, f, ensure_ascii=False, indent=2)
+        print(f"[Resumo JSON salvo em: {args.json_out}]")
 
 
 if __name__ == "__main__":
