@@ -1,3 +1,9 @@
 {
-  "generated_at": "2026-09-18T05:14:05.035557Z"
+  "generated_at": "2026-09-18T06:02:37.661550Z",
+  "ga4": {
+    "error": "403 User does not have sufficient permissions for this property. To learn more about Property ID, see https://developers.google.com/analytics/devguides/reporting/data/v1/property-id."
+  },
+  "search_console": {
+    "error": "<HttpError 403 when requesting https://searchconsole.googleapis.com/webmasters/v3/sites/sc-domain%3Aalexandretorres.com.br/searchAnalytics/query?alt=json returned \"User does not have sufficient permission for site 'sc-domain:alexandretorres.com.br'. See also: https://support.google.com/webmasters/answer/2451999.\". Details: \"[{'message': \"User does not have sufficient permission for site 'sc-domain:alexandretorres.com.br'. See also: https://support.google.com/webmasters/answer/2451999.\", 'domain': 'global', 'reason': 'forbidden'}]\">"
+  }
 }
