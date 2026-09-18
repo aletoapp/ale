@@ -32,7 +32,7 @@ jobs:
 
       # ── 1. Auditoria de title/meta/canonical/JSON-LD/canibalização ──
       - name: Auditoria de SEO (cabeçalhos)
-        run: python scripts/seo_health_check.py . --out seo-health-report.md
+        run: python scripts/seo_health_check.py . --out seo-health-report.md --json-out seo-health-report.json
 
       # ── 2. Links quebrados — falha o workflow de propósito se achar algo ──
       - name: Validar links quebrados
@@ -53,6 +53,6 @@ jobs:
         run: |
           git config user.name "seo-bot"
           git config user.email "seo-bot@users.noreply.github.com"
-          git add seo-health-report.md link-check-report.json dashboard-data.json
+          git add seo-health-report.md seo-health-report.json link-check-report.json dashboard-data.json
           git diff --quiet --cached || git commit -m "chore: atualiza relatórios de SEO [skip ci]"
           git push
