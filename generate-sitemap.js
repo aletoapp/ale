@@ -1,69 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://alexandretorres.com.br/</loc>
-    <lastmod>2026-09-13T02:51:15+00:00</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-13T02:51:15.000+00:00</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
   <url>
     <loc>https://alexandretorres.com.br/at-lab/</loc>
-    <lastmod>2026-09-11T00:31:25+00:00</lastmod>
+    <lastmod>2026-09-11T00:31:25.000+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/atendimento/</loc>
+    <lastmod>2026-09-11T11:22:44.000+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <url>
     <loc>https://alexandretorres.com.br/blog/</loc>
-    <lastmod>2026-09-15T11:56:45+00:00</lastmod>
+    <lastmod>2026-09-15T11:56:45.000+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <url>
-    <loc>https://alexandretorres.com.br/atendimento/</loc>
-    <lastmod>2026-09-11T11:22:44+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://alexandretorres.com.br/docform/</loc>
-    <lastmod>2026-09-10T23:16:38+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://alexandretorres.com.br/dossie-da-conversao/</loc>
-    <lastmod>2026-09-11T15:04:43+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://alexandretorres.com.br/faq/</loc>
-    <lastmod>2026-09-12T17:54:42+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://alexandretorres.com.br/posicionamento/</loc>
-    <lastmod>2026-09-12T17:43:45+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://alexandretorres.com.br/voicelab/</loc>
-    <lastmod>2026-09-11T00:06:26+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://alexandretorres.com.br/youlist/</loc>
-    <lastmod>2026-09-11T00:06:53+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+
   <url>
     <loc>https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/</loc>
-    <lastmod>2026-09-15T11:15:45+00:00</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-09-15T11:15:45.000+00:00</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/blog/escolhendo-quem-vai-criar-seu-site/</loc>
+    <lastmod>2026-09-15T11:15:45.000+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/docform/</loc>
+    <lastmod>2026-09-10T23:16:38.000+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/dossie-da-conversao/</loc>
+    <lastmod>2026-09-11T15:04:43.000+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/faq/</loc>
+    <lastmod>2026-09-12T17:54:42.000+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/posicionamento/</loc>
+    <lastmod>2026-09-12T17:43:45.000+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/voicelab/</loc>
+    <lastmod>2026-09-11T00:06:26.000+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://alexandretorres.com.br/youlist/</loc>
+    <lastmod>2026-09-11T00:06:53.000+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
