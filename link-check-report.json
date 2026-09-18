@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T04:50:34.688Z",
+  "generated_at": "2026-09-18T05:09:10.164Z",
   "base_url": "https://alexandretorres.com.br",
   "files": [
     {
@@ -330,7 +330,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -554,7 +555,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -738,7 +740,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -1087,7 +1090,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -1345,7 +1349,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -1586,7 +1591,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -1910,7 +1916,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -2325,7 +2332,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -2836,7 +2844,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
@@ -3059,7 +3068,8 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
