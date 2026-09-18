@@ -7,7 +7,7 @@
    GitHub Pages compatible (relative paths)
 ════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'docform-v2';
+const CACHE_VERSION = 'docform-v4';
 const CACHE_STATIC  = `${CACHE_VERSION}-static`;
 const CACHE_ASSETS  = `${CACHE_VERSION}-assets`;
 

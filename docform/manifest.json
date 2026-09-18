@@ -50,5 +50,11 @@
       "icons": [{ "src": "assets/img/icon-192.png", "sizes": "192x192" }]
     }
   ],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "file_handlers": [
+    {
+      "action": "./?page=formatar",
+      "accept": { "text/plain": [".txt"] }
+    }
+  ]
 }

@@ -54,7 +54,24 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
 <div class="toast" id="toast"></div>
+
+<!-- Floating formatting toolbar (aparece ao selecionar texto no modo de edição) -->
+<div class="float-toolbar" id="float-toolbar" role="toolbar" aria-label="Formatação de texto">
+  <button type="button" data-cmd="bold" title="Negrito (Ctrl+B)"><b>B</b></button>
+  <button type="button" data-cmd="italic" title="Itálico (Ctrl+I)"><i>I</i></button>
+  <button type="button" data-cmd="underline" title="Sublinhado (Ctrl+U)"><u>U</u></button>
+  <button type="button" data-cmd="strikeThrough" title="Tachado"><s>S</s></button>
+  <span class="ft-sep"></span>
+  <button type="button" data-cmd="justifyLeft" title="Alinhar à esquerda">⯇</button>
+  <button type="button" data-cmd="justifyCenter" title="Centralizar">≡</button>
+  <button type="button" data-cmd="justifyFull" title="Justificar">☰</button>
+  <span class="ft-sep"></span>
+  <button type="button" data-cmd="insertUnorderedList" title="Marcadores">•</button>
+  <button type="button" data-cmd="insertOrderedList" title="Numeração">1.</button>
+</div>
 
 <!-- Offline indicator -->
 <div id="offline-bar" style="display:none;">
@@ -85,6 +102,7 @@
     </div>
   </a>
   <div class="hdr-right">
+    <button class="btn-zen" id="btn-zen" onclick="toggleZen()" aria-pressed="false" title="Modo Zen — ocultar painel lateral e focar na edição">🧘 Zen</button>
     <span class="badge" id="pwa-status-badge">v 1.0</span>
   </div>
 </header>
@@ -118,10 +136,14 @@
     <div class="nav-item" onclick="quickPreset('compra-venda')"><span class="ni">💰</span> Compra e Venda</div>
     <div class="nav-item" onclick="quickPreset('nda')"><span class="ni">🔒</span> NDA Confidencial.</div>
     <div class="nav-item" onclick="quickPreset('danos')"><span class="ni">⚠️</span> Cobrança Danos</div>
+    <div class="nav-item" onclick="quickPreset('distrato')"><span class="ni">📑</span> Distrato Contratual</div>
+    <div class="nav-item" onclick="quickPreset('procuracao')"><span class="ni">⚖️</span> Procuração</div>
+    <div class="nav-item" onclick="quickPreset('lgpd-consentimento')"><span class="ni">🛡️</span> Termo LGPD</div>
+    <div class="nav-item" onclick="quickPreset('aviso-previo')"><span class="ni">📨</span> Notif. Extrajudicial</div>
   </aside>
 
   <!-- MAIN -->
-  <main class="main">
+  <main class="main" id="main-content">
 
     <!-- ══ HOME ══ -->
     <div class="panel active" id="panel-home">
@@ -174,7 +196,7 @@
         <div class="detect-row">
           <span class="detect-row-label">🤖 Detecção Automática</span>
           <label class="ios-toggle">
-            <input type="checkbox" id="auto-detect-toggle" checked>
+            <input type="checkbox" id="auto-detect-toggle" checked aria-label="Ativar detecção automática do tipo de documento">
             <span class="ios-slider"></span>
           </label>
         </div>
@@ -191,6 +213,10 @@
           <div class="preset-btn" data-preset="danos"               onclick="selectPreset(this)"><span class="preset-icon">⚠️</span>Cobrança Danos</div>
           <div class="preset-btn" data-preset="emprestimo"          onclick="selectPreset(this)"><span class="preset-icon">💳</span>Empréstimo</div>
           <div class="preset-btn" data-preset="trabalho"            onclick="selectPreset(this)"><span class="preset-icon">📋</span>Contrato Trabalho</div>
+          <div class="preset-btn" data-preset="distrato"            onclick="selectPreset(this)"><span class="preset-icon">📑</span>Distrato Contratual</div>
+          <div class="preset-btn" data-preset="procuracao"          onclick="selectPreset(this)"><span class="preset-icon">⚖️</span>Procuração</div>
+          <div class="preset-btn" data-preset="lgpd-consentimento"  onclick="selectPreset(this)"><span class="preset-icon">🛡️</span>Termo LGPD</div>
+          <div class="preset-btn" data-preset="aviso-previo"        onclick="selectPreset(this)"><span class="preset-icon">📨</span>Notif. Extrajudicial</div>
           <div class="preset-btn" data-preset="generico"            onclick="selectPreset(this)"><span class="preset-icon">📝</span>Genérico</div>
         </div>
       </div>

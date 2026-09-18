@@ -162,6 +162,58 @@ const PRESET_CONFIG = {
     context:   'Vínculo empregatício CLT. Obrigatório: registro em CTPS, FGTS (8% s/ salário), INSS patronal. Verificar NRs aplicáveis à função.',
   },
 
+  'distrato': {
+    titulo:    'DISTRATO CONTRATUAL',
+    sign1:     { label: 'Parte Distratante 1', placeholder: 'Nome / Razão Social — Parte 1' },
+    sign2:     { label: 'Parte Distratante 2', placeholder: 'Nome / Razão Social — Parte 2' },
+    lei:       'Código Civil — Art. 472 (Distrato) c/c Art. 472 e ss.',
+    leiShort:  'CC Art. 472',
+    foro:      true,
+    chips:     { numerarClausulas: true, espacoAssinatura: true, dataLocal: true, paginacao: true, rodape: true, govbr: true, testemunhas: true },
+    footerLegal: 'Distrato Contratual — CC Art. 472 | Extingue o contrato original e quita obrigações remanescentes',
+    badge:     { text: 'Distrato · CC Art. 472', color: '#784212', bg: 'rgba(120,66,18,0.10)' },
+    context:   'Encerramento formal de obrigações de um contrato anterior. Deve referenciar o contrato original e declarar quitação mútua.',
+  },
+
+  'procuracao': {
+    titulo:    'PROCURAÇÃO AD JUDICIA ET EXTRA',
+    sign1:     { label: 'Outorgante', placeholder: 'Nome completo / Razão Social do Outorgante' },
+    sign2:     { label: 'Outorgado',  placeholder: 'Nome completo do Procurador (Outorgado)' },
+    lei:       'Código Civil — Arts. 653–692 (Mandato) + CPC Art. 105',
+    leiShort:  'CC Arts. 653–692 · CPC Art. 105',
+    foro:      true,
+    chips:     { numerarClausulas: false, espacoAssinatura: true, dataLocal: true, paginacao: false, rodape: true, govbr: true, testemunhas: false },
+    footerLegal: 'Procuração — CC Arts. 653–692 (Mandato) | Poderes ad judicia et extra — CPC Art. 105',
+    badge:     { text: 'Procuração · Padrão OAB', color: '#1a5276', bg: 'rgba(26,82,118,0.12)' },
+    context:   'Padrão OAB para outorga de poderes judiciais e extrajudiciais. Especifique poderes especiais (transigir, receber, dar quitação) quando aplicável.',
+  },
+
+  'lgpd-consentimento': {
+    titulo:    'TERMO DE CONSENTIMENTO PARA TRATAMENTO DE DADOS PESSOAIS',
+    sign1:     { label: 'Controlador', placeholder: 'Nome / Razão Social do Controlador de Dados' },
+    sign2:     { label: 'Titular',     placeholder: 'Nome completo do Titular dos Dados' },
+    lei:       'Lei 13.709/2018 (LGPD) — Arts. 7º, 8º e 9º',
+    leiShort:  'LGPD Arts. 7º–9º',
+    foro:      true,
+    chips:     { numerarClausulas: true, espacoAssinatura: true, dataLocal: true, paginacao: true, rodape: true, govbr: true, testemunhas: false },
+    footerLegal: 'Termo LGPD — Lei 13.709/2018, Arts. 7º a 9º | Consentimento livre, informado e inequívoco',
+    badge:     { text: 'LGPD · Lei 13.709/18', color: '#0e6655', bg: 'rgba(14,102,85,0.10)' },
+    context:   'Coleta e tratamento de dados pessoais. Deve informar finalidade específica, prazo de retenção e direito de revogação a qualquer momento (Art. 8º §5º).',
+  },
+
+  'aviso-previo': {
+    titulo:    'NOTIFICAÇÃO EXTRAJUDICIAL',
+    sign1:     { label: 'Notificante', placeholder: 'Nome / Razão Social do Notificante' },
+    sign2:     { label: 'Notificado',  placeholder: 'Nome / Razão Social do Notificado' },
+    lei:       'Código Civil — Arts. 397 e 402 (Mora e Perdas e Danos)',
+    leiShort:  'CC Arts. 397 e 402',
+    foro:      true,
+    chips:     { numerarClausulas: false, espacoAssinatura: true, dataLocal: true, paginacao: false, rodape: true, govbr: true, testemunhas: false },
+    footerLegal: 'Notificação Extrajudicial — CC Art. 397 (Constituição em Mora) | Recomenda-se envio via cartório ou AR',
+    badge:     { text: 'Notificação · CC Art. 397', color: '#922b21', bg: 'rgba(146,43,33,0.10)' },
+    context:   'Comunicação formal para constituir a outra parte em mora, exigir cumprimento ou dar aviso prévio antes de medida judicial.',
+  },
+
   'generico': {
     titulo:    'DOCUMENTO PARTICULAR',
     sign1:     { label: 'Parte A', placeholder: 'Nome / Razão Social da Parte A' },
@@ -233,6 +285,159 @@ function scaleAllPreviews() {
   scaleDocPreview('email-preview');
 }
 window.addEventListener('resize', scaleAllPreviews);
+
+/* ════════════════════════════════════════════
+   MODO ZEN — oculta sidebar para foco total
+   Preferência persistida em localStorage
+════════════════════════════════════════════ */
+function toggleZen() {
+  const on = document.body.classList.toggle('zen-mode');
+  const btn = document.getElementById('btn-zen');
+  if (btn) { btn.classList.toggle('active', on); btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  try { localStorage.setItem('docform-zen', on ? '1' : '0'); } catch {}
+  setTimeout(scaleAllPreviews, 200);
+}
+(function restoreZen() {
+  try {
+    if (localStorage.getItem('docform-zen') === '1') {
+      document.addEventListener('DOMContentLoaded', () => toggleZen());
+    }
+  } catch {}
+})();
+
+/* ════════════════════════════════════════════
+   ACESSIBILIDADE — navegação por teclado
+   Torna os cartões/itens clicáveis (divs com
+   onclick) operáveis via Tab + Enter/Espaço,
+   sem precisar reescrever cada elemento no HTML.
+════════════════════════════════════════════ */
+function enhanceKeyboardAccessibility() {
+  const selector = '.nav-item, .preset-btn, .feat-card, .wm-btn, .bn-item';
+  document.querySelectorAll(selector).forEach(el => {
+    if (el.hasAttribute('data-a11y-enhanced')) return;
+    el.setAttribute('data-a11y-enhanced', '1');
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        el.click();
+      }
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', enhanceKeyboardAccessibility);
+
+/* ════════════════════════════════════════════
+   RASCUNHO AUTOMÁTICO (resiliência offline)
+   Salva o texto em edição no localStorage a
+   cada pausa de digitação, e oferece restaurar
+   ao reabrir o app — útil se a conexão cair
+   ou a aba fechar sem exportar.
+════════════════════════════════════════════ */
+const DRAFT_KEY = 'docform-draft-v1';
+const DRAFT_FIELDS = ['input-text', 'doc-titulo', 'doc-numero', 'sign1-name', 'sign2-name'];
+let draftSaveTimer = null;
+
+function saveDraft() {
+  clearTimeout(draftSaveTimer);
+  draftSaveTimer = setTimeout(() => {
+    try {
+      const data = {};
+      DRAFT_FIELDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+      });
+      data.preset = currentPreset;
+      data.savedAt = Date.now();
+      // Só salva se houver conteúdo relevante
+      if (data['input-text'] && data['input-text'].trim().length > 10) {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+      }
+    } catch {}
+  }, 600);
+}
+
+function clearDraft() {
+  try { localStorage.removeItem(DRAFT_KEY); } catch {}
+}
+
+function restoreDraftPrompt() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch {}
+  if (!saved || !saved['input-text']) return;
+
+  const ageMin = Math.round((Date.now() - (saved.savedAt || 0)) / 60000);
+  const wrap = document.getElementById('detect-banner-wrap');
+  if (!wrap) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'detect-banner';
+  banner.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;';
+  banner.innerHTML = `
+    <span>💾 Encontramos um rascunho salvo automaticamente${ageMin ? ' há ' + ageMin + ' min' : ''}. Deseja restaurar?</span>
+    <span style="display:flex;gap:6px;">
+      <button class="btn btn-secondary" style="padding:4px 10px;font-size:0.72rem;" id="draft-dismiss">Descartar</button>
+      <button class="btn btn-primary" style="padding:4px 10px;font-size:0.72rem;" id="draft-restore">Restaurar</button>
+    </span>`;
+  wrap.style.display = 'block';
+  wrap.appendChild(banner);
+
+  document.getElementById('draft-restore').addEventListener('click', () => {
+    DRAFT_FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && saved[id] !== undefined) el.value = saved[id];
+    });
+    if (saved.preset) {
+      const btn = document.querySelector(`[data-preset="${saved.preset}"]`);
+      if (btn) selectPreset(btn);
+    }
+    updateCount();
+    banner.remove();
+    showToast('✅ Rascunho restaurado', 'ok');
+  });
+  document.getElementById('draft-dismiss').addEventListener('click', () => {
+    clearDraft();
+    banner.remove();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('input-text');
+  if (ta) ta.addEventListener('input', saveDraft);
+  DRAFT_FIELDS.filter(id => id !== 'input-text').forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', saveDraft);
+  });
+  restoreDraftPrompt();
+});
+
+/* ════════════════════════════════════════════
+   FILE HANDLERS (PWA) — abrir .txt direto do SO
+   Quando o app está instalado e o usuário dá
+   duplo-clique num .txt (ou "Abrir com..."),
+   o conteúdo é carregado direto no editor.
+════════════════════════════════════════════ */
+if ('launchQueue' in window) {
+  window.launchQueue.setConsumer(async (launchParams) => {
+    if (!launchParams.files || !launchParams.files.length) return;
+    try {
+      const fileHandle = launchParams.files[0];
+      const file = await fileHandle.getFile();
+      const text = await file.text();
+      const ta = document.getElementById('input-text');
+      if (ta && text) {
+        ta.value = text;
+        updateCount();
+        runAutoDetect();
+        showToast(`Arquivo "${file.name}" carregado no editor.`, 'ok');
+        ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } catch (e) {
+      showToast('Não foi possível abrir o arquivo.', 'err');
+    }
+  });
+}
 
 /* ════════════════════════════════════════════
    NAVIGATION
@@ -336,6 +541,10 @@ const DETECT_FP = {
   'danos':               { title:'Cobrança por Danos',     icon:'⚠️', kw:[/danos/i,/preju[ií]zos/i,/indeniza[çc][aã]o/i,/ressarcimento/i,/responsabilidade civil/i] },
   'emprestimo':          { title:'Empréstimo / Mútuo',     icon:'💳', kw:[/mutu[aá]rio/i,/mutuante/i,/empr[eé]stimo/i,/devedor/i,/credor/i,/juros/i] },
   'trabalho':            { title:'Contrato de Trabalho',   icon:'📋', kw:[/empregado/i,/empregador/i,/sal[aá]rio/i,/CLT/i,/jornada/i,/FGTS/i] },
+  'distrato':            { title:'Distrato Contratual',    icon:'📑', kw:[/distrato/i,/rescis[aã]o amig[aá]vel/i,/extin[çc][aã]o do contrato/i,/quita[çc][aã]o m[uú]tua/i,/resili[çc][aã]o/i] },
+  'procuracao':          { title:'Procuração',             icon:'⚖️', kw:[/outorgante/i,/outorgado/i,/procura[çc][aã]o/i,/ad judicia/i,/poderes especiais/i,/mandato/i] },
+  'lgpd-consentimento':  { title:'Termo LGPD',             icon:'🛡️', kw:[/consentimento/i,/dados pessoais/i,/titular dos dados/i,/LGPD/i,/13\.709/,/controlador/i,/tratamento de dados/i] },
+  'aviso-previo':        { title:'Notificação Extrajudicial', icon:'📨', kw:[/notifica[çc][aã]o extrajudicial/i,/notificante/i,/notificado/i,/constitu[ií]-lo em mora/i,/aviso pr[eé]vio/i,/interpela[çc][aã]o/i] },
 };
 
 /* ════════════════════════════════════════════
@@ -519,9 +728,9 @@ function _applySignField(id, value) {
 }
 
 /* ── Renderiza o painel de feedback do Auto-Fill ── */
-function _renderAutoFillFeedback(fields) {
+function _renderAutoFillFeedback(fields, typeSuggestion) {
   const wrap = document.getElementById('detect-banner-wrap');
-  if (!fields.length) return;
+  if (!fields.length && !typeSuggestion) return;
 
   // Agrupa: primeiro a detecção de tipo (se houver), depois campos extraídos
   const rows = fields.map(f => `
@@ -534,20 +743,36 @@ function _renderAutoFillFeedback(fields) {
       <div class="af-conf-badge" style="--conf:${f.confidence}%">${f.confidence}%</div>
     </div>`).join('');
 
+  // Sugestão de preset acionável — ex.: "Detectamos que este é um Contrato
+  // de Locação. Deseja aplicar o preset correspondente?" (só aparece quando
+  // o score não foi alto o bastante para auto-aplicar sozinho)
+  const suggestionRow = typeSuggestion ? `
+    <div class="af-suggestion-row">
+      <span class="af-field-icon">${typeSuggestion.icon}</span>
+      <div class="af-field-body">
+        <div class="af-field-label">Detectamos que este é um documento de: <strong>${esc(typeSuggestion.title)}</strong></div>
+        <div class="af-header-sub">Deseja aplicar o preset "${esc(typeSuggestion.title)}"? (${typeSuggestion.confidence}% de confiança)</div>
+      </div>
+      <button class="btn btn-primary" style="padding:5px 12px;font-size:0.72rem;flex-shrink:0;"
+        onclick="applyDetected('${typeSuggestion.preset}', '${esc(typeSuggestion.title).replace(/'/g,"\\'")}')">Aplicar</button>
+    </div>` : '';
+
   wrap.style.display = 'block';
   wrap.innerHTML = `
     <div class="detect-banner af-engine-banner">
       <div class="af-header">
         <span class="af-header-icon">🧠</span>
         <div class="af-header-body">
-          <div class="af-header-title">Auto-Fill detectou ${fields.length} campo${fields.length>1?'s':''}</div>
-          <div class="af-header-sub">Campos marcados em verde foram preenchidos automaticamente</div>
+          <div class="af-header-title">${fields.length ? `Auto-Fill detectou ${fields.length} campo${fields.length!==1?'s':''}` : 'Análise do texto concluída'}</div>
+          <div class="af-header-sub">${fields.length ? 'Campos marcados em verde foram preenchidos automaticamente' : 'Veja a sugestão de tipo de documento abaixo'}</div>
         </div>
         <button class="af-dismiss" onclick="document.getElementById('detect-banner-wrap').style.display='none'">✕</button>
       </div>
+      ${suggestionRow}
       <div class="af-fields">${rows}</div>
     </div>`;
 }
+
 
 /* ════════════════════════════════════════════
    🎯 FUNÇÃO PRINCIPAL: analisarTextoInteligente
@@ -626,13 +851,20 @@ function analisarTextoInteligente(text) {
 
   // ⑥  Tipo de documento (auto-detect por fingerprint)
   const typeResult = autoDetect(normalized);
+  let typeSuggestion = null;
   if (typeResult) {
-    detected.push({ icon: typeResult.icon, label: 'Tipo de Documento', value: `${typeResult.title} · ${typeResult.confidence}% confiança`, confidence: typeResult.confidence });
+    if (typeResult.score >= CM_SCORE_AUTO) {
+      // Confiança alta o bastante para aplicar sozinho — só informa o que foi feito
+      detected.push({ icon: typeResult.icon, label: 'Tipo de Documento (aplicado)', value: `${typeResult.title} · ${typeResult.confidence}% confiança`, confidence: typeResult.confidence });
+    } else {
+      // Confiança média — sugere e deixa o usuário decidir (Fase 4 do roadmap)
+      typeSuggestion = typeResult;
+    }
   }
 
   // STEP 3 — UI Feedback
-  if (detected.length > 0) {
-    _renderAutoFillFeedback(detected);
+  if (detected.length > 0 || typeSuggestion) {
+    _renderAutoFillFeedback(detected, typeSuggestion);
   } else {
     document.getElementById('detect-banner-wrap').style.display = 'none';
   }
@@ -932,7 +1164,7 @@ function esc(s) {
    Content area = 606×921px (25mm margins)
 ════════════════════════════════════════════ */
 function buildPaginatedHtml(bodyHtml, opts) {
-  const { titulo, numero, sign1, sign2, cidade, data } = opts;
+  const { titulo, numero, sign1, sign2, cidade, data, doc1, doc2 } = opts;
   const opacity = (document.getElementById('wm-opacity')?.value || 12) / 100;
 
   // Watermark HTML
@@ -978,12 +1210,12 @@ function buildPaginatedHtml(bodyHtml, opts) {
           <div class="sign-block">
             <div class="sign-space"></div>
             <div class="sign-name">${esc(sign1)}</div>
-            <div class="sign-detail">CPF: ___.___.___-__</div>
+            <div class="sign-detail">${doc1 ? `${doc1.type}: ${esc(doc1.value)}` : 'CPF: ___.___.___-__'}</div>
           </div>
           <div class="sign-block">
             <div class="sign-space"></div>
             <div class="sign-name">${esc(sign2)}</div>
-            <div class="sign-detail">CPF: ___.___.___-__</div>
+            <div class="sign-detail">${doc2 ? `${doc2.type}: ${esc(doc2.value)}` : 'CPF: ___.___.___-__'}</div>
           </div>
         </div>
         ${govBrHtml}
@@ -1101,6 +1333,36 @@ function buildPaginatedHtml(bodyHtml, opts) {
 }
 
 /* ════════════════════════════════════════════
+   EXTRAÇÃO DE QUALIFICAÇÕES (CPF / CNPJ)
+   Detecta documentos de identificação no texto
+   colado e associa à 1ª e 2ª parte pela ordem
+   de aparição — usado para preencher o bloco
+   de assinatura automaticamente quando o
+   usuário já incluiu essa informação no texto.
+════════════════════════════════════════════ */
+function extractQualificacoes(texto) {
+  const CNPJ_RE = /\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/g;
+  const CPF_RE  = /\d{3}\.\d{3}\.\d{3}-\d{2}/g;
+
+  // Marca posição de cada ocorrência para ordenar CPF e CNPJ juntos
+  const found = [];
+  let m;
+  while ((m = CNPJ_RE.exec(texto))) found.push({ pos: m.index, type: 'CNPJ', value: m[0] });
+  while ((m = CPF_RE.exec(texto)))  found.push({ pos: m.index, type: 'CPF',  value: m[0] });
+  found.sort((a, b) => a.pos - b.pos);
+
+  // Remove duplicatas mantendo a primeira ocorrência de cada valor
+  const seen = new Set();
+  const unique = found.filter(f => {
+    if (seen.has(f.value)) return false;
+    seen.add(f.value);
+    return true;
+  });
+
+  return { doc1: unique[0] || null, doc2: unique[1] || null };
+}
+
+/* ════════════════════════════════════════════
    FORMAT DOCUMENT
 ════════════════════════════════════════════ */
 function formatarDocumento() {
@@ -1115,12 +1377,13 @@ function formatarDocumento() {
   const data    = dataRaw ? formatDate(dataRaw) : hojeFormatado();
   const sign1   = document.getElementById('sign1-name').value.trim() || cfg.sign1.label.toUpperCase();
   const sign2   = document.getElementById('sign2-name').value.trim() || cfg.sign2.label.toUpperCase();
+  const { doc1, doc2 } = extractQualificacoes(texto);
 
   const blocks   = processText(texto);
   const bodyHtml = renderBlocks(blocks, formatOpts.numerarClausulas);
   const clauseCount = blocks.filter(b => b.type === 'clause').length;
 
-  const pageHtml = buildPaginatedHtml(bodyHtml, { titulo, numero, sign1, sign2, cidade, data });
+  const pageHtml = buildPaginatedHtml(bodyHtml, { titulo, numero, sign1, sign2, cidade, data, doc1, doc2 });
 
   const wrap = document.getElementById('preview-pages-wrap');
   wrap.innerHTML = pageHtml;
@@ -1129,7 +1392,8 @@ function formatarDocumento() {
   document.getElementById('preview-section').style.display = 'block';
   document.getElementById('preview-info').textContent =
     `${clauseCount} cláusula${clauseCount !== 1 ? 's' : ''} · ${texto.length.toLocaleString('pt-BR')} chars` +
-    (logoDataUrl ? ' · logotipo' : '') + (wmDataUrl ? ' · marca d\'água' : '');
+    (logoDataUrl ? ' · logotipo' : '') + (wmDataUrl ? ' · marca d\'água' : '') +
+    ((doc1 || doc2) ? ` · ${[doc1,doc2].filter(Boolean).length} documento(s) detectado(s)` : '');
 
   document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   showToast('Documento formatado!', 'ok');
@@ -1157,6 +1421,8 @@ function toggleEditPreview() {
     contract.style.cursor  = 'text';
     // Mark as edited on any input
     contract.addEventListener('input', () => { body.dataset.edited = 'true'; }, { once: false, passive: true });
+    // Higienização de cola: remove estilos/classes indesejados ao colar
+    contract.addEventListener('paste', handlePasteSanitize);
     // Visual cue: subtle golden left border on editable body
     body.style.borderLeft  = '2px solid var(--ink)';
     body.style.paddingLeft = '8px';
@@ -1164,25 +1430,153 @@ function toggleEditPreview() {
     btn.classList.add('btn-primary');
     btn.classList.remove('btn-secondary');
     document.querySelector('#preview-section .preview-toolbar')?.classList.add('editing');
-    showToast('Modo edição ativo — clique no texto para editar.', 'ok');
+    showToast('Modo edição ativo — selecione texto para formatar.', 'ok');
     // Focus the body for immediate editing
     setTimeout(() => body.focus(), 50);
   } else {
     const contract = body.closest('.doc-contract') || body;
     contract.removeAttribute('contenteditable');
     contract.style.cursor = '';
+    contract.removeEventListener('paste', handlePasteSanitize);
     body.style.borderLeft  = '';
     body.style.paddingLeft = '';
     btn.innerHTML = '✏️ Editar';
     btn.classList.remove('btn-primary');
     btn.classList.add('btn-secondary');
     document.querySelector('#preview-section .preview-toolbar')?.classList.remove('editing');
+    hideFloatToolbar();
     if (body.dataset.edited === 'true') {
       showToast('Edição salva — PDF e DOCX refletirão o conteúdo editado.', 'ok');
     } else {
       showToast('Modo edição desativado.', 'ok');
     }
   }
+}
+
+/* ════════════════════════════════════════════
+   BARRA FLUTUANTE DE FORMATAÇÃO
+   Aparece ao selecionar texto dentro da área
+   contenteditable, estilo Medium/Notion.
+════════════════════════════════════════════ */
+function hideFloatToolbar() {
+  const tb = document.getElementById('float-toolbar');
+  if (tb) tb.classList.remove('show');
+}
+
+(function initFloatToolbar() {
+  const tb = document.getElementById('float-toolbar');
+  if (!tb) return;
+
+  // Evita perder a seleção ao clicar num botão da barra
+  tb.addEventListener('mousedown', e => e.preventDefault());
+
+  tb.querySelectorAll('button[data-cmd]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.dataset.cmd;
+      try { document.execCommand(cmd, false, null); } catch (e) {}
+      updateFloatToolbarState();
+    });
+  });
+
+  function updateFloatToolbarState() {
+    tb.querySelectorAll('button[data-cmd]').forEach(btn => {
+      let active = false;
+      try { active = document.queryCommandState(btn.dataset.cmd); } catch (e) {}
+      btn.classList.toggle('active', !!active);
+    });
+  }
+
+  document.addEventListener('selectionchange', () => {
+    if (!_previewEditMode) { hideFloatToolbar(); return; }
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) { hideFloatToolbar(); return; }
+
+    const anchorEl = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement);
+    const inEditable = anchorEl && anchorEl.closest && anchorEl.closest('.doc-contract[contenteditable="true"]');
+    if (!inEditable) { hideFloatToolbar(); return; }
+
+    const range = sel.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    if (!rect || (rect.width === 0 && rect.height === 0)) { hideFloatToolbar(); return; }
+
+    tb.style.left = (rect.left + rect.width / 2) + 'px';
+    tb.style.top  = rect.top + 'px';
+    tb.classList.add('show');
+    updateFloatToolbarState();
+  });
+
+  // Esconde a barra ao rolar ou redimensionar, para não ficar deslocada
+  window.addEventListener('scroll', hideFloatToolbar, true);
+  window.addEventListener('resize', hideFloatToolbar);
+})();
+
+/* ════════════════════════════════════════════
+   HIGIENIZAÇÃO DE COLA (Paste Sanitizer)
+   Ao colar conteúdo do ChatGPT/Claude/Word/
+   Google Docs, remove estilos inline, classes
+   e fontes heterogêneas — mantém apenas a
+   estrutura semântica (títulos, parágrafos,
+   listas, tabelas, negrito/itálico/sublinhado).
+════════════════════════════════════════════ */
+const PASTE_ALLOWED_TAGS = new Set([
+  'P','BR','STRONG','B','EM','I','U','S','STRIKE',
+  'H1','H2','H3','H4','H5','H6',
+  'UL','OL','LI','TABLE','THEAD','TBODY','TR','TD','TH'
+]);
+
+function sanitizePastedNode(node) {
+  // Remove nós de script/style completamente
+  if (node.nodeType === 1 && (node.tagName === 'SCRIPT' || node.tagName === 'STYLE')) {
+    node.remove();
+    return;
+  }
+  if (node.nodeType === 1) {
+    // Remove todos os atributos (style, class, font, color, etc.)
+    [...node.attributes].forEach(attr => node.removeAttribute(attr.name));
+
+    if (!PASTE_ALLOWED_TAGS.has(node.tagName)) {
+      // Tag não permitida (DIV, SPAN, FONT...) → mantém filhos, descarta o wrapper
+      const parent = node.parentNode;
+      if (parent) {
+        const children = [...node.childNodes];
+        children.forEach(child => parent.insertBefore(child, node));
+        parent.removeChild(node);
+        // Sanitiza os filhos já reposicionados na árvore final
+        children.forEach(sanitizePastedNode);
+        return;
+      }
+    }
+  }
+  [...node.childNodes].forEach(sanitizePastedNode);
+}
+
+function handlePasteSanitize(e) {
+  e.preventDefault();
+  const clipboard = e.clipboardData || window.clipboardData;
+  if (!clipboard) return;
+
+  const html = clipboard.getData('text/html');
+  const plain = clipboard.getData('text/plain') || '';
+
+  let insertHtml;
+  if (html) {
+    const container = document.createElement('div');
+    container.innerHTML = html;
+    [...container.childNodes].forEach(sanitizePastedNode);
+    insertHtml = container.innerHTML;
+  } else {
+    // Sem HTML disponível: escapa e quebra em parágrafos por linha
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    insertHtml = plain.split('\n').filter(l => l.trim()).map(l => `<p>${esc(l)}</p>`).join('');
+  }
+
+  try {
+    document.execCommand('insertHTML', false, insertHtml || plain);
+  } catch (err) {
+    document.execCommand('insertText', false, plain);
+  }
+  const body = document.getElementById('doc-body-editable');
+  if (body) body.dataset.edited = 'true';
 }
 
 /* ════════════════════════════════════════════
@@ -1205,6 +1599,7 @@ async function exportarPDF(tipo) {
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Gerando…'; }
 
   showToast('Gerando PDF…');
+  if (tipo === 'contrato') clearDraft();
   await new Promise(r => setTimeout(r, 80));
 
   try {
@@ -1243,12 +1638,24 @@ async function exportContratoPDF() {
   const sign1   = document.getElementById('sign1-name').value.trim() || _cfg.sign1.label.toUpperCase();
   const sign2   = document.getElementById('sign2-name').value.trim() || _cfg.sign2.label.toUpperCase();
 
+  // Metadados do PDF — melhora indexação, busca e credibilidade do arquivo
+  try {
+    pdf.setProperties({
+      title:    titulo,
+      subject:  _cfg.context || titulo,
+      author:   sign1 !== _cfg.sign1.label.toUpperCase() ? sign1 : 'DocForm',
+      keywords: [_cfg.leiShort, sign1, sign2, numero].filter(Boolean).join(', '),
+      creator:  'DocForm — docform.app'
+    });
+  } catch(e) {}
+
   // Use edited preview content if available, otherwise fallback to original input
   const _editedBody = document.getElementById('doc-body-editable');
   const textoBase   = (_editedBody && _editedBody.dataset.edited === 'true')
     ? (_editedBody.innerText || _editedBody.textContent || '').trim()
     : document.getElementById('input-text').value.trim();
   const blocks  = processText(textoBase);
+  const { doc1: _pdfDoc1, doc2: _pdfDoc2 } = extractQualificacoes(textoBase);
 
   let pageNum = 1;
   let y = mT;
@@ -1422,12 +1829,26 @@ async function exportContratoPDF() {
         ? `CLÁUSULA ${clauseCount}ª — ${clean.toUpperCase()}`
         : clean.toUpperCase();
 
-      ensureSpace(16);
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(11);
+      const cLines = pdf.splitTextToSize(titleDisplay, cW);
+
+      // Gestão de viúvas/órfãs: reserva espaço do título + início do
+      // parágrafo seguinte, para o título nunca ficar sozinho no fim da página
+      let neededForTitle = cLines.length * 6 + 5;
+      const nextBlock = blocks[i + 1];
+      if (nextBlock && nextBlock.type === 'para') {
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(12);
+        const nextLines = pdf.splitTextToSize(nextBlock.text, cW);
+        neededForTitle += Math.min(nextLines.length, 2) * 7.6;
+      }
+      ensureSpace(neededForTitle);
+
       y += 3; // extra space before clause title
       pdf.setFont('times', 'bold');
       pdf.setFontSize(11);
       pdf.setTextColor(20,20,20);
-      const cLines = pdf.splitTextToSize(titleDisplay, cW);
       cLines.forEach(line => {
         pdf.text(line, mL, y);
         y += 6;
@@ -1467,9 +1888,12 @@ async function exportContratoPDF() {
     }
   }
 
-  // Signatures
+  // Signatures (+ Gov.br + Testemunhas mantidos juntos numa única folha)
   if (formatOpts.espacoAssinatura) {
-    ensureSpace(70);
+    let signBlockNeeded = 70;
+    if (formatOpts.govbr) signBlockNeeded += 24;
+    if (formatOpts.testemunhas) signBlockNeeded += 40;
+    ensureSpace(signBlockNeeded);
     y += 6;
     if (formatOpts.dataLocal) {
       pdf.setFont('times', 'normal');
@@ -1498,8 +1922,8 @@ async function exportContratoPDF() {
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(9);
     pdf.setTextColor(100,100,100);
-    pdf.text('CPF: ___.___.___-__', centerCol1, y, { align:'center' });
-    pdf.text('CPF: ___.___.___-__', centerCol2, y, { align:'center' });
+    pdf.text(_pdfDoc1 ? `${_pdfDoc1.type}: ${_pdfDoc1.value}` : 'CPF: ___.___.___-__', centerCol1, y, { align:'center' });
+    pdf.text(_pdfDoc2 ? `${_pdfDoc2.type}: ${_pdfDoc2.value}` : 'CPF: ___.___.___-__', centerCol2, y, { align:'center' });
     y += 10;
 
     if (formatOpts.govbr) {
@@ -1560,6 +1984,17 @@ async function exportCvPDF() {
 
   const nome  = document.getElementById('cv-nome').value.trim();
   if (!nome) { showToast('Informe o nome no currículo.', 'err'); return; }
+
+  try {
+    const cargo = document.getElementById('cv-cargo')?.value.trim();
+    pdf.setProperties({
+      title: `Currículo — ${nome}`,
+      subject: cargo || 'Currículo Profissional',
+      author: nome,
+      keywords: ['currículo', cargo].filter(Boolean).join(', '),
+      creator: 'DocForm — docform.app'
+    });
+  } catch(e) {}
 
   function newPage() {
     pdf.addPage(); pageNum++; y = mT;
@@ -1755,6 +2190,16 @@ async function exportEmailPDF() {
   const local    = document.getElementById('em-local').value.trim() || hojeFormatado();
   const corpo    = document.getElementById('em-corpo').value.trim();
   const assin    = document.getElementById('em-assinatura').value.trim();
+
+  try {
+    pdf.setProperties({
+      title: assunto || 'E-mail Formal',
+      subject: assunto || 'Comunicado corporativo',
+      author: de || 'DocForm',
+      keywords: ['e-mail formal', para].filter(Boolean).join(', '),
+      creator: 'DocForm — docform.app'
+    });
+  } catch(e) {}
 
   if (logoDataUrl) {
     const fmt = logoDataUrl.startsWith('data:image/png') ? 'PNG' : 'JPEG';
@@ -2280,6 +2725,7 @@ async function exportContratoDocx() {
   const sign2   = document.getElementById('sign2-name').value.trim() || _cfg.sign2.label.toUpperCase();
   const texto   = document.getElementById('input-text').value.trim();
   const blocks  = processText(texto);
+  const { doc1: _docxDoc1, doc2: _docxDoc2 } = extractQualificacoes(texto);
 
   const children = [];
 
@@ -2357,9 +2803,9 @@ async function exportContratoDocx() {
     // CPF 1 | CPF 2
     children.push(new docx.Paragraph({
       children: [
-        new docx.TextRun({ text: 'CPF: ___.___.___-__', size: 18, color: '888888', font: 'Times New Roman' }),
+        new docx.TextRun({ text: _docxDoc1 ? `${_docxDoc1.type}: ${_docxDoc1.value}` : 'CPF: ___.___.___-__', size: 18, color: '888888', font: 'Times New Roman' }),
         new docx.TextRun({ text: '\t', size: 18 }),
-        new docx.TextRun({ text: 'CPF: ___.___.___-__', size: 18, color: '888888', font: 'Times New Roman' }),
+        new docx.TextRun({ text: _docxDoc2 ? `${_docxDoc2.type}: ${_docxDoc2.value}` : 'CPF: ___.___.___-__', size: 18, color: '888888', font: 'Times New Roman' }),
       ],
       tabStops: [{ type: docx.TabStopType.LEFT, position: TAB }],
       spacing: { after: 80 },
@@ -2429,8 +2875,11 @@ async function exportContratoDocx() {
   }
 
   const doc = new docx.Document({
-    creator: 'DocForm v1',
+    creator: sign1 !== _cfg.sign1.label.toUpperCase() ? sign1 : 'DocForm',
     title: titulo,
+    subject: _cfg.context || titulo,
+    description: `${_cfg.footerLegal || ''}`,
+    keywords: [_cfg.leiShort, sign1, sign2, numero].filter(Boolean).join(', '),
     sections: [{
       properties: {
         page: {
@@ -2605,8 +3054,10 @@ async function exportCvDocx() {
   }
 
   const doc = new docx.Document({
-    creator: 'DocForm v1',
+    creator: nome,
     title: `Currículo — ${nome}`,
+    subject: v('cv-cargo') || 'Currículo Profissional',
+    keywords: ['currículo', v('cv-cargo')].filter(Boolean).join(', '),
     sections: [{
       properties: { page: { margin: { top: 1134, right: 1134, bottom: 1134, left: 1134 } } },
       children,
@@ -2668,8 +3119,10 @@ async function exportEmailDocx() {
   }
 
   const doc = new docx.Document({
-    creator: 'DocForm v1',
+    creator: de || 'DocForm',
     title: assunto,
+    subject: assunto,
+    keywords: ['e-mail formal', para].filter(Boolean).join(', '),
     sections: [{
       properties: { page: { margin: { top: 1134, right: 1134, bottom: 1417, left: 1701 } } },
       children,

@@ -209,7 +209,53 @@ header {
   margin-left: 228px;
   padding: 32px 32px 56px;
   max-width: 860px;
+  transition: margin-left 0.18s ease;
 }
+
+/* ═══════════════════════════════════════════
+   MODO ZEN — oculta sidebar para foco total
+═══════════════════════════════════════════ */
+body.zen-mode .sidebar { display: none; }
+body.zen-mode .main { margin-left: 0; max-width: 900px; margin-right: auto; margin-left: auto; }
+.btn-zen {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+  color: var(--text-2);
+  background: var(--ink-dim);
+  border: 1px solid var(--ink-border);
+  padding: 3px 9px 3px 8px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+}
+.btn-zen:hover { color: var(--text); border-color: var(--text-3); }
+.btn-zen.active { color: var(--ink-hi); border-color: var(--ink); }
+
+/* ═══════════════════════════════════════════
+   ACESSIBILIDADE — foco visível por teclado
+═══════════════════════════════════════════ */
+.nav-item:focus-visible,
+.preset-btn:focus-visible,
+.feat-card:focus-visible,
+.bn-item:focus-visible,
+.chip:focus-visible,
+.wm-btn:focus-visible {
+  outline: 2px solid var(--ink, #5fa8f5);
+  outline-offset: 2px;
+}
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  background: var(--ink, #0a0d12);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 0 0 6px 0;
+  font-size: 0.8rem;
+}
+.skip-link:focus { left: 0; }
 
 /* BOTTOM NAV mobile */
 .bottom-nav {
@@ -811,6 +857,19 @@ select option { background: #1a2028; color: var(--text); }
   .main { margin: 0; padding: 0; }
   .doc-frame { box-shadow: none; }
   .doc-page { border: none; }
+
+  /* Gestão de viúvas e órfãs — evita títulos isolados no fim da página
+     e mantém blocos de assinatura/testemunhas/Gov.br unidos numa só folha */
+  .doc-clause-title, .doc-title, .doc-header-block {
+    page-break-after: avoid; break-after: avoid;
+  }
+  .doc-clause-block, .doc-para, .doc-list-item {
+    page-break-inside: avoid; break-inside: avoid;
+  }
+  .sign-section, .witness-section, .govbr-box {
+    page-break-inside: avoid; break-inside: avoid;
+  }
+  .doc-table-wrap { page-break-inside: avoid; break-inside: avoid; }
 }
 
 /* ── Spinner ── */
@@ -930,6 +989,16 @@ select option { background: #1a2028; color: var(--text); }
 }
 .af-field-row:last-child { border-bottom: none; }
 .af-field-row:hover { background: rgba(255,255,255,0.03); }
+
+.af-suggestion-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(201,168,76,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.af-suggestion-row .af-field-body { min-width: 0; flex: 1; }
 
 .af-field-icon {
   font-size: 0.9rem;
@@ -1066,3 +1135,35 @@ body.is-offline .layout { padding-top: calc(var(--hdr) + 30px); }
   background: rgba(201,168,76,0.06);
   border-radius: 3px;
 }
+
+/* ═══════════════════════════════════════════
+   FLOATING TOOLBAR — barra flutuante estilo
+   Medium/Notion, exibida ao selecionar texto
+   no modo de edição (contenteditable)
+═══════════════════════════════════════════ */
+.float-toolbar {
+  position: fixed;
+  display: none;
+  align-items: center;
+  gap: 2px;
+  background: #1a1d24;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+  z-index: 9500;
+  transform: translate(-50%, -100%);
+  margin-top: -8px;
+}
+.float-toolbar.show { display: flex; }
+.float-toolbar button {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; border-radius: 5px;
+  color: #e8e6e1; font-size: 0.82rem; cursor: pointer;
+  font-family: var(--font-sans);
+  transition: background 0.1s;
+}
+.float-toolbar button:hover { background: rgba(255,255,255,0.14); }
+.float-toolbar button.active { background: rgba(201,168,76,0.35); color: #fff; }
+.float-toolbar .ft-sep { width: 1px; height: 18px; background: rgba(255,255,255,0.14); margin: 0 2px; flex-shrink: 0; }
