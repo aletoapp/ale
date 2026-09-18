@@ -214,12 +214,21 @@ async function run() {
       return { raw: item.raw, ...r, internal: isInternal };
     });
 
+    // Só imprime o que está quebrado no terminal — o que está OK vira só um número no resumo.
+    const brokenHere = fileResults.filter((r) => !r.ok);
+    for (const r of brokenHere) {
+      const scope = r.internal === false ? '🌐externo' : r.internal === true ? '🏠interno' : '';
+      const extra = r.error ? ` — ${r.error}` : '';
+      console.log(`  ❌ [${r.status}] ${scope} ${r.url || r.raw}${extra}`);
+    }
+    if (brokenHere.length === 0) {
+      console.log(`  ✅ todos os ${fileResults.length} link(s) OK`);
+    } else {
+      console.log(`  (${fileResults.length - brokenHere.length} link(s) OK, ocultos)`);
+    }
+
     for (const r of fileResults) {
       totalChecked++;
-      const icon = r.ok ? '✅' : '❌';
-      const scope = r.internal === false ? '🌐externo' : r.internal === true ? '🏠interno' : '';
-      const extra = r.redirected ? ` (redirecionou → ${r.finalUrl})` : r.error ? ` — ${r.error}` : '';
-      console.log(`  ${icon} [${r.status}] ${scope} ${r.url || r.raw}${extra}`);
       if (!r.ok) totalFailures++;
     }
 

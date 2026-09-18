@@ -285,7 +285,7 @@ def build_report(pages, out_path):
         if dups:
             lines.append(f"**{label} idêntico(a) em mais de uma página:**\n")
             for val, paths in dups.items():
-                lines.append(f'- "{val}" → {", ".join(os.path.basename(x) for x in paths)}')
+                lines.append(f'- "{val}" → {", ".join(x for x in paths)}')
                 for pth in paths:
                     flag("ALTA", pth, f'{label} duplicado(a) com outra(s) página(s): "{val}"')
             lines.append("")
@@ -305,7 +305,7 @@ def build_report(pages, out_path):
         lines.append("**H1 idêntico em mais de uma página:**\n")
         for val, paths in dups_h1.items():
             uniq = sorted(set(paths))
-            lines.append(f'- "{val}" → {", ".join(os.path.basename(x) for x in uniq)}')
+            lines.append(f'- "{val}" → {", ".join(x for x in uniq)}')
             for pth in uniq:
                 flag("ALTA", pth, f'H1 duplicado com outra página: "{val}"')
         lines.append("")
@@ -322,14 +322,14 @@ def build_report(pages, out_path):
                 if sim >= SIMILARITY_THRESHOLD and ta.lower() != tb.lower():
                     found_similar = True
                     lines.append(
-                        f'- **{sim:.0%} parecido** entre `{os.path.basename(a["path"])}` e `{os.path.basename(b["path"])}`:'
+                        f'- **{sim:.0%} parecido** entre `{a["path"]}` e `{b["path"]}`:'
                     )
                     lines.append(f'  - "{ta}"')
                     lines.append(f'  - "{tb}"')
                     flag(
                         "MÉDIA",
                         a["path"],
-                        f'Title {sim:.0%} parecido com {os.path.basename(b["path"])} — possível canibalização de palavra-chave.',
+                        f'Title {sim:.0%} parecido com {b["path"]} — possível canibalização de palavra-chave.',
                     )
     if not found_similar:
         lines.append("Nenhuma similaridade de título acima do limiar encontrada. ✅\n")
@@ -347,9 +347,9 @@ def build_report(pages, out_path):
         for nid, paths in cross.items():
             uniq = sorted(set(paths))
             if nid.rstrip("/").endswith(GLOBAL_ID_SUFFIXES):
-                lines.append(f'- `{nid}` compartilhado (esperado — entidade global) → {", ".join(os.path.basename(x) for x in uniq)}')
+                lines.append(f'- `{nid}` compartilhado (esperado — entidade global) → {", ".join(x for x in uniq)}')
             else:
-                lines.append(f'- ⚠️ `{nid}` aparece em mais de uma página e NÃO parece ser entidade global → {", ".join(os.path.basename(x) for x in uniq)}')
+                lines.append(f'- ⚠️ `{nid}` aparece em mais de uma página e NÃO parece ser entidade global → {", ".join(x for x in uniq)}')
                 for pth in uniq:
                     flag("MÉDIA", pth, f'@id "{nid}" também aparece em outra página — confira se não foi copiado sem atualizar.')
     else:
@@ -366,7 +366,7 @@ def build_report(pages, out_path):
             u = node.get("url")
             if u and isinstance(u, str) and u.rstrip("/") != canon.rstrip("/"):
                 any_mismatch = True
-                lines.append(f'- `{os.path.basename(p["path"])}`: nó {jsonld_type_of(node)} tem url=`{u}`, mas canonical é `{canon}`.')
+                lines.append(f'- `{p["path"]}`: nó {jsonld_type_of(node)} tem url=`{u}`, mas canonical é `{canon}`.')
                 flag("MÉDIA", p["path"], f'JSON-LD ({jsonld_type_of(node)}.url={u}) não bate com o canonical ({canon}).')
     if not any_mismatch:
         lines.append("Nenhuma inconsistência entre canonical e JSON-LD. ✅")
@@ -385,7 +385,7 @@ def build_report(pages, out_path):
     if dup_faq:
         for q, paths in dup_faq.items():
             uniq = sorted(set(paths))
-            lines.append(f'- "{q}" aparece em: {", ".join(os.path.basename(x) for x in uniq)}')
+            lines.append(f'- "{q}" aparece em: {", ".join(x for x in uniq)}')
             for pth in uniq:
                 flag("BAIXA", pth, f'Pergunta de FAQ repetida em outra página: "{q}" — o Google tende a mostrar o rich snippet de apenas uma.')
     else:
@@ -407,7 +407,7 @@ def build_report(pages, out_path):
             if sev != current:
                 lines.append(f"\n### Prioridade {sev}\n")
                 current = sev
-            lines.append(f"- `{os.path.basename(page)}`: {msg}")
+            lines.append(f"- `{page}`: {msg}")
 
     report = "\n".join(lines)
     with open(out_path, "w", encoding="utf-8") as f:
@@ -451,7 +451,7 @@ def main():
             "pages_analyzed": len(pages),
             "counts": {"ALTA": counts.get("ALTA", 0), "MÉDIA": counts.get("MÉDIA", 0), "BAIXA": counts.get("BAIXA", 0)},
             "issues": [
-                {"severity": sev, "file": os.path.basename(page), "message": msg}
+                {"severity": sev, "file": page, "message": msg}
                 for sev, page, msg in issues_sorted
             ],
         }
