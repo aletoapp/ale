@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T06:08:29.963Z",
+  "generated_at": "2026-09-18T08:58:34.614Z",
   "base_url": "https://alexandretorres.com.br",
   "files": [
     {
@@ -330,17 +330,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -376,7 +377,7 @@
           "internal": true
         }
       ],
-      "failures": 2
+      "failures": 3
     },
     {
       "file": "blog/index.html",
@@ -554,17 +555,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -600,7 +602,7 @@
           "internal": true
         }
       ],
-      "failures": 3
+      "failures": 4
     },
     {
       "file": "blog/serralheria-de-precisao-estruturas-metalicas/index.html",
@@ -738,17 +740,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -776,7 +779,7 @@
           "internal": true
         }
       ],
-      "failures": 1
+      "failures": 2
     },
     {
       "file": "docform/app.html",
@@ -1087,17 +1090,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -1143,10 +1147,10 @@
         {
           "raw": "https://instagram.com/aletordev/",
           "url": "https://instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -1168,14 +1172,14 @@
         {
           "raw": "https://instagram.com/aletordev",
           "url": "https://instagram.com/aletordev",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         }
       ],
-      "failures": 7
+      "failures": 10
     },
     {
       "file": "dossie-da-conversao/index.html",
@@ -1345,17 +1349,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -1393,14 +1398,14 @@
         {
           "raw": "https://www.instagram.com/aletordev",
           "url": "https://www.instagram.com/aletordev",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         }
       ],
-      "failures": 11
+      "failures": 13
     },
     {
       "file": "faq/index.html",
@@ -1586,17 +1591,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -1616,7 +1622,7 @@
           "internal": true
         }
       ],
-      "failures": 4
+      "failures": 5
     },
     {
       "file": "googlee674cc1f58022358.html",
@@ -1910,17 +1916,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -2086,10 +2093,10 @@
         {
           "raw": "https://www.instagram.com/aletordev",
           "url": "https://www.instagram.com/aletordev",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -2141,7 +2148,7 @@
           "internal": true
         }
       ],
-      "failures": 4
+      "failures": 6
     },
     {
       "file": "painel-seo.html",
@@ -2325,17 +2332,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -2379,7 +2387,7 @@
           "internal": true
         }
       ],
-      "failures": 4
+      "failures": 5
     },
     {
       "file": "privacidade/index.html",
@@ -2477,14 +2485,14 @@
         {
           "raw": "https://instagram.com/aletordev",
           "url": "https://instagram.com/aletordev",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         }
       ],
-      "failures": 1
+      "failures": 2
     },
     {
       "file": "privacidade.html",
@@ -2595,10 +2603,10 @@
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -2628,7 +2636,7 @@
           "internal": false
         }
       ],
-      "failures": 11
+      "failures": 12
     },
     {
       "file": "voicelab/img/index.html",
@@ -2836,17 +2844,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -2892,10 +2901,10 @@
         {
           "raw": "https://instagram.com/aletordev",
           "url": "https://instagram.com/aletordev",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -2915,7 +2924,7 @@
           "internal": false
         }
       ],
-      "failures": 10
+      "failures": 12
     },
     {
       "file": "youlist/img/index.html",
@@ -3059,17 +3068,18 @@
           "raw": "https://www.linkedin.com/in/aletordev/",
           "url": "https://www.linkedin.com/in/aletordev/",
           "status": 999,
-          "redirected": false,
+          "redirected": true,
+          "finalUrl": "https://www.linkedin.com/in/aletordev",
           "ok": false,
           "internal": false
         },
         {
           "raw": "https://www.instagram.com/aletordev/",
           "url": "https://www.instagram.com/aletordev/",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -3115,10 +3125,10 @@
         {
           "raw": "https://instagram.com/aletordev",
           "url": "https://instagram.com/aletordev",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -3132,10 +3142,10 @@
         {
           "raw": "https://instagram.com/aletor.app",
           "url": "https://instagram.com/aletor.app",
-          "status": 200,
+          "status": 429,
           "redirected": true,
           "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletor.app&is_from_rle",
-          "ok": true,
+          "ok": false,
           "internal": false
         },
         {
@@ -3147,9 +3157,9 @@
           "internal": false
         }
       ],
-      "failures": 7
+      "failures": 10
     }
   ],
   "total_checked": 369,
-  "total_failures": 81
+  "total_failures": 100
 }
