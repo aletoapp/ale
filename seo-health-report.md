@@ -1,4 +1,4 @@
-# Relatório de Saúde de SEO — 26 página(s) analisadas
+# Relatório de Saúde de SEO — 24 página(s) analisadas
 
 
 ## 1. Duplicidade entre páginas
@@ -36,16 +36,10 @@ Nenhuma pergunta de FAQ repetida entre páginas. ✅
 
 ## 6. Resumo — todos os alertas
 
-**55 alta(s) · 30 média(s) · 43 baixa(s)**
+**49 alta(s) · 27 média(s) · 37 baixa(s)**
 
 ### Prioridade ALTA
 
-- `admin.html`: Sem meta description.
-- `admin.html`: Sem <link rel="canonical">.
-- `index.html`: Sem <title>.
-- `index.html`: Sem meta description.
-- `index.html`: Sem <link rel="canonical">.
-- `index.html`: Sem <h1> na página.
 - `index.html`: Sem <title>.
 - `index.html`: Sem meta description.
 - `index.html`: Sem <link rel="canonical">.
@@ -98,9 +92,6 @@ Nenhuma pergunta de FAQ repetida entre páginas. ✅
 
 ### Prioridade MÉDIA
 
-- `admin.html`: <title> curto (29 caracteres): "Painel · Chat-Protocolo Admin"
-- `admin.html`: Nenhum bloco JSON-LD encontrado.
-- `index.html`: Nenhum bloco JSON-LD encontrado.
 - `index.html`: Nenhum bloco JSON-LD encontrado.
 - `index.html`: Nenhum bloco JSON-LD encontrado.
 - `index.html`: Nenhum bloco JSON-LD encontrado.
@@ -131,12 +122,6 @@ Nenhuma pergunta de FAQ repetida entre páginas. ✅
 
 ### Prioridade BAIXA
 
-- `admin.html`: Sem og:title.
-- `admin.html`: Sem og:description.
-- `admin.html`: Sem twitter:card.
-- `index.html`: Sem og:title.
-- `index.html`: Sem og:description.
-- `index.html`: Sem twitter:card.
 - `index.html`: Sem og:title.
 - `index.html`: Sem og:description.
 - `index.html`: Sem twitter:card.
