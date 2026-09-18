@@ -651,6 +651,30 @@ select option { background: #1a2028; color: var(--text); }
 .doc-logo-row.right { justify-content: flex-end; }
 .doc-logo-row img { max-height: 36px; max-width: 150px; object-fit: contain; }
 
+/* Cabeçalho: logotipo (nunca esticado — respeita a proporção
+   original da imagem) + nome da empresa ao lado */
+.doc-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8mm;
+}
+.doc-logo {
+  max-height: 42px;   /* limite de altura — a largura acompanha proporcionalmente */
+  max-width: 170px;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* nunca distorce; encolhe mantendo a proporção original */
+  flex-shrink: 0;
+}
+.doc-company-name {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 12.5pt;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0.01em;
+}
+
 .doc-header-block {
   text-align: center;
   margin-bottom: 10mm;
@@ -1167,3 +1191,102 @@ body.is-offline .layout { padding-top: calc(var(--hdr) + 30px); }
 .float-toolbar button:hover { background: rgba(255,255,255,0.14); }
 .float-toolbar button.active { background: rgba(201,168,76,0.35); color: #fff; }
 .float-toolbar .ft-sep { width: 1px; height: 18px; background: rgba(255,255,255,0.14); margin: 0 2px; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════
+   ANEXOS — imagens com validade jurídica
+═══════════════════════════════════════════ */
+.anexo-item {
+  border: 1px solid var(--ink-border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.015);
+}
+.anexo-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.anexo-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-hi, var(--ink));
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+.anexo-remove {
+  background: none; border: none; color: var(--text-3);
+  cursor: pointer; font-size: 0.9rem; line-height: 1;
+  padding: 2px 4px;
+}
+.anexo-remove:hover { color: #d9534f; }
+.anexo-zone { min-height: 90px; }
+.anexo-zone img { max-height: 90px; max-width: 100%; object-fit: contain; }
+.anexo-ref-btn {
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════
+   PÁGINA DE ANEXO — imagem com validade jurídica
+═══════════════════════════════════════════ */
+.doc-page-anexo .doc-contract {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 900px;
+}
+.anexo-page-header {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 13pt;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #111;
+}
+.anexo-page-img-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  margin-bottom: 12px;
+}
+.anexo-page-img {
+  max-width: 100%;
+  max-height: 560px;
+  width: auto;
+  height: auto;
+  object-fit: contain;   /* nunca estica — encaixa preservando a proporção real */
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+}
+.anexo-page-legenda {
+  font-style: italic;
+  font-size: 10.5pt;
+  text-align: center;
+  color: #444;
+  margin: 0 0 4px;
+}
+.anexo-page-data {
+  font-size: 9.5pt;
+  text-align: center;
+  color: #666;
+  margin: 0 0 12px;
+}
+.anexo-rubrica-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+.anexo-rubrica-block { flex: 1; text-align: center; }
+.anexo-rubrica-line { border-top: 1px solid #666; margin-bottom: 5px; width: 100%; }
+.anexo-rubrica-label { font-size: 9pt; color: #555; }

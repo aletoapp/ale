@@ -110,3 +110,35 @@ Revisando a Fase 4 do roadmap, vi que o "score ponderado" e a extração de tít
 - **RG/Estado Civil/Profissão/CEP** no auto-fill: mais arriscado que CPF/CNPJ porque a posição no texto associa menos claramente a cada parte — a chance de atribuir o dado errado é maior.
 - **Tabelas com redimensionamento de colunas por arraste** no editor: as tabelas já funcionam na formatação automática, mas o redimensionamento manual ainda não foi implementado.
 - **.docx como file_handler**: só implementei `.txt` porque o app não tem hoje um leitor de `.docx` (só escreve); ler `.docx` exigiria adicionar uma biblioteca de parsing, o que é uma peça nova, não um ajuste do que já existe.
+
+---
+
+# Etapa 6 — Correções críticas + Anexos com validade jurídica
+
+## 🐛 Bugs reais corrigidos
+
+### 1. Editor não funcionava em documentos de 2+ páginas
+O modo de edição (`contenteditable`) e a exportação só liam a **primeira página** do documento formatado. Num contrato real (que quase sempre passa de 1 página), o texto das páginas seguintes não era editável — e, pior, podia ser **perdido silenciosamente na exportação em DOCX** (que nunca aplicava nenhuma edição feita no preview, nem mesmo da página 1).
+- Edição agora funciona em **todas as páginas**.
+- `getEditedFullText()` junta o conteúdo editado de todas as páginas, na ordem certa, para PDF **e** DOCX.
+- O modo de edição **já vem ativo automaticamente** ao formatar — não é mais preciso clicar em "✏️ Editar" para descobrir que o preview é editável.
+
+### 2. Logotipo distorcido no PDF/DOCX
+No preview HTML o logo já respeitava a proporção original, mas na exportação em **PDF** (contrato e e-mail) ele era forçado a um retângulo fixo de 40×10mm — **esticando a imagem**. E o **DOCX não incluía logo nenhum**.
+- Adicionado campo **"Nome da Empresa"** ao lado do logotipo.
+- A proporção real da imagem é capturada no upload (`logoAspect`) e usada para calcular largura/altura corretas em PDF e DOCX — a imagem **nunca é esticada**, apenas encolhida mantendo a forma original.
+- Nome da empresa agora aparece ao lado do logotipo no cabeçalho, nas três saídas (preview, PDF, DOCX).
+
+## ✅ Novo recurso: Anexos com validade jurídica
+Implementado conforme as boas práticas que você descreveu:
+- Cada imagem vira um **Anexo (A, B, C...)** em página própria, com:
+  - Identificação clara no topo ("ANEXO A — Planta Baixa do Imóvel")
+  - **Legenda explicativa** e **data do registro** (opcionais)
+  - **Linha de rubrica** para as duas partes no rodapé da página do anexo
+  - Imagem **redimensionada sem distorção** (mesma técnica de proporção real usada no logotipo) — nunca corta nem estica, mesmo em fotos, plantas baixas ou prints de tela
+- Botão **"📋 Copiar referência sugerida"**: gera um texto pronto (ex.: *"conforme demonstrado no Anexo A, que contém a planta baixa..."*) para você colar no corpo do contrato — o app não insere isso sozinho no seu texto, porque alterar o conteúdo automaticamente vai contra o princípio central do DocForm.
+- Funciona nas três saídas: preview, PDF (jsPDF vetorial) e DOCX (nativo, com `docx.ImageRun`).
+
+## ⚠️ Fora do escopo desta etapa
+- **Assinatura digital de fato / hash do documento**: isso depende da plataforma de assinatura (Gov.br, DocuSign, Clicksign) — o DocForm prepara o documento (espaço de rubrica, referência ao anexo, imagem nítida) para ser assinado nessas plataformas, mas não gera hash criptográfico por conta própria.
+- **Qualidade/nitidez da imagem**: o app não faz upscaling nem correção de nitidez — a responsabilidade de anexar uma imagem legível (não borrada, não cortada) continua sendo do usuário, como orientado no card de Anexos.

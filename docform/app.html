@@ -248,6 +248,8 @@
             </div>
             <input type="file" id="logo-file" accept="image/*" style="display:none;" onchange="loadLogo(this)">
             <button class="btn btn-danger" id="logo-rm" style="display:none;margin-top:6px;width:100%;" onclick="removeLogo()">Remover logotipo</button>
+            <label style="margin-top:10px;display:block;">Nome da Empresa (ao lado do logo)</label>
+            <input type="text" id="doc-empresa" placeholder="Razão Social da empresa responsável">
           </div>
           <div class="fg">
             <label>Marca d'água</label>
@@ -306,6 +308,16 @@
             <input type="text" id="sign2-name" placeholder="Nome / Razão Social da Parte B">
           </div>
         </div>
+      </div>
+
+      <!-- Anexos (imagens com validade jurídica) -->
+      <div class="card">
+        <div class="card-title">⑤ Anexos — Imagens <span style="font-size:0.65rem;color:var(--text-3);font-weight:400;">(opcional)</span></div>
+        <p style="font-size:0.76rem;color:var(--text-2);line-height:1.55;margin:0 0 12px;">
+          Fotos, plantas baixas ou prints anexados como <strong>Anexo A, B, C...</strong>, em página própria, com legenda e espaço de rubrica — cada imagem é redimensionada automaticamente <strong>sem distorção</strong>.
+        </p>
+        <div id="anexos-list"></div>
+        <button class="btn btn-secondary btn-full" style="margin-top:4px;" onclick="addAnexo()">+ Adicionar Anexo</button>
       </div>
 
       <button class="btn btn-primary btn-full" onclick="formatarDocumento()">✦ Formatar &amp; Visualizar</button>

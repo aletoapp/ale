@@ -3,10 +3,13 @@
 ════════════════════════════════════════════ */
 let currentPreset = 'generico';
 let logoDataUrl   = null;
+let logoAspect    = null; // largura/altura natural da imagem — nunca distorcida
 let wmDataUrl     = null;
 let wmPosition    = 'center';
 let cvPhotoDataUrl = null;
 let cvSkills      = [];
+let anexos        = [];  // { id, letra, imgDataUrl, imgAspect, titulo, data, legenda }
+let _anexoSeq     = 0;
 let expCount=0, eduCount=0, cursoCount=0, idiomaCount=0;
 let formatOpts    = {};
 
@@ -410,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el) el.addEventListener('input', saveDraft);
   });
   restoreDraftPrompt();
+  renderAnexosList();
 });
 
 /* ════════════════════════════════════════════
@@ -1179,8 +1183,19 @@ function buildPaginatedHtml(bodyHtml, opts) {
     return `<div class="doc-watermark" style="${styles[pos]||styles.center}"><img src="${wmDataUrl}" alt=""></div>`;
   }
 
-  const logoHtml = logoDataUrl
-    ? `<div class="doc-logo-row right"><img src="${logoDataUrl}" alt="Logo"></div>` : '';
+  const empresa = opts.empresa || '';
+
+  // Cabeçalho: logo (nunca esticado — respeita a proporção real da imagem)
+  // + nome da empresa ao lado. Uma única função gera o HTML usado tanto na
+  // medição de altura da página 1 quanto na renderização final, para que
+  // a paginação nunca fique dessincronizada do que realmente é exibido.
+  function buildHeaderRowHtml() {
+    if (!logoDataUrl && !empresa) return '';
+    const logoImg = logoDataUrl ? `<img class="doc-logo" src="${logoDataUrl}" alt="Logo">` : '';
+    const companyName = empresa ? `<span class="doc-company-name">${esc(empresa)}</span>` : '';
+    return `<div class="doc-header-row">${logoImg}${companyName}</div>`;
+  }
+  const logoHtml = buildHeaderRowHtml();
 
   const docHeader = `
     <div class="doc-header-block">
@@ -1273,8 +1288,7 @@ function buildPaginatedHtml(bodyHtml, opts) {
   // Primeira página tem cabeçalho: mede quanto ele ocupa
   const headerProbe = document.createElement('div');
   headerProbe.style.cssText = probeWrap.style.cssText;
-  headerProbe.innerHTML = (logoDataUrl
-    ? `<div class="doc-logo-row right"><img src="${logoDataUrl}" style="max-height:36px;max-width:150px;"></div>` : '')
+  headerProbe.innerHTML = buildHeaderRowHtml()
     + `<div class="doc-header-block"><div class="doc-title">${esc(titulo)}</div>${numero?`<div class="doc-subtitle">Nº ${esc(numero)}</div>`:''}</div>`;
   document.body.appendChild(headerProbe);
   const headerH = headerProbe.scrollHeight;
@@ -1329,6 +1343,28 @@ function buildPaginatedHtml(bodyHtml, opts) {
     </div>`;
   });
 
+  // ── Páginas de Anexos (imagens com validade jurídica) ──
+  const anexosComImagem = anexos.filter(a => a.imgDataUrl);
+  anexosComImagem.forEach((a, idx) => {
+    const letra = _anexoLetra(idx);
+    const dataFmt = a.data ? formatDate(a.data) : '';
+    result += `<div class="doc-page doc-page-anexo">
+      <div class="doc-page-content">
+        <div class="doc-contract">
+          <div class="anexo-page-header">ANEXO ${letra}${a.titulo ? ' — ' + esc(a.titulo.toUpperCase()) : ''}</div>
+          <div class="anexo-page-img-wrap"><img class="anexo-page-img" src="${a.imgDataUrl}" alt="Anexo ${letra}"></div>
+          ${a.legenda ? `<p class="anexo-page-legenda">${esc(a.legenda)}</p>` : ''}
+          ${dataFmt ? `<p class="anexo-page-data">Data do registro: ${esc(dataFmt)}</p>` : ''}
+          <div class="anexo-rubrica-row">
+            <div class="anexo-rubrica-block"><div class="anexo-rubrica-line"></div><div class="anexo-rubrica-label">Rubrica — ${esc(sign1)}</div></div>
+            <div class="anexo-rubrica-block"><div class="anexo-rubrica-line"></div><div class="anexo-rubrica-label">Rubrica — ${esc(sign2)}</div></div>
+          </div>
+        </div>
+      </div>
+      ${formatOpts.rodape ? `<div class="doc-footer"><span>Anexo ${letra} — ${esc(titulo)}</span><span>Página anexa</span></div>` : ''}
+    </div>`;
+  });
+
   return result;
 }
 
@@ -1378,15 +1414,17 @@ function formatarDocumento() {
   const sign1   = document.getElementById('sign1-name').value.trim() || cfg.sign1.label.toUpperCase();
   const sign2   = document.getElementById('sign2-name').value.trim() || cfg.sign2.label.toUpperCase();
   const { doc1, doc2 } = extractQualificacoes(texto);
+  const empresa = document.getElementById('doc-empresa')?.value.trim() || '';
 
   const blocks   = processText(texto);
   const bodyHtml = renderBlocks(blocks, formatOpts.numerarClausulas);
   const clauseCount = blocks.filter(b => b.type === 'clause').length;
 
-  const pageHtml = buildPaginatedHtml(bodyHtml, { titulo, numero, sign1, sign2, cidade, data, doc1, doc2 });
+  const pageHtml = buildPaginatedHtml(bodyHtml, { titulo, numero, sign1, sign2, cidade, data, doc1, doc2, empresa });
 
   const wrap = document.getElementById('preview-pages-wrap');
   wrap.innerHTML = pageHtml;
+  delete wrap.dataset.edited;     // novo documento formatado: começa "sem edições"
   scaleDocPreview('preview-pages-wrap');
 
   document.getElementById('preview-section').style.display = 'block';
@@ -1396,61 +1434,95 @@ function formatarDocumento() {
     ((doc1 || doc2) ? ` · ${[doc1,doc2].filter(Boolean).length} documento(s) detectado(s)` : '');
 
   document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  showToast('Documento formatado!', 'ok');
+  // Modo de edição já vem ativo por padrão — o preview É o editor,
+  // sem precisar de um clique extra para descobrir que dá pra editar.
+  setPreviewEditable(true, { silent: true });
+  showToast('Documento formatado! Clique no texto para editar diretamente.', 'ok');
   setTimeout(() => scaleDocPreview('preview-pages-wrap'), 80);
 }
 
 /* ════════════════════════════════════════════
    EDIT PREVIEW — contenteditable toggle
+   Ativa edição em TODAS as páginas do documento
+   (antes só funcionava na página 1 — bug real
+   corrigido: contratos de 2+ páginas ficavam
+   sem edição nas páginas seguintes, e a
+   exportação podia até perder esse conteúdo).
 ════════════════════════════════════════════ */
 let _previewEditMode = false;
 
-function toggleEditPreview() {
-  const body = document.getElementById('doc-body-editable');
+function _allDocContracts() {
+  return Array.from(document.querySelectorAll('#preview-pages-wrap .doc-contract'));
+}
+
+function _markWrapEdited() {
+  const wrap = document.getElementById('preview-pages-wrap');
+  if (wrap) wrap.dataset.edited = 'true';
+}
+
+function setPreviewEditable(on, opts = {}) {
+  const contracts = _allDocContracts();
+  const wrap = document.getElementById('preview-pages-wrap');
   const btn  = document.getElementById('btn-edit-toggle');
-  if (!body) { showToast('Formate o documento primeiro.', 'err'); return; }
+  if (!contracts.length) return;
 
-  _previewEditMode = !_previewEditMode;
+  _previewEditMode = on;
 
-  if (_previewEditMode) {
-    // Enable editing on the whole doc-contract area
-    const contract = body.closest('.doc-contract') || body;
-    contract.setAttribute('contenteditable', 'true');
-    contract.setAttribute('spellcheck', 'true');
-    contract.style.outline = 'none';
-    contract.style.cursor  = 'text';
-    // Mark as edited on any input
-    contract.addEventListener('input', () => { body.dataset.edited = 'true'; }, { once: false, passive: true });
-    // Higienização de cola: remove estilos/classes indesejados ao colar
-    contract.addEventListener('paste', handlePasteSanitize);
-    // Visual cue: subtle golden left border on editable body
-    body.style.borderLeft  = '2px solid var(--ink)';
-    body.style.paddingLeft = '8px';
-    btn.innerHTML = '✅ Concluir';
-    btn.classList.add('btn-primary');
-    btn.classList.remove('btn-secondary');
+  if (on) {
+    contracts.forEach(contract => {
+      contract.setAttribute('contenteditable', 'true');
+      contract.setAttribute('spellcheck', 'true');
+      contract.style.outline = 'none';
+      contract.style.cursor  = 'text';
+      contract.addEventListener('input', _markWrapEdited);
+      // Higienização de cola: remove estilos/classes indesejados ao colar
+      contract.addEventListener('paste', handlePasteSanitize);
+    });
+    if (btn) {
+      btn.innerHTML = '✅ Concluir edição';
+      btn.classList.add('btn-primary');
+      btn.classList.remove('btn-secondary');
+    }
     document.querySelector('#preview-section .preview-toolbar')?.classList.add('editing');
-    showToast('Modo edição ativo — selecione texto para formatar.', 'ok');
-    // Focus the body for immediate editing
-    setTimeout(() => body.focus(), 50);
+    if (!opts.silent) showToast('Modo edição ativo — clique em qualquer página e selecione texto para formatar.', 'ok');
   } else {
-    const contract = body.closest('.doc-contract') || body;
-    contract.removeAttribute('contenteditable');
-    contract.style.cursor = '';
-    contract.removeEventListener('paste', handlePasteSanitize);
-    body.style.borderLeft  = '';
-    body.style.paddingLeft = '';
-    btn.innerHTML = '✏️ Editar';
-    btn.classList.remove('btn-primary');
-    btn.classList.add('btn-secondary');
+    contracts.forEach(contract => {
+      contract.removeAttribute('contenteditable');
+      contract.style.cursor = '';
+      contract.removeEventListener('input', _markWrapEdited);
+      contract.removeEventListener('paste', handlePasteSanitize);
+    });
+    if (btn) {
+      btn.innerHTML = '✏️ Editar';
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-secondary');
+    }
     document.querySelector('#preview-section .preview-toolbar')?.classList.remove('editing');
     hideFloatToolbar();
-    if (body.dataset.edited === 'true') {
-      showToast('Edição salva — PDF e DOCX refletirão o conteúdo editado.', 'ok');
-    } else {
-      showToast('Modo edição desativado.', 'ok');
+    if (!opts.silent) {
+      if (wrap.dataset.edited === 'true') {
+        showToast('Edição salva — PDF e DOCX refletirão o conteúdo editado.', 'ok');
+      } else {
+        showToast('Modo edição desativado.', 'ok');
+      }
     }
   }
+}
+
+function toggleEditPreview() {
+  const contracts = _allDocContracts();
+  if (!contracts.length) { showToast('Formate o documento primeiro.', 'err'); return; }
+  setPreviewEditable(!_previewEditMode);
+}
+
+/* Reúne o texto de TODAS as páginas editáveis, na ordem correta —
+   usado pela exportação de PDF/DOCX para nunca perder conteúdo
+   que ficou em páginas além da primeira. */
+function getEditedFullText() {
+  const wrap = document.getElementById('preview-pages-wrap');
+  if (!wrap || wrap.dataset.edited !== 'true') return null;
+  const bodies = Array.from(wrap.querySelectorAll('.doc-body'));
+  return bodies.map(b => (b.innerText || b.textContent || '').trim()).filter(Boolean).join('\n\n');
 }
 
 /* ════════════════════════════════════════════
@@ -1575,8 +1647,8 @@ function handlePasteSanitize(e) {
   } catch (err) {
     document.execCommand('insertText', false, plain);
   }
-  const body = document.getElementById('doc-body-editable');
-  if (body) body.dataset.edited = 'true';
+  const wrap = document.getElementById('preview-pages-wrap');
+  if (wrap) wrap.dataset.edited = 'true';
 }
 
 /* ════════════════════════════════════════════
@@ -1649,10 +1721,10 @@ async function exportContratoPDF() {
     });
   } catch(e) {}
 
-  // Use edited preview content if available, otherwise fallback to original input
-  const _editedBody = document.getElementById('doc-body-editable');
-  const textoBase   = (_editedBody && _editedBody.dataset.edited === 'true')
-    ? (_editedBody.innerText || _editedBody.textContent || '').trim()
+  // Use edited preview content if available (todas as páginas), senão volta ao texto original
+  const _fullEdited = getEditedFullText();
+  const textoBase    = _fullEdited !== null
+    ? _fullEdited
     : document.getElementById('input-text').value.trim();
   const blocks  = processText(textoBase);
   const { doc1: _pdfDoc1, doc2: _pdfDoc2 } = extractQualificacoes(textoBase);
@@ -1677,8 +1749,41 @@ async function exportContratoPDF() {
     return 'JPEG';
   }
   function addLogoAndWatermark() {
-    if (logoDataUrl) {
-      try { pdf.addImage(logoDataUrl, imgFmt(logoDataUrl), pW - mR - 40, mT, 40, 10, undefined, 'FAST'); } catch(e) {}
+    const empresaName = document.getElementById('doc-empresa')?.value.trim() || '';
+    if (logoDataUrl || empresaName) {
+      // Caixa máxima reservada para o cabeçalho (mm). O logo é sempre
+      // encaixado dentro dela mantendo a proporção original — nunca
+      // esticado/deformado, mesmo que a imagem não seja 4:1.
+      const maxW = 40, maxH = 10;
+      let logoW = 0, logoH = 0;
+      if (logoDataUrl) {
+        if (logoAspect && logoAspect > 0) {
+          if (maxW / maxH > logoAspect) { logoH = maxH; logoW = logoH * logoAspect; }
+          else { logoW = maxW; logoH = logoW / logoAspect; }
+        } else {
+          // Proporção não pôde ser lida (fallback) — usa a caixa máxima
+          logoW = maxW; logoH = maxH;
+        }
+      }
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(10);
+      const nameW = empresaName ? pdf.getTextWidth(empresaName) : 0;
+      const gap   = (logoDataUrl && empresaName) ? 3 : 0;
+      const groupW = logoW + gap + nameW;
+      let cursorX  = pW - mR - groupW;
+      const bandY  = mT;
+
+      if (logoDataUrl) {
+        try {
+          const logoY = bandY + (maxH - logoH) / 2; // centraliza verticalmente na faixa
+          pdf.addImage(logoDataUrl, imgFmt(logoDataUrl), cursorX, logoY, logoW, logoH, undefined, 'FAST');
+        } catch(e) {}
+        cursorX += logoW + gap;
+      }
+      if (empresaName) {
+        pdf.setTextColor(20, 20, 20);
+        pdf.text(empresaName, cursorX, bandY + maxH / 2 + 2.6);
+      }
     }
     if (wmDataUrl) {
       const opacity = (document.getElementById('wm-opacity')?.value || 12) / 100;
@@ -1780,7 +1885,7 @@ async function exportContratoPDF() {
 
   // Page 1 setup
   addLogoAndWatermark();
-  if (logoDataUrl) y += 14; // push content below logo
+  if (logoDataUrl || document.getElementById('doc-empresa')?.value.trim()) y += 14; // push content below header row
 
   // Title block
   pdf.setDrawColor(30,30,30);
@@ -1967,6 +2072,70 @@ async function exportContratoPDF() {
   }
 
   stampPageFooter();
+
+  /* ── Páginas de Anexos (imagens com validade jurídica) ──
+     Cada anexo com imagem ganha página própria: título
+     (Anexo A/B/C), imagem redimensionada sem distorção
+     (mesma técnica de proporção usada no logotipo), legenda,
+     data e linha de rubrica das partes. */
+  const anexosComImagem = anexos.filter(a => a.imgDataUrl);
+  anexosComImagem.forEach((a, idx) => {
+    const letra = _anexoLetra(idx);
+    pdf.addPage();
+    pageNum++;
+    let ay = mT;
+
+    pdf.setFont('times', 'bold');
+    pdf.setFontSize(13);
+    pdf.setTextColor(20, 20, 20);
+    const headTitle = `ANEXO ${letra}` + (a.titulo ? ` — ${a.titulo.toUpperCase()}` : '');
+    pdf.splitTextToSize(headTitle, cW).forEach(line => { pdf.text(line, pW / 2, ay, { align: 'center' }); ay += 6.5; });
+    ay += 4;
+
+    const reservedBottom = 30 + (a.legenda ? 14 : 0) + (a.data ? 6 : 0);
+    const maxImgW = cW;
+    const maxImgH = Math.max(30, (pH - mB - reservedBottom) - ay);
+    let imgW = maxImgW, imgH = maxImgH;
+    if (a.imgAspect && a.imgAspect > 0) {
+      if (maxImgW / maxImgH > a.imgAspect) { imgH = maxImgH; imgW = imgH * a.imgAspect; }
+      else { imgW = maxImgW; imgH = imgW / a.imgAspect; }
+    }
+    const imgX = mL + (cW - imgW) / 2;
+    try {
+      const fmt = a.imgDataUrl.startsWith('data:image/png') ? 'PNG' : (a.imgDataUrl.startsWith('data:image/webp') ? 'WEBP' : 'JPEG');
+      pdf.addImage(a.imgDataUrl, fmt, imgX, ay, imgW, imgH, undefined, 'FAST');
+    } catch (e) {}
+    ay += imgH + 6;
+
+    if (a.legenda) {
+      pdf.setFont('times', 'italic');
+      pdf.setFontSize(9.5);
+      pdf.setTextColor(60, 60, 60);
+      pdf.splitTextToSize(a.legenda, cW).forEach(l => { pdf.text(l, pW / 2, ay, { align: 'center' }); ay += 5; });
+      ay += 2;
+    }
+    if (a.data) {
+      pdf.setFont('times', 'normal');
+      pdf.setFontSize(9);
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`Data do registro: ${formatDate(a.data)}`, pW / 2, ay, { align: 'center' });
+    }
+
+    // Rubrica das partes — fixa perto do rodapé
+    const ry = pH - mB - 18;
+    const rw = (cW - 16) / 2;
+    pdf.setDrawColor(120, 120, 120);
+    pdf.setLineWidth(0.2);
+    pdf.line(mL, ry, mL + rw, ry);
+    pdf.line(mL + rw + 16, ry, mL + rw + 16 + rw, ry);
+    pdf.setFont('times', 'normal');
+    pdf.setFontSize(8.5);
+    pdf.setTextColor(80, 80, 80);
+    pdf.text(`Rubrica — ${sign1}`, mL + rw / 2, ry + 4, { align: 'center' });
+    pdf.text(`Rubrica — ${sign2}`, mL + rw + 16 + rw / 2, ry + 4, { align: 'center' });
+
+    stampPageFooter();
+  });
 
   const fname = `contrato_${currentPreset}_${Date.now()}.pdf`;
   pdf.save(fname);
@@ -2203,7 +2372,13 @@ async function exportEmailPDF() {
 
   if (logoDataUrl) {
     const fmt = logoDataUrl.startsWith('data:image/png') ? 'PNG' : 'JPEG';
-    try { pdf.addImage(logoDataUrl, fmt, pW-mR-40, y, 40, 10, undefined, 'FAST'); } catch(e){}
+    const maxW = 40, maxH = 10;
+    let logoW = maxW, logoH = maxH;
+    if (logoAspect && logoAspect > 0) {
+      if (maxW / maxH > logoAspect) { logoH = maxH; logoW = logoH * logoAspect; }
+      else { logoW = maxW; logoH = logoW / logoAspect; }
+    }
+    try { pdf.addImage(logoDataUrl, fmt, pW - mR - logoW, y + (maxH - logoH) / 2, logoW, logoH, undefined, 'FAST'); } catch(e){}
   }
 
   pdf.setFont('times', 'bold');
@@ -2267,18 +2442,122 @@ function loadLogo(input) {
     document.getElementById('logo-ph').style.display = 'none';
     document.getElementById('logo-drop').classList.add('has-logo');
     document.getElementById('logo-rm').style.display = 'block';
+    // Guarda a proporção real (largura/altura) da imagem original —
+    // usada depois para nunca esticar o logotipo no PDF/DOCX/preview.
+    const probeImg = new Image();
+    probeImg.onload = () => {
+      logoAspect = (probeImg.naturalWidth && probeImg.naturalHeight)
+        ? probeImg.naturalWidth / probeImg.naturalHeight
+        : null;
+    };
+    probeImg.src = logoDataUrl;
     showToast('Logotipo carregado!', 'ok');
   };
   r.readAsDataURL(file);
 }
 function removeLogo() {
   logoDataUrl = null;
+  logoAspect  = null;
   document.getElementById('logo-preview-img').style.display = 'none';
   document.getElementById('logo-ph').style.display = '';
   document.getElementById('logo-drop').classList.remove('has-logo');
   document.getElementById('logo-rm').style.display = 'none';
   document.getElementById('logo-file').value = '';
 }
+
+/* ════════════════════════════════════════════
+   ANEXOS — imagens com validade jurídica
+   Cada anexo vira uma página própria no
+   documento (Anexo A, B, C...) com título,
+   legenda, data e espaço de rubrica — a
+   imagem nunca é esticada (proporção real
+   preservada, igual ao logotipo).
+════════════════════════════════════════════ */
+function _anexoLetra(idx) {
+  // A, B, C ... Z, AA, AB... (suficiente para qualquer contrato real)
+  let n = idx, s = '';
+  do { s = String.fromCharCode(65 + (n % 26)) + s; n = Math.floor(n / 26) - 1; } while (n >= 0);
+  return s;
+}
+
+function addAnexo() {
+  anexos.push({ id: ++_anexoSeq, imgDataUrl: null, imgAspect: null, titulo: '', data: '', legenda: '' });
+  renderAnexosList();
+}
+
+function removeAnexo(id) {
+  anexos = anexos.filter(a => a.id !== id);
+  renderAnexosList();
+}
+
+function updateAnexoField(id, field, value) {
+  const a = anexos.find(a => a.id === id);
+  if (a) a[field] = value;
+}
+
+function loadAnexoImage(id, input) {
+  const file = input.files[0]; if (!file) return;
+  const a = anexos.find(a => a.id === id);
+  if (!a) return;
+  const r = new FileReader();
+  r.onload = e => {
+    a.imgDataUrl = e.target.result;
+    const probeImg = new Image();
+    probeImg.onload = () => {
+      a.imgAspect = (probeImg.naturalWidth && probeImg.naturalHeight)
+        ? probeImg.naturalWidth / probeImg.naturalHeight : null;
+    };
+    probeImg.src = a.imgDataUrl;
+    renderAnexosList();
+    showToast('Imagem do anexo carregada!', 'ok');
+  };
+  r.readAsDataURL(file);
+}
+
+function copyAnexoReference(id) {
+  const idx = anexos.findIndex(a => a.id === id);
+  if (idx < 0) return;
+  const a = anexos[idx];
+  const letra = _anexoLetra(idx);
+  const titulo = a.titulo.trim() || '[descreva a imagem]';
+  const texto = `conforme demonstrado no Anexo ${letra}, que contém ${titulo.toLowerCase().startsWith('a ') || titulo.toLowerCase().startsWith('o ') ? '' : 'a imagem de '}${titulo}${a.data ? ', datada de ' + formatDate(a.data) : ''}`;
+  const done = () => showToast('Referência copiada — cole no texto do contrato.', 'ok');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto).then(done).catch(() => showToast('Não foi possível copiar. Copie manualmente: ' + texto, 'err'));
+  } else {
+    showToast('Copie manualmente: ' + texto, 'err');
+  }
+}
+
+function renderAnexosList() {
+  const wrap = document.getElementById('anexos-list');
+  if (!wrap) return;
+  wrap.innerHTML = anexos.map((a, idx) => {
+    const letra = _anexoLetra(idx);
+    return `
+    <div class="anexo-item">
+      <div class="anexo-item-head">
+        <span class="anexo-badge">ANEXO ${letra}</span>
+        <button class="anexo-remove" onclick="removeAnexo(${a.id})" title="Remover anexo">✕</button>
+      </div>
+      <div class="logo-zone anexo-zone" onclick="document.getElementById('anexo-file-${a.id}').click()">
+        ${a.imgDataUrl ? `<img src="${a.imgDataUrl}" alt="Anexo ${letra}">` : `<div><div class="logo-zone-icon">🖼</div><div class="logo-zone-text">PNG / JPG — foto, planta, print...</div></div>`}
+      </div>
+      <input type="file" id="anexo-file-${a.id}" accept="image/*" style="display:none;" onchange="loadAnexoImage(${a.id}, this)">
+      <div class="form-row" style="margin-top:10px;">
+        <div class="fg"><label>Título do Anexo</label><input type="text" value="${esc(a.titulo)}" placeholder="Ex.: Planta baixa do imóvel" oninput="updateAnexoField(${a.id},'titulo',this.value)"></div>
+        <div class="fg"><label>Data (opcional)</label><input type="date" value="${esc(a.data)}" oninput="updateAnexoField(${a.id},'data',this.value)"></div>
+      </div>
+      <div class="fg" style="margin-top:8px;">
+        <label>Legenda / Descrição explicativa</label>
+        <textarea rows="2" style="min-height:auto;" placeholder="Ex.: Vista da fachada e da vaga de garagem, registrada na vistoria de entrada." oninput="updateAnexoField(${a.id},'legenda',this.value)">${esc(a.legenda)}</textarea>
+      </div>
+      <button class="btn btn-secondary anexo-ref-btn" onclick="copyAnexoReference(${a.id})">📋 Copiar referência sugerida p/ o texto</button>
+    </div>`;
+  }).join('') || `<p style="font-size:0.78rem;color:var(--text-3);">Nenhum anexo adicionado ainda.</p>`;
+}
+
+
 function loadWatermark(input) {
   const file = input.files[0]; if (!file) return;
   const r = new FileReader();
@@ -2650,6 +2929,13 @@ async function exportarDOCX(tipo) {
 }
 
 /* ── helpers docx ── */
+function _dataUrlToUint8Array(dataUrl) {
+  const base64 = dataUrl.split(',')[1] || '';
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
 function _dPara(text, opts = {}) {
   const { bold, center, size, color, indent, spacing } = opts;
   const run = new docx.TextRun({
@@ -2723,11 +3009,38 @@ async function exportContratoDocx() {
   const _cfg    = PRESET_CONFIG[currentPreset] || PRESET_CONFIG['generico'];
   const sign1   = document.getElementById('sign1-name').value.trim() || _cfg.sign1.label.toUpperCase();
   const sign2   = document.getElementById('sign2-name').value.trim() || _cfg.sign2.label.toUpperCase();
-  const texto   = document.getElementById('input-text').value.trim();
+  const texto   = getEditedFullText() ?? document.getElementById('input-text').value.trim();
   const blocks  = processText(texto);
   const { doc1: _docxDoc1, doc2: _docxDoc2 } = extractQualificacoes(texto);
 
   const children = [];
+
+  // Cabeçalho: logo (nunca esticado — mantém proporção original) + nome da empresa
+  const empresaDocx = document.getElementById('doc-empresa')?.value.trim() || '';
+  if (logoDataUrl || empresaDocx) {
+    const runs = [];
+    if (logoDataUrl) {
+      const maxW = 150, maxH = 40; // px — mesma proporção-alvo do PDF/preview
+      let w = maxW, h = maxH;
+      if (logoAspect && logoAspect > 0) {
+        if (maxW / maxH > logoAspect) { h = maxH; w = h * logoAspect; }
+        else { w = maxW; h = w / logoAspect; }
+      }
+      try {
+        runs.push(new docx.ImageRun({
+          data: _dataUrlToUint8Array(logoDataUrl),
+          transformation: { width: Math.round(w), height: Math.round(h) },
+        }));
+      } catch (e) {}
+    }
+    if (empresaDocx) {
+      if (runs.length) runs.push(new docx.TextRun({ text: '   ', size: 2 }));
+      runs.push(new docx.TextRun({ text: empresaDocx, bold: true, size: 24, font: 'Times New Roman', color: '111111' }));
+    }
+    if (runs.length) {
+      children.push(new docx.Paragraph({ children: runs, alignment: docx.AlignmentType.RIGHT, spacing: { after: 160 } }));
+    }
+  }
 
   // Título
   children.push(_dPara(titulo.toUpperCase(), { bold: true, center: true, size: 28, spacing: { after: 80 } }));
@@ -2873,6 +3186,70 @@ async function exportContratoDocx() {
       }));
     }
   }
+
+  // ── Anexos (imagens com validade jurídica) — cada um em página própria ──
+  const anexosComImagemDocx = anexos.filter(a => a.imgDataUrl);
+  anexosComImagemDocx.forEach((a, idx) => {
+    const letra = _anexoLetra(idx);
+    children.push(new docx.Paragraph({ children: [], pageBreakBefore: true }));
+    children.push(new docx.Paragraph({
+      children: [new docx.TextRun({ text: `ANEXO ${letra}` + (a.titulo ? ` — ${a.titulo.toUpperCase()}` : ''), bold: true, size: 26, font: 'Times New Roman' })],
+      alignment: docx.AlignmentType.CENTER,
+      border: { bottom: { style: docx.BorderStyle.SINGLE, size: 6, color: '111111' } },
+      spacing: { after: 240 },
+    }));
+
+    // Imagem redimensionada preservando a proporção real — nunca esticada
+    const maxW = 550, maxH = 620;
+    let iw = maxW, ih = maxH;
+    if (a.imgAspect && a.imgAspect > 0) {
+      if (maxW / maxH > a.imgAspect) { ih = maxH; iw = ih * a.imgAspect; }
+      else { iw = maxW; ih = iw / a.imgAspect; }
+    }
+    try {
+      children.push(new docx.Paragraph({
+        children: [new docx.ImageRun({
+          data: _dataUrlToUint8Array(a.imgDataUrl),
+          transformation: { width: Math.round(iw), height: Math.round(ih) },
+        })],
+        alignment: docx.AlignmentType.CENTER,
+        spacing: { after: 160 },
+      }));
+    } catch (e) {}
+
+    if (a.legenda) {
+      children.push(new docx.Paragraph({
+        children: [new docx.TextRun({ text: a.legenda, italics: true, size: 21, color: '444444', font: 'Times New Roman' })],
+        alignment: docx.AlignmentType.CENTER, spacing: { after: 100 },
+      }));
+    }
+    if (a.data) {
+      children.push(new docx.Paragraph({
+        children: [new docx.TextRun({ text: `Data do registro: ${formatDate(a.data)}`, size: 19, color: '666666', font: 'Times New Roman' })],
+        alignment: docx.AlignmentType.CENTER, spacing: { after: 240 },
+      }));
+    }
+
+    // Rubrica das partes
+    children.push(new docx.Paragraph({
+      children: [
+        new docx.TextRun({ text: '_'.repeat(28), size: 22, font: 'Times New Roman', color: '888888' }),
+        new docx.TextRun({ text: '\t', size: 22 }),
+        new docx.TextRun({ text: '_'.repeat(28), size: 22, font: 'Times New Roman', color: '888888' }),
+      ],
+      tabStops: [{ type: docx.TabStopType.LEFT, position: 4680 }],
+      spacing: { before: 400, after: 60 },
+    }));
+    children.push(new docx.Paragraph({
+      children: [
+        new docx.TextRun({ text: `Rubrica — ${sign1}`, size: 18, color: '666666', font: 'Times New Roman' }),
+        new docx.TextRun({ text: '\t', size: 18 }),
+        new docx.TextRun({ text: `Rubrica — ${sign2}`, size: 18, color: '666666', font: 'Times New Roman' }),
+      ],
+      tabStops: [{ type: docx.TabStopType.LEFT, position: 4680 }],
+      spacing: { after: 40 },
+    }));
+  });
 
   const doc = new docx.Document({
     creator: sign1 !== _cfg.sign1.label.toUpperCase() ? sign1 : 'DocForm',
