@@ -3,5 +3,6 @@ Allow: /
 
 Disallow: /.github/
 Disallow: /node_modules/
+Disallow: /admin/
 
 Sitemap: https://alexandretorres.com.br/sitemap.xml
