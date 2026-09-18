@@ -1,4 +1,4 @@
-# Relatório de Saúde de SEO — 24 página(s) analisadas
+# Relatório de Saúde de SEO — 25 página(s) analisadas
 
 
 ## 1. Duplicidade entre páginas
@@ -36,7 +36,7 @@ Nenhuma pergunta de FAQ repetida entre páginas. ✅
 
 ## 6. Resumo — todos os alertas
 
-**49 alta(s) · 27 média(s) · 37 baixa(s)**
+**51 alta(s) · 28 média(s) · 40 baixa(s)**
 
 ### Prioridade ALTA
 
@@ -75,6 +75,8 @@ Nenhuma pergunta de FAQ repetida entre páginas. ✅
 - `googleed5001826de4f4e0.html`: Sem meta description.
 - `googleed5001826de4f4e0.html`: Sem <link rel="canonical">.
 - `googleed5001826de4f4e0.html`: Sem <h1> na página.
+- `painel-seo.html`: Sem meta description.
+- `painel-seo.html`: Sem <link rel="canonical">.
 - `privacidade.html`: Sem <title>.
 - `privacidade.html`: Sem meta description.
 - `privacidade.html`: Sem <link rel="canonical">.
@@ -112,6 +114,7 @@ Nenhuma pergunta de FAQ repetida entre páginas. ✅
 - `googleed5001826de4f4e0.html`: Nenhum bloco JSON-LD encontrado.
 - `index.html`: <title> longo (66 caracteres, risco de truncar no Google): "Programador e Web Designer na Grande Vitória-ES | Alexandre Torres"
 - `index.html`: meta description longa (221 caracteres, risco de truncar).
+- `painel-seo.html`: Nenhum bloco JSON-LD encontrado.
 - `privacidade.html`: Nenhum bloco JSON-LD encontrado.
 - `index.html`: Nenhum bloco JSON-LD encontrado.
 - `app.html`: <title> curto (29 caracteres): "VoiceLab — Processador de Voz"
@@ -146,6 +149,9 @@ Nenhuma pergunta de FAQ repetida entre páginas. ✅
 - `googleed5001826de4f4e0.html`: Sem og:title.
 - `googleed5001826de4f4e0.html`: Sem og:description.
 - `googleed5001826de4f4e0.html`: Sem twitter:card.
+- `painel-seo.html`: Sem og:title.
+- `painel-seo.html`: Sem og:description.
+- `painel-seo.html`: Sem twitter:card.
 - `privacidade.html`: Sem og:title.
 - `privacidade.html`: Sem og:description.
 - `privacidade.html`: Sem twitter:card.

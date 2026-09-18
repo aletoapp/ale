@@ -1,0 +1,606 @@
+{
+  "generated_at": "2026-09-18T04:50:34.643362+00:00",
+  "pages_analyzed": 25,
+  "counts": {
+    "ALTA": 51,
+    "MÉDIA": 28,
+    "BAIXA": 40
+  },
+  "issues": [
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "app.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "app.html",
+      "message": "Title duplicado(a) com outra(s) página(s): \"DocForm — Formatação Profissional de Documentos\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "app.html",
+      "message": "Meta description duplicado(a) com outra(s) página(s): \"Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "app.html",
+      "message": "Canonical duplicado(a) com outra(s) página(s): \"https://alexandretorres.com.br/docform/\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Title duplicado(a) com outra(s) página(s): \"DocForm — Formatação Profissional de Documentos\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Meta description duplicado(a) com outra(s) página(s): \"Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Canonical duplicado(a) com outra(s) página(s): \"https://alexandretorres.com.br/docform/\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "painel-seo.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "painel-seo.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "privacidade.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "privacidade.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "privacidade.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "privacidade.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "app.html",
+      "message": "Title duplicado(a) com outra(s) página(s): \"VoiceLab — Processador de Voz\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Title duplicado(a) com outra(s) página(s): \"VoiceLab — Processador de Voz\""
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <title>."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem meta description."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <link rel=\"canonical\">."
+    },
+    {
+      "severity": "ALTA",
+      "file": "index.html",
+      "message": "Sem <h1> na página."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> longo (62 caracteres, risco de truncar no Google): \"AT-LAB — Web Engineering & Intelligence Lab | Alexandre Torres\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> curto (24 caracteres): \"Suporte · Chat-Protocolo\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> longo (86 caracteres, risco de truncar no Google): \"Web Design em Serra (ES): Como Escolher Quem Vai Construir Seu Site | Alexandre Torres\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "meta description longa (193 caracteres, risco de truncar)."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "meta description longa (193 caracteres, risco de truncar)."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> longo (83 caracteres, risco de truncar no Google): \"Serralheria de Precisão: Como a Qualidade Define Estruturas | Blog Alexandre Torres\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "meta description longa (197 caracteres, risco de truncar)."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "app.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> longo (73 caracteres, risco de truncar no Google): \"Dossiê da Conversão — Sistema de Landing Page de Elite | Alexandre Torres\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> longo (79 caracteres, risco de truncar no Google): \"É um prazer tirar suas dúvidas! | Alexandre Torres — Programador e Web Designer\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "meta description longa (182 caracteres, risco de truncar)."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> longo (66 caracteres, risco de truncar no Google): \"Programador e Web Designer na Grande Vitória-ES | Alexandre Torres\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "meta description longa (221 caracteres, risco de truncar)."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "painel-seo.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "privacidade.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "app.html",
+      "message": "<title> curto (29 caracteres): \"VoiceLab — Processador de Voz\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "app.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "<title> curto (29 caracteres): \"VoiceLab — Processador de Voz\""
+    },
+    {
+      "severity": "MÉDIA",
+      "file": "index.html",
+      "message": "Nenhum bloco JSON-LD encontrado."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "app.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "app.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "app.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "googlee674cc1f58022358.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "googleed5001826de4f4e0.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "painel-seo.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "painel-seo.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "painel-seo.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "privacidade.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "privacidade.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "privacidade.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:title."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem og:description."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    },
+    {
+      "severity": "BAIXA",
+      "file": "index.html",
+      "message": "Sem twitter:card."
+    }
+  ]
+}
