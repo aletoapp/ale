@@ -1,0 +1,3193 @@
+{
+  "generated_at": "2026-09-18T04:30:11.183Z",
+  "base_url": "https://alexandretorres.com.br",
+  "files": [
+    {
+      "file": "admin/admin.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [
+        {
+          "raw": "manifest.json",
+          "url": "https://alexandretorres.com.br/manifest.json",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://wa.me/55${digitos}",
+          "url": "https://wa.me/55$%7Bdigitos%7D",
+          "status": 404,
+          "redirected": true,
+          "finalUrl": "https://api.whatsapp.com/resolve/?deeplink=%2F55%24%257Bdigitos%257D&not_found=1",
+          "ok": false,
+          "internal": false
+        }
+      ],
+      "failures": 3
+    },
+    {
+      "file": "admin/img/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "at-lab/assets/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "at-lab/assets/js/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "at-lab/img/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "at-lab/index.html",
+      "canonical_base": "https://alexandretorres.com.br/at-lab/",
+      "links": [
+        {
+          "raw": "https://alexandretorres.com.br/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Black.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Black.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/css/proposta.css",
+          "url": "https://alexandretorres.com.br/assets/css/proposta.css",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/img/logo-limiar-512x512.png",
+          "url": "https://alexandretorres.com.br/assets/img/logo-limiar-512x512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "proposta.css",
+          "url": "https://alexandretorres.com.br/at-lab/proposta.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://startup-ldt.com.br/ilist/",
+          "url": "https://startup-ldt.com.br/ilist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://aletoapp.github.io/voicelab/",
+          "url": "https://aletoapp.github.io/voicelab/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://aletoapp.github.io/docform/",
+          "url": "https://aletoapp.github.io/docform/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://github.com/aletoapp",
+          "url": "https://github.com/aletoapp",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "proposta.js",
+          "url": "https://alexandretorres.com.br/at-lab/proposta.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "atlab-btn.js",
+          "url": "https://alexandretorres.com.br/at-lab/atlab-btn.js",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        }
+      ],
+      "failures": 4
+    },
+    {
+      "file": "atendimento/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        }
+      ],
+      "failures": 1
+    },
+    {
+      "file": "blog/escolhendo-quem-vai-criar-seu-site/index.html",
+      "canonical_base": "https://alexandretorres.com.br/blog/web-design-serra-es/",
+      "links": [
+        {
+          "raw": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/blog/web-design-serra-es/",
+          "url": "https://alexandretorres.com.br/blog/web-design-serra-es/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/assets/img/favicon-ouro.svg",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro.svg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-32x32.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-32x32.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-128x128.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-128x128.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-512x512.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-512x512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/serralheria-de-precisao-estruturas-metalicas/",
+          "url": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        }
+      ],
+      "failures": 2
+    },
+    {
+      "file": "blog/index.html",
+      "canonical_base": "https://alexandretorres.com.br/blog/",
+      "links": [
+        {
+          "raw": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/assets/img/favicon-ouro.svg",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro.svg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-32x32.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-32x32.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-128x128.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-128x128.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-512x512.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-512x512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/escolhendo-quem-vai-criar-seu-site/",
+          "url": "https://alexandretorres.com.br/blog/escolhendo-quem-vai-criar-seu-site/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/serralheria-de-precisao-estruturas-metalicas/",
+          "url": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        }
+      ],
+      "failures": 3
+    },
+    {
+      "file": "blog/serralheria-de-precisao-estruturas-metalicas/index.html",
+      "canonical_base": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/",
+      "links": [
+        {
+          "raw": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/",
+          "url": "https://alexandretorres.com.br/blog/serralheria-de-precisao-estruturas-metalicas/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/assets/img/favicon-ouro.svg",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro.svg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-32x32.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-32x32.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-128x128.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-128x128.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-512x512.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-512x512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        }
+      ],
+      "failures": 1
+    },
+    {
+      "file": "docform/app.html",
+      "canonical_base": "https://alexandretorres.com.br/docform/",
+      "links": [
+        {
+          "raw": "manifest.json",
+          "url": "https://alexandretorres.com.br/docform/manifest.json",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "assets/img/icon-192.png",
+          "url": "https://alexandretorres.com.br/docform/assets/img/icon-192.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://assets/img/icon-512.png",
+          "url": "https://assets/img/icon-512.png",
+          "status": "ERR",
+          "error": "fetch failed",
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "assets/img/favicon.png",
+          "url": "https://alexandretorres.com.br/docform/assets/img/favicon.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital",
+          "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital",
+          "status": 400,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "wght@0",
+          "url": "https://alexandretorres.com.br/docform/wght@0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "400;0",
+          "url": "https://alexandretorres.com.br/docform/400;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "500;0",
+          "url": "https://alexandretorres.com.br/docform/500;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "600;0",
+          "url": "https://alexandretorres.com.br/docform/600;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "700;1",
+          "url": "https://alexandretorres.com.br/docform/700;1",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap",
+          "url": "https://alexandretorres.com.br/docform/400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "styles.css",
+          "url": "https://alexandretorres.com.br/docform/styles.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://unpkg.com/docx@8.5.0/build/index.umd.js",
+          "url": "https://unpkg.com/docx@8.5.0/build/index.umd.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "script.js",
+          "url": "https://alexandretorres.com.br/docform/script.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        }
+      ],
+      "failures": 11
+    },
+    {
+      "file": "docform/img/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "docform/index.html",
+      "canonical_base": "https://alexandretorres.com.br/docform/",
+      "links": [
+        {
+          "raw": "manifest.json",
+          "url": "https://alexandretorres.com.br/docform/manifest.json",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "assets/img/icon-192.png",
+          "url": "https://alexandretorres.com.br/docform/assets/img/icon-192.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "assets/img/icon-512.png",
+          "url": "https://alexandretorres.com.br/docform/assets/img/icon-512.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "assets/img/favicon.png",
+          "url": "https://alexandretorres.com.br/docform/assets/img/favicon.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "assets/css/styles.css",
+          "url": "https://alexandretorres.com.br/docform/assets/css/styles.css",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "assets/js/script.js",
+          "url": "https://alexandretorres.com.br/docform/assets/js/script.js",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "./index.html",
+          "url": "https://alexandretorres.com.br/docform/index.html",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/docform/app.html",
+          "url": "https://alexandretorres.com.br/docform/app.html",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://instagram.com/aletordev/",
+          "url": "https://instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://linkedin.com/in/aletordev/",
+          "url": "https://linkedin.com/in/aletordev/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://instagram.com/aletordev",
+          "url": "https://instagram.com/aletordev",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
+          "ok": true,
+          "internal": false
+        }
+      ],
+      "failures": 7
+    },
+    {
+      "file": "dossie-da-conversao/index.html",
+      "canonical_base": "https://alexandretorres.com.br/dossie-da-conversao/",
+      "links": [
+        {
+          "raw": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Fraunces:ital",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:ital",
+          "status": 400,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "opsz",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/opsz",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "wght@0",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/wght@0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "9..144",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/9..144",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "400;0",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/400;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "600;0",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/600;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "700;1",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/700;1",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://pay.hotmart.com/V107498215T?off=mp3u25cf",
+          "url": "https://pay.hotmart.com/V107498215T?off=mp3u25cf",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev",
+          "url": "https://www.instagram.com/aletordev",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
+          "ok": true,
+          "internal": false
+        }
+      ],
+      "failures": 11
+    },
+    {
+      "file": "faq/index.html",
+      "canonical_base": "https://alexandretorres.com.br/faq/",
+      "links": [
+        {
+          "raw": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/assets/img/favicon-ouro.svg",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro.svg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-32x32.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-32x32.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-128x128.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-128x128.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-180x180.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-180x180.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        }
+      ],
+      "failures": 4
+    },
+    {
+      "file": "googlee674cc1f58022358.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "googleed5001826de4f4e0.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [
+        {
+          "raw": "/assets/js/analytics.js",
+          "url": "https://alexandretorres.com.br/assets/js/analytics.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/poppins-regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/poppins-regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/logo-alexandre-torres-web.webp",
+          "url": "https://alexandretorres.com.br/assets/img/logo-alexandre-torres-web.webp",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro.svg",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro.svg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-16x16.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-16x16.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-32x32.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-32x32.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-64x64.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-64x64.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-128x128.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-128x128.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-256x256.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-256x256.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-512x512.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-512x512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/01-root.css",
+          "url": "https://alexandretorres.com.br/assets/css/01-root.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/02-reset.css",
+          "url": "https://alexandretorres.com.br/assets/css/02-reset.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/03-base.css",
+          "url": "https://alexandretorres.com.br/assets/css/03-base.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/04-layout.css",
+          "url": "https://alexandretorres.com.br/assets/css/04-layout.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/05-components.css",
+          "url": "https://alexandretorres.com.br/assets/css/05-components.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/06-sections.css",
+          "url": "https://alexandretorres.com.br/assets/css/06-sections.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/07-utilities.css",
+          "url": "https://alexandretorres.com.br/assets/css/07-utilities.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/08-responsive.css",
+          "url": "https://alexandretorres.com.br/assets/css/08-responsive.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/09-accessibility.css",
+          "url": "https://alexandretorres.com.br/assets/css/09-accessibility.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/10-a11y-widget.css",
+          "url": "https://alexandretorres.com.br/assets/css/10-a11y-widget.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/css/11-mobile-nav.css",
+          "url": "https://alexandretorres.com.br/assets/css/11-mobile-nav.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.googletagmanager.com/ns.html?id=GTM-WWHT6VJF",
+          "url": "https://www.googletagmanager.com/ns.html?id=GTM-WWHT6VJF",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/atendimento",
+          "url": "https://alexandretorres.com.br/atendimento",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://alexandretorres.com.br/atendimento/",
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/img/youlis-alexandre-torres-portfoliot.jpg",
+          "url": "https://alexandretorres.com.br/assets/img/youlis-alexandre-torres-portfoliot.jpg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/img/voicelabs-alexandre-torres-portfolio.jpg",
+          "url": "https://alexandretorres.com.br/assets/img/voicelabs-alexandre-torres-portfolio.jpg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/voicelab",
+          "url": "https://alexandretorres.com.br/voicelab",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://alexandretorres.com.br/voicelab/",
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://aletoapp.github.io/voicelab/",
+          "url": "https://aletoapp.github.io/voicelab/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/img/docformalexandre-torres-portfolio.jpg",
+          "url": "https://alexandretorres.com.br/assets/img/docformalexandre-torres-portfolio.jpg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://aletoapp.github.io/docform/",
+          "url": "https://aletoapp.github.io/docform/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/shorts/4zdPr3ByZTY",
+          "url": "https://www.youtube.com/shorts/4zdPr3ByZTY",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://maps.app.goo.gl/TKRtwjwJ2EizZGwo9",
+          "url": "https://maps.app.goo.gl/TKRtwjwJ2EizZGwo9",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUM4NjhMaEhREAE!2m1!1s0x0:0x25e88553df2e066a!3m1!1s2@1:CIHM0ogKEICAgIC868LhHQ%7C%7C?entry=tts&g_ep=EgoyMDI2MDkwNi4wIPu8ASoASAFQAw%3D%3D&skid=e6999651-65ec-404d-a299-711c236179fe",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://maps.app.goo.gl/GBDhncx9N1w4pHy7A",
+          "url": "https://maps.app.goo.gl/GBDhncx9N1w4pHy7A",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUM4bDlMWkpREAE!2m1!1s0x0:0x25e88553df2e066a!3m1!1s2@1:CIHM0ogKEICAgIC8l9LZJQ%7C%7C?entry=tts&g_ep=EgoyMDI2MDkwNi4wIPu8ASoASAFQAw%3D%3D&skid=49fcd499-9baa-4806-b4d0-0cb285cd920d",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://maps.app.goo.gl/WTE5GYyu7UQmAu1K8",
+          "url": "https://maps.app.goo.gl/WTE5GYyu7UQmAu1K8",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUQxZzRqQ01BEAE!2m1!1s0x0:0x25e88553df2e066a!3m1!1s2@1:CIHM0ogKEICAgID1g4jCMA%7C%7C?entry=tts&g_ep=EgoyMDI2MDkwNi4wIPu8ASoASAFQAw%3D%3D&skid=f17e0250-3f8b-4671-aa4c-81353bc78a9e",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://maps.app.goo.gl/x63pxgDprHxqvDeB6",
+          "url": "https://maps.app.goo.gl/x63pxgDprHxqvDeB6",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUQxMzVPSTZnRRAB!2m1!1s0x0:0x25e88553df2e066a!3m1!1s2@1:CIHM0ogKEICAgID135OI6gE%7C%7C?entry=tts&g_ep=EgoyMDI2MDkwNi4wIPu8ASoASAFQAw%3D%3D&skid=9d1905c3-30eb-4f01-9fec-5ec485b7d53a",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://maps.app.goo.gl/siqEe38YagNcLPqf6",
+          "url": "https://maps.app.goo.gl/siqEe38YagNcLPqf6",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUQxbjdteUhREAE!2m1!1s0x0:0x25e88553df2e066a!3m1!1s2@1:CIHM0ogKEICAgID1n7myHQ%7C%7C?entry=tts&g_ep=EgoyMDI2MDkwNi4wIPu8ASoASAFQAw%3D%3D&skid=959e32eb-95d7-493c-90da-16426516bc36",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://maps.app.goo.gl/ifqHvZ7VpVGtk1wa9",
+          "url": "https://maps.app.goo.gl/ifqHvZ7VpVGtk1wa9",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUREOTh2YzZRRRAB!2m1!1s0x0:0x25e88553df2e066a!3m1!1s2@1:CIHM0ogKEICAgIDD98vc6QE%7C%7C?entry=tts&g_ep=EgoyMDI2MDkwNi4wIPu8ASoASAFQAw%3D%3D&skid=334446c6-54e1-4280-a545-738c9d3c6029",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "privacidade",
+          "url": "https://alexandretorres.com.br/privacidade",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev",
+          "url": "https://www.instagram.com/aletordev",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev",
+          "url": "https://www.linkedin.com/in/aletordev",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "/assets/js/script.js",
+          "url": "https://alexandretorres.com.br/assets/js/script.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/js/font-control.js",
+          "url": "https://alexandretorres.com.br/assets/js/font-control.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/js/a11y-widget.js",
+          "url": "https://alexandretorres.com.br/assets/js/a11y-widget.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/js/mobile-nav.js",
+          "url": "https://alexandretorres.com.br/assets/js/mobile-nav.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/js/i18n.js",
+          "url": "https://alexandretorres.com.br/assets/js/i18n.js",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        }
+      ],
+      "failures": 4
+    },
+    {
+      "file": "posicionamento/index.html",
+      "canonical_base": "https://alexandretorres.com.br/posicionamento/",
+      "links": [
+        {
+          "raw": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-6N2WJ5YKW9",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro.svg",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro.svg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-32x32.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-32x32.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-128x128.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-128x128.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/favicon-ouro-180x180.png",
+          "url": "https://alexandretorres.com.br/assets/img/favicon-ouro-180x180.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/alexandre-perfil.avif",
+          "url": "https://alexandretorres.com.br/assets/img/alexandre-perfil.avif",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/alexandre-perfil.webp",
+          "url": "https://alexandretorres.com.br/assets/img/alexandre-perfil.webp",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/assets/img/alexandre-perfil.jpg",
+          "url": "https://alexandretorres.com.br/assets/img/alexandre-perfil.jpg",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        }
+      ],
+      "failures": 4
+    },
+    {
+      "file": "privacidade/index.html",
+      "canonical_base": "https://alexandretorres.com.br/privacidade",
+      "links": [
+        {
+          "raw": "assets/fonts/subset-PlayfairDisplay-Black.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Black.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-PlayfairDisplay-Bold.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMSans-9ptRegular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "assets/fonts/subset-DMMono-Regular.woff2",
+          "url": "https://alexandretorres.com.br/assets/fonts/subset-DMMono-Regular.woff2",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "assets/css/styles.css",
+          "url": "https://alexandretorres.com.br/assets/css/styles.css",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "assets/img/logo-limiar-512x512.png",
+          "url": "https://alexandretorres.com.br/assets/img/logo-limiar-512x512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/privacidade",
+          "url": "https://alexandretorres.com.br/privacidade",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://wa.me/5527996252050",
+          "url": "https://wa.me/5527996252050",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://api.whatsapp.com/send/?phone=5527996252050&text&type=phone_number&app_absent=0",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/alexandretorresaletor",
+          "url": "https://www.linkedin.com/in/alexandretorresaletor",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://instagram.com/aletordev",
+          "url": "https://instagram.com/aletordev",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
+          "ok": true,
+          "internal": false
+        }
+      ],
+      "failures": 1
+    },
+    {
+      "file": "privacidade.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "voicelab/app.html",
+      "canonical_base": "https://startup-ldt.com.br/voicelab/",
+      "links": [
+        {
+          "raw": "manifest.json",
+          "url": "https://startup-ldt.com.br/voicelab/manifest.json",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "img/icon-180.png",
+          "url": "https://startup-ldt.com.br/voicelab/img/icon-180.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "img/icon-512.png",
+          "url": "https://startup-ldt.com.br/voicelab/img/icon-512.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "img/icon-192.png",
+          "url": "https://startup-ldt.com.br/voicelab/img/icon-192.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "img/favicon-48.png",
+          "url": "https://startup-ldt.com.br/voicelab/img/favicon-48.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "img/favicon-32.png",
+          "url": "https://startup-ldt.com.br/voicelab/img/favicon-32.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "img/favicon-16.png",
+          "url": "https://startup-ldt.com.br/voicelab/img/favicon-16.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://startup-ldt.com.br/voicelab/",
+          "url": "https://startup-ldt.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "style.css",
+          "url": "https://startup-ldt.com.br/voicelab/style.css",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://g.page/r/CWoGLt9TheglEAE/review",
+          "url": "https://g.page/r/CWoGLt9TheglEAE/review",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://search.google.com/local/writereview?placeid=ChIJpzhfzS0ZuAARagYu31OF6CU&source=g.page.m._&laa=merchant-review-solicitation",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://alexandretorres.com.br/atendimento",
+          "url": "https://alexandretorres.com.br/atendimento",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://alexandretorres.com.br/atendimento/",
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "script.js",
+          "url": "https://startup-ldt.com.br/voicelab/script.js",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        }
+      ],
+      "failures": 11
+    },
+    {
+      "file": "voicelab/img/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "voicelab/index.html",
+      "canonical_base": "https://alexandretorres.com.br/voicelab/",
+      "links": [
+        {
+          "raw": "manifest.json",
+          "url": "https://alexandretorres.com.br/voicelab/manifest.json",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "img/icon-180.png",
+          "url": "https://alexandretorres.com.br/voicelab/img/icon-180.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "img/icon-512.png",
+          "url": "https://alexandretorres.com.br/voicelab/img/icon-512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "img/icon-192.png",
+          "url": "https://alexandretorres.com.br/voicelab/img/icon-192.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "img/favicon-32.png",
+          "url": "https://alexandretorres.com.br/voicelab/img/favicon-32.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital",
+          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital",
+          "status": 400,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "wght@0",
+          "url": "https://alexandretorres.com.br/voicelab/wght@0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "400;0",
+          "url": "https://alexandretorres.com.br/voicelab/400;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "600;0",
+          "url": "https://alexandretorres.com.br/voicelab/600;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "700;0",
+          "url": "https://alexandretorres.com.br/voicelab/700;0",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "900;1",
+          "url": "https://alexandretorres.com.br/voicelab/900;1",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "400;1",
+          "url": "https://alexandretorres.com.br/voicelab/400;1",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap",
+          "url": "https://alexandretorres.com.br/voicelab/600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/voicelab/app.html",
+          "url": "https://alexandretorres.com.br/voicelab/app.html",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.youtube.com/embed/SEU_ID_AQUI?autoplay=1&rel=0",
+          "url": "https://www.youtube.com/embed/SEU_ID_AQUI?autoplay=1&rel=0",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://instagram.com/aletordev",
+          "url": "https://instagram.com/aletordev",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1",
+          "url": "https://www.youtube.com/embed/$%7BYOUTUBE_VIDEO_ID%7D?autoplay=1&rel=0&modestbranding=1",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1",
+          "url": "https://www.youtube.com/embed/$%7BYOUTUBE_VIDEO_ID%7D?rel=0&modestbranding=1",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        }
+      ],
+      "failures": 10
+    },
+    {
+      "file": "youlist/img/index.html",
+      "canonical_base": "https://alexandretorres.com.br/",
+      "links": [],
+      "failures": 0
+    },
+    {
+      "file": "youlist/index.html",
+      "canonical_base": "https://alexandretorres.com.br/youlist/",
+      "links": [
+        {
+          "raw": "https://alexandretorres.com.br/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "manifest.json",
+          "url": "https://alexandretorres.com.br/youlist/manifest.json",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/img/logo-limiar-512x512.png",
+          "url": "https://alexandretorres.com.br/assets/img/logo-limiar-512x512.png",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br/assets/img/icon-192.png",
+          "url": "https://alexandretorres.com.br/assets/img/icon-192.png",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": true
+        },
+        {
+          "raw": "https://fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/posicionamento/",
+          "url": "https://alexandretorres.com.br/posicionamento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/at-lab/",
+          "url": "https://alexandretorres.com.br/at-lab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/youlist/",
+          "url": "https://alexandretorres.com.br/youlist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/docform/",
+          "url": "https://alexandretorres.com.br/docform/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/voicelab/",
+          "url": "https://alexandretorres.com.br/voicelab/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/dossie-da-conversao/",
+          "url": "https://alexandretorres.com.br/dossie-da-conversao/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/blog/",
+          "url": "https://alexandretorres.com.br/blog/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "/faq/",
+          "url": "https://alexandretorres.com.br/faq/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://www.linkedin.com/in/aletordev/",
+          "url": "https://www.linkedin.com/in/aletordev/",
+          "status": 999,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://www.instagram.com/aletordev/",
+          "url": "https://www.instagram.com/aletordev/",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev%2F&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://www.youtube.com/@aletordev",
+          "url": "https://www.youtube.com/@aletordev",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "/atendimento/",
+          "url": "https://alexandretorres.com.br/atendimento/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://alexandretorres.com.br",
+          "url": "https://alexandretorres.com.br/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": true
+        },
+        {
+          "raw": "https://github.com/aletoapp/ilist",
+          "url": "https://github.com/aletoapp/ilist",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://aletoapp.github.io/ilist/",
+          "url": "https://aletoapp.github.io/ilist/",
+          "status": 404,
+          "redirected": false,
+          "ok": false,
+          "internal": false
+        },
+        {
+          "raw": "https://instagram.com/aletordev",
+          "url": "https://instagram.com/aletordev",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletordev&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://startup-ldt.com.br/ilist/",
+          "url": "https://startup-ldt.com.br/ilist/",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://instagram.com/aletor.app",
+          "url": "https://instagram.com/aletor.app",
+          "status": 200,
+          "redirected": true,
+          "finalUrl": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Faletor.app&is_from_rle",
+          "ok": true,
+          "internal": false
+        },
+        {
+          "raw": "https://github.com/aletoapp",
+          "url": "https://github.com/aletoapp",
+          "status": 200,
+          "redirected": false,
+          "ok": true,
+          "internal": false
+        }
+      ],
+      "failures": 7
+    }
+  ]
+}
