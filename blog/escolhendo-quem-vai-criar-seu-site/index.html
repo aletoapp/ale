@@ -174,7 +174,7 @@ html[data-theme="light"]{--bg:#faf8f3;--surface:rgba(30,22,8,0.035);--border:rgb
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.7;padding-top:104px;transition:background-color .35s ease,color .35s ease}
-.mini-chart,.faq-block,.faq-item,article,.breadcrumb,hr.section-rule,.page-footer{transition:background-color .35s ease,color .35s ease,border-color .35s ease}
+.chart-card,.faq-block,.faq-item,article,.breadcrumb,hr.section-rule,.page-footer{transition:background-color .35s ease,color .35s ease,border-color .35s ease}
 a{color:inherit}
 em{color:var(--gold);font-style:italic}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -265,19 +265,71 @@ hr.section-rule{border:none;border-top:1px solid var(--border-soft);margin:44px 
 .faq-item h3{margin:0 0 8px;color:var(--gold);font-size:16px}
 .faq-item p{margin:0;font-size:15px}
 
-/* ── Mini-gráficos ilustrativos (traço fino) ── */
-.mini-chart{margin:36px 0;padding:22px 24px 20px;border:1px solid var(--border-soft);border-radius:12px;background:var(--surface)}
-.mini-chart-title{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.mini-chart svg{display:block;width:100%;height:auto;overflow:visible}
-.mini-chart .mc-shape{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
-.mini-chart .mc-shape-muted{fill:none;stroke:var(--ink-3);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
-.mini-chart .mc-dashed{stroke-dasharray:4 5}
-.mini-chart .mc-axis{stroke:var(--border);stroke-width:1}
-.mini-chart .mc-dot{fill:var(--gold)}
-.mini-chart text{font-family:'DM Mono',monospace;font-size:9.5px;fill:var(--ink-3);letter-spacing:.02em}
-.mini-chart .mc-text-strong{fill:var(--ink-2)}
-.mini-chart-caption{font-size:12.5px;color:var(--ink-3);margin-top:14px;line-height:1.55}
-@media(max-width:640px){.mini-chart{padding:18px 16px}.mini-chart text{font-size:8.6px}}
+/* ── Gráficos técnicos (SVG de verdade + camada de rótulos HTML) ──
+   O desenho (círculos, barras, curva, radar) é SVG vetorial animado.
+   Os rótulos ficam em HTML sobreposto, com fonte fixa — por isso
+   não encolhem a nada no mobile. Cards flutuam a ~47% no desktop,
+   entre os parágrafos; empilham no mobile. ── */
+article h2{clear:both}
+hr.section-rule{clear:both}
+.chart-card{
+  position:relative;margin:8px 0 30px;padding:22px 22px 20px;
+  border:1px solid var(--border-soft);border-radius:12px;background:var(--surface);
+  overflow:hidden;
+}
+.chart-card::after{
+  content:'';position:absolute;top:0;left:-25%;width:25%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:cc-sweep 3.4s linear infinite;opacity:.8;
+}
+@keyframes cc-sweep{to{left:125%}}
+@media(min-width:900px){
+  .chart-card{width:47%;}
+  .chart-card--right{float:right;margin:6px 0 22px 32px;}
+  .chart-card--left{float:left;margin:6px 32px 22px 0;}
+}
+.chart-eyebrow{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.chart-eyebrow .dot{width:6px;height:6px;flex-shrink:0;border-radius:50%;background:var(--gold);animation:cc-dot-pulse 2.2s ease-out infinite}
+@keyframes cc-dot-pulse{0%{box-shadow:0 0 0 0 rgba(200,169,110,.55)}70%{box-shadow:0 0 0 9px rgba(200,169,110,0)}100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}}
+.chart-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16.5px;color:var(--ink);line-height:1.35;margin-bottom:14px}
+
+/* palco: svg + rótulos html sobrepostos, sempre em tamanho fixo legível */
+.chart-stage{position:relative;width:100%}
+.chart-stage svg{display:block;width:100%;height:auto;overflow:visible}
+.chart-tag{position:absolute;transform:translate(-50%,-50%);font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;line-height:1.3;text-align:center}
+.chart-tag b{display:block;color:var(--gold);font-weight:700}
+.chart-tag.muted{color:var(--ink-3)}
+.chart-tag.sm{font-size:10px}
+.chart-badge{position:absolute;transform:translate(-50%,-50%);text-align:center;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--ink);padding:8px 12px;border:1px solid var(--border);border-radius:20px;background:var(--gold-dim);animation:cc-badge-pulse 2.6s ease-in-out infinite;white-space:nowrap}
+@keyframes cc-badge-pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.4)}50%{box-shadow:0 0 0 10px rgba(200,169,110,0)}}
+.chart-note{font-size:13px;color:var(--ink-2);line-height:1.55;margin-top:14px}
+.chart-caption{font-size:12.5px;color:var(--ink-3);margin-top:12px;line-height:1.55}
+
+/* elementos SVG animados reutilizáveis */
+.cs-fade-in{animation:cc-fade-in 1s ease-out both}
+@keyframes cc-fade-in{from{opacity:0}to{opacity:1}}
+.cs-ring{animation:cc-ring-pulse 3s ease-in-out infinite}
+.cs-ring:nth-of-type(2){animation-delay:.5s}
+.cs-ring:nth-of-type(3){animation-delay:1s}
+@keyframes cc-ring-pulse{0%,100%{stroke-opacity:.85}50%{stroke-opacity:.3}}
+.cs-bar{transform-origin:left center;animation:cc-bar-grow 1.2s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cc-bar-grow{from{transform:scaleX(0)}}
+.cs-dash{stroke-dasharray:5 6;animation:cc-dash-flow 1.4s linear infinite}
+@keyframes cc-dash-flow{to{stroke-dashoffset:-22}}
+.cs-draw{stroke-dasharray:600;stroke-dashoffset:600;animation:cc-draw 1.8s ease-out forwards}
+@keyframes cc-draw{to{stroke-dashoffset:0}}
+.cs-sonar{transform-box:fill-box;transform-origin:center;animation:cc-sonar 2.2s ease-out infinite}
+@keyframes cc-sonar{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.cs-vertex{transform-box:fill-box;transform-origin:center;animation:cc-vertex 2.4s ease-in-out infinite}
+.cs-vertex:nth-of-type(1){animation-delay:0s}.cs-vertex:nth-of-type(2){animation-delay:.15s}
+.cs-vertex:nth-of-type(3){animation-delay:.3s}.cs-vertex:nth-of-type(4){animation-delay:.45s}
+.cs-vertex:nth-of-type(5){animation-delay:.6s}.cs-vertex:nth-of-type(6){animation-delay:.75s}
+@keyframes cc-vertex{0%,100%{opacity:.55;r:2.4}50%{opacity:1;r:4}}
+
+@media(prefers-reduced-motion:reduce){.chart-card *{animation:none!important}}
+@media(max-width:899px){.chart-card{width:100%;float:none;margin:30px 0}}
+@media(max-width:480px){.chart-tag{font-size:10.5px}}
+
 
 /* ── Rodapé ── */
 .page-footer{text-align:center;padding:40px 24px 60px;border-top:1px solid var(--border-soft)}
@@ -375,40 +427,70 @@ hr.section-rule{border:none;border-top:1px solid var(--border-soft);margin:44px 
   <h2>O que muda quando o site é construído por quem entende de engenharia web</h2>
   <p>Design bonito é necessário, mas é a parte visível de um projeto. O que decide se o site converte e se ele aparece nas buscas é o que fica por trás:</p>
 
-  <div class="mini-chart">
-    <p class="mini-chart-title">Os 3 pilares que decidem se o site funciona</p>
-    <svg viewBox="0 0 460 210" role="img" aria-labelledby="mc-pilares-t mc-pilares-d">
-      <title id="mc-pilares-t">Três círculos sobrepostos</title>
-      <desc id="mc-pilares-d">Diagrama ilustrativo com três círculos sobrepostos — Design, Performance e SEO técnico — convergindo no centro para "site que converte".</desc>
-      <circle class="mc-shape" cx="175" cy="85" r="62" style="opacity:1"/>
-      <circle class="mc-shape" cx="235" cy="85" r="62" style="opacity:.55"/>
-      <circle class="mc-shape" cx="205" cy="135" r="62" style="opacity:.3"/>
-      <text x="128" y="35" class="mc-text-strong">DESIGN</text>
-      <text x="262" y="35">PERFORMANCE</text>
-      <text x="185" y="200">SEO TÉCNICO</text>
-      <text x="205" y="98" text-anchor="middle" class="mc-text-strong" style="font-size:8.8px">SITE QUE<tspan x="205" dy="11">CONVERTE</tspan></text>
-    </svg>
-    <p class="mini-chart-caption">Design é só um dos três pilares — sem performance e SEO técnico junto dele, o resultado não se sustenta.</p>
+  <div class="chart-card chart-card--right">
+    <p class="chart-eyebrow"><span class="dot"></span>Anatomia técnica do projeto</p>
+    <p class="chart-title">Os 3 pilares que decidem se o site funciona</p>
+    <div class="chart-stage" style="aspect-ratio:320/220">
+      <svg viewBox="0 0 320 220" role="img" aria-labelledby="c1-t c1-d">
+        <title id="c1-t">Três círculos sobrepostos</title>
+        <desc id="c1-d">Diagrama de Venn com três círculos — Design, Performance e SEO técnico — convergindo no centro para "site que converte".</desc>
+        <defs>
+          <radialGradient id="g1a" cx="40%" cy="35%" r="70%"><stop offset="0%" stop-color="var(--gold)" stop-opacity=".38"/><stop offset="100%" stop-color="var(--gold)" stop-opacity="0"/></radialGradient>
+          <filter id="glow1" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <circle class="cs-ring" cx="120" cy="100" r="66" fill="url(#g1a)" stroke="var(--gold)" stroke-width="1.4" filter="url(#glow1)"/>
+        <circle class="cs-ring" cx="200" cy="100" r="66" fill="url(#g1a)" stroke="var(--gold)" stroke-width="1.4" filter="url(#glow1)" style="opacity:.85"/>
+        <circle class="cs-ring" cx="160" cy="148" r="66" fill="url(#g1a)" stroke="var(--gold)" stroke-width="1.4" filter="url(#glow1)" style="opacity:.7"/>
+        <circle class="cs-sonar" cx="160" cy="120" r="5" fill="var(--gold)"/>
+        <circle cx="160" cy="120" r="3.2" fill="var(--gold)" filter="url(#glow1)"/>
+      </svg>
+      <span class="chart-tag" style="left:20%;top:14%"><b>DESIGN</b>layout &amp; UX</span>
+      <span class="chart-tag" style="left:80%;top:14%"><b>PERFORMANCE</b>LCP · CLS · INP</span>
+      <span class="chart-tag" style="left:50%;top:92%"><b>SEO TÉCNICO</b>schema · indexação</span>
+      <span class="chart-badge" style="left:50%;top:55%">SITE QUE CONVERTE</span>
+    </div>
+    <p class="chart-note">Os três círculos se sobrepõem de propósito: um site só converte de verdade onde design, performance e SEO técnico atuam juntos — não isoladamente.</p>
+    <p class="chart-caption">Design é só um dos três pilares — sem performance e SEO técnico junto dele, o resultado não se sustenta.</p>
   </div>
 
   <p><strong>Performance real, não prometida.</strong> Um site rápido não é "otimizamos as imagens" — é medir LCP, CLS e INP com dados reais de carregamento, eliminar JavaScript bloqueante, servir fontes de forma inteligente e hospedar em uma infraestrutura de borda (CDN) que entrega o conteúdo perto do visitante. Isso se mede, não se afirma.</p>
 
-  <div class="mini-chart">
-    <p class="mini-chart-title">O que "rápido" significa de verdade</p>
-    <svg viewBox="0 0 460 165" role="img" aria-labelledby="mc-lcp-t mc-lcp-d">
-      <title id="mc-lcp-t">Comparação de tempo de carregamento (LCP)</title>
-      <desc id="mc-lcp-d">Gráfico ilustrativo de barras horizontais comparando o LCP típico de um template genérico (por volta de 4,8s) com o de um código próprio otimizado (por volta de 1,8s), com uma linha tracejada marcando o limite público de "bom" do Google em 2,5s.</desc>
-      <line class="mc-axis" x1="60" y1="20" x2="60" y2="140"/>
-      <line class="mc-axis" x1="60" y1="140" x2="420" y2="140"/>
-      <line class="mc-shape-muted mc-dashed" x1="210" y1="18" x2="210" y2="140" style="opacity:.6"/>
-      <text x="216" y="14" style="font-size:9px">2.5s · limite "bom" (Google)</text>
-      <rect class="mc-shape-muted" x="60" y="38" width="288" height="22" rx="3"/>
-      <text x="64" y="33" class="mc-text-strong">Template genérico · ~4.8s</text>
-      <rect class="mc-shape" x="60" y="82" width="108" height="22" rx="3"/>
-      <text x="64" y="77" class="mc-text-strong">Código próprio otimizado · ~1.8s</text>
-      <text x="60" y="155">0s</text><text x="118" y="155">1</text><text x="178" y="155">2</text><text x="238" y="155">3</text><text x="298" y="155">4</text><text x="358" y="155">5s</text>
-    </svg>
-    <p class="mini-chart-caption">Valores ilustrativos, com base nos limites públicos de Core Web Vitals — o que importa é medir com dados reais, não afirmar.</p>
+  <div class="chart-card chart-card--left">
+    <p class="chart-eyebrow"><span class="dot"></span>Core Web Vitals · LCP</p>
+    <p class="chart-title">O que "rápido" significa de verdade</p>
+    <div class="chart-stage" style="aspect-ratio:460/195">
+      <svg viewBox="0 0 460 195" role="img" aria-labelledby="c2-t c2-d">
+        <title id="c2-t">Comparação de tempo de carregamento (LCP)</title>
+        <desc id="c2-d">Barras horizontais comparando o LCP típico de um template genérico (~4,8s) com o de um código próprio otimizado (~1,8s), com linha tracejada no limite "bom" de 2,5s do Google.</desc>
+        <defs>
+          <linearGradient id="g2a" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="var(--gold)"/><stop offset="100%" stop-color="#e4c98a"/></linearGradient>
+          <filter id="glow2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <line x1="70" y1="24" x2="70" y2="150" stroke="var(--border)" stroke-width="1"/>
+        <line x1="70" y1="150" x2="430" y2="150" stroke="var(--border)" stroke-width="1"/>
+        <line class="cs-dash" x1="250" y1="18" x2="250" y2="150" stroke="var(--ink-3)" stroke-width="1.2"/>
+        <rect class="cs-bar" x="70" y="44" width="332" height="26" rx="4" fill="var(--ink-3)" opacity=".55"/>
+        <rect class="cs-bar" x="70" y="98" width="124" height="26" rx="4" fill="url(#g2a)" filter="url(#glow2)" style="animation-delay:.15s"/>
+        <circle class="cs-sonar" cx="194" cy="111" r="4" fill="var(--gold)"/>
+        <circle cx="194" cy="111" r="2.6" fill="var(--gold)"/>
+        <g stroke="var(--ink-3)" stroke-width="1">
+          <line x1="70" y1="150" x2="70" y2="155"/><line x1="140" y1="150" x2="140" y2="155"/>
+          <line x1="210" y1="150" x2="210" y2="155"/><line x1="280" y1="150" x2="280" y2="155"/>
+          <line x1="350" y1="150" x2="350" y2="155"/><line x1="420" y1="150" x2="420" y2="155"/>
+        </g>
+      </svg>
+      <span class="chart-tag sm" style="left:15%;top:74%">0s</span>
+      <span class="chart-tag sm" style="left:30%;top:74%">1</span>
+      <span class="chart-tag sm" style="left:46%;top:74%">2</span>
+      <span class="chart-tag sm" style="left:61%;top:74%">3</span>
+      <span class="chart-tag sm" style="left:76%;top:74%">4</span>
+      <span class="chart-tag sm" style="left:91%;top:74%">5s</span>
+      <span class="chart-tag muted" style="left:54%;top:4%">2.5s · limite "bom" (Google)</span>
+      <span class="chart-tag" style="left:63%;top:20%"><b>Template genérico</b>~4.8s de LCP</span>
+      <span class="chart-tag" style="left:42%;top:48%"><b>Código próprio</b>~1.8s de LCP</span>
+    </div>
+    <p class="chart-note">LCP mede o tempo até o maior elemento visível carregar. CLS mede estabilidade visual e INP mede resposta ao toque/clique — as três métricas de Core Web Vitals.</p>
+    <p class="chart-caption">Valores ilustrativos, com base nos limites públicos de Core Web Vitals — o que importa é medir com dados reais, não afirmar.</p>
   </div>
 
   <p><strong>Código próprio, sem dependência de plugin.</strong> Sites construídos em HTML/CSS/JS próprio, com deploy automatizado (CI/CD) direto do repositório de código, têm controle total sobre cada linha que vai para produção — sem plugins de terceiros acumulando peso e vulnerabilidades ao longo do tempo.</p>
@@ -417,23 +499,31 @@ hr.section-rule{border:none;border-top:1px solid var(--border-soft);margin:44px 
 
   <p><strong>Conteúdo pensado para quem pesquisa, não para preencher espaço.</strong> Uma página que existe só para "ranquear para Serra" tende a ser rasa. Uma página que existe para responder de verdade à dúvida de quem está pesquisando — o que está incluso, como funciona o processo, quanto tempo leva, o que perguntar antes de fechar — tende a se manter relevante por muito mais tempo, porque resolve um problema real.</p>
 
-  <div class="mini-chart">
-    <p class="mini-chart-title">Conteúdo raso x conteúdo que resolve um problema real</p>
-    <svg viewBox="0 0 460 190" role="img" aria-labelledby="mc-conteudo-t mc-conteudo-d">
-      <title id="mc-conteudo-t">Relevância orgânica ao longo do tempo</title>
-      <desc id="mc-conteudo-d">Gráfico conceitual, sem valores numéricos: uma curva ascendente representa conteúdo que responde de verdade à dúvida de quem pesquisa, mantendo relevância crescente; uma curva descendente representa uma página rasa, feita só para "ranquear", perdendo relevância com o tempo.</desc>
-      <line class="mc-axis" x1="50" y1="20" x2="50" y2="165"/>
-      <line class="mc-axis" x1="50" y1="165" x2="420" y2="165"/>
-      <path class="mc-shape" d="M55,150 C150,128 260,85 410,38"/>
-      <circle class="mc-dot" cx="410" cy="38" r="3.2"/>
-      <path class="mc-shape-muted mc-dashed" d="M55,120 C150,112 260,140 410,152"/>
-      <circle cx="410" cy="152" r="3" style="fill:var(--ink-3)"/>
-      <text x="315" y="30" class="mc-text-strong">Responde à dúvida real</text>
-      <text x="300" y="168">Só "ranqueia para Serra"</text>
-      <text x="18" y="30" style="font-size:8.6px">relevância</text>
-      <text x="392" y="180" style="font-size:8.6px">tempo</text>
-    </svg>
-    <p class="mini-chart-caption">Curvas conceituais, sem dados reais: ilustram só a diferença de trajetória entre os dois tipos de conteúdo.</p>
+  <div class="chart-card chart-card--right">
+    <p class="chart-eyebrow"><span class="dot"></span>Relevância orgânica no tempo</p>
+    <p class="chart-title">Conteúdo raso x conteúdo que resolve um problema real</p>
+    <div class="chart-stage" style="aspect-ratio:420/200">
+      <svg viewBox="0 0 420 200" role="img" aria-labelledby="c3-t c3-d">
+        <title id="c3-t">Relevância orgânica ao longo do tempo</title>
+        <desc id="c3-d">Gráfico conceitual: uma curva ascendente representa conteúdo que responde de verdade à dúvida de quem pesquisa; uma curva descendente representa uma página rasa, feita só para "ranquear", perdendo relevância com o tempo.</desc>
+        <defs>
+          <filter id="glow3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <line x1="50" y1="22" x2="50" y2="168" stroke="var(--border)" stroke-width="1"/>
+        <line x1="50" y1="168" x2="400" y2="168" stroke="var(--border)" stroke-width="1"/>
+        <path class="cs-draw" d="M55,148 C150,128 260,84 395,36" fill="none" stroke="var(--gold)" stroke-width="2" filter="url(#glow3)"/>
+        <path class="cs-draw" d="M55,118 C150,112 260,140 395,155" fill="none" stroke="var(--ink-3)" stroke-width="1.6" stroke-dasharray="4 5" style="animation-delay:.2s"/>
+        <circle class="cs-sonar" cx="395" cy="36" r="4" fill="var(--gold)"/>
+        <circle cx="395" cy="36" r="2.8" fill="var(--gold)"/>
+        <circle cx="395" cy="155" r="2.6" fill="var(--ink-3)"/>
+      </svg>
+      <span class="chart-tag sm" style="left:8%;top:12%">relevância</span>
+      <span class="chart-tag sm" style="left:92%;top:92%">tempo</span>
+      <span class="chart-tag" style="left:72%;top:8%"><b>Responde à dúvida real ↗</b>cresce com o tempo</span>
+      <span class="chart-tag muted" style="left:70%;top:86%"><b>Só "ranqueia para Serra" ↘</b>perde posição</span>
+    </div>
+    <p class="chart-note">Uma página feita só para "ranquear para Serra" perde força assim que o algoritmo refina a busca por intenção real; conteúdo que responde à dúvida do leitor mantém — e acumula — relevância.</p>
+    <p class="chart-caption">Curvas conceituais, sem dados reais: ilustram só a diferença de trajetória entre os dois tipos de conteúdo.</p>
   </div>
 
   <p class="emphasis-line">Design é a parte que se vê. Performance, código e SEO técnico são a parte que decide se o site funciona.</p>
@@ -442,32 +532,40 @@ hr.section-rule{border:none;border-top:1px solid var(--border-soft);margin:44px 
 
   <h2>Checklist prático antes de contratar</h2>
 
-  <div class="mini-chart">
-    <p class="mini-chart-title">Mapa visual dos 6 pontos do checklist</p>
-    <svg viewBox="0 0 300 225" role="img" aria-labelledby="mc-hex-t mc-hex-d">
-      <title id="mc-hex-t">Hexágono com os 6 pontos do checklist</title>
-      <desc id="mc-hex-d">Diagrama em forma de hexágono com seis eixos, um para cada item do checklist ao lado: endereço coerente, portfólio real, site rápido, hospedagem clara, SEO incluso e sem jargão.</desc>
-      <polygon class="mc-shape-muted" points="150,38 213,74 213,146 150,182 87,146 87,74" style="opacity:.5"/>
-      <line class="mc-axis" x1="150" y1="110" x2="150" y2="38"/>
-      <line class="mc-axis" x1="150" y1="110" x2="213" y2="74"/>
-      <line class="mc-axis" x1="150" y1="110" x2="213" y2="146"/>
-      <line class="mc-axis" x1="150" y1="110" x2="150" y2="182"/>
-      <line class="mc-axis" x1="150" y1="110" x2="87" y2="146"/>
-      <line class="mc-axis" x1="150" y1="110" x2="87" y2="74"/>
-      <circle class="mc-dot" cx="150" cy="38" r="3"/>
-      <circle class="mc-dot" cx="213" cy="74" r="3"/>
-      <circle class="mc-dot" cx="213" cy="146" r="3"/>
-      <circle class="mc-dot" cx="150" cy="182" r="3"/>
-      <circle class="mc-dot" cx="87" cy="146" r="3"/>
-      <circle class="mc-dot" cx="87" cy="74" r="3"/>
-      <text x="150" y="24" text-anchor="middle">Endereço coerente</text>
-      <text x="222" y="70" text-anchor="start">Portfólio real</text>
-      <text x="222" y="150" text-anchor="start">Site rápido</text>
-      <text x="150" y="202" text-anchor="middle">Hospedagem clara</text>
-      <text x="78" y="150" text-anchor="end">SEO incluso</text>
-      <text x="78" y="70" text-anchor="end">Sem jargão</text>
-    </svg>
-    <p class="mini-chart-caption">Os seis eixos do checklist logo abaixo, num só golpe de vista.</p>
+  <div class="chart-card chart-card--left">
+    <p class="chart-eyebrow"><span class="dot"></span>Score técnico · radar de 6 eixos</p>
+    <p class="chart-title">O que separa um projeto sério de uma página feita em série</p>
+    <div class="chart-stage" style="aspect-ratio:300/240">
+      <svg viewBox="0 0 300 240" role="img" aria-labelledby="c4-t c4-d">
+        <title id="c4-t">Radar hexagonal com os 6 pontos do checklist</title>
+        <desc id="c4-d">Diagrama de radar em forma de hexágono com seis eixos, um para cada item do checklist: endereço coerente, portfólio real, site rápido, hospedagem clara, SEO incluso e sem jargão.</desc>
+        <defs>
+          <radialGradient id="g4a" cx="50%" cy="48%" r="60%"><stop offset="0%" stop-color="var(--gold)" stop-opacity=".22"/><stop offset="100%" stop-color="var(--gold)" stop-opacity="0"/></radialGradient>
+        </defs>
+        <polygon points="150,42 209,76 209,144 150,178 91,144 91,76" fill="none" stroke="var(--border)" stroke-width="1"/>
+        <polygon points="150,62 190,84 190,136 150,158 110,136 110,84" fill="none" stroke="var(--border-soft)" stroke-width="1"/>
+        <polygon class="cs-draw" points="150,42 209,76 209,144 150,178 91,144 91,76" fill="url(#g4a)" stroke="var(--gold)" stroke-width="1.6"/>
+        <g stroke="var(--border)" stroke-width="1">
+          <line x1="150" y1="110" x2="150" y2="42"/><line x1="150" y1="110" x2="209" y2="76"/>
+          <line x1="150" y1="110" x2="209" y2="144"/><line x1="150" y1="110" x2="150" y2="178"/>
+          <line x1="150" y1="110" x2="91" y2="144"/><line x1="150" y1="110" x2="91" y2="76"/>
+        </g>
+        <circle class="cs-vertex" cx="150" cy="42" r="3" fill="var(--gold)"/>
+        <circle class="cs-vertex" cx="209" cy="76" r="3" fill="var(--gold)"/>
+        <circle class="cs-vertex" cx="209" cy="144" r="3" fill="var(--gold)"/>
+        <circle class="cs-vertex" cx="150" cy="178" r="3" fill="var(--gold)"/>
+        <circle class="cs-vertex" cx="91" cy="144" r="3" fill="var(--gold)"/>
+        <circle class="cs-vertex" cx="91" cy="76" r="3" fill="var(--gold)"/>
+      </svg>
+      <span class="chart-tag sm" style="left:50%;top:12%">Endereço coerente</span>
+      <span class="chart-tag sm" style="left:86%;top:30%">Portfólio real</span>
+      <span class="chart-tag sm" style="left:86%;top:66%">Site rápido</span>
+      <span class="chart-tag sm" style="left:50%;top:85%">Hospedagem clara</span>
+      <span class="chart-tag sm" style="left:14%;top:66%">SEO incluso</span>
+      <span class="chart-tag sm" style="left:14%;top:30%">Sem jargão</span>
+    </div>
+    <p class="chart-note">Um projeto sério marca presença nos seis eixos ao mesmo tempo. A maioria das páginas feitas em série cobre só 1 ou 2 — normalmente "endereço" e "sem jargão", os mais fáceis de simular.</p>
+    <p class="chart-caption">Cada eixo vira uma pergunta prática na lista abaixo — use as duas coisas juntas antes de fechar contrato.</p>
   </div>
 
   <ul>
