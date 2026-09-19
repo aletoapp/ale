@@ -1,13 +1,15 @@
 /**
- * generate-sitemap.js (VERSÃO APRIMORADA)
+ * generate-sitemap.js (VERSÃO APRIMORADA + PRIORIDADES HIERÁRQUICAS)
  *
  * Gera o sitemap.xml automaticamente com:
  *  - URLs de todos os index.html encontrados no repositório
  *  - <lastmod> baseado na data do último commit Git de cada arquivo (boas práticas Google)
  *  - Formato ISO 8601 com timezone: 2026-03-31T19:31:56+00:00
- *  - <priority> automático (1.0 para raiz, 0.8 para subpáginas)
+ *  - <priority> por REGRAS DE HIERARQUIA (não mais "raiz 1.0 / resto 0.8")
  *  - <changefreq> automático baseado na frequência de commits
- *  - APRIMORADO: Exclui pastas de assets (/img, /images, /assets, etc)
+ *  - Exclui pastas de assets (/img, /images, /assets, etc)
+ *  - Saída do XML ORGANIZADA: ordenada por prioridade (maior → menor) e,
+ *    dentro de cada prioridade, em ordem alfabética de URL
  *
  * Como usar localmente:
  *   node generate-sitemap.js
@@ -50,6 +52,23 @@ const ASSET_FOLDERS = [
   'uploads',
   'static',
 ];
+
+// Regras de PRIORIDADE, testadas nesta ordem (a primeira que bater vence).
+// `rel` é o caminho relativo do arquivo com barras normais, ex: "blog/meu-post/index.html"
+// Ajuste/adicione regras livremente conforme a estrutura do seu site crescer.
+const PRIORITY_RULES = [
+  { label: 'Home',                     test: (rel) => rel === 'index.html',                         priority: '1.0' },
+  { label: 'Institucional/Legal',      test: (rel) => rel.startsWith('privacidade/'),                priority: '0.3' },
+  { label: 'Formulários/Utilitários',  test: (rel) => rel.startsWith('docform/'),                    priority: '0.5' },
+  { label: 'Blog (posts)',             test: (rel) => rel.startsWith('blog/') && rel !== 'blog/index.html', priority: '0.6' },
+  { label: 'Blog (índice)',            test: (rel) => rel === 'blog/index.html',                     priority: '0.7' },
+  { label: 'Conteúdo/Lead magnet',     test: (rel) => rel.startsWith('dossie-da-conversao/'),        priority: '0.7' },
+];
+
+// Prioridade padrão para tudo que não bater em nenhuma regra acima
+// (ex: at-lab, atendimento, posicionamento, faq, voicelab, youlist → páginas principais/produtos)
+const DEFAULT_PRIORITY = '0.9';
+const DEFAULT_LABEL = 'Página principal / produto';
 
 // ============================================================
 
@@ -160,18 +179,22 @@ function fileToUrl(filePath) {
 }
 
 /**
- * Define a prioridade SEO da URL:
- * Raiz (/) = 1.0, subpáginas = 0.8
+ * Define a prioridade SEO da URL a partir das PRIORITY_RULES,
+ * caindo para DEFAULT_PRIORITY se nada bater.
  */
-function getPriority(url) {
-  return url === BASE_URL + '/' ? '1.0' : '0.8';
+function getPriority(relPath) {
+  const normalized = relPath.replace(/\\/g, '/');
+  for (const rule of PRIORITY_RULES) {
+    if (rule.test(normalized)) return { priority: rule.priority, label: rule.label };
+  }
+  return { priority: DEFAULT_PRIORITY, label: DEFAULT_LABEL };
 }
 
 // ============================================================
 // EXECUÇÃO
 // ============================================================
 
-console.log('🗺️  Gerando sitemap.xml (versão aprimorada)...\n');
+console.log('🗺️  Gerando sitemap.xml (prioridades hierárquicas)...\n');
 
 const root = process.cwd();
 const indexFiles = findIndexFiles(root);
@@ -181,36 +204,39 @@ if (indexFiles.length === 0) {
   process.exit(0);
 }
 
-// Ordena: raiz primeiro, depois alfabético
-indexFiles.sort((a, b) => {
-  const aRel = path.relative(root, a);
-  const bRel = path.relative(root, b);
-  if (aRel === 'index.html') return -1;
-  if (bRel === 'index.html') return 1;
-  return aRel.localeCompare(bRel);
-});
-
-const urlEntries = indexFiles.map((filePath) => {
-  const rel = path.relative(root, filePath);
+// Monta os dados de cada URL primeiro (sem ordenar ainda)
+const entries = indexFiles.map((filePath) => {
+  const rel = path.relative(root, filePath).replace(/\\/g, '/');
   const url = fileToUrl(rel);
   const lastmod = getGitLastmod(rel);
   const changefreq = getChangeFreq(rel);
-  const priority = getPriority(url);
+  const { priority, label } = getPriority(rel);
 
-  console.log(`✓ ${url}`);
-  console.log(`  lastmod:    ${lastmod}`);
-  console.log(`  changefreq: ${changefreq}`);
-  console.log(`  priority:   ${priority}\n`);
-
-  return [
-    '  <url>',
-    `    <loc>${url}</loc>`,
-    `    <lastmod>${lastmod}</lastmod>`,
-    `    <changefreq>${changefreq}</changefreq>`,
-    `    <priority>${priority}</priority>`,
-    '  </url>',
-  ].join('\n');
+  return { rel, url, lastmod, changefreq, priority, label };
 });
+
+// ORGANIZAÇÃO: ordena por prioridade (maior → menor) e,
+// dentro da mesma prioridade, por ordem alfabética de URL
+entries.sort((a, b) => {
+  const diff = parseFloat(b.priority) - parseFloat(a.priority);
+  if (diff !== 0) return diff;
+  return a.url.localeCompare(b.url);
+});
+
+entries.forEach((e) => {
+  console.log(`✓ [${e.priority}] ${e.url}  (${e.label})`);
+  console.log(`  lastmod:    ${e.lastmod}`);
+  console.log(`  changefreq: ${e.changefreq}\n`);
+});
+
+const urlEntries = entries.map((e) => [
+  '  <url>',
+  `    <loc>${e.url}</loc>`,
+  `    <lastmod>${e.lastmod}</lastmod>`,
+  `    <changefreq>${e.changefreq}</changefreq>`,
+  `    <priority>${e.priority}</priority>`,
+  '  </url>',
+].join('\n'));
 
 const sitemap = [
   '<?xml version="1.0" encoding="UTF-8"?>',
@@ -222,5 +248,5 @@ const sitemap = [
 
 fs.writeFileSync(path.join(root, 'sitemap.xml'), sitemap, 'utf8');
 
-console.log(`✅ sitemap.xml gerado com ${indexFiles.length} URL(s).`);
+console.log(`✅ sitemap.xml gerado com ${indexFiles.length} URL(s), organizado por prioridade.`);
 console.log(`   (${ASSET_FOLDERS.length} pastas de assets foram excluídas)\n`);
