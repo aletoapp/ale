@@ -142,3 +142,36 @@ Implementado conforme as boas práticas que você descreveu:
 ## ⚠️ Fora do escopo desta etapa
 - **Assinatura digital de fato / hash do documento**: isso depende da plataforma de assinatura (Gov.br, DocuSign, Clicksign) — o DocForm prepara o documento (espaço de rubrica, referência ao anexo, imagem nítida) para ser assinado nessas plataformas, mas não gera hash criptográfico por conta própria.
 - **Qualidade/nitidez da imagem**: o app não faz upscaling nem correção de nitidez — a responsabilidade de anexar uma imagem legível (não borrada, não cortada) continua sendo do usuário, como orientado no card de Anexos.
+
+---
+
+# Etapa 7 — Correções de raiz (PWA), Editor Rico, Posição do Logo, Assinatura Digital, Largura
+
+## 🔴 Causas raiz do botão de PWA nunca aparecer (existiam antes das minhas edições)
+1. **`script.js` carregado duas vezes** no `app.html` (uma `defer` no `<head>`, outra sem `defer` no fim do `<body>`) — causava erro de "identificador já declarado" e comportamento imprevisível entre navegadores. Removida a duplicata; agora carrega uma única vez, via `defer`.
+2. **PWA duplicado**: existia uma implementação inline no `app.html` E outra dentro do `script.js` — a mais antiga (inline) sempre vencia por rodar por último, sobrescrevendo a mais completa. Removida a duplicata.
+3. **`sw.js` pré-cacheava `index.html`, mas o arquivo se chama `app.html`** — isso fazia a instalação do Service Worker **falhar silenciosamente todas as vezes** (o `cache.addAll` original falha por inteiro se UM recurso da lista 404). Sem SW ativo, o Chrome nunca oferece instalar. Corrigido o nome e trocado `addAll` por `add()` individual com `catch`, para um recurso faltando nunca mais derrubar a instalação inteira.
+4. **`manifest.json` referenciava ícones que nunca existiam** (`icon-192.png`, `icon-512.png`) — sem ícones reais, o Chrome não considera o app instalável. Gerados os dois ícones + um favicon, no estilo visual do app.
+5. **`start_url` do manifest apontava para `./`**, que só funciona se o servidor tratar `app.html` como documento padrão — corrigido para `./app.html` explicitamente. Mesmo ajuste nos atalhos e no `file_handler`.
+6. **Favicon com URL quebrada** (`https://assets/...` — um domínio inválido, não um caminho relativo) e outro apontando pra um arquivo inexistente — corrigidos.
+7. **Estratégia de cache de CSS/JS trocada de "stale-while-revalidate" para "network-first"**: antes, toda vez que novos arquivos eram publicados, a primeira visita ainda mostrava a versão **anterior** (só atualizava no carregamento seguinte) — isso explica boa parte da sensação de "nada muda depois de várias edições". Bibliotecas de CDN (jsPDF, docx.js) continuam em cache rápido, já que a versão vem fixa na própria URL.
+
+## ✅ Editor de Texto Rico
+- O textarea simples da etapa de entrada foi substituído por uma caixa de edição (`contenteditable`) com **barra de formatação fixa e sempre visível** (negrito, itálico, sublinhado, listas com marcadores/numeradas, limpar formatação).
+- Mantém 100% de compatibilidade com o motor de auto-formatação: o texto plano continua alimentando a detecção de cláusulas, título, partes etc. exatamente como antes — a formatação manual serve para organizar visualmente enquanto você escreve.
+- Colar conteúdo do ChatGPT/Word/Google Docs já vem com o sanitizador de cola (reaproveitado da Etapa 3).
+
+## ✅ Posição do Logotipo e da Marca d'água
+- Os botões de "Posição" eram da Marca d'água, mas sem nenhum feedback visual imediato (só apareciam no PDF final) — pareciam quebrados. Adicionado um **indicador visual instantâneo** (pontinho que se move) na zona de upload.
+- O **logotipo** não tinha nenhum controle de posição — adicionado toggle **Esquerda/Direita**, funcionando no preview, PDF e DOCX.
+
+## ✅ Espaçamento logo → corpo do texto
+- Aumentada a folga entre o cabeçalho (logo/empresa) e o título/corpo: 8mm→12mm no preview, 14mm→20mm no PDF, espaçamento equivalente no DOCX.
+
+## ✅ Assinatura Eletrônica: Gov.br, DocuSign e Clicksign
+- O chip binário "Área Gov.br" virou um **seletor com 4 opções**: Nenhuma / Gov.br / DocuSign / Clicksign.
+- Cada plataforma tem rótulo e cor de destaque próprios (sem usar logotipos de terceiros — só texto), aplicados de forma consistente no preview, PDF e DOCX.
+- Presets que já vinham com Gov.br como padrão continuam vindo pré-selecionados, mas agora o usuário pode trocar livremente.
+
+## ✅ Largura do app
+- `.main` deixou de ter um teto fixo de 860px e agora ocupa `calc(94vw - 228px)` — a soma do app (sidebar + conteúdo) passa a usar ~94% da largura da tela, em vez de deixar uma faixa grande vazia em monitores largos. Em telas pequenas (mobile), continua 100% como antes.

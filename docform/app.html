@@ -14,11 +14,11 @@
   <link rel="icon" type="image/png" sizes="512x512" href="assets/img/icon-512.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon.png">
 
-  <title>Editor DocForm — Formate seu Documento Online</title>
-  <meta name="description" content="Use o editor DocForm para formatar contratos, currículos e e-mails formais a partir de texto gerado por IA. Exporte em PDF ou Word em segundos.">
+  <title>DocForm — Formatação Profissional de Documentos</title>
+  <meta name="description" content="Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.">
   <meta name="author" content="DocForm">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://alexandretorres.com.br/docform/app.html">
+  <link rel="canonical" href="https://alexandretorres.com.br/docform/">
 
   <!-- 
   <meta property="og:type" content="website">
@@ -147,7 +147,7 @@
 
     <!-- ══ HOME ══ -->
     <div class="panel active" id="panel-home">
-      <h1 class="hero-title">Bem-vindo ao <span>DocForm</span></h1>
+      <div class="hero-title">Bem-vindo ao <span>DocForm</span></div>
       <p class="hero-sub">Cole o texto gerado por IA e obtenha um documento <strong style="color:var(--text)">juridicamente formatado</strong>, profissional e pronto para impressão ou assinatura digital Gov.br.</p>
       <div class="feat-grid">
         <div class="feat-card" onclick="navigate('formatar')">
@@ -248,6 +248,11 @@
             </div>
             <input type="file" id="logo-file" accept="image/*" style="display:none;" onchange="loadLogo(this)">
             <button class="btn btn-danger" id="logo-rm" style="display:none;margin-top:6px;width:100%;" onclick="removeLogo()">Remover logotipo</button>
+            <label style="margin-top:10px;display:block;font-family:var(--font-mono);font-size:0.66rem;color:var(--text-2);letter-spacing:0.08em;text-transform:uppercase;">Posição do logo no cabeçalho</label>
+            <div class="wm-opts" id="logo-pos-btns">
+              <button class="wm-btn" data-logopos="left" onclick="selLogoPos(this)"><span class="wm-icon">⯇</span>Esquerda</button>
+              <button class="wm-btn active" data-logopos="right" onclick="selLogoPos(this)"><span class="wm-icon">⯈</span>Direita</button>
+            </div>
             <label style="margin-top:10px;display:block;">Nome da Empresa (ao lado do logo)</label>
             <input type="text" id="doc-empresa" placeholder="Razão Social da empresa responsável">
           </div>
@@ -256,6 +261,7 @@
             <div class="logo-zone" id="wm-drop" onclick="document.getElementById('wm-file').click()">
               <img id="wm-preview-img" style="display:none;">
               <div id="wm-ph"><div class="logo-zone-icon">💧</div><div class="logo-zone-text">PNG / JPG</div></div>
+              <div class="wm-pos-indicator" id="wm-pos-indicator" title="Posição atual da marca d'água"></div>
             </div>
             <input type="file" id="wm-file" accept="image/*" style="display:none;" onchange="loadWatermark(this)">
             <button class="btn btn-danger" id="wm-rm" style="display:none;margin-top:6px;width:100%;" onclick="removeWatermark()">Remover marca d'água</button>
@@ -278,11 +284,30 @@
 
       <!-- Texto -->
       <div class="card">
-        <div class="card-title">③ Texto do Contrato</div>
-        <textarea id="input-text" placeholder="Cole aqui o texto copiado do ChatGPT, Gemini ou qualquer IA...&#10;&#10;O DocForm NÃO altera o conteúdo escrito. Apenas aplica:&#10;• Hierarquia de títulos e cláusulas&#10;• Parágrafos justificados com recuo e espaçamento profissional&#10;• Espaço de assinatura com área Gov.br / ICP-Brasil&#10;• Numeração de páginas&#10;• PDF nativo vetorial — sem granulação nem distorção"></textarea>
+        <div class="card-title">③ Texto do Contrato — Editor de Texto Rico</div>
+        <p class="rte-hint">Use a barra abaixo para organizar visualmente o texto enquanto edita. A formatação jurídica final (fontes, cláusulas, numeração) é gerada automaticamente pelo motor do DocForm ao clicar em "Formatar &amp; Visualizar".</p>
+        <div class="rte-toolbar" role="toolbar" aria-label="Formatação do texto">
+          <button type="button" data-rte-cmd="bold" title="Negrito (Ctrl+B)"><b>B</b></button>
+          <button type="button" data-rte-cmd="italic" title="Itálico (Ctrl+I)"><i>I</i></button>
+          <button type="button" data-rte-cmd="underline" title="Sublinhado (Ctrl+U)"><u>U</u></button>
+          <span class="rte-sep"></span>
+          <button type="button" data-rte-cmd="insertUnorderedList" title="Lista com marcadores">•</button>
+          <button type="button" data-rte-cmd="insertOrderedList" title="Lista numerada">1.</button>
+          <span class="rte-sep"></span>
+          <button type="button" data-rte-cmd="removeFormat" title="Limpar formatação">Tx</button>
+        </div>
+        <div id="input-text-rte" class="rte-box" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Texto do contrato" data-placeholder="Cole aqui o texto copiado do ChatGPT, Gemini ou qualquer IA...
+
+O DocForm NÃO altera o conteúdo escrito. Apenas aplica:
+• Hierarquia de títulos e cláusulas
+• Parágrafos justificados com recuo e espaçamento profissional
+• Espaço de assinatura com área Gov.br / ICP-Brasil
+• Numeração de páginas
+• PDF nativo vetorial — sem granulação nem distorção"></div>
+        <textarea id="input-text" style="display:none;" aria-hidden="true" tabindex="-1"></textarea>
         <div class="textarea-meta">
           <span class="char-count" id="char-count">0 caracteres</span>
-          <button class="btn btn-secondary" style="padding:5px 11px;font-size:0.76rem;" onclick="document.getElementById('input-text').value='';updateCount()">Limpar</button>
+          <button class="btn btn-secondary" style="padding:5px 11px;font-size:0.76rem;" onclick="clearInputText()">Limpar</button>
         </div>
       </div>
 
@@ -295,8 +320,16 @@
           <button class="chip on" data-opt="dataLocal">Data e Local</button>
           <button class="chip on" data-opt="paginacao">Numeração de Páginas</button>
           <button class="chip on" data-opt="rodape">Rodapé</button>
-          <button class="chip"    data-opt="govbr">Área Gov.br</button>
           <button class="chip"    data-opt="testemunhas">Testemunhas</button>
+        </div>
+        <div class="fg" style="margin-top:12px;">
+          <label>Plataforma de Assinatura Eletrônica</label>
+          <select id="sig-platform" onchange="setSigPlatform(this.value)">
+            <option value="">Nenhuma (assinatura física / manuscrita)</option>
+            <option value="govbr">Gov.br / ICP-Brasil</option>
+            <option value="docusign">DocuSign</option>
+            <option value="clicksign">Clicksign</option>
+          </select>
         </div>
         <div class="form-row">
           <div class="fg">
@@ -542,102 +575,7 @@
   </div>
 </nav>
 
-<!-- ═══ APP SCRIPT ══════════════════════════════════════════════════ -->
-<script src="script.js"></script>
-
-<!-- ═══ PWA — Service Worker + Install Prompt ══════════════════════ -->
-<script>
-/* ── Service Worker Registration ── */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
-      .then(reg => {
-        console.log('[DocForm SW] Registrado:', reg.scope);
-
-        /* Detecta nova versão disponível */
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              showToast('🔄 Nova versão disponível — recarregue para atualizar', 'ok');
-            }
-          });
-        });
-      })
-      .catch(err => console.warn('[DocForm SW] Erro:', err));
-  });
-}
-
-/* ── Deep-link via ?page= (shortcuts do manifest) ── */
-(function handleShortcut() {
-  const params = new URLSearchParams(window.location.search);
-  const page = params.get('page');
-  if (page && ['formatar','curriculo','email'].includes(page)) {
-    window.addEventListener('DOMContentLoaded', () => navigate(page));
-  }
-})();
-
-/* ── Offline / Online indicator ── */
-function updateOnlineStatus() {
-  const bar = document.getElementById('offline-bar');
-  if (!bar) return;
-  if (!navigator.onLine) {
-    bar.style.display = 'flex';
-  } else {
-    bar.style.display = 'none';
-  }
-}
-window.addEventListener('online',  updateOnlineStatus);
-window.addEventListener('offline', updateOnlineStatus);
-window.addEventListener('load',    updateOnlineStatus);
-
-/* ── PWA Install Prompt ── */
-let deferredPrompt = null;
-
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  /* Só mostra se o usuário não dismissou antes nesta sessão */
-  if (!sessionStorage.getItem('pwa-dismissed')) {
-    document.getElementById('pwa-banner').style.display = 'flex';
-  }
-});
-
-function pwaInstall() {
-  if (!deferredPrompt) return;
-  document.getElementById('pwa-banner').style.display = 'none';
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(choice => {
-    if (choice.outcome === 'accepted') {
-      showToast('✅ DocForm instalado com sucesso!', 'ok');
-      const badge = document.getElementById('pwa-status-badge');
-      if (badge) { badge.textContent = '📲 App'; }
-    }
-    deferredPrompt = null;
-  });
-}
-
-function pwaDismiss() {
-  document.getElementById('pwa-banner').style.display = 'none';
-  sessionStorage.setItem('pwa-dismissed', '1');
-}
-
-/* Marca no badge quando rodando como PWA standalone */
-window.addEventListener('DOMContentLoaded', () => {
-  if (window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true) {
-    const badge = document.getElementById('pwa-status-badge');
-    if (badge) { badge.textContent = '📲 App'; badge.title = 'Rodando como app instalado'; }
-  }
-});
-
-window.matchMedia('(display-mode: standalone)').addEventListener('change', e => {
-  const badge = document.getElementById('pwa-status-badge');
-  if (!badge) return;
-  badge.textContent = e.matches ? '📲 App' : 'v 1.0';
-});
-</script>
+<!-- ═══ APP SCRIPT (carregado uma única vez, via <script defer> no <head>) ═══ -->
   
 </body>
 </html>

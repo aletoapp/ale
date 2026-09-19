@@ -4,6 +4,8 @@
 let currentPreset = 'generico';
 let logoDataUrl   = null;
 let logoAspect    = null; // largura/altura natural da imagem — nunca distorcida
+let logoPosition  = 'right'; // 'left' | 'right' — alinhamento do logo no cabeçalho
+let sigPlatform   = ''; // '' | 'govbr' | 'docusign' | 'clicksign'
 let wmDataUrl     = null;
 let wmPosition    = 'center';
 let cvPhotoDataUrl = null;
@@ -388,8 +390,10 @@ function restoreDraftPrompt() {
 
   document.getElementById('draft-restore').addEventListener('click', () => {
     DRAFT_FIELDS.forEach(id => {
+      if (saved[id] === undefined) return;
+      if (id === 'input-text') { setInputText(saved[id]); return; }
       const el = document.getElementById(id);
-      if (el && saved[id] !== undefined) el.value = saved[id];
+      if (el) el.value = saved[id];
     });
     if (saved.preset) {
       const btn = document.querySelector(`[data-preset="${saved.preset}"]`);
@@ -405,6 +409,91 @@ function restoreDraftPrompt() {
   });
 }
 
+/* ════════════════════════════════════════════
+   EDITOR DE TEXTO RICO (entrada do contrato)
+   Substitui o textarea simples por uma caixa
+   contenteditable com barra de formatação
+   (negrito/itálico/sublinhado/listas). O texto
+   plano continua alimentando o motor de
+   auto-formatação normalmente — a marcação
+   visual serve para organizar durante a
+   digitação; quem define o estilo final do
+   documento (fontes, numeração, cláusulas) é
+   o motor de formatação jurídica do DocForm.
+════════════════════════════════════════════ */
+function rteToPlainText(el) {
+  const out = [];
+  function walk(node) {
+    if (node.nodeType === 3) { out.push(node.textContent); return; }
+    if (node.nodeType !== 1) return;
+    const tag = node.tagName;
+    if (tag === 'BR') { out.push('\n'); return; }
+    if (tag === 'LI') {
+      const ordered = node.parentElement && node.parentElement.tagName === 'OL';
+      out.push('\n' + (ordered ? '1. ' : '- '));
+      [...node.childNodes].forEach(walk);
+      return;
+    }
+    const isBlock = ['P','DIV','UL','OL','H1','H2','H3','H4','H5','H6'].includes(tag);
+    if (isBlock) out.push('\n');
+    [...node.childNodes].forEach(walk);
+    if (isBlock) out.push('\n');
+  }
+  [...el.childNodes].forEach(walk);
+  return out.join('').replace(/\n{3,}/g, '\n\n').replace(/^\n+/, '').replace(/\n+$/, '');
+}
+
+function syncRteToHiddenTextarea() {
+  const rte = document.getElementById('input-text-rte');
+  const ta  = document.getElementById('input-text');
+  if (!rte || !ta) return;
+  ta.value = rteToPlainText(rte);
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function setInputText(text) {
+  const rte = document.getElementById('input-text-rte');
+  const ta  = document.getElementById('input-text');
+  const t = text || '';
+  if (ta) ta.value = t;
+  if (rte) {
+    rte.innerHTML = t.trim()
+      ? t.split(/\n{2,}/).map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('')
+      : '';
+  }
+}
+
+function clearInputText() {
+  setInputText('');
+  updateCount();
+  const bannerWrap = document.getElementById('detect-banner-wrap');
+  if (bannerWrap) bannerWrap.style.display = 'none';
+  document.getElementById('input-text-rte')?.focus();
+}
+
+function handleRtePasteSanitize(e) {
+  e.preventDefault();
+  const clipboard = e.clipboardData || window.clipboardData;
+  if (!clipboard) return;
+  const html  = clipboard.getData('text/html');
+  const plain = clipboard.getData('text/plain') || '';
+  let insertHtml;
+  if (html) {
+    const container = document.createElement('div');
+    container.innerHTML = html;
+    [...container.childNodes].forEach(sanitizePastedNode);
+    insertHtml = container.innerHTML;
+  } else {
+    const escLine = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    insertHtml = plain.split('\n').filter(l => l.trim()).map(l => `<p>${escLine(l)}</p>`).join('');
+  }
+  try { document.execCommand('insertHTML', false, insertHtml || plain); }
+  catch (err) { document.execCommand('insertText', false, plain); }
+  syncRteToHiddenTextarea();
+  clearTimeout(window._detectTimer);
+  window._detectTimer = setTimeout(() => analisarTextoInteligente(document.getElementById('input-text').value), 120);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const ta = document.getElementById('input-text');
   if (ta) ta.addEventListener('input', saveDraft);
@@ -414,6 +503,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   restoreDraftPrompt();
   renderAnexosList();
+
+  // Editor de texto rico — sincroniza com o textarea oculto
+  const rte = document.getElementById('input-text-rte');
+  if (rte) {
+    rte.addEventListener('input', syncRteToHiddenTextarea);
+    rte.addEventListener('paste', handleRtePasteSanitize);
+  }
+  document.querySelectorAll('.rte-toolbar button[data-rte-cmd]').forEach(btn => {
+    btn.addEventListener('mousedown', e => e.preventDefault()); // não perde a seleção
+    btn.addEventListener('click', () => {
+      document.getElementById('input-text-rte')?.focus();
+      try { document.execCommand(btn.dataset.rteCmd, false, null); } catch (e) {}
+      syncRteToHiddenTextarea();
+    });
+  });
 });
 
 /* ════════════════════════════════════════════
@@ -429,13 +533,12 @@ if ('launchQueue' in window) {
       const fileHandle = launchParams.files[0];
       const file = await fileHandle.getFile();
       const text = await file.text();
-      const ta = document.getElementById('input-text');
-      if (ta && text) {
-        ta.value = text;
+      if (text) {
+        setInputText(text);
         updateCount();
         runAutoDetect();
         showToast(`Arquivo "${file.name}" carregado no editor.`, 'ok');
-        ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById('input-text-rte')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } catch (e) {
       showToast('Não foi possível abrir o arquivo.', 'err');
@@ -502,15 +605,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCount();
     clearTimeout(window._detectTimer);
     window._detectTimer = setTimeout(runAutoDetect, 600);
-  });
-  // Paste → análise imediata após o browser inserir o texto
-  document.getElementById('input-text').addEventListener('paste', () => {
-    updateCount();
-    clearTimeout(window._detectTimer);
-    window._detectTimer = setTimeout(() => {
-      const text = document.getElementById('input-text').value;
-      analisarTextoInteligente(text);
-    }, 120); // aguarda o browser concluir o paste
   });
   // WM opacity slider
   const slider = document.getElementById('wm-opacity');
@@ -939,11 +1033,36 @@ function selectPreset(btn) {
         chip.classList.toggle('on', on);
       }
     });
+    // Plataforma de assinatura — mantém o padrão Gov.br para presets que já
+    // o tinham, sem impedir o usuário de trocar por DocuSign/Clicksign depois
+    const sigSelect = document.getElementById('sig-platform');
+    if (sigSelect) {
+      sigPlatform = cfg.chips.govbr ? 'govbr' : '';
+      sigSelect.value = sigPlatform;
+    }
   }
 
   /* ── 4. Badge de conformidade legal ─────────────────*/
   _renderLegalBadge(cfg);
 }
+
+function setSigPlatform(v) {
+  sigPlatform = v || '';
+}
+
+/* Rótulo e cor exibidos para cada plataforma de assinatura eletrônica.
+   Cores aproximadas de identidade visual de cada serviço — apenas texto,
+   sem uso de logotipos ou marcas registradas de terceiros. */
+const SIG_PLATFORM_META = {
+  govbr:     { label: 'Assinatura Digital via Gov.br / ICP-Brasil', color: '0066CC' },
+  docusign:  { label: 'Assinatura Eletrônica via DocuSign',          color: 'B48A00' },
+  clicksign: { label: 'Assinatura Eletrônica via Clicksign',         color: '00897B' },
+};
+function _hexToRgb(hex) {
+  const n = parseInt(hex, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
 
 /* ── Renderiza o badge legal abaixo dos presets ── */
 function _renderLegalBadge(cfg) {
@@ -985,8 +1104,8 @@ function updateCount() {
 }
 
 function limparFormulario() {
-  // 1. Limpa o textarea e atualiza contador
-  document.getElementById('input-text').value = '';
+  // 1. Limpa o editor de texto e atualiza contador
+  setInputText('');
   updateCount();
 
   // 2. Limpa todos os campos preenchidos pelo auto-fill
@@ -1193,7 +1312,8 @@ function buildPaginatedHtml(bodyHtml, opts) {
     if (!logoDataUrl && !empresa) return '';
     const logoImg = logoDataUrl ? `<img class="doc-logo" src="${logoDataUrl}" alt="Logo">` : '';
     const companyName = empresa ? `<span class="doc-company-name">${esc(empresa)}</span>` : '';
-    return `<div class="doc-header-row">${logoImg}${companyName}</div>`;
+    const posClass = logoPosition === 'left' ? 'pos-left' : 'pos-right';
+    return `<div class="doc-header-row ${posClass}">${logoImg}${companyName}</div>`;
   }
   const logoHtml = buildHeaderRowHtml();
 
@@ -1205,10 +1325,13 @@ function buildPaginatedHtml(bodyHtml, opts) {
 
   let signHtml = '';
   if (formatOpts.espacoAssinatura) {
-    const govBrHtml = formatOpts.govbr ? `
+    const sigMeta = SIG_PLATFORM_META[sigPlatform];
+    const sigBoxHtml = sigMeta ? `
       <div class="govbr-box" style="margin-top:8mm;">
-        <strong>□ Assinatura Digital via Gov.br / ICP-Brasil</strong>
-        Acesse: <strong>gov.br/assinatura-eletronica</strong> — Validade jurídica conforme Lei nº 14.063/2020
+        <strong>□ ${esc(sigMeta.label)}</strong>
+        ${sigPlatform === 'govbr'
+          ? 'Acesse: <strong>gov.br/assinatura-eletronica</strong> — Validade jurídica conforme Lei nº 14.063/2020'
+          : `Validade jurídica conforme MP 2.200-2/2001 (ICP-Brasil) e Lei nº 14.063/2020, quando aplicável.`}
       </div>` : '';
     const witnessHtml = formatOpts.testemunhas ? `
       <div class="witness-section">
@@ -1233,7 +1356,7 @@ function buildPaginatedHtml(bodyHtml, opts) {
             <div class="sign-detail">${doc2 ? `${doc2.type}: ${esc(doc2.value)}` : 'CPF: ___.___.___-__'}</div>
           </div>
         </div>
-        ${govBrHtml}
+        ${sigBoxHtml}
         ${witnessHtml}
       </div>`;
   }
@@ -1770,7 +1893,7 @@ async function exportContratoPDF() {
       const nameW = empresaName ? pdf.getTextWidth(empresaName) : 0;
       const gap   = (logoDataUrl && empresaName) ? 3 : 0;
       const groupW = logoW + gap + nameW;
-      let cursorX  = pW - mR - groupW;
+      let cursorX  = (logoPosition === 'left') ? mL : (pW - mR - groupW);
       const bandY  = mT;
 
       if (logoDataUrl) {
@@ -1885,7 +2008,7 @@ async function exportContratoPDF() {
 
   // Page 1 setup
   addLogoAndWatermark();
-  if (logoDataUrl || document.getElementById('doc-empresa')?.value.trim()) y += 14; // push content below header row
+  if (logoDataUrl || document.getElementById('doc-empresa')?.value.trim()) y += 20; // espaço extra entre o cabeçalho (logo/empresa) e o título/corpo
 
   // Title block
   pdf.setDrawColor(30,30,30);
@@ -1996,7 +2119,7 @@ async function exportContratoPDF() {
   // Signatures (+ Gov.br + Testemunhas mantidos juntos numa única folha)
   if (formatOpts.espacoAssinatura) {
     let signBlockNeeded = 70;
-    if (formatOpts.govbr) signBlockNeeded += 24;
+    if (sigPlatform) signBlockNeeded += 24;
     if (formatOpts.testemunhas) signBlockNeeded += 40;
     ensureSpace(signBlockNeeded);
     y += 6;
@@ -2031,20 +2154,25 @@ async function exportContratoPDF() {
     pdf.text(_pdfDoc2 ? `${_pdfDoc2.type}: ${_pdfDoc2.value}` : 'CPF: ___.___.___-__', centerCol2, y, { align:'center' });
     y += 10;
 
-    if (formatOpts.govbr) {
+    if (sigPlatform && SIG_PLATFORM_META[sigPlatform]) {
+      const meta = SIG_PLATFORM_META[sigPlatform];
+      const [cr, cg, cb] = _hexToRgb(meta.color);
       ensureSpace(24);
-      pdf.setDrawColor(0,102,204);
+      pdf.setDrawColor(cr, cg, cb);
       pdf.setLineWidth(0.4);
       pdf.setLineDash([2,2]);
       pdf.rect(mL, y, cW, 20);
       pdf.setLineDash([]);
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(9.5);
-      pdf.setTextColor(0,102,204);
-      pdf.text('□ Assinatura Digital via Gov.br / ICP-Brasil', pW/2, y+7, { align:'center' });
+      pdf.setTextColor(cr, cg, cb);
+      pdf.text(`□ ${meta.label}`, pW/2, y+7, { align:'center' });
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8.5);
-      pdf.text('Acesse: gov.br/assinatura-eletronica — Validade jurídica conforme Lei nº 14.063/2020', pW/2, y+13, { align:'center' });
+      const subLine = sigPlatform === 'govbr'
+        ? 'Acesse: gov.br/assinatura-eletronica — Validade jurídica conforme Lei nº 14.063/2020'
+        : 'Validade jurídica conforme MP 2.200-2/2001 (ICP-Brasil) e Lei nº 14.063/2020, quando aplicável';
+      pdf.text(subLine, pW/2, y+13, { align:'center' });
       y += 22;
     }
 
@@ -2581,9 +2709,22 @@ function removeWatermark() {
   document.getElementById('wm-file').value = '';
 }
 function selWmPos(btn) {
-  document.querySelectorAll('.wm-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#wm-pos-btns .wm-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   wmPosition = btn.dataset.wm;
+  // Feedback visual imediato — antes só aparecia depois de gerar o PDF
+  const dot = document.getElementById('wm-pos-indicator');
+  if (dot) {
+    dot.className = 'wm-pos-indicator pos-' + wmPosition;
+  }
+}
+
+function selLogoPos(btn) {
+  document.querySelectorAll('#logo-pos-btns .wm-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  logoPosition = btn.dataset.logopos;
+  const img = document.getElementById('logo-preview-img');
+  if (img) img.style.marginLeft = logoPosition === 'left' ? '0' : 'auto';
 }
 
 /* ════════════════════════════════════════════
@@ -3038,7 +3179,11 @@ async function exportContratoDocx() {
       runs.push(new docx.TextRun({ text: empresaDocx, bold: true, size: 24, font: 'Times New Roman', color: '111111' }));
     }
     if (runs.length) {
-      children.push(new docx.Paragraph({ children: runs, alignment: docx.AlignmentType.RIGHT, spacing: { after: 160 } }));
+      children.push(new docx.Paragraph({
+        children: runs,
+        alignment: logoPosition === 'left' ? docx.AlignmentType.LEFT : docx.AlignmentType.RIGHT,
+        spacing: { after: 320 }, // espaço extra entre o cabeçalho (logo/empresa) e o título
+      }));
     }
   }
 
@@ -3124,16 +3269,20 @@ async function exportContratoDocx() {
       spacing: { after: 80 },
     }));
 
-    if (formatOpts.govbr) {
+    if (sigPlatform && SIG_PLATFORM_META[sigPlatform]) {
+      const meta = SIG_PLATFORM_META[sigPlatform];
       children.push(..._dBlank());
       children.push(new docx.Paragraph({
-        children: [new docx.TextRun({ text: '□ Assinatura Digital via Gov.br / ICP-Brasil', bold: true, size: 20, color: '0066CC', font: 'Arial' })],
+        children: [new docx.TextRun({ text: `□ ${meta.label}`, bold: true, size: 20, color: meta.color, font: 'Arial' })],
         alignment: docx.AlignmentType.CENTER,
-        border: { top: { style: docx.BorderStyle.DASHED, size: 4, color: '0066CC' }, bottom: { style: docx.BorderStyle.DASHED, size: 4, color: '0066CC' }, left: { style: docx.BorderStyle.DASHED, size: 4, color: '0066CC' }, right: { style: docx.BorderStyle.DASHED, size: 4, color: '0066CC' } },
+        border: { top: { style: docx.BorderStyle.DASHED, size: 4, color: meta.color }, bottom: { style: docx.BorderStyle.DASHED, size: 4, color: meta.color }, left: { style: docx.BorderStyle.DASHED, size: 4, color: meta.color }, right: { style: docx.BorderStyle.DASHED, size: 4, color: meta.color } },
         spacing: { before: 120, after: 80 },
       }));
+      const subLine = sigPlatform === 'govbr'
+        ? 'Acesse: gov.br/assinatura-eletronica — Lei nº 14.063/2020'
+        : 'Validade jurídica conforme MP 2.200-2/2001 (ICP-Brasil) e Lei nº 14.063/2020, quando aplicável';
       children.push(new docx.Paragraph({
-        children: [new docx.TextRun({ text: 'Acesse: gov.br/assinatura-eletronica — Lei nº 14.063/2020', size: 18, color: '0066CC', font: 'Arial' })],
+        children: [new docx.TextRun({ text: subLine, size: 18, color: meta.color, font: 'Arial' })],
         alignment: docx.AlignmentType.CENTER, spacing: { after: 80 },
       }));
     }

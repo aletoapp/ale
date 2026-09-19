@@ -1,9 +1,10 @@
 /* ════════════════════════════════════════════
    DocForm — Service Worker
    Estratégia híbrida:
-     HTML  → Network First  (sempre fresco)
-     CSS/JS → Stale While Revalidate (rápido + atualiza em bg)
-     Assets → Cache First  (imagens, fontes)
+     HTML          → Network First  (sempre fresco)
+     CSS/JS do app → Network First  (evita servir versão antiga após redeploy)
+     CDN (libs)    → Stale While Revalidate (versão fixa na URL — nunca muda)
+     Assets        → Cache First  (imagens, fontes)
    GitHub Pages compatible (relative paths)
 ════════════════════════════════════════════ */
 
@@ -11,10 +12,15 @@ const CACHE_VERSION = 'docform-v5';
 const CACHE_STATIC  = `${CACHE_VERSION}-static`;
 const CACHE_ASSETS  = `${CACHE_VERSION}-assets`;
 
-/* Arquivos pré-cacheados na instalação */
+/* Arquivos pré-cacheados na instalação
+   IMPORTANTE: o arquivo principal deste app se chama "app.html" —
+   se o nome mudar (ex.: renomeado para "index.html" no deploy),
+   ajuste aqui também. Cada item é cacheado individualmente (não com
+   addAll) para que UM recurso ausente não derrube a instalação
+   inteira do Service Worker. */
 const PRE_CACHE = [
   './',
-  './index.html',
+  './app.html',
   './styles.css',
   './script.js',
   './manifest.json',
@@ -30,11 +36,19 @@ const ASSET_EXTS = /\.(png|jpg|jpeg|svg|ico|webp|gif|woff2?|ttf|eot)(\?.*)?$/i;
 /* URLs de fonte Google (Cache First após primeiro fetch) */
 const FONT_ORIGINS = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
 
-/* ── INSTALL: pré-cache dos arquivos essenciais ── */
+/* ── INSTALL: pré-cache dos arquivos essenciais ──
+   Usa cache.add() individual + catch em vez de cache.addAll(),
+   que falha (e cancela a instalação inteira do SW) se UM único
+   recurso da lista der 404 — foi exatamente isso que impediu o
+   Service Worker de instalar quando o nome do arquivo divergia. */
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_STATIC)
-      .then(cache => cache.addAll(PRE_CACHE))
+      .then(cache => Promise.all(
+        PRE_CACHE.map(url => cache.add(url).catch(err =>
+          console.warn('[DocForm SW] Falha ao pré-cachear (ignorado):', url, err)
+        ))
+      ))
       .then(() => self.skipWaiting())   // ativa imediatamente sem esperar fechar tabs
   );
 });
@@ -83,11 +97,24 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  /* ── 4. CSS / JS (incluindo CDN) → Stale While Revalidate ──────── 
-     Responde do cache (rápido), atualiza em background.               */
+  /* ── 4a. CSS/JS do próprio app → Network First ──────────────────
+     Enquanto o app está em desenvolvimento ativo, "stale-while-
+     revalidate" mostrava sempre a versão ANTERIOR a cada redeploy
+     (só atualizava no carregamento seguinte). Network First garante
+     que a versão nova apareça assim que publicada, com o cache
+     como rede de segurança para uso offline. */
   if (
-    url.pathname.endsWith('.css') ||
-    url.pathname.endsWith('.js')  ||
+    (url.origin === self.location.origin) &&
+    (url.pathname.endsWith('.css') || url.pathname.endsWith('.js'))
+  ) {
+    event.respondWith(networkFirst(request, CACHE_STATIC));
+    return;
+  }
+
+  /* ── 4b. Bibliotecas de CDN (URLs com versão fixa) → Stale While
+     Revalidate. Como a versão vem fixa na própria URL, o conteúdo
+     nunca muda — prioriza velocidade. */
+  if (
     request.destination === 'script' ||
     request.destination === 'style'  ||
     url.hostname === 'cdnjs.cloudflare.com' ||
@@ -117,8 +144,8 @@ async function networkFirst(request, cacheName) {
   } catch {
     const cached = await caches.match(request, { ignoreSearch: false });
     if (cached) return cached;
-    /* Fallback final: serve index.html para permitir navegação offline */
-    return caches.match('./index.html') || caches.match('./');
+    /* Fallback final: serve o app principal para permitir navegação offline */
+    return (await caches.match('./app.html')) || (await caches.match('./'));
   }
 }
 

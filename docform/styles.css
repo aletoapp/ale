@@ -208,7 +208,7 @@ header {
   flex: 1;
   margin-left: 228px;
   padding: 32px 32px 56px;
-  max-width: 860px;
+  max-width: calc(94vw - 228px); /* app ocupa ~94% da largura da tela, sidebar incluída */
   transition: margin-left 0.18s ease;
 }
 
@@ -216,7 +216,7 @@ header {
    MODO ZEN — oculta sidebar para foco total
 ═══════════════════════════════════════════ */
 body.zen-mode .sidebar { display: none; }
-body.zen-mode .main { margin-left: 0; max-width: 900px; margin-right: auto; margin-left: auto; }
+body.zen-mode .main { margin-left: 0; max-width: 94vw; margin-right: auto; margin-left: auto; }
 .btn-zen {
   font-family: var(--font-mono);
   font-size: 0.58rem;
@@ -657,8 +657,10 @@ select option { background: #1a2028; color: var(--text); }
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8mm;
+  margin-bottom: 12mm;
 }
+.doc-header-row.pos-right { justify-content: flex-end; }
+.doc-header-row.pos-left  { justify-content: flex-start; }
 .doc-logo {
   max-height: 42px;   /* limite de altura — a largura acompanha proporcionalmente */
   max-width: 170px;
@@ -1290,3 +1292,86 @@ body.is-offline .layout { padding-top: calc(var(--hdr) + 30px); }
 .anexo-rubrica-block { flex: 1; text-align: center; }
 .anexo-rubrica-line { border-top: 1px solid #666; margin-bottom: 5px; width: 100%; }
 .anexo-rubrica-label { font-size: 9pt; color: #555; }
+
+/* ═══════════════════════════════════════════
+   EDITOR DE TEXTO RICO — entrada do contrato
+═══════════════════════════════════════════ */
+.rte-hint {
+  font-size: 0.76rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+.rte-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 6px;
+}
+.rte-toolbar button {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; border-radius: 5px;
+  color: var(--text); font-size: 0.82rem; cursor: pointer;
+  font-family: var(--font-sans);
+  transition: background 0.12s;
+}
+.rte-toolbar button:hover { background: rgba(255,255,255,0.08); }
+.rte-toolbar button:active { background: rgba(201,168,76,0.18); }
+.rte-sep { width: 1px; height: 18px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+
+.rte-box {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  line-height: 1.65;
+  padding: 12px;
+  min-height: 180px;
+  max-height: 420px;
+  overflow-y: auto;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.rte-box:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+}
+.rte-box p { margin: 0 0 10px; }
+.rte-box p:last-child { margin-bottom: 0; }
+.rte-box ul, .rte-box ol { margin: 0 0 10px 20px; padding: 0; }
+.rte-box:empty:before {
+  content: attr(data-placeholder);
+  color: var(--text-3);
+  white-space: pre-line;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   INDICADOR DE POSIÇÃO — feedback imediato ao
+   clicar nos botões de posição da marca d'água
+   (antes o efeito só aparecia no PDF final)
+═══════════════════════════════════════════ */
+.logo-zone { position: relative; }
+.wm-pos-indicator {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.35);
+  transition: top 0.2s ease, left 0.2s ease, right 0.2s ease, bottom 0.2s ease;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  right: auto; bottom: auto;
+  pointer-events: none;
+}
+.wm-pos-indicator.pos-top-left    { top: 6px; left: 6px; right: auto; bottom: auto; transform: none; }
+.wm-pos-indicator.pos-top-right   { top: 6px; right: 6px; left: auto; bottom: auto; transform: none; }
+.wm-pos-indicator.pos-bottom-right{ bottom: 6px; right: 6px; left: auto; top: auto; transform: none; }
+.wm-pos-indicator.pos-center      { top: 50%; left: 50%; right: auto; bottom: auto; transform: translate(-50%,-50%); }
