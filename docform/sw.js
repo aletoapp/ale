@@ -8,7 +8,7 @@
    GitHub Pages compatible (relative paths)
 ════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'docform-v5';
+const CACHE_VERSION = 'docform-v6';
 const CACHE_STATIC  = `${CACHE_VERSION}-static`;
 const CACHE_ASSETS  = `${CACHE_VERSION}-assets`;
 
@@ -24,6 +24,9 @@ const PRE_CACHE = [
   './styles.css',
   './script.js',
   './manifest.json',
+  './assets/img/icon-192.png',
+  './assets/img/icon-512.png',
+  './assets/img/favicon.png',
   /* CDN críticos cacheados offline */
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js',

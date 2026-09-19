@@ -632,7 +632,7 @@ select option { background: #1a2028; color: var(--text); }
   overflow: hidden;
 }
 .doc-scale-wrapper > .doc-page {
-  transform-origin: top center;
+  transform-origin: top left;
 }
 
 /* ═══════════════════════════════════════════
@@ -691,6 +691,14 @@ select option { background: #1a2028; color: var(--text); }
 .doc-subtitle { font-size: 10pt; color: #555; }
 
 .doc-body { text-align: justify; }
+/* Canvas em branco (antes de colar o texto): dica dentro da própria folha.
+   ::before não entra em innerText/impressão/exportação. */
+.doc-body[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: #9aa0a6;
+  font-style: italic;
+  pointer-events: none;
+}
 .doc-clause-block { margin: 0 0 8pt; }
 .doc-clause-title {
   font-size: 11pt; font-weight: 700;
@@ -844,7 +852,8 @@ select option { background: #1a2028; color: var(--text); }
   border: 1px solid var(--border-hi);
   border-radius: 24px; padding: 9px 18px;
   font-size: 0.8rem; color: var(--text);
-  white-space: nowrap; opacity: 0;
+  /* quebra linha em telas estreitas (nowrap vazava do balão no celular) */
+  white-space: normal; text-align: center; width: max-content; opacity: 0;
   pointer-events: none;
   transition: all 0.26s cubic-bezier(0.34,1.56,0.64,1);
   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
@@ -865,8 +874,11 @@ select option { background: #1a2028; color: var(--text); }
   .presets-grid { grid-template-columns: repeat(3, 1fr); }
   .sign-area, .witness-area { flex-direction: column; gap: 16px; }
   .preview-toolbar { flex-direction: column; align-items: flex-start; }
-  .pt-actions { width: 100%; }
-  .pt-actions .btn { flex: 1; }
+  .pt-actions { width: 100%; flex-wrap: wrap; }
+  .pt-actions .btn { flex: 1 1 0; min-width: 0; }
+  /* "Aplicar Formatação" ocupa a linha toda; DOCX e PDF dividem a de baixo
+     (antes os 3 botões estouravam 390px e o PDF ficava cortado na borda). */
+  #btn-aplicar-formatacao { flex: 1 1 100%; }
   .btn-row { flex-direction: column; }
   .btn-row .btn { width: 100%; }
   .cv-head { flex-direction: column; text-align: center; }
@@ -1294,65 +1306,51 @@ body.is-offline .layout { padding-top: calc(var(--hdr) + 30px); }
 .anexo-rubrica-label { font-size: 9pt; color: #555; }
 
 /* ═══════════════════════════════════════════
-   EDITOR DE TEXTO RICO — entrada do contrato
+   BARRA DO MODO EDIÇÃO — estilo Word, fixa no
+   topo do preview enquanto o documento formatado
+   está sendo editado (contenteditable)
 ═══════════════════════════════════════════ */
-.rte-hint {
-  font-size: 0.76rem;
-  color: var(--text-2);
-  line-height: 1.5;
-  margin: 0 0 10px;
-}
-.rte-toolbar {
-  display: flex;
+.edit-toolbar {
+  display: none;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 2px;
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-bottom: none;
-  border-radius: var(--radius) var(--radius) 0 0;
-  padding: 6px;
+  gap: 3px;
+  background: #1a1d24;
+  border: 1px solid var(--ink-border);
+  border-radius: var(--radius);
+  padding: 6px 8px;
+  margin-bottom: 12px;
+  position: sticky;
+  top: 8px;
+  z-index: 60;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
-.rte-toolbar button {
-  width: 30px; height: 30px;
+.edit-toolbar.show { display: flex; }
+.edit-toolbar button {
+  min-width: 28px; height: 28px;
   display: flex; align-items: center; justify-content: center;
   background: transparent; border: none; border-radius: 5px;
-  color: var(--text); font-size: 0.82rem; cursor: pointer;
+  color: #e8e6e1; font-size: 0.8rem; cursor: pointer;
   font-family: var(--font-sans);
-  transition: background 0.12s;
+  padding: 0 6px;
+  transition: background 0.1s;
 }
-.rte-toolbar button:hover { background: rgba(255,255,255,0.08); }
-.rte-toolbar button:active { background: rgba(201,168,76,0.18); }
-.rte-sep { width: 1px; height: 18px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
-
-.rte-box {
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-top: none;
-  border-radius: 0 0 var(--radius) var(--radius);
-  color: var(--text);
-  font-family: var(--font-sans);
-  font-size: 0.86rem;
-  line-height: 1.65;
-  padding: 12px;
-  min-height: 180px;
-  max-height: 420px;
-  overflow-y: auto;
-  transition: border-color 0.15s, box-shadow 0.15s;
+.edit-toolbar button:hover { background: rgba(255,255,255,0.12); }
+.edit-toolbar button.active { background: rgba(201,168,76,0.35); color: #fff; }
+.edit-toolbar select, .edit-toolbar input[type="color"] {
+  height: 28px;
+  background: #14161b;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 5px;
+  color: #e8e6e1;
+  font-size: 0.74rem;
+  padding: 0 4px;
+  width: auto;
 }
-.rte-box:focus {
-  outline: none;
-  border-color: var(--ink);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-}
-.rte-box p { margin: 0 0 10px; }
-.rte-box p:last-child { margin-bottom: 0; }
-.rte-box ul, .rte-box ol { margin: 0 0 10px 20px; padding: 0; }
-.rte-box:empty:before {
-  content: attr(data-placeholder);
-  color: var(--text-3);
-  white-space: pre-line;
-  pointer-events: none;
-}
+.edit-toolbar input[type="color"] { width: 28px; padding: 2px; cursor: pointer; }
+.edit-toolbar .et-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.16); margin: 0 3px; flex-shrink: 0; }
+.edit-toolbar .et-font-name { width: 118px; }
+.edit-toolbar .et-font-size { width: 54px; }
 
 /* ═══════════════════════════════════════════
    INDICADOR DE POSIÇÃO — feedback imediato ao

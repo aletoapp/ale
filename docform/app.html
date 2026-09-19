@@ -18,23 +18,22 @@
   <meta name="description" content="Transforme textos gerados por IA em documentos profissionais, jurídicos e prontos para uso. Formatação automática e exportação em PDF.">
   <meta name="author" content="DocForm">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://alexandretorres.com.br/docform/">
+  <link rel="canonical" href="https://alexandretorres.com.br/docform/app.html">
 
   <!-- 
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://docform.app/">
+  <meta property="og:url" content="https://alexandretorres.com.br/docform/app.html">
   <meta property="og:site_name" content="DocForm">
   <meta property="og:title" content="DocForm — Documentos Profissionais a partir de IA">
   <meta property="og:description" content="Cole textos do ChatGPT ou Gemini e gere documentos formatados em segundos.">
-  <meta property="og:image" content="assets/img/og.jpg">
+  <meta property="og:image" content="https://alexandretorres.com.br/docform/assets/img/og.jpg">
   <meta property="og:image:alt" content="DocForm — Formatação profissional de documentos com IA">
   <meta property="og:locale" content="pt_BR">
 --> 
   <!--
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="DocForm — Formatação de Doc Profissional">
-  <meta name="twitter:image" content="assets/img/og.jpg">
-  <meta name="twitter:image" content="assets/img/og.jpg">
+  <meta name="twitter:image" content="https://alexandretorres.com.br/docform/assets/img/og.jpg">
 -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 
@@ -282,34 +281,9 @@
         </div>
       </div>
 
-      <!-- Texto -->
-      <div class="card">
-        <div class="card-title">③ Texto do Contrato — Editor de Texto Rico</div>
-        <p class="rte-hint">Use a barra abaixo para organizar visualmente o texto enquanto edita. A formatação jurídica final (fontes, cláusulas, numeração) é gerada automaticamente pelo motor do DocForm ao clicar em "Formatar &amp; Visualizar".</p>
-        <div class="rte-toolbar" role="toolbar" aria-label="Formatação do texto">
-          <button type="button" data-rte-cmd="bold" title="Negrito (Ctrl+B)"><b>B</b></button>
-          <button type="button" data-rte-cmd="italic" title="Itálico (Ctrl+I)"><i>I</i></button>
-          <button type="button" data-rte-cmd="underline" title="Sublinhado (Ctrl+U)"><u>U</u></button>
-          <span class="rte-sep"></span>
-          <button type="button" data-rte-cmd="insertUnorderedList" title="Lista com marcadores">•</button>
-          <button type="button" data-rte-cmd="insertOrderedList" title="Lista numerada">1.</button>
-          <span class="rte-sep"></span>
-          <button type="button" data-rte-cmd="removeFormat" title="Limpar formatação">Tx</button>
-        </div>
-        <div id="input-text-rte" class="rte-box" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Texto do contrato" data-placeholder="Cole aqui o texto copiado do ChatGPT, Gemini ou qualquer IA...
-
-O DocForm NÃO altera o conteúdo escrito. Apenas aplica:
-• Hierarquia de títulos e cláusulas
-• Parágrafos justificados com recuo e espaçamento profissional
-• Espaço de assinatura com área Gov.br / ICP-Brasil
-• Numeração de páginas
-• PDF nativo vetorial — sem granulação nem distorção"></div>
-        <textarea id="input-text" style="display:none;" aria-hidden="true" tabindex="-1"></textarea>
-        <div class="textarea-meta">
-          <span class="char-count" id="char-count">0 caracteres</span>
-          <button class="btn btn-secondary" style="padding:5px 11px;font-size:0.76rem;" onclick="clearInputText()">Limpar</button>
-        </div>
-      </div>
+      <!-- Texto: campo oculto que alimenta o motor de auto-formatação —
+           a edição visível acontece direto no documento, mais abaixo. -->
+      <textarea id="input-text" style="display:none;" aria-hidden="true" tabindex="-1"></textarea>
 
       <!-- Opções -->
       <div class="card">
@@ -353,21 +327,74 @@ O DocForm NÃO altera o conteúdo escrito. Apenas aplica:
         <button class="btn btn-secondary btn-full" style="margin-top:4px;" onclick="addAnexo()">+ Adicionar Anexo</button>
       </div>
 
-      <button class="btn btn-primary btn-full" onclick="formatarDocumento()">✦ Formatar &amp; Visualizar</button>
-
-      <!-- Preview -->
-      <div id="preview-section" style="display:none;margin-top:24px;">
+      <!-- Documento — a mesma superfície serve para colar/editar o texto
+           E ver o resultado final; não há mais uma etapa separada "antes"
+           de formatar. -->
+      <div id="preview-section" style="margin-top:24px;">
         <div class="preview-toolbar">
           <div class="pt-left">
-            <div class="pt-title">Pré-visualização</div>
-            <div class="pt-meta" id="preview-info">—</div>
+            <div class="pt-title">Documento</div>
+            <div class="pt-meta" id="preview-info">Cole o texto direto no documento abaixo e clique em "Aplicar Formatação"</div>
           </div>
           <div class="pt-actions">
-            <button class="btn btn-secondary" id="btn-edit-toggle" onclick="toggleEditPreview()" title="Editar texto na pré-visualização">✏️ Editar</button>
+            <button class="btn btn-primary" id="btn-aplicar-formatacao" onclick="formatarDocumento()" title="Reorganiza o texto colado em cláusulas, título e assinatura">🪄 Aplicar Formatação</button>
             <button class="btn btn-secondary" id="btn-docx-contrato" onclick="exportarDOCX('contrato')">⬇ DOCX</button>
             <button class="btn btn-primary" id="btn-pdf-contrato" onclick="exportarPDF('contrato')">⬇ PDF</button>
           </div>
         </div>
+
+        <!-- Barra de formatação — estilo Word, sempre disponível -->
+        <div class="edit-toolbar show" id="edit-toolbar" role="toolbar" aria-label="Ferramentas de formatação do documento">
+          <select class="et-font-name" data-et-cmd="fontName" title="Fonte">
+            <option value="'Times New Roman',Times,serif">Times New Roman</option>
+            <option value="Arial,Helvetica,sans-serif">Arial</option>
+            <option value="Georgia,serif">Georgia</option>
+            <option value="'Courier New',monospace">Courier New</option>
+            <option value="Calibri,'Segoe UI',sans-serif">Calibri</option>
+          </select>
+          <select class="et-font-size" data-et-cmd="fontSize" title="Tamanho da fonte">
+            <option value="1">8</option>
+            <option value="2">10</option>
+            <option value="3" selected>12</option>
+            <option value="4">14</option>
+            <option value="5">18</option>
+            <option value="6">24</option>
+            <option value="7">32</option>
+          </select>
+          <span class="et-sep"></span>
+          <select data-et-cmd="formatBlock" title="Estilo de parágrafo" style="width:96px;">
+            <option value="p">Parágrafo</option>
+            <option value="h1">Título 1</option>
+            <option value="h2">Título 2</option>
+            <option value="h3">Título 3</option>
+          </select>
+          <span class="et-sep"></span>
+          <button type="button" data-et-cmd="bold" title="Negrito (Ctrl+B)"><b>B</b></button>
+          <button type="button" data-et-cmd="italic" title="Itálico (Ctrl+I)"><i>I</i></button>
+          <button type="button" data-et-cmd="underline" title="Sublinhado (Ctrl+U)"><u>U</u></button>
+          <button type="button" data-et-cmd="strikeThrough" title="Tachado"><s>S</s></button>
+          <span class="et-sep"></span>
+          <input type="color" data-et-cmd="foreColor" title="Cor do texto" value="#111111">
+          <input type="color" data-et-cmd="hiliteColor" title="Cor de destaque (marca-texto)" value="#fff59d">
+          <span class="et-sep"></span>
+          <button type="button" data-et-cmd="justifyLeft" title="Alinhar à esquerda">⯇</button>
+          <button type="button" data-et-cmd="justifyCenter" title="Centralizar">≡</button>
+          <button type="button" data-et-cmd="justifyRight" title="Alinhar à direita">⯈</button>
+          <button type="button" data-et-cmd="justifyFull" title="Justificar">☰</button>
+          <span class="et-sep"></span>
+          <button type="button" data-et-cmd="insertUnorderedList" title="Marcadores">•</button>
+          <button type="button" data-et-cmd="insertOrderedList" title="Numeração">1.</button>
+          <button type="button" data-et-cmd="outdent" title="Diminuir recuo">⇤</button>
+          <button type="button" data-et-cmd="indent" title="Aumentar recuo">⇥</button>
+          <span class="et-sep"></span>
+          <button type="button" data-et-cmd="createLink" title="Inserir link">🔗</button>
+          <button type="button" data-et-cmd="insertTable" title="Inserir tabela">▦</button>
+          <button type="button" data-et-cmd="removeFormat" title="Limpar formatação">Tx</button>
+          <span class="et-sep"></span>
+          <button type="button" data-et-cmd="undo" title="Desfazer (Ctrl+Z)">↺</button>
+          <button type="button" data-et-cmd="redo" title="Refazer (Ctrl+Shift+Z)">↻</button>
+        </div>
+
         <div class="doc-frame">
           <div class="doc-scale-wrapper" id="preview-pages-wrap"></div>
         </div>

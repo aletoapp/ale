@@ -249,31 +249,42 @@ function scaleDocPreview(wrapperId) {
   if (!wrapper) return;
   const docW = 794;
   const container = wrapper.closest('.doc-frame') || wrapper.parentElement;
+  // Painel oculto (display:none) → clientWidth 0 → availW negativo. O guard
+  // antigo (`!availW`) deixava -2 passar e aplicava scale(-0.0025): folha invisível.
   const availW = container ? container.clientWidth - 2 : 0;
-  if (!availW) return;
+  if (availW <= 0) return;
 
   if (wrapperId === 'preview-pages-wrap') {
-    // Contract: page is a child .doc-page
-    const page = wrapper.querySelector('.doc-page');
-    if (!page) return;
-    if (availW < docW) {
-      const scale = availW / docW;
-      page.style.transform = `scale(${scale})`;
-      page.style.transformOrigin = 'top center';
-      wrapper.style.height = Math.ceil(page.scrollHeight * scale) + 'px';
-      wrapper.style.overflow = 'hidden';
-    } else {
-      page.style.transform = '';
-      page.style.transformOrigin = '';
-      wrapper.style.height = '';
-      wrapper.style.overflow = '';
-    }
+    // Contrato: N páginas (.doc-page) filhas do wrapper. TODAS precisam ser
+    // escaladas — antes só a 1ª era, e a altura do wrapper travava nela, então
+    // no celular as páginas 2+ ficavam cortadas e inalcançáveis.
+    const pages = Array.from(wrapper.querySelectorAll(':scope > .doc-page'));
+    if (!pages.length) return;
+    const scale = availW < docW ? availW / docW : 1;
+    pages.forEach(page => {
+      if (scale < 1) {
+        page.style.transform = `scale(${scale})`;
+        // Âncora à esquerda: a folha reduzida (794*scale = availW) preenche o
+        // container. Com "top center" ela ficava centrada na caixa de 794px e
+        // saía deslocada ~200px para a direita em telas estreitas.
+        page.style.transformOrigin = 'top left';
+        // A caixa de layout mantém a altura cheia; compensa para as páginas
+        // seguintes subirem junto e o wrapper ter a altura visual real.
+        page.style.marginBottom = -Math.round(page.offsetHeight * (1 - scale)) + 'px';
+      } else {
+        page.style.transform = '';
+        page.style.transformOrigin = '';
+        page.style.marginBottom = '';
+      }
+    });
+    wrapper.style.height = '';
+    wrapper.style.overflow = scale < 1 ? 'hidden' : '';
   } else {
     // CV / Email: wrapper itself is the A4 page div
     if (availW < docW) {
       const scale = availW / docW;
       wrapper.style.transform = `scale(${scale})`;
-      wrapper.style.transformOrigin = 'top center';
+      wrapper.style.transformOrigin = 'top left';   // 'top center' deslocava a folha ~217px à direita no celular
       const parent = wrapper.parentElement;
       if (parent) parent.style.height = Math.ceil(wrapper.scrollHeight * scale) + 'px';
     } else {
@@ -410,57 +421,50 @@ function restoreDraftPrompt() {
 }
 
 /* ════════════════════════════════════════════
-   EDITOR DE TEXTO RICO (entrada do contrato)
-   Substitui o textarea simples por uma caixa
-   contenteditable com barra de formatação
-   (negrito/itálico/sublinhado/listas). O texto
-   plano continua alimentando o motor de
-   auto-formatação normalmente — a marcação
-   visual serve para organizar durante a
-   digitação; quem define o estilo final do
-   documento (fontes, numeração, cláusulas) é
-   o motor de formatação jurídica do DocForm.
+   INPUT DE TEXTO — helpers simples
+   (a entrada é um textarea puro; a edição rica
+   fica só dentro do Modo Edição, sobre o
+   documento já formatado — ver setPreviewEditable)
 ════════════════════════════════════════════ */
-function rteToPlainText(el) {
-  const out = [];
-  function walk(node) {
-    if (node.nodeType === 3) { out.push(node.textContent); return; }
-    if (node.nodeType !== 1) return;
-    const tag = node.tagName;
-    if (tag === 'BR') { out.push('\n'); return; }
-    if (tag === 'LI') {
-      const ordered = node.parentElement && node.parentElement.tagName === 'OL';
-      out.push('\n' + (ordered ? '1. ' : '- '));
-      [...node.childNodes].forEach(walk);
-      return;
-    }
-    const isBlock = ['P','DIV','UL','OL','H1','H2','H3','H4','H5','H6'].includes(tag);
-    if (isBlock) out.push('\n');
-    [...node.childNodes].forEach(walk);
-    if (isBlock) out.push('\n');
-  }
-  [...el.childNodes].forEach(walk);
-  return out.join('').replace(/\n{3,}/g, '\n\n').replace(/^\n+/, '').replace(/\n+$/, '');
-}
-
-function syncRteToHiddenTextarea() {
-  const rte = document.getElementById('input-text-rte');
-  const ta  = document.getElementById('input-text');
-  if (!rte || !ta) return;
-  ta.value = rteToPlainText(rte);
-  ta.dispatchEvent(new Event('input', { bubbles: true }));
-}
-
+/* Define o texto do documento. O <textarea id="input-text"> agora é só um
+   campo oculto que alimenta o motor (autodetecção, rascunho, formatação);
+   a superfície VISÍVEL é o canvas (#preview-pages-wrap). Por isso, todo
+   set precisa atualizar os dois — senão restaurar rascunho, abrir .txt pelo
+   SO ou "Limpar" alterariam só o campo oculto e o usuário não veria nada. */
 function setInputText(text) {
-  const rte = document.getElementById('input-text-rte');
-  const ta  = document.getElementById('input-text');
-  const t = text || '';
-  if (ta) ta.value = t;
-  if (rte) {
-    rte.innerHTML = t.trim()
-      ? t.split(/\n{2,}/).map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('')
-      : '';
-  }
+  const ta = document.getElementById('input-text');
+  if (ta) ta.value = text || '';
+  setCanvasText(text || '');
+}
+
+/* Recria o canvas em branco e, se houver texto, preenche um parágrafo por linha
+   (mesmo formato que o sanitizador de cola gera). Sem eventos de input → sem loop. */
+function setCanvasText(text) {
+  initBlankCanvas();
+  if (!text) return;
+  const body = document.querySelector('#preview-pages-wrap .doc-body');
+  if (!body) return;
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  body.innerHTML = String(text).split(/\n+/).map(l => l.trim()).filter(Boolean)
+    .map(l => `<p>${esc(l)}</p>`).join('');
+  scaleDocPreview('preview-pages-wrap');
+}
+
+/* Põe o cursor no início do documento (para colar/digitar direto). */
+function focusCanvas() {
+  const contract = document.querySelector('#preview-pages-wrap .doc-contract');
+  const body = contract && contract.querySelector('.doc-body');
+  if (!contract) return;
+  try {
+    contract.focus({ preventScroll: true });
+    const range = document.createRange();
+    range.selectNodeContents(body || contract);
+    range.collapse(true);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  } catch (e) {}
+  document.getElementById('preview-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function clearInputText() {
@@ -468,30 +472,7 @@ function clearInputText() {
   updateCount();
   const bannerWrap = document.getElementById('detect-banner-wrap');
   if (bannerWrap) bannerWrap.style.display = 'none';
-  document.getElementById('input-text-rte')?.focus();
-}
-
-function handleRtePasteSanitize(e) {
-  e.preventDefault();
-  const clipboard = e.clipboardData || window.clipboardData;
-  if (!clipboard) return;
-  const html  = clipboard.getData('text/html');
-  const plain = clipboard.getData('text/plain') || '';
-  let insertHtml;
-  if (html) {
-    const container = document.createElement('div');
-    container.innerHTML = html;
-    [...container.childNodes].forEach(sanitizePastedNode);
-    insertHtml = container.innerHTML;
-  } else {
-    const escLine = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    insertHtml = plain.split('\n').filter(l => l.trim()).map(l => `<p>${escLine(l)}</p>`).join('');
-  }
-  try { document.execCommand('insertHTML', false, insertHtml || plain); }
-  catch (err) { document.execCommand('insertText', false, plain); }
-  syncRteToHiddenTextarea();
-  clearTimeout(window._detectTimer);
-  window._detectTimer = setTimeout(() => analisarTextoInteligente(document.getElementById('input-text').value), 120);
+  focusCanvas();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -503,21 +484,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   restoreDraftPrompt();
   renderAnexosList();
-
-  // Editor de texto rico — sincroniza com o textarea oculto
-  const rte = document.getElementById('input-text-rte');
-  if (rte) {
-    rte.addEventListener('input', syncRteToHiddenTextarea);
-    rte.addEventListener('paste', handleRtePasteSanitize);
-  }
-  document.querySelectorAll('.rte-toolbar button[data-rte-cmd]').forEach(btn => {
-    btn.addEventListener('mousedown', e => e.preventDefault()); // não perde a seleção
-    btn.addEventListener('click', () => {
-      document.getElementById('input-text-rte')?.focus();
-      try { document.execCommand(btn.dataset.rteCmd, false, null); } catch (e) {}
-      syncRteToHiddenTextarea();
-    });
-  });
 });
 
 /* ════════════════════════════════════════════
@@ -538,7 +504,8 @@ if ('launchQueue' in window) {
         updateCount();
         runAutoDetect();
         showToast(`Arquivo "${file.name}" carregado no editor.`, 'ok');
-        document.getElementById('input-text-rte')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        navigate('formatar');
+        document.getElementById('preview-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } catch (e) {
       showToast('Não foi possível abrir o arquivo.', 'err');
@@ -555,9 +522,10 @@ function navigate(tab, sidebarEl, bnId) {
   document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
   if (sidebarEl) sidebarEl.classList.add('active');
   else {
-    const map = { home: 0, formatar: 2, curriculo: 3, email: 4 };
-    const items = document.querySelectorAll('.sidebar .nav-item');
-    if (items[map[tab]]) items[map[tab]].classList.add('active');
+    // Localiza pelo próprio onclick (não por posição): o mapa de índices antigo
+    // estava deslocado em 1 e destacava o item errado (ex.: "Currículo" em Formatar).
+    const target = document.querySelector(`.sidebar .nav-item[onclick^="navigate('${tab}'"]`);
+    if (target) target.classList.add('active');
   }
   document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
   const bnEl = document.getElementById(bnId || 'bn-' + tab);
@@ -571,6 +539,10 @@ function navigate(tab, sidebarEl, bnId) {
     signParent.style.display = (tab === 'email') ? 'none' : '';
   }
 
+  // O canvas do documento é criado com o painel ainda oculto; reescala agora
+  // que o painel está visível (senão a folha fica com o tamanho de quando estava oculta).
+  if (tab === 'formatar') requestAnimationFrame(() => scaleDocPreview('preview-pages-wrap'));
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function quickPreset(preset) {
@@ -578,7 +550,7 @@ function quickPreset(preset) {
   setTimeout(() => {
     const btn = document.querySelector(`[data-preset="${preset}"]`);
     if (btn) selectPreset(btn);
-    document.getElementById('input-text').focus();
+    focusCanvas();
   }, 80);
 }
 
@@ -606,6 +578,15 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(window._detectTimer);
     window._detectTimer = setTimeout(runAutoDetect, 600);
   });
+  // Paste → análise imediata após o browser inserir o texto
+  document.getElementById('input-text').addEventListener('paste', () => {
+    updateCount();
+    clearTimeout(window._detectTimer);
+    window._detectTimer = setTimeout(() => {
+      const text = document.getElementById('input-text').value;
+      analisarTextoInteligente(text);
+    }, 120); // aguarda o browser concluir o paste
+  });
   // WM opacity slider
   const slider = document.getElementById('wm-opacity');
   slider.addEventListener('input', () => {
@@ -622,6 +603,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   // Initial exp/edu
   addExp(); addEdu();
+  // Canvas em branco e editável: é onde o usuário cola o texto
+  initBlankCanvas();
+  updateCount();
 });
 
 /* ════════════════════════════════════════════
@@ -1099,8 +1083,20 @@ function _renderLegalBadge(cfg) {
     </div>`;
 }
 function updateCount() {
-  const n = document.getElementById('input-text').value.length;
-  document.getElementById('char-count').textContent = n.toLocaleString('pt-BR') + ' caracteres';
+  const ta = document.getElementById('input-text');
+  const n = ta ? ta.value.length : 0;
+  // #char-count foi removido do HTML na refatoração do canvas; mantém
+  // compatibilidade se algum layout voltar a ter o contador.
+  const cc = document.getElementById('char-count');
+  if (cc) cc.textContent = n.toLocaleString('pt-BR') + ' caracteres';
+  // Enquanto o documento ainda não foi formatado, o cabeçalho mostra o progresso.
+  const wrap = document.getElementById('preview-pages-wrap');
+  const info = document.getElementById('preview-info');
+  if (info && wrap && wrap.dataset.formatted !== 'true') {
+    info.textContent = n
+      ? `${n.toLocaleString('pt-BR')} caracteres · clique em "Aplicar Formatação"`
+      : 'Cole o texto direto no documento abaixo e clique em "Aplicar Formatação"';
+  }
 }
 
 function limparFormulario() {
@@ -1122,9 +1118,10 @@ function limparFormulario() {
   document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('selected'));
   currentPreset = 'generico';
 
-  // 5. Esconde o preview se estiver visível
-  const preview = document.getElementById('preview-section');
-  if (preview) preview.style.display = 'none';
+  // 5. O documento (canvas) continua visível: ele é a superfície onde se cola o
+  //    texto. setInputText('') acima já o recriou em branco.
+  const info = document.getElementById('preview-info');
+  if (info) info.textContent = 'Cole o texto direto no documento abaixo e clique em "Aplicar Formatação"';
 }
 
 /* ════════════════════════════════════════════
@@ -1132,7 +1129,15 @@ function limparFormulario() {
 ════════════════════════════════════════════ */
 const CLAUSE_KW = [/\b(objeto|vigencia|vigência|prazo|valor|locaç|locac|serviç|servic|pagamento|rescis[ãa]o|obrigaç|multa|penalidade|garantia|vistoria|uso|sub(locaç|rogaç)|reajuste|índice|indice|foro|jurisdiç|compra|venda|prestação|confidencial|sigilo|propriedade|entrega|devolu[çc][aã]o|rescissão|cessão|cessao|arbitragem|inadimpl|mora|juros|vencimento|carência|renovação|prorrogaç|benfeitorias|conservaç|manutenç|notificaç|comunicaç|disposiç|gerais|finais)\b/i];
 const ORDINAL_CLAUSE   = /^(\d+[ºo°ª]?\s*[-–—.])\s+\S/;
-const CANONICAL_CLAUSE = /^(cl[aá]usula|artigo|art\.|§\s*\d)/i;
+// Palavras-ordinais por extenso ("Cláusula Terceira", "Cláusula Décima Primeira"...)
+// — necessário para reconhecer e remover corretamente esse prefixo ao
+// renumerar, evitando duplicação tipo "CLÁUSULA 4ª — CLÁUSULA TERCEIRA –..."
+const ORDINAL_WORDS_RX = '(?:primeira|segunda|terceira|quarta|quinta|sexta|s[ée]tima|oitava|nona|d[ée]cima(?:\\s+(?:primeira|segunda|terceira|quarta|quinta|sexta|s[ée]tima|oitava|nona))?|vig[ée]sima)';
+// NOTA: "§" (parágrafo) foi removido daqui — é um sub-item de uma cláusula
+// (ex.: § 1º dentro da Cláusula Quarta), não uma cláusula nova por si só.
+// Tratá-lo como clause-title fazia cada "§ Nº:" virar uma "CLÁUSULA" extra,
+// numerada e em negrito por engano.
+const CANONICAL_CLAUSE = /^(cl[aá]usula|artigo|art\.)/i;
 const SECTION_MARKER   = /^(da[s]?\s+|do[s]?\s+|de\s+)[A-ZÁÉÍÓÚÂÊÎÔÛÃÕ]/;
 
 function isClauseTitle(line) {
@@ -1183,21 +1188,30 @@ function processText(rawText) {
     if (!t) { blocks.push({ type: 'blank' }); i++; continue; }
     if (/^[-•·*]\s/.test(t) || /^\d+\)\s/.test(t)) { blocks.push({ type: 'list', text: t.replace(/^[-•·*]\s+/, '').replace(/^\d+\)\s+/, '') }); i++; continue; }
     if (isClauseTitle(t)) {
-      const clauseMatch = t.match(/^(cl[aá]usula\s+\d+[ºoª°]*)\s*(?:\.|-–—|[-–—])\s*\.?\s*(.*)/i);
+      // Reconhece tanto "Cláusula Nª - Título" quanto o formato mais comum
+      // gerado por IA: "Cláusula Nª (Assunto): corpo do parágrafo..." — sem
+      // isso, a linha inteira (título + corpo) virava um único bloco de
+      // título, saindo toda em negrito/maiúsculas na formatação final.
+      const clauseMatch = t.match(new RegExp(`^(cl[aá]usula\\s+(?:\\d+[ºoª°]*|${ORDINAL_WORDS_RX}))\\s*(?:[-–—.]\\s*)?(?:\\(([^)]*)\\))?\\s*(?:[:.\\-–—]+)?\\s*(.*)`, 'i'));
       if (clauseMatch) {
-        const clauseTitle = clauseMatch[1].trim();
-        const body        = clauseMatch[2].trim();
-        if (body.length > 40) {
+        const clauseNum = clauseMatch[1].trim();
+        const subject   = (clauseMatch[2] || '').trim();
+        const rest      = (clauseMatch[3] || '').trim();
+        const clauseTitle = subject ? `${clauseNum} (${subject})` : clauseNum;
+
+        if (rest.length > 40) {
           blocks.push({ type: 'clause', text: clauseTitle });
-          const bodyNorm = (body === body.toUpperCase())
-            ? body.charAt(0) + body.slice(1).toLowerCase()
-            : body;
+          const bodyNorm = (rest === rest.toUpperCase())
+            ? rest.charAt(0) + rest.slice(1).toLowerCase()
+            : rest;
           blocks.push({ type: 'para', text: bodyNorm });
           i++; continue;
-        } else if (body.length > 0) {
-          blocks.push({ type: 'clause', text: clauseTitle + (body ? ' — ' + body : '') });
+        } else if (rest.length > 0) {
+          blocks.push({ type: 'clause', text: clauseTitle + ' — ' + rest });
           i++; continue;
         }
+        blocks.push({ type: 'clause', text: clauseTitle });
+        i++; continue;
       }
       blocks.push({ type: 'clause', text: t });
       i++; continue;
@@ -1247,7 +1261,7 @@ function renderBlocks(blocks, numerarClausulas) {
     if (b.type === 'clause') {
       clausulaNum++;
       const clean = b.text
-        .replace(/^cl[aá]usula\s+\d+[ºoª°]*\s*[-–—]?\s*\.?\s*/i,'')
+        .replace(new RegExp(`^cl[aá]usula\\s+(?:\\d+[ºoª°]*|${ORDINAL_WORDS_RX})\\s*[-–—]?\\s*\\.?\\s*`, 'i'), '')
         .replace(/^art(?:igo)?\s*\.\s*\d+[ºoª°]*\s*[-–—]?\s*\.?\s*/i,'')
         .replace(/^\d+[ºoª°]*\s*[-–—.]\s*/i,'')
         .replace(/^\.\s*/,'')
@@ -1525,7 +1539,8 @@ function extractQualificacoes(texto) {
    FORMAT DOCUMENT
 ════════════════════════════════════════════ */
 function formatarDocumento() {
-  const texto = document.getElementById('input-text').value.trim();
+  // A fonte de verdade é o que está visível no documento; o campo oculto é só fallback.
+  const texto = (getCanvasPlainText() || document.getElementById('input-text').value).trim();
   if (!texto) { showToast('Cole o texto do contrato antes de formatar.', 'err'); return; }
 
   const cfg    = PRESET_CONFIG[currentPreset] || PRESET_CONFIG['generico'];
@@ -1548,6 +1563,7 @@ function formatarDocumento() {
   const wrap = document.getElementById('preview-pages-wrap');
   wrap.innerHTML = pageHtml;
   delete wrap.dataset.edited;     // novo documento formatado: começa "sem edições"
+  wrap.dataset.formatted = 'true';
   scaleDocPreview('preview-pages-wrap');
 
   document.getElementById('preview-section').style.display = 'block';
@@ -1581,7 +1597,66 @@ function _allDocContracts() {
 function _markWrapEdited() {
   const wrap = document.getElementById('preview-pages-wrap');
   if (wrap) wrap.dataset.edited = 'true';
+  // Mantém o campo interno sincronizado — é dele que a autodetecção,
+  // o rascunho automático e a extração de qualificações (CPF/CNPJ) se
+  // alimentam. Sem isso, digitar direto no documento não acionaria nada.
+  const ta = document.getElementById('input-text');
+  const plain = getCanvasPlainText();
+  // Apagou tudo num canvas ainda não formatado: o navegador deixa <br>/<div>
+  // residuais que impedem o :empty do placeholder — limpa para reaparecer.
+  if (wrap && wrap.dataset.formatted !== 'true' && !plain) {
+    const body = wrap.querySelector('.doc-body');
+    if (body && body.children.length) body.innerHTML = '';
+  }
+  if (ta) {
+    ta.value = plain;
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+  }
 }
+
+/* Extrai o texto puro de todas as páginas do documento (na ordem certa) —
+   é a única fonte de texto agora; não existe mais um campo de entrada
+   separado. Retorna string vazia se o documento ainda está em branco. */
+function getCanvasPlainText() {
+  const wrap = document.getElementById('preview-pages-wrap');
+  if (!wrap) return '';
+  const bodies = Array.from(wrap.querySelectorAll('.doc-body'));
+  if (!bodies.length) return '';
+  const parts = [];
+  bodies.forEach(body => {
+    Array.from(body.childNodes).forEach(n => {
+      // O bloco de assinatura (data/local, assinantes, Gov.br/DocuSign,
+      // testemunhas) é GERADO pelo motor a partir dos campos do formulário —
+      // não é texto do usuário. Se entrasse aqui, o PDF/DOCX o reimprimiria
+      // (assinatura duplicada) e "Aplicar Formatação" de novo o acumularia.
+      if (n.nodeType === 1 && n.matches('.sign-section')) return;
+      const t = (n.nodeType === 1 ? (n.innerText || n.textContent) : n.textContent) || '';
+      if (t.trim()) parts.push(t.trim());
+    });
+  });
+  return parts.join('\n\n');
+}
+
+/* Cria a página em branco e editável que recebe o texto colado —
+   chamada uma vez ao carregar a página e sempre que o usuário limpa
+   o documento. É a MESMA superfície onde o resultado final aparece
+   depois de "Aplicar Formatação" — não existem mais duas telas. */
+function initBlankCanvas() {
+  const wrap = document.getElementById('preview-pages-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = `<div class="doc-page">
+    <div class="doc-page-content">
+      <div class="doc-contract">
+        <div class="doc-body" style="min-height:260px;" data-placeholder="Cole aqui o texto do contrato (do ChatGPT, Claude, Word...) e clique em “Aplicar Formatação”."></div>
+      </div>
+    </div>
+  </div>`;
+  delete wrap.dataset.edited;
+  delete wrap.dataset.formatted;
+  scaleDocPreview('preview-pages-wrap');
+  setPreviewEditable(true, { silent: true });
+}
+
 
 function setPreviewEditable(on, opts = {}) {
   const contracts = _allDocContracts();
@@ -1607,7 +1682,8 @@ function setPreviewEditable(on, opts = {}) {
       btn.classList.remove('btn-secondary');
     }
     document.querySelector('#preview-section .preview-toolbar')?.classList.add('editing');
-    if (!opts.silent) showToast('Modo edição ativo — clique em qualquer página e selecione texto para formatar.', 'ok');
+    document.getElementById('edit-toolbar')?.classList.add('show');
+    if (!opts.silent) showToast('Modo edição ativo — use a barra acima para formatar o texto.', 'ok');
   } else {
     contracts.forEach(contract => {
       contract.removeAttribute('contenteditable');
@@ -1621,6 +1697,7 @@ function setPreviewEditable(on, opts = {}) {
       btn.classList.add('btn-secondary');
     }
     document.querySelector('#preview-section .preview-toolbar')?.classList.remove('editing');
+    document.getElementById('edit-toolbar')?.classList.remove('show');
     hideFloatToolbar();
     if (!opts.silent) {
       if (wrap.dataset.edited === 'true') {
@@ -1640,12 +1717,13 @@ function toggleEditPreview() {
 
 /* Reúne o texto de TODAS as páginas editáveis, na ordem correta —
    usado pela exportação de PDF/DOCX para nunca perder conteúdo
-   que ficou em páginas além da primeira. */
+   que ficou em páginas além da primeira. Como agora só existe uma
+   superfície de texto (o próprio documento), isto é simplesmente
+   um alias de getCanvasPlainText(), retornando null só quando vazio
+   (mantém compatibilidade com quem chama este helper). */
 function getEditedFullText() {
-  const wrap = document.getElementById('preview-pages-wrap');
-  if (!wrap || wrap.dataset.edited !== 'true') return null;
-  const bodies = Array.from(wrap.querySelectorAll('.doc-body'));
-  return bodies.map(b => (b.innerText || b.textContent || '').trim()).filter(Boolean).join('\n\n');
+  const text = getCanvasPlainText();
+  return text || null;
 }
 
 /* ════════════════════════════════════════════
@@ -1703,6 +1781,102 @@ function hideFloatToolbar() {
   // Esconde a barra ao rolar ou redimensionar, para não ficar deslocada
   window.addEventListener('scroll', hideFloatToolbar, true);
   window.addEventListener('resize', hideFloatToolbar);
+})();
+
+/* ════════════════════════════════════════════
+   BARRA DO MODO EDIÇÃO — estilo Word, fixa
+   Como interagir com <select>/<input color> tira
+   o foco do contenteditable (perdendo a seleção
+   de texto), guardamos a última seleção válida e
+   a restauramos antes de cada comando.
+════════════════════════════════════════════ */
+let _lastEditableRange = null;
+
+document.addEventListener('selectionchange', () => {
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0) return;
+  const anchorEl = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement);
+  if (anchorEl && anchorEl.closest && anchorEl.closest('.doc-contract[contenteditable="true"]')) {
+    _lastEditableRange = sel.getRangeAt(0).cloneRange();
+  }
+});
+
+function _restoreEditableSelection() {
+  if (!_lastEditableRange) return false;
+  const container = _lastEditableRange.commonAncestorContainer;
+  const el = container.nodeType === 1 ? container : container.parentElement;
+  const contract = el && el.closest && el.closest('.doc-contract[contenteditable="true"]');
+  if (contract) contract.focus();
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(_lastEditableRange);
+  return true;
+}
+
+(function initEditToolbar() {
+  const tb = document.getElementById('edit-toolbar');
+  if (!tb) return;
+
+  const NO_STATE_CMDS = ['createLink','insertTable','undo','redo','removeFormat','outdent','indent'];
+
+  function updateEditToolbarState() {
+    tb.querySelectorAll('button[data-et-cmd]').forEach(btn => {
+      const cmd = btn.dataset.etCmd;
+      if (NO_STATE_CMDS.includes(cmd)) return;
+      let active = false;
+      try { active = document.queryCommandState(cmd); } catch (e) {}
+      btn.classList.toggle('active', !!active);
+    });
+  }
+
+  tb.querySelectorAll('button[data-et-cmd]').forEach(btn => {
+    btn.addEventListener('mousedown', e => e.preventDefault()); // não perde a seleção
+    btn.addEventListener('click', () => {
+      const cmd = btn.dataset.etCmd;
+      _restoreEditableSelection();
+      if (cmd === 'createLink') {
+        const url = prompt('Endereço do link (https://...)');
+        if (url) { try { document.execCommand('createLink', false, url); } catch (e) {} }
+      } else if (cmd === 'insertTable') {
+        const rowsStr = prompt('Quantas linhas?', '3');
+        if (rowsStr === null) return;
+        const colsStr = prompt('Quantas colunas?', '3');
+        if (colsStr === null) return;
+        const rows = Math.max(1, Math.min(20, parseInt(rowsStr, 10) || 3));
+        const cols = Math.max(1, Math.min(10, parseInt(colsStr, 10) || 3));
+        let html = '<table style="border-collapse:collapse;width:100%;">';
+        for (let r = 0; r < rows; r++) {
+          html += '<tr>';
+          for (let c = 0; c < cols; c++) html += '<td style="border:1px solid #999;padding:6px;min-width:36px;">&nbsp;</td>';
+          html += '</tr>';
+        }
+        html += '</table><p><br></p>';
+        try { document.execCommand('insertHTML', false, html); } catch (e) {}
+      } else {
+        try { document.execCommand(cmd, false, null); } catch (e) {}
+      }
+      _markWrapEdited();
+      updateEditToolbarState();
+    });
+  });
+
+  tb.querySelectorAll('select[data-et-cmd]').forEach(sel => {
+    sel.addEventListener('change', () => {
+      _restoreEditableSelection();
+      try { document.execCommand(sel.dataset.etCmd, false, sel.value); } catch (e) {}
+      _markWrapEdited();
+    });
+  });
+
+  tb.querySelectorAll('input[type="color"][data-et-cmd]').forEach(inp => {
+    inp.addEventListener('input', () => {
+      _restoreEditableSelection();
+      try { document.execCommand(inp.dataset.etCmd, false, inp.value); } catch (e) {}
+      _markWrapEdited();
+    });
+  });
+
+  document.addEventListener('selectionchange', updateEditToolbarState);
 })();
 
 /* ════════════════════════════════════════════
@@ -1770,8 +1944,11 @@ function handlePasteSanitize(e) {
   } catch (err) {
     document.execCommand('insertText', false, plain);
   }
-  const wrap = document.getElementById('preview-pages-wrap');
-  if (wrap) wrap.dataset.edited = 'true';
+  _markWrapEdited();
+  // Análise imediata após o browser concluir o paste (mesmo comportamento
+  // que já existia quando a colagem acontecia no campo de texto separado)
+  clearTimeout(window._detectTimer);
+  window._detectTimer = setTimeout(() => analisarTextoInteligente(document.getElementById('input-text').value), 120);
 }
 
 /* ════════════════════════════════════════════
@@ -1840,7 +2017,7 @@ async function exportContratoPDF() {
       subject:  _cfg.context || titulo,
       author:   sign1 !== _cfg.sign1.label.toUpperCase() ? sign1 : 'DocForm',
       keywords: [_cfg.leiShort, sign1, sign2, numero].filter(Boolean).join(', '),
-      creator:  'DocForm — docform.app'
+      creator:  'DocForm — alexandretorres.com.br/docform'
     });
   } catch(e) {}
 
@@ -2289,7 +2466,7 @@ async function exportCvPDF() {
       subject: cargo || 'Currículo Profissional',
       author: nome,
       keywords: ['currículo', cargo].filter(Boolean).join(', '),
-      creator: 'DocForm — docform.app'
+      creator: 'DocForm — alexandretorres.com.br/docform'
     });
   } catch(e) {}
 
@@ -2494,7 +2671,7 @@ async function exportEmailPDF() {
       subject: assunto || 'Comunicado corporativo',
       author: de || 'DocForm',
       keywords: ['e-mail formal', para].filter(Boolean).join(', '),
-      creator: 'DocForm — docform.app'
+      creator: 'DocForm — alexandretorres.com.br/docform'
     });
   } catch(e) {}
 

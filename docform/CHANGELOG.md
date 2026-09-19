@@ -175,3 +175,61 @@ Implementado conforme as boas práticas que você descreveu:
 
 ## ✅ Largura do app
 - `.main` deixou de ter um teto fixo de 860px e agora ocupa `calc(94vw - 228px)` — a soma do app (sidebar + conteúdo) passa a usar ~94% da largura da tela, em vez de deixar uma faixa grande vazia em monitores largos. Em telas pequenas (mobile), continua 100% como antes.
+
+---
+
+# Etapa 8 — Bug do negrito nas cláusulas + Editor unificado dentro do Modo Edição
+
+## 🐛 Bug real corrigido: cláusula inteira saindo em negrito/maiúsculas
+Confirmado com suas capturas de tela: quando o título e o corpo da cláusula vinham na MESMA linha no formato "Cláusula Nª (Assunto): texto do parágrafo..." (o formato mais comum gerado por IA), o motor de formatação não conseguia separar título de corpo — e jogava a linha inteira para o estilo de título (negrito + maiúsculas).
+
+Causa raiz: o regex que separa "número da cláusula" de "resto do texto" só reconhecia separador por traço ou ponto (`Cláusula 1ª - Título`), não por parênteses (`Cláusula 1ª (Título): corpo`). Reescrevi o regex para reconhecer os dois formatos — testei com as frases exatas das suas imagens e as 6 variações passaram corretamente (título fica em negrito, corpo fica normal).
+
+## ✅ Editor de texto reorganizado — agora só existe DENTRO do Modo Edição
+Como você apontou, não fazia sentido ter um editor rico separado na etapa de colar o texto. Reverti a entrada de texto (③ Texto do Contrato) para um textarea simples — só para colar o texto bruto — e concentrei toda a edição rica exclusivamente no **Modo Edição** (o botão "✏️ Editar" sobre o documento já formatado).
+
+## ✅ Barra de ferramentas ampliada — agora com ~25 funções, estilo Word
+A barra flutuante de 6 botões virou uma **barra fixa no topo do preview**, com:
+- Fonte (Times New Roman, Arial, Georgia, Courier New, Calibri) e tamanho
+- Estilo de parágrafo (Parágrafo, Título 1/2/3)
+- Negrito, Itálico, Sublinhado, Tachado
+- Cor do texto e cor de destaque (marca-texto)
+- Alinhamento (esquerda, centro, direita, justificado)
+- Marcadores, numeração, aumentar/diminuir recuo
+- Inserir link, inserir tabela, limpar formatação
+- Desfazer / Refazer
+
+A barra aparece automaticamente ao entrar no Modo Edição e some ao sair. A seleção de texto é preservada mesmo ao usar os seletores de fonte/cor (que normalmente tirariam o foco do documento) — implementei um mecanismo que guarda e restaura a seleção antes de cada comando.
+
+
+---
+
+# Etapa 9 — Fechamento da "superfície única" (colar direto no documento) + mobile
+
+## 🔍 Contexto
+O `app.html` já estava no modelo novo (o `<textarea id="input-text">` virou um campo **oculto** e o texto é colado direto na folha do documento, com o botão "🪄 Aplicar Formatação"), mas o `script.js` ainda seguia parte do modelo antigo. Esta etapa fecha essa ligação. Tudo abaixo foi reproduzido e verificado no Chromium headless (27 verificações automatizadas + capturas de tela em desktop e celular).
+
+## 🐛 Bugs corrigidos — superfície única
+- **Não havia onde colar o texto**: `initBlankCanvas()` existia mas nunca era chamada → a área do documento abria vazia. Agora é criada no carregamento (com placeholder dentro da folha).
+- **`updateCount()` lançava `TypeError`** (`#char-count` foi removido do HTML). Quebrava `limparFormulario()`. Agora é seguro e mostra a contagem no cabeçalho do documento.
+- **"Limpar" escondia a seção do documento inteira** — que agora é a própria superfície de colar. Removido.
+- **`setInputText()` só atualizava o campo oculto**: restaurar rascunho, abrir `.txt` pelo SO (file_handlers) e "Limpar" não mostravam nada. Agora atualizam a folha visível (`setCanvasText`, `focusCanvas`).
+- **Bloco de assinatura entrava no texto de exportação**: `getCanvasPlainText()` lia o `.sign-section` (data/local, assinantes, Gov.br/DocuSign, testemunhas), que o PDF/DOCX geram sozinhos a partir dos campos → assinatura duplicada na exportação e acúmulo a cada "Aplicar Formatação". Agora esse bloco é ignorado; a partir da 2ª formatação o HTML é idêntico (ponto fixo). *(Deduzido pelo texto entregue à exportação e pelo código dos motores; a exportação em si não pôde ser executada offline.)*
+- **Folha em branco invisível**: com o painel oculto, `clientWidth` = 0 → `availW = -2` passava no guard `!availW` e aplicava `scale(-0.0025)`. Guard corrigido (`<= 0`) e reescala ao navegar para "Formatar".
+
+## 🐛 Bugs corrigidos — celular (anteriores a esta etapa)
+- **Documento de 2+ páginas**: só o 1º `.doc-page` era escalado e a altura do wrapper travava nele → páginas 2+ cortadas e inalcançáveis. Agora **todas** as páginas são escaladas (âncora à esquerda + compensação de margem).
+- **Folha deslocada ~217px para a direita** (contrato, currículo e e-mail): `transform-origin: top center` numa caixa de 794px em tela estreita. Trocado por `top left`.
+- **Botão "⬇ PDF" cortado** e overflow horizontal: "Aplicar Formatação" agora ocupa uma linha; DOCX/PDF dividem a de baixo.
+- **Toast cortado** na borda direita (`white-space: nowrap`): agora quebra linha.
+
+## 🐛 Outros
+- **Destaque errado no menu**: o mapa de índices em `navigate()` estava deslocado em 1 (ex.: "Currículo" aceso em Formatar) — afetava atalhos do manifest (`?page=`), menu de presets e barra inferior. Agora localiza o item pelo próprio `onclick`.
+- `canonical` agora aponta para `https://alexandretorres.com.br/docform/app.html`; metadados dos PDFs (`creator`) trocaram `docform.app` por `alexandretorres.com.br/docform`.
+- Service Worker → `v6`; ícones adicionados ao pré-cache (cada item continua individual, com `catch`).
+
+## ⚠️ Pendente / não verificado
+- **Exportação PDF/DOCX não foi executada** (sem rede para carregar jsPDF/docx). Vale testar 1 contrato de 2 páginas exportando PDF e DOCX: a assinatura deve aparecer **uma vez só**.
+- As meta tags `og:*`/`twitter:*` do `app.html` estão dentro de comentário HTML (desativadas). Os valores já foram deixados corretos (URL absoluta em `alexandretorres.com.br/docform/`), mas `assets/img/og.jpg` **não existe** — crie a imagem (1200×630) antes de descomentar.
+- Os ícones `assets/img/icon-192.png`, `icon-512.png` e `favicon.png` (Etapa 7) não vieram no upload; confirme que estão no repositório — sem eles o Chrome não oferece instalar o PWA.
+- Título duplicado no documento: o título do preset (ex.: "DOCUMENTO PARTICULAR") aparece no cabeçalho e a 1ª linha colada ("CONTRATO DE LOCAÇÃO…") continua no corpo. Comportamento do motor, não alterado.
