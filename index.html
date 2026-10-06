@@ -209,14 +209,21 @@
 <!-- Facade do vídeo de depoimento (desktop apenas). Pode ser movido para 06-sections.css -->
 <style>
 .yt-facade{display:none}
+/* Depoimentos em Poppins (Playfair fica só para títulos) */
+.review-card .review-text{font-family:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;font-weight:400;font-size:1.05rem;line-height:1.7}
+@keyframes yt-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.9);opacity:0}}
 @media (min-width:1024px){
   .yt-facade:not([hidden]){display:block;width:270px;aspect-ratio:9/16;margin:16px 0}
-  .yt-play{all:unset;cursor:pointer;display:block;width:100%;height:100%;position:relative}
-  .yt-play:focus-visible{outline:2px solid currentColor;outline-offset:3px}
-  .yt-play img{width:100%;height:100%;object-fit:cover;border-radius:12px}
-  .yt-play::after{content:"▶";position:absolute;inset:0;display:grid;place-items:center;font-size:2.5rem;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  .yt-play{all:unset;cursor:pointer;display:block;width:100%;height:100%;position:relative;overflow:hidden;box-sizing:border-box;border-radius:12px;border:1px solid var(--border);background:radial-gradient(circle at 50% 40%,var(--bg-3),var(--bg-2))}
+  .yt-play:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .yt-ring,.yt-icon{position:absolute;left:50%;top:45%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%}
+  .yt-ring{border:2px solid var(--gold);animation:yt-pulse 2.4s ease-out infinite}
+  .yt-icon{box-sizing:border-box;padding:20px 18px 20px 22px;background:var(--gold);fill:var(--bg);transition:transform .25s ease}
+  .yt-play:hover .yt-icon{transform:scale(1.08)}
+  .yt-cap{position:absolute;left:0;right:0;bottom:18px;text-align:center;font:500 .7rem/1 'DM Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
   .yt-facade iframe{width:100%;height:100%;border:0;border-radius:12px}
 }
+@media (prefers-reduced-motion:reduce){.yt-ring{animation:none;opacity:.35}}
 </style>
 <noscript>
   <link rel="stylesheet" href="/assets/css/05-components.css">
@@ -484,7 +491,9 @@
         <!-- Vídeo só no desktop (≥1024px): facade leve, iframe criado apenas no clique -->
         <div class="yt-facade" data-yt="4zdPr3ByZTY" hidden>
           <button type="button" class="yt-play" aria-label="Reproduzir depoimento de Elson Costa">
-            <img src="/assets/img/depoimento-elson-costa.webp" alt="Elson Costa, cliente, em vídeo de depoimento" width="270" height="480" loading="lazy" decoding="async">
+            <span class="yt-ring" aria-hidden="true"></span>
+            <svg class="yt-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <span class="yt-cap" aria-hidden="true">Assistir depoimento</span>
           </button>
         </div>
         <a class="review-link" href="https://www.youtube.com/shorts/4zdPr3ByZTY" target="_blank" rel="noopener noreferrer">Ver depoimento ↗</a>
