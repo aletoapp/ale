@@ -209,8 +209,6 @@
 <!-- Facade do vídeo de depoimento (desktop apenas). Pode ser movido para 06-sections.css -->
 <style>
 .yt-facade{display:none}
-/* Depoimentos em Poppins (Playfair fica só para títulos) */
-.review-card .review-text{font-family:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;font-weight:400;font-size:1.05rem;line-height:1.7}
 @keyframes yt-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.9);opacity:0}}
 @media (min-width:1024px){
   .yt-facade:not([hidden]){display:block;width:135px;aspect-ratio:9/16;margin:16px 0}
@@ -410,6 +408,7 @@
 
 <!-- PORTFÓLIO -->
 <section id="portfolio" aria-labelledby="portfolio-heading">
+  <div class="container">
   <div class="portfolio-header sr">
     <div>
       <span class="mono gold-text" data-i18n="portEyebrow">Provas vivas de pensamento aplicado</span>
@@ -466,6 +465,7 @@
         </div>
       </div>
     </article>
+  </div>
   </div>
 </section>
 
