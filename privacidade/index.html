@@ -422,11 +422,6 @@
 
   .footer-bottom-link:hover { color: #c8a96e; }
 
-  .footer-bottom-link.is-current {
-    color: rgba(200,169,110,0.55);
-    pointer-events: none;
-  }
-
   /* ── LIGHT THEME OVERRIDES ── */
   [data-theme="light"] body { background: #f5f0e8; color: #1a1a18; }
   [data-theme="light"] .privacy-title { color: #1a1a18; }
@@ -634,7 +629,7 @@
       <div class="footer-bottom-links">
         <a href="https://www.linkedin.com/in/alexandretorresaletor" target="_blank" rel="noopener noreferrer" class="footer-bottom-link">LinkedIn</a>
         <a href="https://wa.me/5527996252050" target="_blank" rel="noopener noreferrer" class="footer-bottom-link">WhatsApp</a>
-        <a href="https://instagram.com/aletordev" class="footer-bottom-link is-current" aria-current="page">Instagram</a>
+        <a href="https://instagram.com/aletordev" target="_blank" rel="noopener noreferrer" class="footer-bottom-link">Instagram</a>
       </div>
     </div>
 
@@ -643,22 +638,29 @@
 
 <script>
   (function() {
-    const html  = document.documentElement;
-    const btn   = document.getElementById('themeToggle');
-    const dot   = document.getElementById('ttDot');
+    var html = document.documentElement;
+    var btn  = document.getElementById('themeToggle');
+    var dot  = document.getElementById('ttDot');
 
-    // Restore saved preference
-    const saved = localStorage.getItem('theme');
-    if (saved) html.setAttribute('data-theme', saved);
+    // localStorage pode lançar erro (modo privado, navegadores embutidos) — nunca deve quebrar a página
+    function readTheme() {
+      try { return localStorage.getItem('theme'); } catch (e) { return null; }
+    }
+    function saveTheme(theme) {
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+
+    var saved = readTheme();
+    if (saved === 'light' || saved === 'dark') html.setAttribute('data-theme', saved);
 
     function applyTheme(theme) {
       html.setAttribute('data-theme', theme);
       dot.textContent = theme === 'light' ? '☀️' : '🌙';
-      localStorage.setItem('theme', theme);
+      saveTheme(theme);
     }
 
     btn.addEventListener('click', function() {
-      const current = html.getAttribute('data-theme');
+      var current = html.getAttribute('data-theme');
       applyTheme(current === 'light' ? 'dark' : 'light');
     });
 
@@ -669,4 +671,3 @@
 
 </body>
 </html>
-
